@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('master_perawats', function (Blueprint $table) {
             $table->id();
+            $table->string('nama')->nullable;
+            $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
+            $table->date('tanggal_lahir');
+            $table->text('alamat');
             $table->timestamps();
         });
     }
