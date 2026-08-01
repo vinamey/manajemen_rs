@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('master_dokters', function (Blueprint $table) {
             $table->id();
+            $table->string('nama')->nullable;
+            $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
+            $table->date('tanggal_lahir');
+            $table->text('alamat')->nullable;
+            $table->string('spesalis')->nullable;
+            $table->foreignId('poli_id')->nullable();
+            $table->foreign('poli_id')->references('id')->on('master_polis')->onDelete('set null');
             $table->timestamps();
         });
     }
