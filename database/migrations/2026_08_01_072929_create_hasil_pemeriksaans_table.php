@@ -18,7 +18,6 @@ return new class extends Migration
             $table->date('tanggal_pemeriksaan');
             $table->text('keluhan');
             $table->text('diagnosa');
-            $table->text('diagnosa');
 
             $table->foreignId('tindakan_id')->nullable();
             $table->foreign('tindakan_id')->references('id')->on('master_tindakans')->onDelete('set null');

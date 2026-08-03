@@ -16,12 +16,12 @@ return new class extends Migration
             $table->foreignId('obat_id')->nullable();
             $table->foreign('obat_id')->references('id')->on('master_obats')->onDelete('set null');
 
-            $table->int('nilai');
+            $table->integer('nilai')->nullable;
             $table->foreignId('stok_obat_id')->nullable();
             $table->foreign('stok_obat_id')->references('id')->on('stok_obats')->onDelete('set null');
 
             $table->date('tanggal_update');
-            $table->int('pivot_resep_obat_id');
+            $table->integer('pivot_resep_obat_id')->nullable;
 
             $table->foreignId('pembelian_obat_id')->nullable();
             $table->foreign('pembelian_obat_id')->references('id')->on('pembelian_obats')->onDelete('set null');

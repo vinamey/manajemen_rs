@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->foreignId('satuan_obat_id')->nullable();
             $table->foreign('satuan_obat_id')->references('id')->on('master_satuan_obats')->onDelete('set null');
-            $table->int('nilai');
+            $table->integer('nilai');
             $table->string('aturan_pakai');
             $table->timestamps();
         });

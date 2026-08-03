@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('satuan_id')->nullable();
             $table->foreign('satuan_id')->references('id')->on('master_satuan_obats')->onDelete('set null');
 
-            $table->int('isi');
+            $table->integer('isi');
             $table->decimal('harga', 12, 2);
             $table->timestamps();
         });
