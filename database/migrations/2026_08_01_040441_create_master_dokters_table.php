@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('master_dokters', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->nullable;
+            $table->string('nama')->nullable();
             $table->foreignId('users_id')->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('set null');
             $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
