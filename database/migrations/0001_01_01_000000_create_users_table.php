@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+             $table->foreignId('perawat_id')->nullable();
+            $table->foreign('perawat_id')->references('id')->on('master_perawats')->onDelete('set null');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
