@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('dokter_id')->references('id')->on('master_dokters')->onDelete('set null');
 
             $table->text('keluhan');
-            $table->int('resep_obat');
+            $table->integer('resep_obat');
             $table->timestamps();
         });
     }

@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supplier_id')->nullable();
             $table->foreign('supplier_id')->references('id')->on('master_suppliers')->onDelete('set null');
-            $table->int('obat_id');
+            $table->integer('obat_id');
             $table->foreignId('satuan_id')->nullable();
             $table->foreign('satuan_id')->references('id')->on('master_satuan_obats')->onDelete('set null');
-            $table->int('nilai');
+            $table->integer('nilai');
             $table->date('tanggal');
-            $table->int('apoteker_id');
+            $table->integer('apoteker_id');
             $table->timestamps();
         });
     }
