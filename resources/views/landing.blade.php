@@ -553,7 +553,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">KATA SANDI</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">PASSWORD</label>
                   <input
     type="password"
     id="password"

@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class MasterPasien extends Model
 {
-    //
+    protected $table = 'master_pasiens';
+
+    protected $fillable = [
+        'nama',
+        'jenis_kelamin',
+        'tanggal_lahir',
+        'alamat',
+        'status_asuransi',
+        'golongan_darah',
+    ];
 }
