@@ -537,22 +537,50 @@
                 <h3 class="text-xl font-black text-slate-900">Portal Masuk Pasien</h3>
                 <p class="text-xs text-slate-500 mt-1">Akses Rekam Medis Digital & Hasil Lab</p>
             </div>
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">NO. REKAM MEDIS / ID</label>
-                    <input type="text" required placeholder="Contoh: RM-998231" class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">KATA SANDI</label>
-                    <input type="password" required placeholder="••••••••" class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
-                </div>
-                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-black py-3.5 rounded-xl text-xs transition duration-300 shadow-blue-glow">
-                    MASUK PORTAL
-                </button>
-            </form>
+            <form action="{{ route('login.post') }}" method="POST" class="space-y-4">
+
+    @csrf
+    @if(session('error'))
+        <div class="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-xl text-sm">
+            {{ session('error') }}
         </div>
+    @endif
+
+    <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1.5">
+            EMAIL
+        </label>
+
+        <input
+        type="email"
+        name="email"
+        required
+        placeholder="Masukkan Email"
+        class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
     </div>
 
+    <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1.5">
+            PASSWORD
+        </label>
+
+        <input
+            type="password"
+            name="password"
+            required
+            placeholder="Masukkan Password"
+            class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
+    </div>
+
+    <button
+        type="submit"
+        class="w-full bg-brand-600 hover:bg-brand-700 text-white font-black py-3.5 rounded-xl text-xs transition duration-300 shadow-blue-glow">
+
+        LOGIN
+
+    </button>
+
+</form>
     <!-- MODAL BUAT JANJI TEMU DOKTER -->
     <div id="janjiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md hidden transition-all duration-300">
         <div class="bg-white w-full max-w-md p-8 rounded-3xl shadow-2xl relative mx-4 border border-slate-200">
@@ -681,11 +709,11 @@
             document.getElementById('inputKodeRM').value = '';
         }
 
-        function handleLogin(e) {
-            e.preventDefault();
-            alert('Login Berhasil! Mengalihkan ke Dashboard Pasien...');
-            toggleModal('loginModal');
-        }
+        // function handleLogin(e) {
+        //     e.preventDefault();
+        //     alert('Login Berhasil! Mengalihkan ke Dashboard Pasien...');
+        //     toggleModal('loginModal');
+        // }
     </script>
 </body>
 </html>

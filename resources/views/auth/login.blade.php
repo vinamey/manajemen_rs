@@ -39,35 +39,24 @@
 
                         <div class="mb-3">
 
-                            <label>Email</label>
+    <label>Password</label>
 
-                            <input
-                                type="email"
-                                name="email"
-                                class="form-control"
-                                required
-                            >
+    <input
+        type="password"
+        name="password"
+        class="form-control"
+        placeholder="Masukkan Password"
+        required
+    >
 
-                        </div>
+</div>
 
-                        <div class="mb-3">
 
-                            <label>Password</label>
+<button type="submit" class="btn btn-primary w-100">
 
-                            <input
-                                type="password"
-                                name="password"
-                                class="form-control"
-                                required
-                            >
+    Login
 
-                        </div>
-
-                        <button class="btn btn-primary w-100">
-
-                            Login
-
-                        </button>
+</button>
 
                     </form>
 
