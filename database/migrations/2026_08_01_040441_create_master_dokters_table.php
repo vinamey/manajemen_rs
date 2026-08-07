@@ -9,23 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
-{
-    Schema::create('master_dokters', function (Blueprint $table) {
-        $table->id();
-        $table->string('nama')->nullable();
-        $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
-        $table->date('tanggal_lahir');
-        $table->text('alamat')->nullable();
-        $table->string('spesialis')->nullable();
-        $table->foreignId('poli_id')->nullable();
-
-        // Ubah 'master_polis' menjadi 'master_poli'
-        $table->foreign('poli_id')->references('id')->on('master_poli')->onDelete('set null');
-
-        $table->timestamps();
-    });
-
+    public function up(): void
+    {
+        Schema::create('master_dokters', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama')->nullable();
+            $table->foreignId('users_id')->nullable();
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('set null');
+            $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
+            $table->date('tanggal_lahir');
+            $table->text('alamat')->nullable;
+            $table->string('spesalis')->nullable;
+            $table->foreignId('poli_id')->nullable();
+            $table->foreign('poli_id')->references('id')->on('master_polis')->onDelete('set null');
+            $table->timestamps();
+        });
     }
 
     /**

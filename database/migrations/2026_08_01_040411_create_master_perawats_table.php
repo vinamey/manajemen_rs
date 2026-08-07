@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('master_perawats', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('users_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('nama')->nullable;
             $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
             $table->date('tanggal_lahir');
