@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('apotekers', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('no_hp')->nuallable;
+            $table->string('no_hp')->nullable;
             $table->timestamps();
         });
     }
