@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MasterPasienController;
 
 Route::get('/', function () {
     return view('landing');
@@ -17,3 +18,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 // Semua Route Setelah Login
 // =======================
 @include('febi.php');
+
+Route::resource('master-pasien', MasterPasienController::class);
+@include('isabel.php');
