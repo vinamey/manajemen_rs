@@ -546,7 +546,7 @@
 <input
     type="email"
     id="email"
-    value="admin@gmail.com"
+    value="layanan@gmail.com"
     required
     placeholder="admin@gmail.com"
     class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
@@ -697,10 +697,12 @@
         }
 
         function handleLogin(e) {
-            e.preventDefault();
-            alert('Login Berhasil! Mengalihkan ke Dashboard Pasien...');
-            toggleModal('loginModal');
-        }
+    e.preventDefault();
+
+    alert('Login Berhasil! Mengalihkan ke Dashboard Pasien...');
+
+    window.location.href = '/dashboard';
+}
     </script>
 </body>
 </html>

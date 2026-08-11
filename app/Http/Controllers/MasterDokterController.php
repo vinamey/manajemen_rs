@@ -10,13 +10,17 @@ class MasterDokterController extends Controller
 {
     public function index()
     {
-        $dokters = MasterDokter::all();
+        $dokters = MasterDokter::with('poli')
+            ->latest()
+            ->get();
+
         return view('master_dokters.index', compact('dokters'));
     }
 
     public function create()
     {
         $polis = MasterPoli::all();
+
         return view('master_dokters.create', compact('polis'));
     }
 
@@ -40,7 +44,9 @@ class MasterDokterController extends Controller
             'poli_id'       => $request->poli_id,
         ]);
 
-        return redirect()->route('master-dokters.index')->with('success', 'Data berhasil disimpan!');
+        return redirect()
+            ->route('master-dokters.index')
+            ->with('success', 'Data dokter berhasil disimpan!');
     }
 
     public function edit($id)
@@ -48,7 +54,10 @@ class MasterDokterController extends Controller
         $dokter = MasterDokter::findOrFail($id);
         $polis = MasterPoli::all();
 
-        return view('master_dokters.edit', compact('dokter', 'polis'));
+        return view(
+            'master_dokters.edit',
+            compact('dokter', 'polis')
+        );
     }
 
     public function update(Request $request, $id)
@@ -63,6 +72,7 @@ class MasterDokterController extends Controller
         ]);
 
         $dokter = MasterDokter::findOrFail($id);
+
         $dokter->update([
             'nama'          => $request->nama,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -72,6 +82,19 @@ class MasterDokterController extends Controller
             'poli_id'       => $request->poli_id,
         ]);
 
-        return redirect()->route('master-dokters.index')->with('success', 'Data berhasil diperbarui!');
+        return redirect()
+            ->route('master-dokters.index')
+            ->with('success', 'Data dokter berhasil diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $dokter = MasterDokter::findOrFail($id);
+
+        $dokter->delete();
+
+        return redirect()
+            ->route('master-dokters.index')
+            ->with('success', 'Data dokter berhasil dihapus!');
     }
 }
