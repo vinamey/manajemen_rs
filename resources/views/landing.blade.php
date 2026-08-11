@@ -539,12 +539,27 @@
             </div>
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">NO. REKAM MEDIS / ID</label>
-                    <input type="text" required placeholder="Contoh: RM-998231" class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">
+    EMAIL
+</label>
+
+<input
+    type="email"
+    id="email"
+    value="layanan@gmail.com"
+    required
+    placeholder="admin@gmail.com"
+    class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">KATA SANDI</label>
-                    <input type="password" required placeholder="••••••••" class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">PASSWORD</label>
+                  <input
+    type="password"
+    id="password"
+    required
+    placeholder="Masukkan Password"
+    class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
                 </div>
                 <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-black py-3.5 rounded-xl text-xs transition duration-300 shadow-blue-glow">
                     MASUK PORTAL
@@ -682,10 +697,12 @@
         }
 
         function handleLogin(e) {
-            e.preventDefault();
-            alert('Login Berhasil! Mengalihkan ke Dashboard Pasien...');
-            toggleModal('loginModal');
-        }
+    e.preventDefault();
+
+    alert('Login Berhasil! Mengalihkan ke Dashboard Pasien...');
+
+    window.location.href = '/dashboard';
+}
     </script>
 </body>
 </html>
