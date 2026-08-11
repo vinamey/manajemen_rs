@@ -2,63 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterAsuransi;
 use Illuminate\Http\Request;
 
 class MasterAsuransiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $asuransis = MasterAsuransi::latest()->get();
+
+        return view('master-asuransi.index', compact('asuransis'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+        return view('master-asuransi.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+        ]);
+
+        MasterAsuransi::create([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
+        ]);
+
+        return redirect()
+            ->route('master-asuransi.index')
+            ->with('success', 'Data asuransi berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $asuransi = MasterAsuransi::findOrFail($id);
+
+        return view('master-asuransi.show', compact('asuransi'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
-        //
+        $asuransi = MasterAsuransi::findOrFail($id);
+
+        return view('master-asuransi.edit', compact('asuransi'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'kode' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+        ]);
+
+        $asuransi = MasterAsuransi::findOrFail($id);
+
+        $asuransi->update([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
+        ]);
+
+        return redirect()
+            ->route('master-asuransi.index')
+            ->with('success', 'Data asuransi berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $asuransi = MasterAsuransi::findOrFail($id);
+
+        $asuransi->delete();
+
+        return redirect()
+            ->route('master-asuransi.index')
+            ->with('success', 'Data asuransi berhasil dihapus.');
     }
 }

@@ -2,63 +2,97 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterDokter;
 use Illuminate\Http\Request;
 
 class MasterDokterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $dokters = MasterDokter::latest()->get();
+
+        return view('master-dokter.index', compact('dokters'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('master-dokter.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode_dokter' => 'required|string|max:255|unique:master_dokters,kode_dokter',
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'spesialis' => 'nullable|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string',
+        ]);
+
+        MasterDokter::create([
+            'kode_dokter' => $request->kode_dokter,
+            'nama' => $request->nama,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'spesialis' => $request->spesialis,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+        ]);
+
+        return redirect()
+            ->route('master-dokter.index')
+            ->with('success', 'Data dokter berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $dokter = MasterDokter::findOrFail($id);
+
+        return view('master-dokter.show', compact('dokter'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $dokter = MasterDokter::findOrFail($id);
+
+        return view('master-dokter.edit', compact('dokter'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $dokter = MasterDokter::findOrFail($id);
+
+        $request->validate([
+            'kode_dokter' => 'required|string|max:255|unique:master_dokters,kode_dokter,' . $id,
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'spesialis' => 'nullable|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string',
+        ]);
+
+        $dokter->update([
+            'kode_dokter' => $request->kode_dokter,
+            'nama' => $request->nama,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'spesialis' => $request->spesialis,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+        ]);
+
+        return redirect()
+            ->route('master-dokter.index')
+            ->with('success', 'Data dokter berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $dokter = MasterDokter::findOrFail($id);
+
+        $dokter->delete();
+
+        return redirect()
+            ->route('master-dokter.index')
+            ->with('success', 'Data dokter berhasil dihapus.');
     }
 }

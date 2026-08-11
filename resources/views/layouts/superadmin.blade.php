@@ -9,39 +9,112 @@
 
     <title>Dashboard Super Admin</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+
+        body {
+            background: #f5f6fa;
+        }
+
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: #0d6efd;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar .logo {
+            padding: 20px 10px;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+            padding: 12px 20px;
+        }
+
+        .sidebar .nav-link:hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        .sidebar .dropdown-menu {
+            background: #0b5ed7;
+            border: none;
+            width: 100%;
+        }
+
+        .sidebar .dropdown-item {
+            color: white;
+            padding: 10px 35px;
+        }
+
+        .sidebar .dropdown-item:hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        .content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            min-height: 65px;
+        }
+
+    </style>
 
 </head>
 
-<body style="background:#f5f6fa;">
+<body>
 
 <div class="d-flex">
 
-    <!-- Sidebar -->
+    <!-- ========================= -->
+    <!-- SIDEBAR -->
+    <!-- ========================= -->
 
-    <div style="width:260px;height:100vh;background:#0d6efd;color:white;position:fixed;">
+    <div class="sidebar">
 
-        <h3 class="text-center mt-4">
+        <!-- Logo -->
 
-            <i class="fa-solid fa-hospital"></i>
+        <div class="logo text-center">
 
-            SIM RS
+            <h3>
 
-        </h3>
+                <i class="fa-solid fa-hospital"></i>
+
+                SIM RS
+
+            </h3>
+
+        </div>
 
         <hr class="bg-white">
 
         <ul class="nav flex-column">
 
+            <!-- Dashboard -->
+
             <li class="nav-item">
 
-                <a href="{{ route('superadmin.dashboard') }}"
-                class="nav-link text-white">
+                <a
+                    href="{{ route('superadmin.dashboard') }}"
+                    class="nav-link">
 
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-home me-2"></i>
 
                     Dashboard
 
@@ -49,12 +122,16 @@
 
             </li>
 
+
+            <!-- Role Management -->
+
             <li class="nav-item">
 
-                <a href="{{ route('roles.index') }}"
-                class="nav-link text-white">
+                <a
+                    href="{{ route('roles.index') }}"
+                    class="nav-link">
 
-                    <i class="fa-solid fa-user-shield"></i>
+                    <i class="fa-solid fa-user-shield me-2"></i>
 
                     Role Management
 
@@ -62,18 +139,33 @@
 
             </li>
 
-            <li class="nav-item">
-    <a href="{{ route('permissions.index') }}" class="nav-link text-white">
-        <i class="fa-solid fa-key"></i>
-        Permission Management
-    </a>
-</li>
+
+            <!-- Permission Management -->
+
             <li class="nav-item">
 
-                <a href="#"
-                class="nav-link text-white">
+                <a
+                    href="{{ route('permissions.index') }}"
+                    class="nav-link">
 
-                    <i class="fa-solid fa-users"></i>
+                    <i class="fa-solid fa-key me-2"></i>
+
+                    Permission Management
+
+                </a>
+
+            </li>
+
+
+            <!-- User Management -->
+
+            <li class="nav-item">
+
+                <a
+                    href="{{ route('users.index') }}"
+                    class="nav-link">
+
+                    <i class="fa-solid fa-users me-2"></i>
 
                     User Management
 
@@ -81,109 +173,233 @@
 
             </li>
 
-            <li class="nav-item">
 
-                <li class="nav-item dropdown">
+            <!-- ========================= -->
+            <!-- MASTER DATA -->
+            <!-- ========================= -->
 
-    <a class="nav-link dropdown-toggle text-white"
-       href="#"
-       data-bs-toggle="dropdown">
+            <li class="nav-item dropdown">
 
-        <i class="fa-solid fa-database"></i>
-        Master Data
+                <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
 
-    </a>
+                    <i class="fa-solid fa-database me-2"></i>
 
-    <ul class="dropdown-menu">
+                    Master Data
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-pasien.index') }}">
-                Master Pasien
-            </a>
-        </li>
+                </a>
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-dokter.index') }}">
-                Master Dokter
-            </a>
-        </li>
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-perawat.index') }}">
-                Master Perawat
-            </a>
-        </li>
+                <ul class="dropdown-menu">
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-obat.index') }}">
-                Master Obat
-            </a>
-        </li>
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-supplier.index') }}">
-                Master Supplier
-            </a>
-        </li>
+                    <!-- Master Pasien -->
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-kategori.index') }}">
-                Master Kategori
-            </a>
-        </li>
+                    <li>
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-satuan.index') }}">
-                Master Satuan
-            </a>
-        </li>
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-pasien.index') }}">
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-poli.index') }}">
-                Master Poli
-            </a>
-        </li>
+                            <i class="fa-solid fa-hospital-user me-2"></i>
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-kamar.index') }}">
-                Master Kamar
-            </a>
-        </li>
+                            Master Pasien
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-asuransi.index') }}">
-                Master Asuransi
-            </a>
-        </li>
+                        </a>
 
-        <li>
-            <a class="dropdown-item"
-               href="{{ route('master-tindakan.index') }}">
-                Master Tindakan
-            </a>
-        </li>
+                    </li>
 
-    </ul>
 
-</li>
+                    <!-- Master Dokter -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-dokter.index') }}">
+
+                            <i class="fa-solid fa-user-doctor me-2"></i>
+
+                            Master Dokter
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Perawat -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-perawat.index') }}">
+
+                            <i class="fa-solid fa-user-nurse me-2"></i>
+
+                            Master Perawat
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Obat -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-obat.index') }}">
+
+                            <i class="fa-solid fa-pills me-2"></i>
+
+                            Master Obat
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Supplier -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-supplier.index') }}">
+
+                            <i class="fa-solid fa-truck me-2"></i>
+
+                            Master Supplier
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Kategori -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-kategori.index') }}">
+
+                            <i class="fa-solid fa-tags me-2"></i>
+
+                            Master Kategori
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Satuan -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-satuan.index') }}">
+
+                            <i class="fa-solid fa-box me-2"></i>
+
+                            Master Satuan Obat
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Poli -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-poli.index') }}">
+
+                            <i class="fa-solid fa-hospital me-2"></i>
+
+                            Master Poli
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Kamar -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-kamar.index') }}">
+
+                            <i class="fa-solid fa-bed me-2"></i>
+
+                            Master Kamar
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Asuransi -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-asuransi.index') }}">
+
+                            <i class="fa-solid fa-shield-heart me-2"></i>
+
+                            Master Asuransi
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- Master Tindakan -->
+
+                    <li>
+
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('master-tindakan.index') }}">
+
+                            <i class="fa-solid fa-stethoscope me-2"></i>
+
+                            Master Tindakan
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
             </li>
 
+
+            <!-- ========================= -->
+            <!-- LAPORAN -->
+            <!-- ========================= -->
+
             <li class="nav-item">
 
-                <a href="#"
-                class="nav-link text-white">
+                <a
+                    href="#"
+                    class="nav-link">
 
-                    <i class="fa-solid fa-chart-column"></i>
+                    <i class="fa-solid fa-chart-column me-2"></i>
 
                     Laporan
 
@@ -191,13 +407,18 @@
 
             </li>
 
+
         </ul>
 
     </div>
 
-    <!-- Content -->
 
-    <div style="margin-left:260px;width:100%;">
+    <!-- ========================= -->
+    <!-- CONTENT -->
+    <!-- ========================= -->
+
+    <div class="content">
+
 
         <!-- Navbar -->
 
@@ -211,17 +432,28 @@
 
                 </span>
 
+
                 <div>
 
-                    {{ Auth::user()->name }}
+                    <span class="me-2">
 
-                    <form action="{{ route('logout') }}"
-                    method="POST"
-                    style="display:inline">
+                        {{ Auth::user()->name }}
+
+                    </span>
+
+
+                    <form
+                        action="{{ route('logout') }}"
+                        method="POST"
+                        style="display:inline">
 
                         @csrf
 
-                        <button class="btn btn-danger btn-sm">
+                        <button
+                            type="submit"
+                            class="btn btn-danger btn-sm">
+
+                            <i class="fa-solid fa-right-from-bracket"></i>
 
                             Logout
 
@@ -235,15 +467,26 @@
 
         </nav>
 
+
+        <!-- Page Content -->
+
         <div class="container mt-4">
 
             @yield('content')
 
         </div>
 
+
     </div>
 
 </div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
 

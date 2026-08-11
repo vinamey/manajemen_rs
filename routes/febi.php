@@ -28,12 +28,15 @@ use App\Models\Pembayaran;
 
 
 // Halaman Login
-Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::get('/login', function () {
+    return redirect('/');
+})->name('login');
 
 // Proses Login
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 Route::middleware('auth')->group(function () {
+
 
 Route::resource('master-pasien', MasterPasienController::class);
 

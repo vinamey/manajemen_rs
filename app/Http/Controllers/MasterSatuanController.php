@@ -2,63 +2,82 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterSatuanObat;
 use Illuminate\Http\Request;
 
 class MasterSatuanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $satuans = MasterSatuanObat::latest()->get();
+
+        return view('master-satuan.index', compact('satuans'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+        return view('master-satuan.create');
     }
+    
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_satuan' => 'required|string|max:255',
+        ]);
+
+        MasterSatuanObat::create([
+            'nama_satuan' => $request->nama_satuan,
+        ]);
+
+        return redirect()
+            ->route('master-satuan.index')
+            ->with('success', 'Data satuan obat berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $satuan = MasterSatuanObat::findOrFail($id);
+
+        return view('master-satuan.show', compact('satuan'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
-        //
+        $satuan = MasterSatuanObat::findOrFail($id);
+
+        return view('master-satuan.edit', compact('satuan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama_satuan' => 'required|string|max:255',
+        ]);
+
+        $satuan = MasterSatuanObat::findOrFail($id);
+
+        $satuan->update([
+            'nama_satuan' => $request->nama_satuan,
+        ]);
+
+        return redirect()
+            ->route('master-satuan.index')
+            ->with('success', 'Data satuan obat berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $satuan = MasterSatuanObat::findOrFail($id);
+
+        $satuan->delete();
+
+        return redirect()
+            ->route('master-satuan.index')
+            ->with('success', 'Data satuan obat berhasil dihapus.');
     }
 }

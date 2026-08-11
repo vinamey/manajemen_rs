@@ -2,63 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterSupplier;
 use Illuminate\Http\Request;
 
 class MasterSupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $suppliers = MasterSupplier::latest()->get();
+
+        return view('master-supplier.index', compact('suppliers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('master-supplier.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode_supplier' => 'required|string|max:50|unique:master_suppliers,kode_supplier',
+            'nama_supplier' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'no_hp' => 'required|string|max:20',
+            'email' => 'nullable|email|max:255',
+        ]);
+
+        MasterSupplier::create([
+            'kode_supplier' => $request->kode_supplier,
+            'nama_supplier' => $request->nama_supplier,
+            'alamat' => $request->alamat,
+            'no_hp' => $request->no_hp,
+            'email' => $request->email,
+        ]);
+
+        return redirect()
+            ->route('master-supplier.index')
+            ->with('success', 'Data supplier berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(MasterSupplier $masterSupplier)
     {
-        //
+        return view('master-supplier.show', compact('masterSupplier'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(MasterSupplier $masterSupplier)
     {
-        //
+        return view('master-supplier.edit', compact('masterSupplier'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, MasterSupplier $masterSupplier)
     {
-        //
+        $request->validate([
+            'kode_supplier' => 'required|string|max:50|unique:master_suppliers,kode_supplier,' . $masterSupplier->id,
+            'nama_supplier' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'no_hp' => 'required|string|max:20',
+            'email' => 'nullable|email|max:255',
+        ]);
+
+        $masterSupplier->update([
+            'kode_supplier' => $request->kode_supplier,
+            'nama_supplier' => $request->nama_supplier,
+            'alamat' => $request->alamat,
+            'no_hp' => $request->no_hp,
+            'email' => $request->email,
+        ]);
+
+        return redirect()
+            ->route('master-supplier.index')
+            ->with('success', 'Data supplier berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(MasterSupplier $masterSupplier)
     {
-        //
+        $masterSupplier->delete();
+
+        return redirect()
+            ->route('master-supplier.index')
+            ->with('success', 'Data supplier berhasil dihapus.');
     }
 }

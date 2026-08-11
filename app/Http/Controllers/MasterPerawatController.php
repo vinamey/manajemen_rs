@@ -2,63 +2,89 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterPerawat;
 use Illuminate\Http\Request;
 
 class MasterPerawatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $perawats = MasterPerawat::latest()->get();
+
+        return view('master-perawat.index', compact('perawats'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('master-perawat.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'Nama' => 'required|string|max:255',
+            'Jenis_Kelamin' => 'required|in:laki-laki,perempuan',
+            'Tanggal_Lahir' => 'required|date',
+            'Alamat' => 'required|string',
+        ]);
+
+        MasterPerawat::create([
+            'Nama' => $request->Nama,
+            'Jenis_Kelamin' => $request->Jenis_Kelamin,
+            'Tanggal_Lahir' => $request->Tanggal_Lahir,
+            'Alamat' => $request->Alamat,
+        ]);
+
+        return redirect()
+            ->route('master-perawat.index')
+            ->with('success', 'Data perawat berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $perawat = MasterPerawat::findOrFail($id);
+
+        return view('master-perawat.show', compact('perawat'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $perawat = MasterPerawat::findOrFail($id);
+
+        return view('master-perawat.edit', compact('perawat'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'Nama' => 'required|string|max:255',
+            'Jenis_Kelamin' => 'required|in:laki-laki,perempuan',
+            'Tanggal_Lahir' => 'required|date',
+            'Alamat' => 'required|string',
+        ]);
+
+        $perawat = MasterPerawat::findOrFail($id);
+
+        $perawat->update([
+            'Nama' => $request->Nama,
+            'Jenis_Kelamin' => $request->Jenis_Kelamin,
+            'Tanggal_Lahir' => $request->Tanggal_Lahir,
+            'Alamat' => $request->Alamat,
+        ]);
+
+        return redirect()
+            ->route('master-perawat.index')
+            ->with('success', 'Data perawat berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $perawat = MasterPerawat::findOrFail($id);
+
+        $perawat->delete();
+
+        return redirect()
+            ->route('master-perawat.index')
+            ->with('success', 'Data perawat berhasil dihapus.');
     }
 }

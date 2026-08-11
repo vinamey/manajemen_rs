@@ -2,63 +2,90 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterKamar;
 use Illuminate\Http\Request;
 
 class MasterKamarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        //
+        $kamars = MasterKamar::latest()->get();
+
+        return view('master-kamar.index', compact('kamars'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+        return view('master-kamar.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'status' => 'required|in:tersedia,terisi',
+        ]);
+
+        MasterKamar::create([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
+            'status' => $request->status,
+        ]);
+
+        return redirect()
+            ->route('master-kamar.index')
+            ->with('success', 'Data kamar berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $kamar = MasterKamar::findOrFail($id);
+
+        return view('master-kamar.show', compact('kamar'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
-        //
+        $kamar = MasterKamar::findOrFail($id);
+
+        return view('master-kamar.edit', compact('kamar'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'kode' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'status' => 'required|in:tersedia,terisi',
+        ]);
+
+        $kamar = MasterKamar::findOrFail($id);
+
+        $kamar->update([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
+            'status' => $request->status,
+        ]);
+
+        return redirect()
+            ->route('master-kamar.index')
+            ->with('success', 'Data kamar berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $kamar = MasterKamar::findOrFail($id);
+
+        $kamar->delete();
+
+        return redirect()
+            ->route('master-kamar.index')
+            ->with('success', 'Data kamar berhasil dihapus.');
     }
 }

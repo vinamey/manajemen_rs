@@ -2,63 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterTindakan;
 use Illuminate\Http\Request;
 
 class MasterTindakanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        //
+        $tindakans = MasterTindakan::latest()->get();
+
+        return view('master-tindakan.index', compact('tindakans'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+        return view('master-tindakan.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+        ]);
+
+        MasterTindakan::create([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
+        ]);
+
+        return redirect()
+            ->route('master-tindakan.index')
+            ->with('success', 'Data tindakan berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $tindakan = MasterTindakan::findOrFail($id);
+
+        return view('master-tindakan.show', compact('tindakan'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
-        //
+        $tindakan = MasterTindakan::findOrFail($id);
+
+        return view('master-tindakan.edit', compact('tindakan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'kode' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+        ]);
+
+        $tindakan = MasterTindakan::findOrFail($id);
+
+        $tindakan->update([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
+        ]);
+
+        return redirect()
+            ->route('master-tindakan.index')
+            ->with('success', 'Data tindakan berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $tindakan = MasterTindakan::findOrFail($id);
+
+        $tindakan->delete();
+
+        return redirect()
+            ->route('master-tindakan.index')
+            ->with('success', 'Data tindakan berhasil dihapus.');
     }
 }

@@ -4,11 +4,12 @@
 
 <div class="card shadow">
 
-    <div class="card-header bg-primary text-white d-flex justify-content-between">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 
-        <h4>Master Pasien</h4>
+        <h4 class="mb-0">Master Pasien</h4>
 
-        <a href="{{ route('master-pasien.create') }}" class="btn btn-success">
+        <a href="{{ route('master-pasien.create') }}"
+           class="btn btn-success">
             + Tambah Pasien
         </a>
 
@@ -22,80 +23,99 @@
             </div>
         @endif
 
-        <table class="table table-bordered table-hover">
+        <div class="table-responsive">
 
-            <thead class="table-dark">
+            <table class="table table-bordered table-hover">
 
-                <tr>
-                    <th>No</th>
-                    <th>No RM</th>
-                    <th>Nama</th>
-                    <th>JK</th>
-                    <th>No HP</th>
-                    <th>Aksi</th>
-                </tr>
+                <thead class="table-dark">
 
-            </thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Tanggal Lahir</th>
+                        <th>Alamat</th>
+                        <th>Status Asuransi</th>
+                        <th>Golongan Darah</th>
+                        <th>Aksi</th>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-            @forelse($pasiens as $pasien)
+                <tbody>
 
-            <tr>
+                    @forelse($pasiens as $pasien)
 
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $pasien->no_rm }}</td>
-                <td>{{ $pasien->nama }}</td>
-                <td>{{ $pasien->jenis_kelamin }}</td>
-                <td>{{ $pasien->no_hp }}</td>
+                    <tr>
 
-                <td>
+                        <td>{{ $loop->iteration }}</td>
 
-                    <a href="{{ route('master-pasien.show',$pasien->id) }}"
-                       class="btn btn-info btn-sm">
-                        Detail
-                    </a>
+                        <td>{{ $pasien->nama }}</td>
 
-                    <a href="{{ route('master-pasien.edit',$pasien->id) }}"
-                       class="btn btn-warning btn-sm">
-                        Edit
-                    </a>
+                        <td>{{ $pasien->jenis_kelamin }}</td>
 
-                    <form action="{{ route('master-pasien.destroy',$pasien->id) }}"
-                          method="POST"
-                          class="d-inline">
+                        <td>{{ $pasien->tanggal_lahir }}</td>
 
-                        @csrf
-                        @method('DELETE')
+                        <td>{{ $pasien->alamat }}</td>
 
-                        <button class="btn btn-danger btn-sm"
-                            onclick="return confirm('Yakin hapus data?')">
+                        <td>
+                            @if($pasien->status_asuransi == '01')
+                                Memiliki Asuransi
+                            @else
+                                Tidak Memiliki Asuransi
+                            @endif
+                        </td>
 
-                            Hapus
+                        <td>{{ $pasien->golongan_darah }}</td>
 
-                        </button>
+                        <td>
 
-                    </form>
+                            <a href="{{ route('master-pasien.show', $pasien->id) }}"
+                               class="btn btn-info btn-sm">
+                                Lihat
+                            </a>
 
-                </td>
+                            <a href="{{ route('master-pasien.edit', $pasien->id) }}"
+                               class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
 
-            </tr>
+                            <form action="{{ route('master-pasien.destroy', $pasien->id) }}"
+                                  method="POST"
+                                  class="d-inline">
 
-            @empty
+                                @csrf
+                                @method('DELETE')
 
-            <tr>
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus data pasien ini?')">
 
-                <td colspan="6" class="text-center">
-                    Belum ada data pasien
-                </td>
+                                    Hapus
 
-            </tr>
+                                </button>
 
-            @endforelse
+                            </form>
 
-            </tbody>
+                        </td>
 
-        </table>
+                    </tr>
+
+                    @empty
+
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            Belum ada data pasien
+                        </td>
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
