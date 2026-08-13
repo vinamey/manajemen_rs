@@ -1,43 +1,80 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard Super Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('layouts.superadmin')
 
-<div class="container mt-5">
+@section('content')
 
-    <div class="card">
+<h3 class="mb-4">
+    Dashboard Super Admin
+</h3>
 
-        <div class="card-header bg-primary text-white">
-            Dashboard Super Admin
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+        <div class="card bg-primary text-white shadow">
+            <div class="card-body">
+                <h5>Total User</h5>
+                <h2>{{ $totalUser }}</h2>
+            </div>
         </div>
+    </div>
 
-        <div class="card-body">
-
-            <h3>Selamat Datang</h3>
-
-            <h4>{{ auth()->user()->name }}</h4>
-
-            <p>{{ auth()->user()->email }}</p>
-
-            <p>Role :
-                {{ auth()->user()->getRoleNames()->first() }}
-            </p>
-
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button class="btn btn-danger">
-                    Logout
-                </button>
-            </form>
-
+    <div class="col-md-3 mb-3">
+        <div class="card bg-success text-white shadow">
+            <div class="card-body">
+                <h5>Total Dokter</h5>
+                <h2>{{ $totalDokter }}</h2>
+            </div>
         </div>
+    </div>
 
+    <div class="col-md-3 mb-3">
+        <div class="card bg-info text-white shadow">
+            <div class="card-body">
+                <h5>Total Pasien</h5>
+                <h2>{{ $totalPasien }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card bg-warning text-white shadow">
+            <div class="card-body">
+                <h5>Total Obat</h5>
+                <h2>{{ $totalObat }}</h2>
+            </div>
+        </div>
     </div>
 
 </div>
 
-</body>
-</html>
+<div class="row">
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow border-start border-primary border-4">
+            <div class="card-body">
+                <h5>Pendaftaran Pasien</h5>
+                <h3>{{ $totalPendaftaran }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow border-start border-success border-4">
+            <div class="card-body">
+                <h5>Pemeriksaan Dokter</h5>
+                <h3>{{ $totalPemeriksaan }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow border-start border-danger border-4">
+            <div class="card-body">
+                <h5>Pembayaran</h5>
+                <h3>{{ $totalPembayaran }}</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@endsection
