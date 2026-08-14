@@ -40,7 +40,7 @@ class LoginController extends Controller
         // ==========================
         // SUPER ADMIN
         // ==========================
-        if ($user->hasRole('super admin')) {
+        if ($user->hasRole('Super Admin')) {
             return redirect()
                 ->route('superadmin.dashboard')
                 ->with('success', 'Selamat datang Super Admin!');
@@ -49,7 +49,7 @@ class LoginController extends Controller
         // ==========================
         // ADMIN RUMAH SAKIT
         // ==========================
-        if ($user->hasRole('admin rumah sakit')) {
+        if ($user->hasRole('Admin Rumah Sakit')) {
             return redirect()
                 ->route('admin.dashboard')
                 ->with('success', 'Selamat datang Admin Rumah Sakit!');
@@ -58,7 +58,7 @@ class LoginController extends Controller
         // ==========================
         // DOKTER
         // ==========================
-        if ($user->hasRole('dokter')) {
+        if ($user->hasRole('Dokter')) {
             return redirect()
                 ->route('dokter.dashboard')
                 ->with('success', 'Selamat datang Dokter!');
@@ -67,7 +67,7 @@ class LoginController extends Controller
         // ==========================
         // PERAWAT
         // ==========================
-        if ($user->hasRole('perawat')) {
+        if ($user->hasRole('Perawat')) {
             return redirect()
                 ->route('perawat.dashboard')
                 ->with('success', 'Selamat datang Perawat!');
@@ -76,7 +76,7 @@ class LoginController extends Controller
         // ==========================
         // APOTEKER
         // ==========================
-        if ($user->hasRole('apoteker')) {
+        if ($user->hasRole('Apoteker')) {
             return redirect()
                 ->route('apoteker.dashboard')
                 ->with('success', 'Selamat datang Apoteker!');
@@ -85,7 +85,7 @@ class LoginController extends Controller
         // ==========================
         // KASIR
         // ==========================
-        if ($user->hasRole('kasir')) {
+        if ($user->hasRole('Kasir')) {
             return redirect()
                 ->route('kasir.dashboard')
                 ->with('success', 'Selamat datang Kasir!');
@@ -94,7 +94,7 @@ class LoginController extends Controller
         // ==========================
         // DIREKTUR
         // ==========================
-        if ($user->hasRole('direktur')) {
+        if ($user->hasRole('Direktur')) {
             return redirect()
                 ->route('direktur.dashboard')
                 ->with('success', 'Selamat datang Direktur!');
