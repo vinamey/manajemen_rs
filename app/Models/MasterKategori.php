@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MasterKategori extends Model
 {
-    //
+    protected $table = 'master_kategoris';
+
+    protected $fillable = [
+        'nama_kategori',
+    ];
 }

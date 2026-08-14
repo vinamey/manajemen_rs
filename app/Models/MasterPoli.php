@@ -9,16 +9,9 @@ class MasterPoli extends Model
 {
     use HasFactory;
 
-    // Pastikan TANPA huruf 's' agar cocok dengan tabel phpMyAdmin
-    protected $table = 'master_poli';
+    protected $table = 'master_polis';
 
     protected $fillable = [
-        'kode',
-        'nama',
+        'nama_poli',
     ];
-
-    public function dokters()
-    {
-        return $this->hasMany(MasterDokter::class, 'poli_id');
-    }
 }

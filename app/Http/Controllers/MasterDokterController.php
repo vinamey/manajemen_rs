@@ -3,98 +3,96 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterDokter;
-use App\Models\MasterPoli;
 use Illuminate\Http\Request;
 
 class MasterDokterController extends Controller
 {
     public function index()
     {
-        $dokters = MasterDokter::with('poli')
-            ->latest()
-            ->get();
+        $dokters = MasterDokter::latest()->get();
 
-        return view('master_dokters.index', compact('dokters'));
+        return view('master-dokter.index', compact('dokters'));
     }
 
     public function create()
     {
-        $polis = MasterPoli::all();
-
-        return view('master_dokters.create', compact('polis'));
+        return view('master-dokter.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nama'          => 'required',
-            'jenis_kelamin' => 'required',
-            'tanggal_lahir' => 'required|date',
-            'alamat'        => 'required',
-            'spesialis'     => 'required',
-            'poli_id'       => 'required',
+            'kode_dokter' => 'required|string|max:255|unique:master_dokters,kode_dokter',
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'spesialis' => 'nullable|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string',
         ]);
 
         MasterDokter::create([
-            'nama'          => $request->nama,
+            'kode_dokter' => $request->kode_dokter,
+            'nama' => $request->nama,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'alamat'        => $request->alamat,
-            'spesialis'     => $request->spesialis,
-            'poli_id'       => $request->poli_id,
+            'spesialis' => $request->spesialis,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
         ]);
 
         return redirect()
-            ->route('master-dokters.index')
-            ->with('success', 'Data dokter berhasil disimpan!');
+            ->route('master-dokter.index')
+            ->with('success', 'Data dokter berhasil ditambahkan.');
     }
 
-    public function edit($id)
+    public function show(string $id)
     {
         $dokter = MasterDokter::findOrFail($id);
-        $polis = MasterPoli::all();
 
-        return view(
-            'master_dokters.edit',
-            compact('dokter', 'polis')
-        );
+        return view('master-dokter.show', compact('dokter'));
     }
 
-    public function update(Request $request, $id)
+    public function edit(string $id)
     {
+        $dokter = MasterDokter::findOrFail($id);
+
+        return view('master-dokter.edit', compact('dokter'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $dokter = MasterDokter::findOrFail($id);
+
         $request->validate([
-            'nama'          => 'required',
-            'jenis_kelamin' => 'required',
-            'tanggal_lahir' => 'required|date',
-            'alamat'        => 'required',
-            'spesialis'     => 'required',
-            'poli_id'       => 'required',
+            'kode_dokter' => 'required|string|max:255|unique:master_dokters,kode_dokter,' . $id,
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'spesialis' => 'nullable|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string',
         ]);
-
-        $dokter = MasterDokter::findOrFail($id);
 
         $dokter->update([
-            'nama'          => $request->nama,
+            'kode_dokter' => $request->kode_dokter,
+            'nama' => $request->nama,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'alamat'        => $request->alamat,
-            'spesialis'     => $request->spesialis,
-            'poli_id'       => $request->poli_id,
+            'spesialis' => $request->spesialis,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
         ]);
 
         return redirect()
-            ->route('master-dokters.index')
-            ->with('success', 'Data dokter berhasil diperbarui!');
+            ->route('master-dokter.index')
+            ->with('success', 'Data dokter berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
         $dokter = MasterDokter::findOrFail($id);
 
         $dokter->delete();
 
         return redirect()
-            ->route('master-dokters.index')
-            ->with('success', 'Data dokter berhasil dihapus!');
+            ->route('master-dokter.index')
+            ->with('success', 'Data dokter berhasil dihapus.');
     }
 }
