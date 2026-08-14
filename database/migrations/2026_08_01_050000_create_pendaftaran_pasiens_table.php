@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('dokter_id')->references('id')->on('master_dokters')->onDelete('set null');
 
              $table->foreignId('poli_id')->nullable();
-            $table->foreign('poli_id')->references('id')->on('master_poli')->onDelete('set null');
+            $table->foreign('poli_id')->references('id')->on('master_polis')->onDelete('set null');
 
              $table->foreignId('kamar_id')->nullable();
             $table->foreign('kamar_id')->references('id')->on('master_kamars')->onDelete('set null');
