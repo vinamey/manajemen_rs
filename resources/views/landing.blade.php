@@ -546,7 +546,7 @@
 <input
     type="email"
     id="email"
-    value="layanan@gmail.com"
+    value="adminrs@gmail.com"
     required
     placeholder="admin@gmail.com"
     class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-brand-500 transition">
