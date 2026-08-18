@@ -13,8 +13,8 @@ use App\Http\Controllers\KasirController;
 // =======================
 // Dashboard
 // =======================
-Route::get('/dashboard', [DashboardController::class, 'index']);
-
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('admin.dashboard');
 
 // =======================
 // Master Data
