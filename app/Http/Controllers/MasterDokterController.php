@@ -22,7 +22,6 @@ class MasterDokterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_dokter' => 'required|string|max:255|unique:master_dokters,kode_dokter',
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'spesialis' => 'nullable|string|max:255',

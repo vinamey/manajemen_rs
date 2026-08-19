@@ -11,13 +11,13 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $superAdmin = Role::where('name', 'super admin')->first();
-        $admin = Role::where('name', 'admin rumah sakit')->first();
-        $dokter = Role::where('name', 'dokter')->first();
-        $perawat = Role::where('name', 'perawat')->first();
-        $apoteker = Role::where('name', 'apoteker')->first();
-        $kasir = Role::where('name', 'kasir')->first();
-        $direktur = Role::where('name', 'direktur')->first();
+        $superAdmin = Role::where('name', 'Super Admin')->first();
+        $admin = Role::where('name', 'Admin Rumah Sakit')->first();
+        $dokter = Role::where('name', 'Dokter')->first();
+        $perawat = Role::where('name', 'Perawat')->first();
+        $apoteker = Role::where('name', 'Apoteker')->first();
+        $kasir = Role::where('name', 'Kasir')->first();
+        $direktur = Role::where('name', 'Direktur')->first();
 
         $user = User::create([
             'name' => 'Super Admin',
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         $user->assignRole($superAdmin);
 
         $user = User::create([
-            'name' => 'Admin Rumah Sakit',
+            'name' => 'Admin Rumah Sakit', 
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345'),
         ]);

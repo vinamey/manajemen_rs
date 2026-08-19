@@ -12,7 +12,6 @@ class MasterDokter extends Model
     protected $table = 'master_dokters';
 
     protected $fillable = [
-        'kode_dokter',
         'nama',
         'jenis_kelamin',
         'spesialis',
