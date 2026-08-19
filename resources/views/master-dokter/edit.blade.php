@@ -16,15 +16,6 @@
             @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label>Kode Dokter</label>
-
-                <input type="text"
-                       name="kode_dokter"
-                       class="form-control"
-                       value="{{ old('kode_dokter', $dokter->kode_dokter) }}"
-                       required>
-            </div>
 
             <div class="mb-3">
                 <label>Nama Dokter</label>

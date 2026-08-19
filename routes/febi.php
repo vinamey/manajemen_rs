@@ -1,5 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DashboardController;
+
 use App\Http\Controllers\MasterPasienController;
 use App\Http\Controllers\MasterDokterController;
 use App\Http\Controllers\MasterPerawatController;
@@ -11,29 +16,21 @@ use App\Http\Controllers\MasterPoliController;
 use App\Http\Controllers\MasterKamarController;
 use App\Http\Controllers\MasterAsuransiController;
 use App\Http\Controllers\MasterTindakanController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
-use App\Models\User;
-use App\Models\MasterPasien;
-use App\Models\MasterDokter;
-use App\Models\MasterObat;
-use App\Models\PendaftaranPasien;
-use App\Models\PemeriksaanDokter;
-use App\Models\Pembayaran;
 
 
+// =======================
+// LOGIN
+// =======================
 
-// Halaman Login
-Route::get('/login', function () {
-    return redirect('/');
-})->name('login');
+Route::get('/login', [LoginController::class, 'showLogin'])
+    ->name('login');
 
-// Proses Login
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/login', [LoginController::class, 'login'])
+    ->name('login.post');
 
 Route::middleware('auth')->group(function () {
 
@@ -145,5 +142,6 @@ Route::post('/users/{id}/reset-password',
     // =======================
     // Logout
     // =======================
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+   Route::post('/logout', [LoginController::class, 'logout'])
+    ->name('logout');
 });

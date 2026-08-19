@@ -12,12 +12,6 @@
 
         <div class="row">
 
-            <div class="col-md-6 mb-3">
-                <label class="fw-bold">Kode Dokter</label>
-                <div class="form-control bg-light">
-                    {{ $dokter->kode_dokter }}
-                </div>
-            </div>
 
             <div class="col-md-6 mb-3">
                 <label class="fw-bold">Nama Dokter</label>
