@@ -185,7 +185,7 @@
             <i class="bi bi-hospital"></i>
 
             <h4 class="mt-2 fw-bold mb-1">
-                RS Sehat
+                SIM RS
             </h4>
 
             <small class="text-white-50">
