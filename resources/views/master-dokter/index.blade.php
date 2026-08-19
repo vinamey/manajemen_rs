@@ -43,8 +43,6 @@
 
                         <td>{{ $loop->iteration }}</td>
 
-                        <td>{{ $dokter->kode_dokter }}</td>
-
                         <td>{{ $dokter->nama }}</td>
 
                         <td>{{ ucfirst($dokter->jenis_kelamin) }}</td>
