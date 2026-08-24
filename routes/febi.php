@@ -32,116 +32,150 @@ Route::get('/login', [LoginController::class, 'showLogin'])
 Route::post('/login', [LoginController::class, 'login'])
     ->name('login.post');
 
+
 Route::middleware('auth')->group(function () {
 
+    // =======================
+    // Master Data
+    // =======================
 
-Route::resource('master-pasien', MasterPasienController::class);
+    Route::resource('master-pasien', MasterPasienController::class);
+    Route::resource('master-dokter', MasterDokterController::class);
+    Route::resource('master-perawat', MasterPerawatController::class);
+    Route::resource('master-obat', MasterObatController::class);
+    Route::resource('master-supplier', MasterSupplierController::class);
+    Route::resource('master-kategori', MasterKategoriController::class);
+    Route::resource('master-satuan', MasterSatuanController::class);
+    Route::resource('master-poli', MasterPoliController::class);
+    Route::resource('master-kamar', MasterKamarController::class);
+    Route::resource('master-asuransi', MasterAsuransiController::class);
+    Route::resource('master-tindakan', MasterTindakanController::class);
 
-Route::resource('master-dokter', MasterDokterController::class);
 
-Route::resource('master-perawat', MasterPerawatController::class);
+    // =======================
+    // Role Management
+    // =======================
 
-Route::resource('master-obat', MasterObatController::class);
+    Route::resource('roles', RoleController::class);
 
-Route::resource('master-supplier', MasterSupplierController::class);
+    Route::get('/roles/{id}/permission',
+        [RoleController::class, 'givePermission'])
+        ->name('roles.permission');
 
-Route::resource('master-kategori', MasterKategoriController::class);
+    Route::post('/roles/{id}/permission',
+        [RoleController::class, 'givePermissionStore'])
+        ->name('roles.permission.store');
 
-Route::resource('master-satuan', MasterSatuanController::class);
 
-Route::resource('master-poli', MasterPoliController::class);
+    // =======================
+    // Permission Management
+    // =======================
 
-Route::resource('master-kamar', MasterKamarController::class);
+    Route::resource('permissions', PermissionController::class);
 
-Route::resource('master-asuransi', MasterAsuransiController::class);
 
-Route::resource('master-tindakan', MasterTindakanController::class);
+    // =======================
+    // User Management
+    // =======================
 
-// =======================
-// Role Management
-// =======================
-Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+    Route::get('/test-route', function () {
+    return 'TEST ROUTE BERHASIL';
+    })->name('test.route');
 
-Route::get('/roles/{id}/permission', [RoleController::class, 'givePermission'])
-    ->name('roles.permission');
 
-Route::post('/roles/{id}/permission', [RoleController::class, 'givePermissionStore'])
-    ->name('roles.permission.store');
+    // =======================
+    // Reset Password
+    // =======================
 
-// =======================
-// Permission Management
-// =======================
-Route::resource('permissions', PermissionController::class);
+    Route::get('/users/{id}/reset-password',
+        [UserController::class, 'resetPasswordForm'])
+        ->name('users.reset-password');
 
-// =======================
-// User Management
-// =======================
-Route::resource('users', UserController::class);
+    Route::post('/users/{id}/reset-password',
+        [UserController::class, 'resetPassword'])
+        ->name('users.reset-password.update');
 
-    // Dashboard Utama (Opsional)
+
+    // =======================
+    // Dashboard Utama
+    // =======================
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    //reset Password
-    Route::get('/users/{id}/reset-password',
-    [UserController::class,'resetPasswordForm'])
-    ->name('users.reset-password');
 
-Route::post('/users/{id}/reset-password',
-    [UserController::class,'resetPassword'])
-    ->name('users.reset-password.update');
 
+    
     // =======================
     // Dashboard Super Admin
     // =======================
-    Route::get('/superadmin/dashboard', [DashboardController::class, 'superadmin'])
-    ->name('superadmin.dashboard');
+
+    Route::get('/superadmin/dashboard',
+        [DashboardController::class, 'superadmin'])
+        ->name('superadmin.dashboard');
+
+
     // =======================
     // Dashboard Admin Rumah Sakit
     // =======================
+
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 
+
     // =======================
     // Dashboard Dokter
     // =======================
+
     Route::get('/dokter/dashboard', function () {
         return view('dokter.dashboard');
     })->name('dokter.dashboard');
 
+
     // =======================
     // Dashboard Perawat
     // =======================
+
     Route::get('/perawat/dashboard', function () {
         return view('perawat.dashboard');
     })->name('perawat.dashboard');
 
+
     // =======================
     // Dashboard Apoteker
     // =======================
+
     Route::get('/apoteker/dashboard', function () {
         return view('apoteker.dashboard');
     })->name('apoteker.dashboard');
 
+
     // =======================
     // Dashboard Kasir
     // =======================
+
     Route::get('/kasir/dashboard', function () {
         return view('kasir.dashboard');
     })->name('kasir.dashboard');
 
+
     // =======================
     // Dashboard Direktur
     // =======================
+
     Route::get('/direktur/dashboard', function () {
         return view('direktur.dashboard');
     })->name('direktur.dashboard');
 
+
     // =======================
     // Logout
     // =======================
-   Route::post('/logout', [LoginController::class, 'logout'])
-    ->name('logout');
+
+    Route::post('/logout', [LoginController::class, 'logout'])
+        ->name('logout');
+
 });
