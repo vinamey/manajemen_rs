@@ -33,9 +33,19 @@
                 </div>
             @endif
 
-            <a href="{{ route('roles.create') }}" class="btn btn-success mb-3">
-                + Tambah Role
-            </a>
+            <div class="mb-3 d-flex gap-2">
+
+    <a href="{{ route('superadmin.dashboard') }}"
+       class="btn btn-secondary">
+        ← Dashboard
+    </a>
+
+    <a href="{{ route('roles.create') }}"
+       class="btn btn-success">
+        + Tambah Role
+    </a>
+
+</div>
 
             <table class="table table-bordered">
 
