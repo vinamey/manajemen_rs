@@ -437,7 +437,7 @@
 
                     <span class="me-2">
 
-                        {{ Auth::user()->name }}
+                       {{ Auth::user()?->name }}
 
                     </span>
 
