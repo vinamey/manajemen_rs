@@ -534,7 +534,7 @@
                 <div class="w-12 h-12 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center text-xl mx-auto mb-3 border border-brand-100">
                     <i class="fa-solid fa-hospital-user"></i>
                 </div>
-                <h3 class="text-xl font-black text-slate-900">Portal Masuk Pasien</h3>
+                <h3 class="text-xl font-black text-slate-900">Portal Masuk </h3>
                 <p class="text-xs text-slate-500 mt-1">Akses Rekam Medis Digital & Hasil Lab</p>
             </div>
             <form action="{{ route('login.post') }}" method="POST" class="space-y-4">
