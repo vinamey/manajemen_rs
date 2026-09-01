@@ -40,7 +40,7 @@ class LoginController extends Controller
         // ==========================
         // SUPER ADMIN
         // ==========================
-        if ($user->hasRole('Super Admin')) {
+       if ($user->hasRole('super admin')) {
             return redirect()
                 ->route('superadmin.dashboard')
                 ->with('success', 'Selamat datang Super Admin!');
