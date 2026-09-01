@@ -105,3 +105,4 @@ public function update(Request $request, string $id)
             ->with('success', 'Data pasien berhasil dihapus.');
     }
 }
+ 

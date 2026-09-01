@@ -32,9 +32,7 @@ use App\Http\Controllers\MasterSatuanController;
 use App\Http\Controllers\MasterSupplierController;
 use App\Http\Controllers\MasterTindakanController;
 
-// ==============================
-// LANDING PAGE
-// ==============================
+
 
 Route::get('/', function () {
     return view('landing');
@@ -181,13 +179,13 @@ Route::resource(
     MasterSatuanController::class
 );
 
-// Master Supplier
+
 Route::resource(
     'master-supplier',
     MasterSupplierController::class
 );
 
-// Master Tindakan
+
 Route::resource(
     'master-tindakan',
     MasterTindakanController::class

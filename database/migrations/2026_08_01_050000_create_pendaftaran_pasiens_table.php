@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreign('kamar_id')->references('id')->on('master_kamars')->onDelete('set null');
 
             $table->date('tanggal_pendaftaran');
-            $table->string('nomor_atrian');
+            $table->string('nomor_antrian');
             $table->enum('status', ['menunggu', 'diperiksa', 'selesai']);
             $table->timestamps();
         });
