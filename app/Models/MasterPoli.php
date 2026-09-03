@@ -9,9 +9,10 @@ class MasterPoli extends Model
 {
     use HasFactory;
 
-    protected $table = 'master_polis';
+   protected $table = 'master_poli';
 
-    protected $fillable = [
-        'nama_poli',
-    ];
+   protected $fillable = [
+    'kode',
+    'nama',
+];
 }

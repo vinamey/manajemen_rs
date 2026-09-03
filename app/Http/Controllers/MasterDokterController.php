@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterDokter;
+use App\Models\MasterPoli;
 use Illuminate\Http\Request;
 
 class MasterDokterController extends Controller
@@ -10,8 +11,9 @@ class MasterDokterController extends Controller
     public function index()
     {
         $dokters = MasterDokter::latest()->get();
+        $polis = MasterPoli::orderBy('nama')->get();
 
-        return view('master-dokter.index', compact('dokters'));
+        return view('master-dokter.index', compact('dokters', 'polis'));
     }
 
     public function create()
@@ -21,26 +23,22 @@ class MasterDokterController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'tanggal_lahir' => 'required|date',
             'spesialis' => 'nullable|string|max:255',
-            'no_hp' => 'nullable|string|max:20',
             'alamat' => 'nullable|string',
+            'poli_id' => 'nullable|exists:master_poli,id',
         ]);
 
-        MasterDokter::create([
-            'kode_dokter' => $request->kode_dokter,
-            'nama' => $request->nama,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'spesialis' => $request->spesialis,
-            'no_hp' => $request->no_hp,
-            'alamat' => $request->alamat,
-        ]);
+        $dokter = MasterDokter::create($validated);
 
-        return redirect()
-            ->route('master-dokter.index')
-            ->with('success', 'Data dokter berhasil ditambahkan.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data dokter berhasil ditambahkan.',
+            'data' => $dokter,
+        ]);
     }
 
     public function show(string $id)
@@ -50,9 +48,16 @@ class MasterDokterController extends Controller
         return view('master-dokter.show', compact('dokter'));
     }
 
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
         $dokter = MasterDokter::findOrFail($id);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $dokter,
+            ]);
+        }
 
         return view('master-dokter.edit', compact('dokter'));
     }
@@ -61,27 +66,28 @@ class MasterDokterController extends Controller
     {
         $dokter = MasterDokter::findOrFail($id);
 
-        $request->validate([
-            'kode_dokter' => 'required|string|max:255|unique:master_dokters,kode_dokter,' . $id,
+        /*
+        |--------------------------------------------------------------------------
+        | Spesialis TIDAK dimasukkan ke validasi update
+        | supaya tidak bisa diubah.
+        |--------------------------------------------------------------------------
+        */
+
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
-            'spesialis' => 'nullable|string|max:255',
-            'no_hp' => 'nullable|string|max:20',
+            'tanggal_lahir' => 'required|date',
             'alamat' => 'nullable|string',
+            'poli_id' => 'nullable|exists:master_poli,id',
         ]);
 
-        $dokter->update([
-            'kode_dokter' => $request->kode_dokter,
-            'nama' => $request->nama,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'spesialis' => $request->spesialis,
-            'no_hp' => $request->no_hp,
-            'alamat' => $request->alamat,
-        ]);
+        $dokter->update($validated);
 
-        return redirect()
-            ->route('master-dokter.index')
-            ->with('success', 'Data dokter berhasil diperbarui.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data dokter berhasil diperbarui.',
+            'data' => $dokter->fresh(),
+        ]);
     }
 
     public function destroy(string $id)
@@ -90,8 +96,9 @@ class MasterDokterController extends Controller
 
         $dokter->delete();
 
-        return redirect()
-            ->route('master-dokter.index')
-            ->with('success', 'Data dokter berhasil dihapus.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data dokter berhasil dihapus.',
+        ]);
     }
 }

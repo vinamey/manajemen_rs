@@ -1,89 +1,160 @@
 @extends('layouts.superadmin')
 
+@section('page-title', 'Tambah Perawat')
+
 @section('content')
 
-<div class="card shadow">
+<div class="container-fluid">
 
-    <div class="card-header bg-success text-white">
-        <h4>Tambah Perawat</h4>
-    </div>
+    <div class="card shadow-sm border-0">
 
-    <div class="card-body">
+        {{-- HEADER --}}
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="bi bi-person-plus-fill me-2"></i>
+                Tambah Perawat
+            </h4>
+        </div>
 
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        {{-- BODY --}}
+        <div class="card-body">
 
-        <form action="{{ route('master-perawat.store') }}" method="POST">
+            {{-- ERROR VALIDATION --}}
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-            @csrf
+            {{-- FORM --}}
+            <form
+                action="{{ route('master-perawat.store') }}"
+                method="POST"
+            >
 
-            <div class="mb-3">
-                <label>Nama Perawat</label>
-                <input type="text"
-                       name="Nama"
-                       class="form-control"
-                       value="{{ old('Nama') }}"
-                       required>
-            </div>
+                @csrf
 
-            <div class="mb-3">
-                <label>Jenis Kelamin</label>
+                {{-- NAMA --}}
+                <div class="mb-3">
+                    <label
+                        for="nama"
+                        class="form-label fw-semibold"
+                    >
+                        Nama Perawat
+                    </label>
 
-                <select name="Jenis_Kelamin"
+                    <input
+                        type="text"
+                        id="nama"
+                        name="nama"
                         class="form-control"
-                        required>
+                        value="{{ old('nama') }}"
+                        placeholder="Masukkan nama perawat"
+                        required
+                    >
+                </div>
 
-                    <option value="">-- Pilih Jenis Kelamin --</option>
+                {{-- JENIS KELAMIN --}}
+                <div class="mb-3">
+                    <label
+                        for="jenis_kelamin"
+                        class="form-label fw-semibold"
+                    >
+                        Jenis Kelamin
+                    </label>
 
-                    <option value="laki-laki"
-                        {{ old('Jenis_Kelamin') == 'laki-laki' ? 'selected' : '' }}>
-                        Laki-laki
-                    </option>
+                    <select
+                        id="jenis_kelamin"
+                        name="jenis_kelamin"
+                        class="form-select"
+                        required
+                    >
+                        <option value="">
+                            -- Pilih Jenis Kelamin --
+                        </option>
 
-                    <option value="perempuan"
-                        {{ old('Jenis_Kelamin') == 'perempuan' ? 'selected' : '' }}>
-                        Perempuan
-                    </option>
+                        <option
+                            value="laki-laki"
+                            {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}
+                        >
+                            Laki-laki
+                        </option>
 
-                </select>
-            </div>
+                        <option
+                            value="perempuan"
+                            {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}
+                        >
+                            Perempuan
+                        </option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label>Tanggal Lahir</label>
+                {{-- TANGGAL LAHIR --}}
+                <div class="mb-3">
+                    <label
+                        for="tanggal_lahir"
+                        class="form-label fw-semibold"
+                    >
+                        Tanggal Lahir
+                    </label>
 
-                <input type="date"
-                       name="Tanggal_Lahir"
-                       class="form-control"
-                       value="{{ old('Tanggal_Lahir') }}"
-                       required>
-            </div>
+                    <input
+                        type="date"
+                        id="tanggal_lahir"
+                        name="tanggal_lahir"
+                        class="form-control"
+                        value="{{ old('tanggal_lahir') }}"
+                        required
+                    >
+                </div>
 
-            <div class="mb-3">
-                <label>Alamat</label>
+                {{-- ALAMAT --}}
+                <div class="mb-3">
+                    <label
+                        for="alamat"
+                        class="form-label fw-semibold"
+                    >
+                        Alamat
+                    </label>
 
-                <textarea name="Alamat"
-                          class="form-control"
-                          rows="3"
-                          required>{{ old('Alamat') }}</textarea>
-            </div>
+                    <textarea
+                        id="alamat"
+                        name="alamat"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Masukkan alamat perawat"
+                        required
+                    >{{ old('alamat') }}</textarea>
+                </div>
 
-            <button type="submit" class="btn btn-success">
-                Simpan
-            </button>
+                {{-- BUTTON --}}
+                <div class="d-flex gap-2">
 
-            <a href="{{ route('master-perawat.index') }}"
-               class="btn btn-secondary">
-                Kembali
-            </a>
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        <i class="bi bi-save me-1"></i>
+                        Simpan
+                    </button>
 
-        </form>
+                    <a
+                        href="{{ route('master-perawat.index') }}"
+                        class="btn btn-secondary"
+                    >
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Kembali
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
 

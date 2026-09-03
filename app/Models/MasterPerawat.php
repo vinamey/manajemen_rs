@@ -11,12 +11,14 @@ class MasterPerawat extends Model
 
     protected $table = 'master_perawats';
 
-    protected $primaryKey = 'id';
-
     protected $fillable = [
-        'Nama',
-        'Jenis_Kelamin',
-        'Tanggal_Lahir',
-        'Alamat',
+        'nama',
+        'jenis_kelamin',
+        'tanggal_lahir',
+        'alamat',
+    ];
+
+    protected $casts = [
+        'tanggal_lahir' => 'date',
     ];
 }
