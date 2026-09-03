@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class MasterPerawatController extends Controller
 {
+    /**
+     * Menampilkan semua data perawat.
+     */
     public function index()
     {
         $perawats = MasterPerawat::latest()->get();
@@ -14,25 +17,31 @@ class MasterPerawatController extends Controller
         return view('master-perawat.index', compact('perawats'));
     }
 
+    /**
+     * Menampilkan form tambah perawat.
+     */
     public function create()
     {
         return view('master-perawat.create');
     }
 
+    /**
+     * Menyimpan data perawat baru.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'Nama' => 'required|string|max:255',
-            'Jenis_Kelamin' => 'required|in:laki-laki,perempuan',
-            'Tanggal_Lahir' => 'required|date',
-            'Alamat' => 'required|string',
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'tanggal_lahir' => 'required|date',
+            'alamat' => 'required|string',
         ]);
 
         MasterPerawat::create([
-            'Nama' => $request->Nama,
-            'Jenis_Kelamin' => $request->Jenis_Kelamin,
-            'Tanggal_Lahir' => $request->Tanggal_Lahir,
-            'Alamat' => $request->Alamat,
+            'nama' => $request->nama,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'alamat' => $request->alamat,
         ]);
 
         return redirect()
@@ -40,36 +49,43 @@ class MasterPerawatController extends Controller
             ->with('success', 'Data perawat berhasil ditambahkan.');
     }
 
-    public function show(string $id)
+    /**
+     * Menampilkan detail perawat.
+     */
+    public function show(MasterPerawat $master_perawat)
     {
-        $perawat = MasterPerawat::findOrFail($id);
-
-        return view('master-perawat.show', compact('perawat'));
+        return view('master-perawat.show', [
+            'perawat' => $master_perawat
+        ]);
     }
 
-    public function edit(string $id)
+    /**
+     * Menampilkan form edit perawat.
+     */
+    public function edit(MasterPerawat $master_perawat)
     {
-        $perawat = MasterPerawat::findOrFail($id);
-
-        return view('master-perawat.edit', compact('perawat'));
+        return view('master-perawat.edit', [
+            'perawat' => $master_perawat
+        ]);
     }
 
-    public function update(Request $request, string $id)
+    /**
+     * Mengupdate data perawat.
+     */
+    public function update(Request $request, MasterPerawat $master_perawat)
     {
         $request->validate([
-            'Nama' => 'required|string|max:255',
-            'Jenis_Kelamin' => 'required|in:laki-laki,perempuan',
-            'Tanggal_Lahir' => 'required|date',
-            'Alamat' => 'required|string',
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'tanggal_lahir' => 'required|date',
+            'alamat' => 'required|string',
         ]);
 
-        $perawat = MasterPerawat::findOrFail($id);
-
-        $perawat->update([
-            'Nama' => $request->Nama,
-            'Jenis_Kelamin' => $request->Jenis_Kelamin,
-            'Tanggal_Lahir' => $request->Tanggal_Lahir,
-            'Alamat' => $request->Alamat,
+        $master_perawat->update([
+            'nama' => $request->nama,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'alamat' => $request->alamat,
         ]);
 
         return redirect()
@@ -77,11 +93,12 @@ class MasterPerawatController extends Controller
             ->with('success', 'Data perawat berhasil diperbarui.');
     }
 
-    public function destroy(string $id)
+    /**
+     * Menghapus data perawat.
+     */
+    public function destroy(MasterPerawat $master_perawat)
     {
-        $perawat = MasterPerawat::findOrFail($id);
-
-        $perawat->delete();
+        $master_perawat->delete();
 
         return redirect()
             ->route('master-perawat.index')

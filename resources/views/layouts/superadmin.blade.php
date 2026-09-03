@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -7,7 +8,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Dashboard Super Admin</title>
+    <title>
+        @yield('page-title', 'Dashboard Super Admin')
+    </title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -82,32 +85,29 @@
 
 <div class="d-flex">
 
-    <!-- ========================= -->
-    <!-- SIDEBAR -->
-    <!-- ========================= -->
+    {{-- ========================= --}}
+    {{-- SIDEBAR --}}
+    {{-- ========================= --}}
 
     <div class="sidebar">
 
-        <!-- Logo -->
-
+        {{-- LOGO --}}
         <div class="logo text-center">
 
             <h3>
-
                 <i class="fa-solid fa-hospital"></i>
-
                 SIM RS
-
             </h3>
 
         </div>
 
         <hr class="bg-white">
 
+
         <ul class="nav flex-column">
 
-            <!-- Dashboard -->
 
+            {{-- DASHBOARD --}}
             <li class="nav-item">
 
                 <a
@@ -123,8 +123,7 @@
             </li>
 
 
-            <!-- Role Management -->
-
+            {{-- ROLE MANAGEMENT --}}
             <li class="nav-item">
 
                 <a
@@ -140,8 +139,7 @@
             </li>
 
 
-            <!-- Permission Management -->
-
+            {{-- PERMISSION MANAGEMENT --}}
             <li class="nav-item">
 
                 <a
@@ -157,8 +155,7 @@
             </li>
 
 
-            <!-- User Management -->
-
+            {{-- USER MANAGEMENT --}}
             <li class="nav-item">
 
                 <a
@@ -174,9 +171,9 @@
             </li>
 
 
-            <!-- ========================= -->
-            <!-- MASTER DATA -->
-            <!-- ========================= -->
+            {{-- ========================= --}}
+            {{-- MASTER DATA --}}
+            {{-- ========================= --}}
 
             <li class="nav-item dropdown">
 
@@ -197,8 +194,7 @@
                 <ul class="dropdown-menu">
 
 
-                    <!-- Master Pasien -->
-
+                    {{-- MASTER PASIEN --}}
                     <li>
 
                         <a
@@ -214,8 +210,7 @@
                     </li>
 
 
-                    <!-- Master Dokter -->
-
+                    {{-- MASTER DOKTER --}}
                     <li>
 
                         <a
@@ -231,8 +226,7 @@
                     </li>
 
 
-                    <!-- Master Perawat -->
-
+                    {{-- MASTER PERAWAT --}}
                     <li>
 
                         <a
@@ -248,8 +242,7 @@
                     </li>
 
 
-                    <!-- Master Obat -->
-
+                    {{-- MASTER OBAT --}}
                     <li>
 
                         <a
@@ -265,8 +258,7 @@
                     </li>
 
 
-                    <!-- Master Supplier -->
-
+                    {{-- MASTER SUPPLIER --}}
                     <li>
 
                         <a
@@ -282,8 +274,7 @@
                     </li>
 
 
-                    <!-- Master Kategori -->
-
+                    {{-- MASTER KATEGORI --}}
                     <li>
 
                         <a
@@ -299,8 +290,7 @@
                     </li>
 
 
-                    <!-- Master Satuan -->
-
+                    {{-- MASTER SATUAN --}}
                     <li>
 
                         <a
@@ -316,8 +306,7 @@
                     </li>
 
 
-                    <!-- Master Poli -->
-
+                    {{-- MASTER POLI --}}
                     <li>
 
                         <a
@@ -333,8 +322,7 @@
                     </li>
 
 
-                    <!-- Master Kamar -->
-
+                    {{-- MASTER KAMAR --}}
                     <li>
 
                         <a
@@ -350,8 +338,7 @@
                     </li>
 
 
-                    <!-- Master Asuransi -->
-
+                    {{-- MASTER ASURANSI --}}
                     <li>
 
                         <a
@@ -367,8 +354,7 @@
                     </li>
 
 
-                    <!-- Master Tindakan -->
-
+                    {{-- MASTER TINDAKAN --}}
                     <li>
 
                         <a
@@ -383,15 +369,14 @@
 
                     </li>
 
-
                 </ul>
 
             </li>
 
 
-            <!-- ========================= -->
-            <!-- LAPORAN -->
-            <!-- ========================= -->
+            {{-- ========================= --}}
+            {{-- LAPORAN --}}
+            {{-- ========================= --}}
 
             <li class="nav-item">
 
@@ -407,38 +392,36 @@
 
             </li>
 
-
         </ul>
 
     </div>
 
 
-    <!-- ========================= -->
-    <!-- CONTENT -->
-    <!-- ========================= -->
+
+    {{-- ========================= --}}
+    {{-- CONTENT --}}
+    {{-- ========================= --}}
 
     <div class="content">
 
 
-        <!-- Navbar -->
-
+        {{-- NAVBAR --}}
         <nav class="navbar navbar-light bg-white shadow-sm">
 
             <div class="container-fluid">
 
+
+                {{-- JUDUL HALAMAN OTOMATIS --}}
                 <span class="navbar-brand">
-
-                    Dashboard Super Admin
-
+                    @yield('page-title', 'Dashboard Super Admin')
                 </span>
 
 
+                {{-- USER + LOGOUT --}}
                 <div>
 
                     <span class="me-2">
-
-                       {{ Auth::user()?->name }}
-
+                        {{ Auth::user()?->name }}
                     </span>
 
 
@@ -468,22 +451,20 @@
         </nav>
 
 
-        <!-- Page Content -->
-
+        {{-- PAGE CONTENT --}}
         <div class="container mt-4">
 
             @yield('content')
 
         </div>
 
-
     </div>
 
 </div>
 
 
-<!-- Bootstrap JS -->
 
+{{-- BOOTSTRAP JS --}}
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
 </script>

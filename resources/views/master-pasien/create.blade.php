@@ -13,7 +13,6 @@
         {{-- Pesan error --}}
         @if($errors->any())
             <div class="alert alert-danger">
-
                 <strong>Data belum tersimpan!</strong>
 
                 <ul class="mb-0">
@@ -21,12 +20,11 @@
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-
             </div>
         @endif
 
+        {{-- Form Tambah Pasien --}}
         <form action="{{ route('master-pasien.store') }}" method="POST">
-
             @csrf
 
             {{-- Nama --}}
@@ -44,10 +42,8 @@
                     required>
             </div>
 
-
             {{-- Jenis Kelamin --}}
             <div class="mb-3">
-
                 <label class="form-label">
                     Jenis Kelamin
                 </label>
@@ -61,24 +57,23 @@
                         -- Pilih Jenis Kelamin --
                     </option>
 
-                    <option value="laki-laki"
+                    <option
+                        value="laki-laki"
                         {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>
                         Laki-laki
                     </option>
 
-                    <option value="perempuan"
+                    <option
+                        value="perempuan"
                         {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>
                         Perempuan
                     </option>
 
                 </select>
-
             </div>
-
 
             {{-- Tanggal Lahir --}}
             <div class="mb-3">
-
                 <label class="form-label">
                     Tanggal Lahir
                 </label>
@@ -89,13 +84,10 @@
                     class="form-control"
                     value="{{ old('tanggal_lahir') }}"
                     required>
-
             </div>
-
 
             {{-- Alamat --}}
             <div class="mb-3">
-
                 <label class="form-label">
                     Alamat
                 </label>
@@ -106,13 +98,10 @@
                     rows="3"
                     placeholder="Masukkan alamat pasien"
                     required>{{ old('alamat') }}</textarea>
-
             </div>
-
 
             {{-- Status Asuransi --}}
             <div class="mb-3">
-
                 <label class="form-label">
                     Status Asuransi
                 </label>
@@ -126,24 +115,23 @@
                         -- Pilih Status Asuransi --
                     </option>
 
-                    <option value="01"
+                    <option
+                        value="01"
                         {{ old('status_asuransi') == '01' ? 'selected' : '' }}>
                         Memiliki Asuransi
                     </option>
 
-                    <option value="0"
+                    <option
+                        value="0"
                         {{ old('status_asuransi') == '0' ? 'selected' : '' }}>
                         Tidak Memiliki Asuransi
                     </option>
 
                 </select>
-
             </div>
-
 
             {{-- Golongan Darah --}}
             <div class="mb-3">
-
                 <label class="form-label">
                     Golongan Darah
                 </label>
@@ -163,31 +151,24 @@
                     <option value="O">O</option>
 
                 </select>
-
             </div>
-
 
             {{-- Tombol --}}
             <button
                 type="submit"
                 class="btn btn-success">
-
                 Simpan
-
             </button>
 
             <a
                 href="{{ route('master-pasien.index') }}"
                 class="btn btn-secondary">
-
                 Kembali
-
             </a>
 
         </form>
 
     </div>
-
 </div>
 
 @endsection
