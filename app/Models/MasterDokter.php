@@ -14,8 +14,9 @@ class MasterDokter extends Model
     protected $fillable = [
         'nama',
         'jenis_kelamin',
+        'tanggal_lahir',
         'spesialis',
-        'no_hp',
         'alamat',
+        'poli_id',
     ];
 }
