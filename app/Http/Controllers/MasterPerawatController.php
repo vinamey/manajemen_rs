@@ -30,11 +30,24 @@ class MasterPerawatController extends Controller
      */
     public function store(Request $request)
     {
+        // Ubah jenis kelamin menjadi huruf kecil
+        // agar "Laki-laki" dan "laki-laki" sama-sama bisa diterima.
+        $request->merge([
+            'jenis_kelamin' => strtolower($request->jenis_kelamin),
+        ]);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'tanggal_lahir' => 'required|date',
             'alamat' => 'required|string',
+        ], [
+            'nama.required' => 'Nama perawat wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.in' => 'Jenis kelamin harus Laki-laki atau Perempuan.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
+            'alamat.required' => 'Alamat wajib diisi.',
         ]);
 
         MasterPerawat::create([
@@ -74,11 +87,23 @@ class MasterPerawatController extends Controller
      */
     public function update(Request $request, MasterPerawat $master_perawat)
     {
+        // Samakan format jenis kelamin menjadi huruf kecil.
+        $request->merge([
+            'jenis_kelamin' => strtolower($request->jenis_kelamin),
+        ]);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'tanggal_lahir' => 'required|date',
             'alamat' => 'required|string',
+        ], [
+            'nama.required' => 'Nama perawat wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.in' => 'Jenis kelamin harus Laki-laki atau Perempuan.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
+            'alamat.required' => 'Alamat wajib diisi.',
         ]);
 
         $master_perawat->update([
