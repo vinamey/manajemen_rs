@@ -9,7 +9,7 @@ class MasterPoli extends Model
 {
     use HasFactory;
 
-   protected $table = 'master_poli';
+   protected $table = 'master_polis';
 
    protected $fillable = [
     'kode',

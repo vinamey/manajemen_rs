@@ -31,6 +31,7 @@ use App\Http\Controllers\MasterPoliController;
 use App\Http\Controllers\MasterSatuanController;
 use App\Http\Controllers\MasterSupplierController;
 use App\Http\Controllers\MasterTindakanController;
+use App\Http\Controllers\PendaftaranPasienController;
 
 
 
@@ -189,4 +190,9 @@ Route::resource(
 Route::resource(
     'master-tindakan',
     MasterTindakanController::class
+);
+
+Route::resource(
+    'pendaftaran',
+    PendaftaranPasienController::class
 );
