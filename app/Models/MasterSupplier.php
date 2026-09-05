@@ -9,10 +9,7 @@ class MasterSupplier extends Model
     protected $table = 'master_suppliers';
 
     protected $fillable = [
-        'kode_supplier',
-        'nama_supplier',
-        'alamat',
-        'no_hp',
-        'email',
+        'kode',
+        'nama',
     ];
 }

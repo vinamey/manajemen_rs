@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterSupplier;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class MasterSupplierController extends Controller
 {
@@ -21,25 +22,33 @@ class MasterSupplierController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'kode_supplier' => 'required|string|max:50|unique:master_suppliers,kode_supplier',
-            'nama_supplier' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'no_hp' => 'required|string|max:20',
-            'email' => 'nullable|email|max:255',
-        ]);
+        try {
+            $validated = $request->validate([
+                'kode' => 'required|string|max:50|unique:master_suppliers,kode',
+                'nama' => 'required|string|max:255',
+            ]);
 
-        MasterSupplier::create([
-            'kode_supplier' => $request->kode_supplier,
-            'nama_supplier' => $request->nama_supplier,
-            'alamat' => $request->alamat,
-            'no_hp' => $request->no_hp,
-            'email' => $request->email,
-        ]);
+            $supplier = MasterSupplier::create($validated);
 
-        return redirect()
-            ->route('master-supplier.index')
-            ->with('success', 'Data supplier berhasil ditambahkan.');
+            return response()->json([
+                'success' => true,
+                'message' => 'Data supplier berhasil ditambahkan.',
+                'data'    => $supplier
+            ], 201);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal.',
+                'errors'  => $e->errors()
+            ], 422);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show(MasterSupplier $masterSupplier)
@@ -52,35 +61,63 @@ class MasterSupplierController extends Controller
         return view('master-supplier.edit', compact('masterSupplier'));
     }
 
-    public function update(Request $request, MasterSupplier $masterSupplier)
-    {
-        $request->validate([
-            'kode_supplier' => 'required|string|max:50|unique:master_suppliers,kode_supplier,' . $masterSupplier->id,
-            'nama_supplier' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'no_hp' => 'required|string|max:20',
-            'email' => 'nullable|email|max:255',
+   public function update(Request $request, MasterSupplier $masterSupplier)
+{
+    try {
+        $validated = $request->validate([
+            'kode' => 'required|string|max:50|unique:master_suppliers,kode,' . $masterSupplier->id,
+            'nama' => 'required|string|max:255',
         ]);
 
-        $masterSupplier->update([
-            'kode_supplier' => $request->kode_supplier,
-            'nama_supplier' => $request->nama_supplier,
-            'alamat' => $request->alamat,
-            'no_hp' => $request->no_hp,
-            'email' => $request->email,
+        $masterSupplier->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data supplier berhasil diperbarui.'
         ]);
 
-        return redirect()
-            ->route('master-supplier.index')
-            ->with('success', 'Data supplier berhasil diperbarui.');
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Validasi gagal.',
+            'errors'  => $e->errors()
+        ], 422);
+
+    } catch (\Throwable $e) {
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
     }
-
-    public function destroy(MasterSupplier $masterSupplier)
-    {
+}
+   public function destroy(MasterSupplier $masterSupplier)
+{
+    try {
         $masterSupplier->delete();
 
-        return redirect()
-            ->route('master-supplier.index')
-            ->with('success', 'Data supplier berhasil dihapus.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data supplier berhasil dihapus.'
+        ]);
+
+    } catch (\Illuminate\Database\QueryException $e) {
+        if ($e->getCode() == "23000") {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak bisa dihapus karena masih digunakan pada data lain.'
+            ], 422);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal menghapus data dari database.'
+        ], 500);
+
+    } catch (\Throwable $e) {
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
     }
+}
 }

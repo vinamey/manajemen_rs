@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('master_pasiens', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->nullable;
+            $table->string('nama')->nullable();
             $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
             $table->date('tanggal_lahir');
             $table->text('alamat');

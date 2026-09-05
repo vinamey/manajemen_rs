@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('master_asuransis', function (Blueprint $table) {
             $table->id();
-             $table->string('kode')->nullable;
-              $table->string('nama')->nullable;
+             $table->string('kode')->nullable();
+              $table->string('nama')->nullable();
             $table->timestamps();
         });
     }

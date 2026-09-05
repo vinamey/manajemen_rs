@@ -33,33 +33,6 @@
                        required>
             </div>
 
-            <div class="mb-3">
-                <label>Alamat</label>
-                <textarea name="alamat"
-                          class="form-control"
-                          rows="3"
-                          required>{{ old('alamat') }}</textarea>
-            </div>
-
-            <div class="mb-3">
-                <label>No HP</label>
-                <input type="text"
-                       name="no_hp"
-                       class="form-control"
-                       value="{{ old('no_hp') }}"
-                       placeholder="08xxxxxxxxxx"
-                       required>
-            </div>
-
-            <div class="mb-3">
-                <label>Email</label>
-                <input type="email"
-                       name="email"
-                       class="form-control"
-                       value="{{ old('email') }}"
-                       placeholder="supplier@email.com">
-            </div>
-
             <button type="submit" class="btn btn-success">
                 Simpan
             </button>
