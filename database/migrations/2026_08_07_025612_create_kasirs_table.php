@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->string('nama')->nullable;
+            $table->string('nama')->nullable();
             $table->enum('jenis_kelamin',['perempuan', 'laki_laki']);
-            $table->string('no_hp')->nullable;
+            $table->string('no_hp')->nullable();
             $table->timestamps();
         });
     }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('master_tindakans', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->nullable;
-            $table->string('nama')->nullable;
+            $table->string('kode')->nullable();
+            $table->string('nama')->nullable();
             $table->timestamps();
         });
     }

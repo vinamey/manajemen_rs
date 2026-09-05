@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('stok_obat_id')->references('id')->on('stok_obats')->onDelete('set null');
 
             $table->date('tanggal_update');
-            $table->integer('pivot_resep_obat_id')->nullable;
+            $table->integer('pivot_resep_obat_id')->nullable();
 
             $table->foreignId('pembelian_obat_id')->nullable();
             $table->foreign('pembelian_obat_id')->references('id')->on('pembelian_obats')->onDelete('set null');
