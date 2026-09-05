@@ -375,6 +375,25 @@
 
 
             {{-- ========================= --}}
+            {{-- PENDAFTARAN PASIEN --}}
+            {{-- ========================= --}}
+
+            <li class="nav-item">
+
+                <a
+                    href="{{ route('pendaftaran.index') }}"
+                    class="nav-link">
+
+                    <i class="fa-solid fa-clipboard-user me-2"></i>
+
+                    Pendaftaran Pasien
+
+                </a>
+
+            </li>
+
+
+            {{-- ========================= --}}
             {{-- LAPORAN --}}
             {{-- ========================= --}}
 

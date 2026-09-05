@@ -150,7 +150,7 @@
                 <a href="#antrian" class="hover:text-brand-600 transition duration-200 py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-500 hover:after:w-full after:transition-all">Live Antrian</a>
                 <a href="#fasilitas" class="hover:text-brand-600 transition duration-200 py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-500 hover:after:w-full after:transition-all">Fasilitas</a>
             </nav>
-
+        
             <!-- Akses Portal -->
             <button onclick="toggleModal('loginModal')" class="bg-brand-50 border border-brand-200 text-brand-700 hover:bg-brand-600 hover:text-white px-5 py-2.5 rounded-2xl font-extrabold text-xs transition duration-300 shadow-sm flex items-center space-x-2 tracking-wider">
                 <i class="fa-solid fa-shield-halved"></i>
