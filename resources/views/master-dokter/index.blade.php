@@ -17,7 +17,7 @@
     ========================================================= */
 
     .master-dokter {
-        padding: 12px 0;
+        padding: 12px 0 30px;
     }
 
     /* =========================================================
@@ -72,12 +72,13 @@
         font-size: 13px;
         font-weight: 600;
 
-        transition: 0.2s ease;
+        transition: all 0.2s ease;
     }
 
     .btn-blue-primary:hover {
         background-color: var(--blue-dark) !important;
         color: #ffffff !important;
+        transform: translateY(-1px);
     }
 
     /* =========================================================
@@ -90,14 +91,17 @@
         border-radius: 10px;
 
         background-color: #ffffff;
+
         box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
 
         padding: 12px 15px;
         margin-bottom: 18px;
+
+        font-size: 13px;
     }
 
     /* =========================================================
-       TABLE CARD
+       TABLE
     ========================================================= */
 
     .card-table-dokter {
@@ -105,7 +109,8 @@
         border-radius: 12px !important;
         overflow: hidden;
 
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.05) !important;
     }
 
     .table-dokter {
@@ -132,11 +137,12 @@
         color: #475569;
 
         border-bottom: 1px solid #f1f5f9;
+
         vertical-align: middle;
     }
 
     .table-dokter tbody tr {
-        transition: 0.15s ease;
+        transition: all 0.15s ease;
     }
 
     .table-dokter tbody tr:hover {
@@ -159,10 +165,11 @@
     }
 
     .avatar-dokter {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
 
         border-radius: 50%;
+
         background-color: var(--blue-light-bg);
         color: var(--blue-main);
 
@@ -192,17 +199,6 @@
     .badge-green-soft {
         background-color: #dcfce7 !important;
         color: #15803d !important;
-
-        font-size: 11px;
-        font-weight: 500;
-
-        padding: 6px 12px;
-        border-radius: 6px;
-    }
-
-    .badge-gray-soft {
-        background-color: #f1f5f9 !important;
-        color: #64748b !important;
 
         font-size: 11px;
         font-weight: 500;
@@ -266,11 +262,10 @@
 
     .btn-action-delete:hover {
         background-color: #dc2626 !important;
-        color: #ffffff !important;
     }
 
     /* =========================================================
-       MODAL
+       MODAL UMUM
     ========================================================= */
 
     .modal-dokter .modal-dialog {
@@ -280,9 +275,11 @@
     .modal-dokter .modal-content {
         border: none;
         border-radius: 14px;
+
         overflow: hidden;
 
-        box-shadow: 0 15px 40px rgba(15, 23, 42, 0.18);
+        box-shadow:
+            0 15px 40px rgba(15, 23, 42, 0.18);
     }
 
     .modal-dokter .modal-header {
@@ -295,8 +292,9 @@
     }
 
     .modal-dokter .modal-title {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 700;
+        margin: 0;
     }
 
     .modal-dokter .modal-body {
@@ -340,14 +338,15 @@
 
         background-color: #ffffff;
 
-        transition: 0.2s ease;
+        transition: all 0.2s ease;
     }
 
     .form-control-dokter:focus,
     .form-select-dokter:focus {
         border-color: var(--blue-main);
 
-        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.12);
+        box-shadow:
+            0 0 0 3px rgba(24, 119, 242, 0.12);
 
         outline: none;
     }
@@ -396,12 +395,145 @@
     }
 
     /* =========================================================
-       EMPTY TABLE
+       DETAIL DOKTER
+       SAMA SEPERTI DETAIL PASIEN
+    ========================================================= */
+
+    .detail-modal-dokter {
+        border: none !important;
+        border-radius: 14px !important;
+
+        overflow: hidden;
+
+        box-shadow:
+            0 15px 40px rgba(15, 23, 42, 0.18);
+    }
+
+    /* HEADER DETAIL */
+
+    .detail-header-dokter {
+        background-color: var(--blue-main) !important;
+        color: #ffffff !important;
+
+        border: none !important;
+
+        padding: 13px 16px !important;
+
+        min-height: 42px;
+    }
+
+    .detail-header-dokter .modal-title {
+        font-size: 13px !important;
+        font-weight: 700;
+
+        margin: 0;
+    }
+
+    .detail-header-dokter i {
+        font-size: 13px;
+    }
+
+    /* BODY DETAIL */
+
+    .detail-body-dokter {
+        padding: 0 14px !important;
+
+        background-color: #ffffff;
+    }
+
+    /* NAMA */
+
+    .detail-full-dokter {
+        padding: 13px 5px;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* ROW */
+
+    .detail-row-dokter {
+        margin: 0 !important;
+        padding: 0;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .detail-row-dokter > div {
+        padding: 13px 5px;
+    }
+
+    .detail-row-dokter > div:first-child {
+        border-right: 1px solid #e5e7eb;
+    }
+
+    /* LABEL */
+
+    .detail-label-dokter {
+        font-size: 10px;
+
+        color: #64748b;
+
+        font-weight: 500;
+
+        margin-bottom: 5px;
+    }
+
+    /* VALUE */
+
+    .detail-value-dokter {
+        font-size: 12px;
+
+        color: #475569;
+
+        line-height: 1.4;
+    }
+
+    .detail-full-dokter .fw-bold {
+        color: #334155;
+
+        font-weight: 700 !important;
+    }
+
+    /* ALAMAT */
+
+    .alamat-detail-dokter {
+        border-bottom: none;
+
+        padding-bottom: 14px;
+    }
+
+    /* FOOTER DETAIL */
+
+    .detail-footer-dokter {
+        background-color: #ffffff !important;
+
+        border: none !important;
+
+        padding: 8px 10px 16px !important;
+
+        justify-content: flex-end;
+    }
+
+    .detail-footer-dokter .btn {
+        min-width: 72px;
+
+        padding: 8px 16px !important;
+
+        font-size: 12px !important;
+
+        border-radius: 7px !important;
+    }
+
+    /* =========================================================
+       EMPTY STATE
     ========================================================= */
 
     .empty-dokter {
         padding: 45px 20px !important;
+
         color: #94a3b8 !important;
+
+        font-size: 13px;
     }
 </style>
 
@@ -432,6 +564,7 @@
 
         </div>
 
+
         <button
             type="button"
             class="btn btn-blue-primary"
@@ -443,6 +576,23 @@
         </button>
 
     </div>
+
+
+    {{-- =====================================================
+         SUCCESS
+    ====================================================== --}}
+
+    @if(session('success'))
+
+        <div class="alert alert-dokter">
+
+            <i class="fas fa-check-circle me-2 text-success"></i>
+
+            {{ session('success') }}
+
+        </div>
+
+    @endif
 
 
     {{-- =====================================================
@@ -460,7 +610,11 @@
                     <thead>
 
                         <tr>
-                            <th class="text-center" width="50">
+
+                            <th
+                                width="50"
+                                class="text-center"
+                            >
                                 No
                             </th>
 
@@ -488,9 +642,13 @@
                                 Poli
                             </th>
 
-                            <th class="text-center" width="220">
+                            <th
+                                width="220"
+                                class="text-center"
+                            >
                                 Aksi
                             </th>
+
                         </tr>
 
                     </thead>
@@ -501,16 +659,23 @@
                         @forelse($dokters as $dokter)
 
                             @php
+
                                 $poliDokter = $polis->firstWhere(
                                     'id',
                                     $dokter->poli_id
                                 );
+
                             @endphp
+
 
                             <tr id="dokter-{{ $dokter->id }}">
 
+                                {{-- NO --}}
+
                                 <td class="text-center nomor text-muted">
+
                                     {{ $loop->iteration }}
+
                                 </td>
 
 
@@ -521,17 +686,23 @@
                                     <div class="d-flex align-items-center gap-2">
 
                                         <div class="avatar-dokter">
+
                                             <i class="fas fa-user-md"></i>
+
                                         </div>
 
                                         <div>
 
                                             <div class="doctor-name data-nama">
+
                                                 {{ $dokter->nama }}
+
                                             </div>
 
                                             <div class="doctor-id">
+
                                                 ID: {{ $dokter->id }}
+
                                             </div>
 
                                         </div>
@@ -545,19 +716,19 @@
 
                                 <td>
 
-                                    @if($dokter->jenis_kelamin === 'laki-laki')
+                                    <span class="badge badge-blue-soft data-jenis-kelamin">
 
-                                        <span class="badge badge-blue-soft data-jenis-kelamin">
+                                        @if($dokter->jenis_kelamin === 'laki-laki')
+
                                             Laki-laki
-                                        </span>
 
-                                    @else
+                                        @else
 
-                                        <span class="badge badge-blue-soft data-jenis-kelamin">
                                             Perempuan
-                                        </span>
 
-                                    @endif
+                                        @endif
+
+                                    </span>
 
                                 </td>
 
@@ -565,9 +736,13 @@
                                 {{-- TANGGAL LAHIR --}}
 
                                 <td>
+
                                     <span class="data-tanggal-lahir">
+
                                         {{ $dokter->tanggal_lahir }}
+
                                     </span>
+
                                 </td>
 
 
@@ -576,7 +751,9 @@
                                 <td>
 
                                     <span class="data-spesialis">
+
                                         {{ $dokter->spesialis ?? '-' }}
+
                                     </span>
 
                                 </td>
@@ -587,7 +764,9 @@
                                 <td>
 
                                     <span class="data-alamat">
+
                                         {{ $dokter->alamat ?? '-' }}
+
                                     </span>
 
                                 </td>
@@ -598,7 +777,9 @@
                                 <td>
 
                                     <span class="badge badge-green-soft data-poli">
+
                                         {{ $poliDokter->nama ?? '-' }}
+
                                     </span>
 
                                 </td>
@@ -612,13 +793,23 @@
 
                                         {{-- LIHAT --}}
 
-                                        <a
-                                            href="{{ route('master-dokter.show', $dokter->id) }}"
-                                            class="btn btn-sm btn-action-view"
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-action-view btn-view"
+
+                                            data-id="{{ $dokter->id }}"
+                                            data-nama="{{ $dokter->nama }}"
+                                            data-jenis_kelamin="{{ $dokter->jenis_kelamin }}"
+                                            data-tanggal_lahir="{{ $dokter->tanggal_lahir }}"
+                                            data-spesialis="{{ $dokter->spesialis }}"
+                                            data-alamat="{{ $dokter->alamat }}"
+                                            data-poli="{{ $poliDokter->nama ?? '-' }}"
                                         >
+
                                             <i class="fas fa-eye me-1"></i>
                                             Lihat
-                                        </a>
+
+                                        </button>
 
 
                                         {{-- EDIT --}}
@@ -635,8 +826,10 @@
                                             data-alamat="{{ $dokter->alamat }}"
                                             data-poli_id="{{ $dokter->poli_id }}"
                                         >
+
                                             <i class="fas fa-edit me-1"></i>
                                             Edit
+
                                         </button>
 
 
@@ -649,8 +842,10 @@
                                             data-id="{{ $dokter->id }}"
                                             data-nama="{{ $dokter->nama }}"
                                         >
+
                                             <i class="fas fa-trash me-1"></i>
                                             Hapus
+
                                         </button>
 
                                     </div>
@@ -658,6 +853,7 @@
                                 </td>
 
                             </tr>
+
 
                         @empty
 
@@ -667,9 +863,11 @@
                                     colspan="8"
                                     class="text-center empty-dokter"
                                 >
+
                                     <i class="fas fa-user-md fa-2x mb-2 d-block"></i>
 
-                                    Belum ada data dokter
+                                    Belum ada data dokter.
+
                                 </td>
 
                             </tr>
@@ -697,7 +895,6 @@
     class="modal fade modal-dokter"
     id="modalTambahDokter"
     tabindex="-1"
-    aria-labelledby="modalTambahDokterLabel"
     aria-hidden="true"
 >
 
@@ -706,7 +903,7 @@
         <div class="modal-content">
 
 
-            {{-- HEADER MODAL --}}
+            {{-- HEADER TANPA X --}}
 
             <div class="modal-header">
 
@@ -714,21 +911,11 @@
 
                     <i class="fas fa-user-plus"></i>
 
-                    <h5
-                        class="modal-title"
-                        id="modalTambahDokterLabel"
-                    >
+                    <h5 class="modal-title">
                         Tambah Dokter
                     </h5>
 
                 </div>
-
-                <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
 
             </div>
 
@@ -758,7 +945,9 @@
                             id="tambah_nama"
                             name="nama"
                             class="form-control-dokter"
+
                             placeholder="Masukkan nama dokter"
+
                             required
                         >
 
@@ -780,6 +969,7 @@
                             id="tambah_jenis_kelamin"
                             name="jenis_kelamin"
                             class="form-select-dokter"
+
                             required
                         >
 
@@ -816,6 +1006,7 @@
                             id="tambah_tanggal_lahir"
                             name="tanggal_lahir"
                             class="form-control-dokter"
+
                             required
                         >
 
@@ -838,6 +1029,7 @@
                             id="tambah_spesialis"
                             name="spesialis"
                             class="form-control-dokter"
+
                             placeholder="Masukkan spesialis"
                         >
 
@@ -860,6 +1052,7 @@
                             name="alamat"
                             class="form-control-dokter"
                             rows="3"
+
                             placeholder="Ketikkan alamat lengkap..."
                         ></textarea>
 
@@ -919,8 +1112,10 @@
                         class="btn btn-modal-save"
                         id="btnSimpanTambah"
                     >
+
                         <i class="fas fa-save me-1"></i>
                         Simpan Data
+
                     </button>
 
                 </div>
@@ -942,7 +1137,6 @@
     class="modal fade modal-dokter"
     id="modalEditDokter"
     tabindex="-1"
-    aria-labelledby="modalEditDokterLabel"
     aria-hidden="true"
 >
 
@@ -951,7 +1145,7 @@
         <div class="modal-content">
 
 
-            {{-- HEADER --}}
+            {{-- HEADER TANPA X --}}
 
             <div class="modal-header">
 
@@ -959,26 +1153,16 @@
 
                     <i class="fas fa-user-edit"></i>
 
-                    <h5
-                        class="modal-title"
-                        id="modalEditDokterLabel"
-                    >
+                    <h5 class="modal-title">
                         Edit Dokter
                     </h5>
 
                 </div>
 
-                <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
-
             </div>
 
 
-            {{-- FORM EDIT --}}
+            {{-- FORM --}}
 
             <form id="formEditDokter">
 
@@ -1009,6 +1193,7 @@
                             id="edit_nama"
                             name="nama"
                             class="form-control-dokter"
+
                             required
                         >
 
@@ -1030,6 +1215,7 @@
                             id="edit_jenis_kelamin"
                             name="jenis_kelamin"
                             class="form-select-dokter"
+
                             required
                         >
 
@@ -1062,29 +1248,34 @@
                             id="edit_tanggal_lahir"
                             name="tanggal_lahir"
                             class="form-control-dokter"
+
                             required
                         >
 
                     </div>
 
 
-                   {{-- SPESIALIS --}}
-<div class="form-group-dokter">
-    <label
-        for="edit_spesialis"
-        class="form-label-dokter"
-    >
-        Spesialis
-    </label>
+                    {{-- SPESIALIS --}}
 
-    <input
-        type="text"
-        id="edit_spesialis"
-        class="form-control-dokter"
-        readonly
-        style="background-color: #f8fafc; cursor: not-allowed;"
-    >
-</div>
+                    <div class="form-group-dokter">
+
+                        <label
+                            for="edit_spesialis"
+                            class="form-label-dokter"
+                        >
+                            Spesialis
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit_spesialis"
+                            name="spesialis"
+                            class="form-control-dokter"
+                        >
+
+                    </div>
+
+
                     {{-- ALAMAT --}}
 
                     <div class="form-group-dokter">
@@ -1101,7 +1292,6 @@
                             name="alamat"
                             class="form-control-dokter"
                             rows="3"
-                            placeholder="Ketikkan alamat lengkap..."
                         ></textarea>
 
                     </div>
@@ -1160,13 +1350,188 @@
                         class="btn btn-modal-save"
                         id="btnSimpanEdit"
                     >
+
                         <i class="fas fa-save me-1"></i>
                         Update Data
+
                     </button>
 
                 </div>
 
             </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- =========================================================
+     MODAL LIHAT / DETAIL DOKTER
+========================================================= --}}
+
+<div
+    class="modal fade modal-dokter"
+    id="modalLihatDokter"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content detail-modal-dokter">
+
+
+            {{-- HEADER TANPA X --}}
+
+            <div class="modal-header detail-header-dokter">
+
+                <div class="d-flex align-items-center gap-2">
+
+                    <i class="fas fa-user"></i>
+
+                    <h5 class="modal-title">
+                        Detail Dokter
+                    </h5>
+
+                </div>
+
+            </div>
+
+
+            {{-- BODY --}}
+
+            <div class="modal-body detail-body-dokter">
+
+
+                {{-- NAMA DOKTER --}}
+
+                <div class="detail-full-dokter">
+
+                    <div class="detail-label-dokter">
+                        Nama Dokter
+                    </div>
+
+                    <div
+                        class="detail-value-dokter fw-bold"
+                        id="lihat_nama"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                {{-- JENIS KELAMIN + TANGGAL LAHIR --}}
+
+                <div class="row detail-row-dokter">
+
+                    <div class="col-6">
+
+                        <div class="detail-label-dokter">
+                            Jenis Kelamin
+                        </div>
+
+                        <div
+                            class="detail-value-dokter"
+                            id="lihat_jenis_kelamin"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6">
+
+                        <div class="detail-label-dokter">
+                            Tanggal Lahir
+                        </div>
+
+                        <div
+                            class="detail-value-dokter"
+                            id="lihat_tanggal_lahir"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- SPESIALIS + POLI --}}
+
+                <div class="row detail-row-dokter">
+
+                    <div class="col-6">
+
+                        <div class="detail-label-dokter">
+                            Spesialis
+                        </div>
+
+                        <div
+                            class="detail-value-dokter"
+                            id="lihat_spesialis"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6">
+
+                        <div class="detail-label-dokter">
+                            Poli
+                        </div>
+
+                        <div
+                            class="detail-value-dokter"
+                            id="lihat_poli"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- ALAMAT --}}
+
+                <div class="detail-full-dokter alamat-detail-dokter">
+
+                    <div class="detail-label-dokter">
+                        Alamat
+                    </div>
+
+                    <div
+                        class="detail-value-dokter"
+                        id="lihat_alamat"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- FOOTER --}}
+
+            <div class="modal-footer detail-footer-dokter">
+
+                <button
+                    type="button"
+                    class="btn btn-blue-primary"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
+            </div>
 
         </div>
 
@@ -1183,12 +1548,11 @@
 
 
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
 
-    /* ========================================================
+    /* =====================================================
        CSRF
-    ======================================================== */
+    ===================================================== */
 
     const csrfInput = document.querySelector(
         '#formTambahDokter input[name="_token"]'
@@ -1199,285 +1563,366 @@ document.addEventListener('DOMContentLoaded', function () {
         : '';
 
 
-    /* ========================================================
+    /* =====================================================
        URL
-    ======================================================== */
+    ===================================================== */
 
-    const storeUrl = @json(route('master-dokter.store'));
+    const storeUrl = @json(
+        route('master-dokter.store')
+    );
 
-    const baseUrl = @json(url('master-dokter'));
+    const baseUrl = @json(
+        url('master-dokter')
+    );
 
 
-    /* ========================================================
+    /* =====================================================
        FORM TAMBAH
-    ======================================================== */
+    ===================================================== */
 
     const formTambah = document.getElementById(
         'formTambahDokter'
     );
 
-    formTambah.addEventListener('submit', function (e) {
 
-        e.preventDefault();
+    formTambah.addEventListener(
+        'submit',
+        function (e) {
 
-        const button = document.getElementById(
-            'btnSimpanTambah'
-        );
-
-        button.disabled = true;
-
-        button.innerHTML =
-            '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
+            e.preventDefault();
 
 
-        const formData = new FormData(formTambah);
-
-
-        fetch(storeUrl, {
-
-            method: 'POST',
-
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-
-            body: formData
-
-        })
-
-        .then(async response => {
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw data;
-            }
-
-            return data;
-
-        })
-
-        .then(data => {
-
-            const modalElement = document.getElementById(
-                'modalTambahDokter'
+            const button = document.getElementById(
+                'btnSimpanTambah'
             );
 
-            const modal = bootstrap.Modal.getInstance(
-                modalElement
+
+            button.disabled = true;
+
+            button.innerHTML =
+                '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
+
+
+            const formData = new FormData(
+                formTambah
             );
 
-            if (modal) {
-                modal.hide();
-            }
+
+            fetch(storeUrl, {
+
+                method: 'POST',
+
+                headers: {
+
+                    'X-CSRF-TOKEN':
+                        csrfToken,
+
+                    'Accept':
+                        'application/json',
+
+                    'X-Requested-With':
+                        'XMLHttpRequest'
+                },
+
+                body: formData
+
+            })
+
+            .then(async response => {
+
+                const data =
+                    await response.json();
 
 
-            formTambah.reset();
+                if (!response.ok) {
+                    throw data;
+                }
 
 
-            const barisKosong = document.getElementById(
-                'barisKosong'
-            );
+                return data;
 
-            if (barisKosong) {
-                barisKosong.remove();
-            }
+            })
 
+            .then(data => {
 
-            tambahBarisKeTabel(data.data);
-
-            perbaruiNomor();
+                const modalElement =
+                    document.getElementById(
+                        'modalTambahDokter'
+                    );
 
 
-            /* SUCCESS POPUP */
+                const modal =
+                    bootstrap.Modal.getInstance(
+                        modalElement
+                    );
 
-            Swal.fire({
 
-                icon: 'success',
+                if (modal) {
+                    modal.hide();
+                }
 
-                title: 'Berhasil!',
 
-                text: data.message || 'Data dokter berhasil ditambahkan.',
+                formTambah.reset();
 
-                timer: 1800,
 
-                showConfirmButton: false,
+                const barisKosong =
+                    document.getElementById(
+                        'barisKosong'
+                    );
 
-                allowOutsideClick: false
+
+                if (barisKosong) {
+                    barisKosong.remove();
+                }
+
+
+                tambahBarisKeTabel(
+                    data.data
+                );
+
+
+                perbaruiNomor();
+
+
+                Swal.fire({
+
+                    icon: 'success',
+
+                    title: 'Berhasil!',
+
+                    text:
+                        data.message ||
+                        'Data dokter berhasil ditambahkan.',
+
+                    timer: 1800,
+
+                    showConfirmButton: false
+
+                });
+
+
+                button.disabled = false;
+
+
+                button.innerHTML =
+                    '<i class="fas fa-save me-1"></i> Simpan Data';
+
+            })
+
+            .catch(error => {
+
+                tampilkanError(error);
+
+
+                button.disabled = false;
+
+
+                button.innerHTML =
+                    '<i class="fas fa-save me-1"></i> Simpan Data';
 
             });
 
-
-            button.disabled = false;
-
-            button.innerHTML =
-                '<i class="fas fa-save me-1"></i> Simpan Data';
-
-        })
-
-        .catch(error => {
-
-            tampilkanError(error);
-
-            button.disabled = false;
-
-            button.innerHTML =
-                '<i class="fas fa-save me-1"></i> Simpan Data';
-
-        });
-
-    });
-
-
-    /* ========================================================
-       EVENT EDIT AWAL
-    ======================================================== */
-
-    document.querySelectorAll('.btn-edit').forEach(button => {
-
-        pasangEventEdit(button);
-
-    });
-
-
-    /* ========================================================
-       FORM EDIT
-    ======================================================== */
-
-    const formEdit = document.getElementById(
-        'formEditDokter'
+        }
     );
 
-    formEdit.addEventListener('submit', function (e) {
 
-        e.preventDefault();
+    /* =====================================================
+       EVENT AWAL EDIT
+    ===================================================== */
 
-        const id = document.getElementById(
-            'edit_id'
-        ).value;
+    document
+        .querySelectorAll('.btn-edit')
+        .forEach(button => {
 
-
-        const button = document.getElementById(
-            'btnSimpanEdit'
-        );
-
-        button.disabled = true;
-
-        button.innerHTML =
-            '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
-
-
-        const formData = new FormData(formEdit);
-
-        formData.append('_method', 'PUT');
-
-
-        fetch(baseUrl + '/' + id, {
-
-            method: 'POST',
-
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-
-            body: formData
-
-        })
-
-        .then(async response => {
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw data;
-            }
-
-            return data;
-
-        })
-
-        .then(data => {
-
-            updateBarisTabel(data.data);
-
-
-            const modalElement = document.getElementById(
-                'modalEditDokter'
-            );
-
-            const modal = bootstrap.Modal.getInstance(
-                modalElement
-            );
-
-            if (modal) {
-                modal.hide();
-            }
-
-
-            /* SUCCESS POPUP */
-
-            Swal.fire({
-
-                icon: 'success',
-
-                title: 'Berhasil!',
-
-                text: data.message || 'Data dokter berhasil diperbarui.',
-
-                timer: 1800,
-
-                showConfirmButton: false,
-
-                allowOutsideClick: false
-
-            });
-
-
-            button.disabled = false;
-
-            button.innerHTML =
-                '<i class="fas fa-save me-1"></i> Update Data';
-
-        })
-
-        .catch(error => {
-
-            tampilkanError(error);
-
-            button.disabled = false;
-
-            button.innerHTML =
-                '<i class="fas fa-save me-1"></i> Update Data';
+            pasangEventEdit(button);
 
         });
 
-    });
+
+    /* =====================================================
+       EVENT AWAL LIHAT
+    ===================================================== */
+
+    document
+        .querySelectorAll('.btn-view')
+        .forEach(button => {
+
+            pasangEventLihat(button);
+
+        });
 
 
-    /* ========================================================
-       EVENT HAPUS AWAL
-    ======================================================== */
+    /* =====================================================
+       FORM EDIT
+    ===================================================== */
 
-    document.querySelectorAll('.btn-hapus').forEach(button => {
+    const formEdit =
+        document.getElementById(
+            'formEditDokter'
+        );
 
-        pasangEventHapus(button);
 
-    });
+    formEdit.addEventListener(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
 
 
-    /* ========================================================
-       TAMBAH BARIS
-    ======================================================== */
+            const id =
+                document.getElementById(
+                    'edit_id'
+                ).value;
+
+
+            const button =
+                document.getElementById(
+                    'btnSimpanEdit'
+                );
+
+
+            button.disabled = true;
+
+
+            button.innerHTML =
+                '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
+
+
+            const formData =
+                new FormData(formEdit);
+
+
+            formData.append(
+                '_method',
+                'PUT'
+            );
+
+
+            fetch(
+                baseUrl + '/' + id,
+                {
+                    method: 'POST',
+
+                    headers: {
+
+                        'X-CSRF-TOKEN':
+                            csrfToken,
+
+                        'Accept':
+                            'application/json',
+
+                        'X-Requested-With':
+                            'XMLHttpRequest'
+                    },
+
+                    body: formData
+                }
+            )
+
+            .then(async response => {
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+                    throw data;
+                }
+
+
+                return data;
+
+            })
+
+            .then(data => {
+
+                updateBarisTabel(
+                    data.data
+                );
+
+
+                const modalElement =
+                    document.getElementById(
+                        'modalEditDokter'
+                    );
+
+
+                const modal =
+                    bootstrap.Modal.getInstance(
+                        modalElement
+                    );
+
+
+                if (modal) {
+                    modal.hide();
+                }
+
+
+                Swal.fire({
+
+                    icon: 'success',
+
+                    title: 'Berhasil!',
+
+                    text:
+                        data.message ||
+                        'Data dokter berhasil diperbarui.',
+
+                    timer: 1800,
+
+                    showConfirmButton: false
+
+                });
+
+
+                button.disabled = false;
+
+
+                button.innerHTML =
+                    '<i class="fas fa-save me-1"></i> Update Data';
+
+            })
+
+            .catch(error => {
+
+                tampilkanError(error);
+
+
+                button.disabled = false;
+
+
+                button.innerHTML =
+                    '<i class="fas fa-save me-1"></i> Update Data';
+
+            });
+
+        }
+    );
+
+
+    /* =====================================================
+       EVENT AWAL HAPUS
+    ===================================================== */
+
+    document
+        .querySelectorAll('.btn-hapus')
+        .forEach(button => {
+
+            pasangEventHapus(button);
+
+        });
+
+
+    /* =====================================================
+       TAMBAH BARIS KE TABLE
+    ===================================================== */
 
     function tambahBarisKeTabel(dokter) {
 
-        const tabel = document.getElementById(
-            'tabelDokter'
-        );
+        const tabel =
+            document.getElementById(
+                'tabelDokter'
+            );
 
 
         let namaPoli = '-';
@@ -1485,18 +1930,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         @foreach($polis as $poli)
 
-            if (dokter.poli_id == {{ $poli->id }}) {
+            if (
+                dokter.poli_id ==
+                {{ $poli->id }}
+            ) {
 
-                namaPoli = @json($poli->nama);
+                namaPoli =
+                    @json($poli->nama);
 
             }
 
         @endforeach
 
 
-        const row = document.createElement('tr');
+        const row =
+            document.createElement('tr');
 
-        row.id = 'dokter-' + dokter.id;
+
+        row.id =
+            'dokter-' + dokter.id;
 
 
         row.innerHTML = `
@@ -1504,6 +1956,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td class="text-center nomor text-muted">
                 1
             </td>
+
 
             <td>
 
@@ -1529,60 +1982,100 @@ document.addEventListener('DOMContentLoaded', function () {
 
             </td>
 
+
             <td>
 
                 <span class="badge badge-blue-soft data-jenis-kelamin">
-                    ${ucfirst(dokter.jenis_kelamin)}
+
+                    ${ucfirst(
+                        dokter.jenis_kelamin
+                    )}
+
                 </span>
 
             </td>
+
 
             <td>
 
                 <span class="data-tanggal-lahir">
-                    ${escapeHtml(dokter.tanggal_lahir)}
+
+                    ${escapeHtml(
+                        dokter.tanggal_lahir
+                    )}
+
                 </span>
 
             </td>
+
 
             <td>
 
                 <span class="data-spesialis">
-                    ${escapeHtml(dokter.spesialis || '-')}
+
+                    ${escapeHtml(
+                        dokter.spesialis || '-'
+                    )}
+
                 </span>
 
             </td>
+
 
             <td>
 
                 <span class="data-alamat">
-                    ${escapeHtml(dokter.alamat || '-')}
+
+                    ${escapeHtml(
+                        dokter.alamat || '-'
+                    )}
+
                 </span>
 
             </td>
+
 
             <td>
 
                 <span class="badge badge-green-soft data-poli">
-                    ${escapeHtml(namaPoli)}
+
+                    ${escapeHtml(
+                        namaPoli
+                    )}
+
                 </span>
 
             </td>
+
 
             <td class="text-center">
 
                 <div class="d-flex justify-content-center gap-1">
 
-                    <a
-                        href="${baseUrl}/${dokter.id}"
-                        class="btn btn-sm btn-action-view"
-                    >
-                        <i class="fas fa-eye me-1"></i>
-                        Lihat
-                    </a>
 
                     <button
                         type="button"
+
+                        class="btn btn-sm btn-action-view btn-view"
+
+                        data-id="${escapeAttr(dokter.id)}"
+                        data-nama="${escapeAttr(dokter.nama)}"
+                        data-jenis_kelamin="${escapeAttr(dokter.jenis_kelamin)}"
+                        data-tanggal_lahir="${escapeAttr(dokter.tanggal_lahir)}"
+                        data-spesialis="${escapeAttr(dokter.spesialis || '')}"
+                        data-alamat="${escapeAttr(dokter.alamat || '')}"
+                        data-poli="${escapeAttr(namaPoli)}"
+                    >
+
+                        <i class="fas fa-eye me-1"></i>
+                        Lihat
+
+                    </button>
+
+
+                    <button
+                        type="button"
+
                         class="btn btn-sm btn-action-edit btn-edit"
 
                         data-id="${escapeAttr(dokter.id)}"
@@ -1593,55 +2086,82 @@ document.addEventListener('DOMContentLoaded', function () {
                         data-alamat="${escapeAttr(dokter.alamat || '')}"
                         data-poli_id="${escapeAttr(dokter.poli_id || '')}"
                     >
+
                         <i class="fas fa-edit me-1"></i>
                         Edit
+
                     </button>
+
 
                     <button
                         type="button"
+
                         class="btn btn-sm btn-action-delete btn-hapus"
 
                         data-id="${escapeAttr(dokter.id)}"
                         data-nama="${escapeAttr(dokter.nama)}"
                     >
+
                         <i class="fas fa-trash me-1"></i>
                         Hapus
+
                     </button>
 
                 </div>
 
             </td>
+
         `;
 
 
         tabel.prepend(row);
 
 
-        const editButton = row.querySelector(
-            '.btn-edit'
+        const editButton =
+            row.querySelector(
+                '.btn-edit'
+            );
+
+
+        const viewButton =
+            row.querySelector(
+                '.btn-view'
+            );
+
+
+        const hapusButton =
+            row.querySelector(
+                '.btn-hapus'
+            );
+
+
+        pasangEventEdit(
+            editButton
         );
 
-        const hapusButton = row.querySelector(
-            '.btn-hapus'
+
+        pasangEventLihat(
+            viewButton
         );
 
 
-        pasangEventEdit(editButton);
-
-        pasangEventHapus(hapusButton);
+        pasangEventHapus(
+            hapusButton
+        );
 
     }
 
 
-    /* ========================================================
+    /* =====================================================
        UPDATE BARIS
-    ======================================================== */
+    ===================================================== */
 
     function updateBarisTabel(dokter) {
 
-        const row = document.getElementById(
-            'dokter-' + dokter.id
-        );
+        const row =
+            document.getElementById(
+                'dokter-' + dokter.id
+            );
 
 
         if (!row) {
@@ -1654,9 +2174,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         @foreach($polis as $poli)
 
-            if (dokter.poli_id == {{ $poli->id }}) {
+            if (
+                dokter.poli_id ==
+                {{ $poli->id }}
+            ) {
 
-                namaPoli = @json($poli->nama);
+                namaPoli =
+                    @json($poli->nama);
 
             }
 
@@ -1665,65 +2189,189 @@ document.addEventListener('DOMContentLoaded', function () {
 
         row.querySelector(
             '.data-nama'
-        ).innerText = dokter.nama;
+        ).innerText =
+            dokter.nama;
 
 
         row.querySelector(
             '.data-jenis-kelamin'
-        ).innerText = ucfirst(
-            dokter.jenis_kelamin
-        );
+        ).innerText =
+            ucfirst(
+                dokter.jenis_kelamin
+            );
 
 
         row.querySelector(
             '.data-tanggal-lahir'
-        ).innerText = dokter.tanggal_lahir;
+        ).innerText =
+            dokter.tanggal_lahir;
 
 
         row.querySelector(
             '.data-spesialis'
-        ).innerText = dokter.spesialis || '-';
+        ).innerText =
+            dokter.spesialis || '-';
 
 
         row.querySelector(
             '.data-alamat'
-        ).innerText = dokter.alamat || '-';
+        ).innerText =
+            dokter.alamat || '-';
 
 
         row.querySelector(
             '.data-poli'
-        ).innerText = namaPoli;
+        ).innerText =
+            namaPoli;
 
 
-        const editButton = row.querySelector(
-            '.btn-edit'
-        );
+        /* UPDATE BUTTON EDIT */
+
+        const editButton =
+            row.querySelector(
+                '.btn-edit'
+            );
 
 
         editButton.dataset.nama =
             dokter.nama;
 
+
         editButton.dataset.jenis_kelamin =
             dokter.jenis_kelamin;
+
 
         editButton.dataset.tanggal_lahir =
             dokter.tanggal_lahir;
 
+
         editButton.dataset.spesialis =
             dokter.spesialis || '';
+
 
         editButton.dataset.alamat =
             dokter.alamat || '';
 
+
         editButton.dataset.poli_id =
             dokter.poli_id || '';
+
+
+        /* UPDATE BUTTON LIHAT */
+
+        const viewButton =
+            row.querySelector(
+                '.btn-view'
+            );
+
+
+        if (viewButton) {
+
+            viewButton.dataset.nama =
+                dokter.nama;
+
+
+            viewButton.dataset.jenis_kelamin =
+                dokter.jenis_kelamin;
+
+
+            viewButton.dataset.tanggal_lahir =
+                dokter.tanggal_lahir;
+
+
+            viewButton.dataset.spesialis =
+                dokter.spesialis || '';
+
+
+            viewButton.dataset.alamat =
+                dokter.alamat || '';
+
+
+            viewButton.dataset.poli =
+                namaPoli;
+
+        }
 
     }
 
 
-    /* ========================================================
+    /* =====================================================
+       EVENT LIHAT
+    ===================================================== */
+
+    function pasangEventLihat(button) {
+
+        if (!button) {
+            return;
+        }
+
+
+        button.addEventListener(
+            'click',
+            function () {
+
+
+                document.getElementById(
+                    'lihat_nama'
+                ).innerText =
+                    this.dataset.nama || '-';
+
+
+                document.getElementById(
+                    'lihat_jenis_kelamin'
+                ).innerText =
+                    ucfirst(
+                        this.dataset.jenis_kelamin || ''
+                    );
+
+
+                document.getElementById(
+                    'lihat_tanggal_lahir'
+                ).innerText =
+                    this.dataset.tanggal_lahir || '-';
+
+
+                document.getElementById(
+                    'lihat_spesialis'
+                ).innerText =
+                    this.dataset.spesialis || '-';
+
+
+                document.getElementById(
+                    'lihat_poli'
+                ).innerText =
+                    this.dataset.poli || '-';
+
+
+                document.getElementById(
+                    'lihat_alamat'
+                ).innerText =
+                    this.dataset.alamat || '-';
+
+
+                const modalElement =
+                    document.getElementById(
+                        'modalLihatDokter'
+                    );
+
+
+                const modal =
+                    new bootstrap.Modal(
+                        modalElement
+                    );
+
+
+                modal.show();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
        EVENT EDIT
-    ======================================================== */
+    ===================================================== */
 
     function pasangEventEdit(button) {
 
@@ -1732,68 +2380,76 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        button.addEventListener('click', function () {
-
-            document.getElementById(
-                'edit_id'
-            ).value = this.dataset.id;
+        button.addEventListener(
+            'click',
+            function () {
 
 
-            document.getElementById(
-                'edit_nama'
-            ).value = this.dataset.nama || '';
+                document.getElementById(
+                    'edit_id'
+                ).value =
+                    this.dataset.id;
 
 
-            document.getElementById(
-                'edit_jenis_kelamin'
-            ).value =
-                this.dataset.jenis_kelamin || '';
+                document.getElementById(
+                    'edit_nama'
+                ).value =
+                    this.dataset.nama || '';
 
 
-            document.getElementById(
-                'edit_tanggal_lahir'
-            ).value =
-                this.dataset.tanggal_lahir || '';
+                document.getElementById(
+                    'edit_jenis_kelamin'
+                ).value =
+                    this.dataset.jenis_kelamin || '';
 
 
-            document.getElementById(
-                'edit_spesialis'
-            ).value =
-                this.dataset.spesialis || '';
+                document.getElementById(
+                    'edit_tanggal_lahir'
+                ).value =
+                    this.dataset.tanggal_lahir || '';
 
 
-            document.getElementById(
-                'edit_alamat'
-            ).value =
-                this.dataset.alamat || '';
+                document.getElementById(
+                    'edit_spesialis'
+                ).value =
+                    this.dataset.spesialis || '';
 
 
-            document.getElementById(
-                'edit_poli_id'
-            ).value =
-                this.dataset.poli_id || '';
+                document.getElementById(
+                    'edit_alamat'
+                ).value =
+                    this.dataset.alamat || '';
 
 
-            const modalElement = document.getElementById(
-                'modalEditDokter'
-            );
+                document.getElementById(
+                    'edit_poli_id'
+                ).value =
+                    this.dataset.poli_id || '';
 
 
-            const modal = new bootstrap.Modal(
-                modalElement
-            );
+                const modalElement =
+                    document.getElementById(
+                        'modalEditDokter'
+                    );
 
 
-            modal.show();
+                const modal =
+                    new bootstrap.Modal(
+                        modalElement
+                    );
 
-        });
+
+                modal.show();
+
+            }
+        );
 
     }
 
 
-    /* ========================================================
+    /* =====================================================
        EVENT HAPUS
-    ======================================================== */
+    ===================================================== */
 
     function pasangEventHapus(button) {
 
@@ -1802,181 +2458,229 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        button.addEventListener('click', function () {
-
-            const id = this.dataset.id;
-
-            const nama = this.dataset.nama;
+        button.addEventListener(
+            'click',
+            function () {
 
 
-            Swal.fire({
-
-                title: 'Hapus dokter?',
-
-                text:
-                    'Data "' +
-                    nama +
-                    '" akan dihapus.',
-
-                icon: 'warning',
-
-                showCancelButton: true,
-
-                confirmButtonText: 'Ya, hapus',
-
-                cancelButtonText: 'Batal',
-
-                reverseButtons: true
-
-            })
-
-            .then(result => {
-
-                if (!result.isConfirmed) {
-                    return;
-                }
+                const id =
+                    this.dataset.id;
 
 
-                fetch(baseUrl + '/' + id, {
+                const nama =
+                    this.dataset.nama;
 
-                    method: 'DELETE',
 
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
+                Swal.fire({
+
+                    title:
+                        'Hapus dokter?',
+
+                    text:
+                        'Data "' +
+                        nama +
+                        '" akan dihapus.',
+
+                    icon:
+                        'warning',
+
+                    showCancelButton:
+                        true,
+
+                    confirmButtonText:
+                        'Ya, hapus',
+
+                    cancelButtonText:
+                        'Batal',
+
+                    reverseButtons:
+                        true
 
                 })
 
-                .then(async response => {
+                .then(result => {
 
-                    const data =
-                        await response.json();
-
-                    if (!response.ok) {
-                        throw data;
+                    if (!result.isConfirmed) {
+                        return;
                     }
 
-                    return data;
 
-                })
+                    fetch(
+                        baseUrl + '/' + id,
+                        {
 
-                .then(data => {
+                            method:
+                                'DELETE',
 
-                    const row =
-                        document.getElementById(
-                            'dokter-' + id
+                            headers: {
+
+                                'X-CSRF-TOKEN':
+                                    csrfToken,
+
+                                'Accept':
+                                    'application/json',
+
+                                'X-Requested-With':
+                                    'XMLHttpRequest'
+                            }
+
+                        }
+                    )
+
+                    .then(
+                        async response => {
+
+                            const data =
+                                await response.json();
+
+
+                            if (!response.ok) {
+                                throw data;
+                            }
+
+
+                            return data;
+
+                        }
+                    )
+
+                    .then(data => {
+
+
+                        const row =
+                            document.getElementById(
+                                'dokter-' + id
+                            );
+
+
+                        if (row) {
+                            row.remove();
+                        }
+
+
+                        perbaruiNomor();
+
+
+                        Swal.fire({
+
+                            icon:
+                                'success',
+
+                            title:
+                                'Berhasil!',
+
+                            text:
+                                data.message ||
+                                'Data dokter berhasil dihapus.',
+
+                            timer:
+                                1800,
+
+                            showConfirmButton:
+                                false
+
+                        });
+
+                    })
+
+                    .catch(error => {
+
+                        tampilkanError(
+                            error
                         );
-
-
-                    if (row) {
-                        row.remove();
-                    }
-
-
-                    perbaruiNomor();
-
-
-                    Swal.fire({
-
-                        icon: 'success',
-
-                        title: 'Berhasil!',
-
-                        text:
-                            data.message ||
-                            'Data dokter berhasil dihapus.',
-
-                        timer: 1800,
-
-                        showConfirmButton: false
 
                     });
 
-                })
-
-                .catch(error => {
-
-                    tampilkanError(error);
-
                 });
 
-            });
-
-        });
+            }
+        );
 
     }
 
 
-    /* ========================================================
-       NOMOR OTOMATIS
-    ======================================================== */
+    /* =====================================================
+       NOMOR TABLE
+    ===================================================== */
 
     function perbaruiNomor() {
 
-        const rows = document.querySelectorAll(
-            '#tabelDokter tr'
-        );
+        const rows =
+            document.querySelectorAll(
+                '#tabelDokter tr'
+            );
 
 
-        rows.forEach((row, index) => {
+        rows.forEach(
+            (row, index) => {
 
-            const nomor =
-                row.querySelector('.nomor');
+                const nomor =
+                    row.querySelector(
+                        '.nomor'
+                    );
 
 
-            if (nomor) {
+                if (nomor) {
 
-                nomor.innerText =
-                    index + 1;
+                    nomor.innerText =
+                        index + 1;
+
+                }
 
             }
-
-        });
+        );
 
     }
 
 
-    /* ========================================================
+    /* =====================================================
        ERROR
-    ======================================================== */
+    ===================================================== */
 
     function tampilkanError(error) {
 
-        let pesan = 'Terjadi kesalahan.';
+        let pesan =
+            'Terjadi kesalahan.';
 
 
         if (error.errors) {
 
             pesan =
-                Object.values(error.errors)
-                    .flat()
-                    .join('<br>');
+                Object.values(
+                    error.errors
+                )
+                .flat()
+                .join('<br>');
 
-        } else if (error.message) {
+        }
 
-            pesan = error.message;
+        else if (error.message) {
+
+            pesan =
+                error.message;
 
         }
 
 
         Swal.fire({
 
-            icon: 'error',
+            icon:
+                'error',
 
-            title: 'Gagal!',
+            title:
+                'Gagal!',
 
-            html: pesan
+            html:
+                pesan
 
         });
 
     }
 
 
-    /* ========================================================
+    /* =====================================================
        UC FIRST
-    ======================================================== */
+    ===================================================== */
 
     function ucfirst(text) {
 
@@ -1985,15 +2689,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        return text.charAt(0).toUpperCase() +
-            text.slice(1);
+        return (
+            text.charAt(0).toUpperCase() +
+            text.slice(1)
+        );
 
     }
 
 
-    /* ========================================================
+    /* =====================================================
        ESCAPE HTML
-    ======================================================== */
+    ===================================================== */
 
     function escapeHtml(text) {
 
@@ -2001,23 +2707,45 @@ document.addEventListener('DOMContentLoaded', function () {
             text === null ||
             text === undefined
         ) {
+
             return '';
+
         }
 
 
         return String(text)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
+
+            .replace(
+                /&/g,
+                '&amp;'
+            )
+
+            .replace(
+                /</g,
+                '&lt;'
+            )
+
+            .replace(
+                />/g,
+                '&gt;'
+            )
+
+            .replace(
+                /"/g,
+                '&quot;'
+            )
+
+            .replace(
+                /'/g,
+                '&#039;'
+            );
 
     }
 
 
-    /* ========================================================
+    /* =====================================================
        ESCAPE ATTRIBUTE
-    ======================================================== */
+    ===================================================== */
 
     function escapeAttr(text) {
 
@@ -2026,7 +2754,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
-
 </script>
 
 @endsection
