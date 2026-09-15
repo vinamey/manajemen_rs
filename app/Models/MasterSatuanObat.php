@@ -12,6 +12,7 @@ class MasterSatuanObat extends Model
     protected $table = 'master_satuan_obats';
 
     protected $fillable = [
-        'nama_satuan',
+        'kode',
+        'nama',
     ];
 }
