@@ -38,7 +38,7 @@
         }
 
         .sidebar .logo {
-            padding: 20px 10px;
+            padding: 20px 10px; 
         }
 
         .sidebar .nav-link {
