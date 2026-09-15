@@ -7,77 +7,76 @@ use Illuminate\Http\Request;
 
 class MasterSatuanController extends Controller
 {
-
     public function index()
     {
         $satuans = MasterSatuanObat::latest()->get();
 
-        return view('master-satuan.index', compact('satuans'));
+        return view('master-satuan.index', compact('satuansObat'));
     }
 
-
-    public function create()
-    {
-        return view('master-satuan.create');
-    }
-    
-
+    // TAMBAH
     public function store(Request $request)
     {
         $request->validate([
-            'nama_satuan' => 'required|string|max:255',
+            'kode' => 'nullable|string|max:255',
+            'nama' => 'required|string|max:255',
         ]);
 
-        MasterSatuanObat::create([
-            'nama_satuan' => $request->nama_satuan,
+        $satuan = MasterSatuanObat::create([
+            'kode' => $request->kode,
+            'nama' => $request->nama,
         ]);
 
-        return redirect()
-            ->route('master-satuan.index')
-            ->with('success', 'Data satuan obat berhasil ditambahkan.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data satuan obat berhasil ditambahkan.',
+            'data' => $satuan
+        ]);
     }
 
-    public function show(string $id)
+    // LIHAT DETAIL
+    public function show($id)
     {
         $satuan = MasterSatuanObat::findOrFail($id);
 
-        return view('master-satuan.show', compact('satuan'));
+        return response()->json([
+            'success' => true,
+            'data' => $satuan
+        ]);
     }
 
-
-    public function edit(string $id)
-    {
-        $satuan = MasterSatuanObat::findOrFail($id);
-
-        return view('master-satuan.edit', compact('satuan'));
-    }
-
-
-    public function update(Request $request, string $id)
+    // EDIT
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_satuan' => 'required|string|max:255',
+            'kode' => 'nullable|string|max:255',
+            'nama' => 'required|string|max:255',
         ]);
 
         $satuan = MasterSatuanObat::findOrFail($id);
 
         $satuan->update([
-            'nama_satuan' => $request->nama_satuan,
+            'kode' => $request->kode,
+            'nama' => $request->nama,
         ]);
 
-        return redirect()
-            ->route('master-satuan.index')
-            ->with('success', 'Data satuan obat berhasil diperbarui.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data satuan obat berhasil diperbarui.',
+            'data' => $satuan
+        ]);
     }
 
-    public function destroy(string $id)
+    // HAPUS
+    public function destroy($id)
     {
         $satuan = MasterSatuanObat::findOrFail($id);
 
         $satuan->delete();
 
-        return redirect()
-            ->route('master-satuan.index')
-            ->with('success', 'Data satuan obat berhasil dihapus.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data satuan obat berhasil dihapus.'
+        ]);
     }
 }
