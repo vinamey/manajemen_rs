@@ -7,14 +7,15 @@ use Illuminate\Http\Request;
 
 class MasterSatuanController extends Controller
 {
+    // MENAMPILKAN DATA
     public function index()
     {
         $satuans = MasterSatuanObat::latest()->get();
 
-        return view('master-satuan.index', compact('satuansObat'));
+        return view('master-satuan.index', compact('satuans'));
     }
 
-    // TAMBAH
+    // TAMBAH DATA
     public function store(Request $request)
     {
         $request->validate([
@@ -30,7 +31,7 @@ class MasterSatuanController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data satuan obat berhasil ditambahkan.',
-            'data' => $satuan
+            'data' => $satuan,
         ]);
     }
 
@@ -41,11 +42,11 @@ class MasterSatuanController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $satuan
+            'data' => $satuan,
         ]);
     }
 
-    // EDIT
+    // EDIT DATA
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -63,11 +64,11 @@ class MasterSatuanController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data satuan obat berhasil diperbarui.',
-            'data' => $satuan
+            'data' => $satuan,
         ]);
     }
 
-    // HAPUS
+    // HAPUS DATA
     public function destroy($id)
     {
         $satuan = MasterSatuanObat::findOrFail($id);
@@ -76,7 +77,7 @@ class MasterSatuanController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Data satuan obat berhasil dihapus.'
+            'message' => 'Data satuan obat berhasil dihapus.',
         ]);
     }
 }
