@@ -32,6 +32,7 @@ use App\Http\Controllers\MasterSatuanController;
 use App\Http\Controllers\MasterSupplierController;
 use App\Http\Controllers\MasterTindakanController;
 use App\Http\Controllers\PendaftaranPasienController;
+use App\Http\Controllers\PemeriksaanDokterController;
 
 
 
@@ -195,4 +196,9 @@ Route::resource(
 Route::resource(
     'pendaftaran',
     PendaftaranPasienController::class
+);
+
+Route::resource(
+    'pemeriksaan-dokter',
+    PemeriksaanDokterController::class
 );

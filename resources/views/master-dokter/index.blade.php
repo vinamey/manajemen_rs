@@ -1630,18 +1630,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
             .then(async response => {
 
-                const data =
-                    await response.json();
+    const contentType = response.headers.get('content-type') || '';
 
+    if (contentType.includes('application/json')) {
 
-                if (!response.ok) {
-                    throw data;
-                }
+        const data = await response.json();
 
+        if (!response.ok) {
+            throw data;
+        }
 
-                return data;
+        return data;
 
-            })
+    } else {
+
+        const text = await response.text();
+
+        throw {
+            message: 'Server mengembalikan halaman HTML. Status: ' + response.status
+        };
+    }
+})
 
             .then(data => {
 
