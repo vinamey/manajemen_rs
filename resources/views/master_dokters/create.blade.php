@@ -26,7 +26,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('master-dokters.store') }}" method="POST">
+                    <form action="{{ route('master-dokter.store') }}" method="POST">
                         @csrf
 
                         <!-- NAMA DOKTER -->
@@ -102,8 +102,7 @@
                         <!-- TOMBOL -->
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary px-4">Simpan</button>
-                            <a href="{{ route('master-dokters.index') }}" class="btn btn-secondary px-4">Kembali</a>
-                        </div>
+                            <a href="{{ route('master-dokter.index') }}" class="btn btn-secondary px-4">Kembali</a>
 
                     </form>
 

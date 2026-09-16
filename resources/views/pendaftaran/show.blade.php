@@ -2,185 +2,295 @@
 
 @section('content')
 
-<div class="container-fluid">
+<style>
+    /* ==========================================
+       TAMPILAN CETAK
+       ========================================== */
 
-    {{-- ========================================== --}}
-    {{-- HEADER HALAMAN --}}
-    {{-- ========================================== --}}
+    @media print {
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+        /* Sembunyikan semua elemen halaman */
+        body * {
+            visibility: hidden;
+        }
 
-        <div>
+        /* Hanya area cetak yang ditampilkan */
+        .print-area,
+        .print-area * {
+            visibility: visible;
+        }
 
-            <h3 class="fw-bold mb-1">
-                <i class="bi bi-file-earmark-medical"></i>
-                Detail Pendaftaran Pasien
-            </h3>
+        /* Area cetak memenuhi halaman */
+        .print-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+        }
 
-            <p class="text-muted mb-0">
-                Informasi lengkap data pendaftaran pasien
-            </p>
+        /* Elemen yang tidak ingin dicetak */
+        .no-print {
+            display: none !important;
+        }
+
+        /* Hilangkan shadow */
+        .card {
+            box-shadow: none !important;
+        }
+
+        /* Background putih */
+        body {
+            background: white !important;
+        }
+
+        /* Rapikan container */
+        .container-fluid {
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Warna tetap terlihat saat print */
+        .bg-primary,
+        .bg-success,
+        .bg-dark {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .badge {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+    }
+</style>
+
+
+{{-- ================================================= --}}
+{{-- AREA YANG AKAN DICETAK --}}
+{{-- ================================================= --}}
+
+<div class="print-area">
+
+    <div class="container-fluid">
+
+
+        {{-- ========================================== --}}
+        {{-- HEADER --}}
+        {{-- ========================================== --}}
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h3 class="fw-bold mb-1">
+
+                    <i class="bi bi-file-earmark-medical"></i>
+
+                    Detail Pendaftaran Pasien
+
+                </h3>
+
+                <p class="text-muted mb-0">
+
+                    Informasi lengkap data pendaftaran pasien
+
+                </p>
+
+            </div>
+
+
+            {{-- Tombol tidak ikut dicetak --}}
+
+            <div class="d-flex gap-2 no-print">
+
+                <a href="{{ route('pendaftaran.index') }}"
+                   class="btn btn-secondary">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Kembali ke Daftar
+
+                </a>
+
+
+                <button type="button"
+                        onclick="window.print()"
+                        class="btn btn-primary">
+
+                    <i class="bi bi-printer"></i>
+
+                    Cetak Bukti
+
+                </button>
+
+            </div>
 
         </div>
 
 
-        <a href="{{ route('pendaftaran.index') }}"
-           class="btn btn-secondary">
 
-            <i class="bi bi-arrow-left"></i>
-            Kembali ke Daftar
+        {{-- ========================================== --}}
+        {{-- NOMOR ANTRIAN --}}
+        {{-- ========================================== --}}
 
-        </a>
+        <div class="card border-0 shadow-sm mb-4">
 
-    </div>
+            <div class="card-body text-center py-4">
 
+                <p class="text-muted mb-2">
 
+                    NOMOR ANTRIAN
 
-    {{-- ========================================== --}}
-    {{-- KARTU NOMOR ANTRIAN --}}
-    {{-- ========================================== --}}
+                </p>
 
-    <div class="card border-0 shadow-sm mb-4">
+                <h1 class="fw-bold text-primary mb-2">
 
-        <div class="card-body text-center py-4">
+                    {{ $pendaftaran->nomor_antrian }}
 
-            <p class="text-muted mb-2">
-                NOMOR ANTRIAN
-            </p>
-
-            <h1 class="fw-bold text-primary mb-2">
-
-                {{ $pendaftaran->nomor_antrian }}
-
-            </h1>
+                </h1>
 
 
-            {{-- STATUS --}}
+                {{-- STATUS --}}
 
-            @if($pendaftaran->status == 'menunggu')
+                @if($pendaftaran->status == 'menunggu')
 
-                <span class="badge bg-warning text-dark px-3 py-2">
+                    <span class="badge bg-warning text-dark px-3 py-2">
 
-                    <i class="bi bi-clock"></i>
-                    Menunggu
+                        <i class="bi bi-clock"></i>
 
-                </span>
+                        Menunggu
 
-            @elseif($pendaftaran->status == 'diperiksa')
+                    </span>
 
-                <span class="badge bg-info px-3 py-2">
+                @elseif($pendaftaran->status == 'diperiksa')
 
-                    <i class="bi bi-heart-pulse"></i>
-                    Sedang Diperiksa
+                    <span class="badge bg-info px-3 py-2">
 
-                </span>
+                        <i class="bi bi-heart-pulse"></i>
 
-            @elseif($pendaftaran->status == 'selesai')
+                        Sedang Diperiksa
 
-                <span class="badge bg-success px-3 py-2">
+                    </span>
 
-                    <i class="bi bi-check-circle"></i>
-                    Selesai
+                @elseif($pendaftaran->status == 'selesai')
 
-                </span>
+                    <span class="badge bg-success px-3 py-2">
 
-            @else
+                        <i class="bi bi-check-circle"></i>
 
-                <span class="badge bg-secondary px-3 py-2">
+                        Selesai
 
-                    {{ ucfirst($pendaftaran->status) }}
+                    </span>
 
-                </span>
+                @else
 
-            @endif
+                    <span class="badge bg-secondary px-3 py-2">
+
+                        {{ ucfirst($pendaftaran->status) }}
+
+                    </span>
+
+                @endif
+
+            </div>
 
         </div>
 
-    </div>
 
-
-
-    <div class="row">
 
         {{-- ========================================== --}}
-        {{-- INFORMASI PASIEN --}}
+        {{-- INFORMASI PASIEN & PEMERIKSAAN --}}
         {{-- ========================================== --}}
 
-        <div class="col-lg-6 mb-4">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-header bg-primary text-white">
-
-                    <h5 class="mb-0">
-
-                        <i class="bi bi-person-fill"></i>
-                        Informasi Pasien
-
-                    </h5>
-
-                </div>
+        <div class="row">
 
 
-                <div class="card-body">
+            {{-- INFORMASI PASIEN --}}
 
-                    {{-- Nama Pasien --}}
+            <div class="col-lg-6 mb-4">
 
-                    <div class="mb-4">
+                <div class="card border-0 shadow-sm h-100">
 
-                        <small class="text-muted d-block mb-1">
+                    <div class="card-header bg-primary text-white">
 
-                            Nama Pasien
+                        <h5 class="mb-0">
 
-                        </small>
+                            <i class="bi bi-person-fill"></i>
 
-                        <h5 class="fw-bold mb-0">
-
-                            {{ $pendaftaran->pasien->nama ?? '-' }}
+                            Informasi Pasien
 
                         </h5>
 
                     </div>
 
 
-                    {{-- ID Pasien --}}
-
-                    <div class="mb-4">
-
-                        <small class="text-muted d-block mb-1">
-
-                            ID Pasien
-
-                        </small>
-
-                        <span class="fw-semibold">
-
-                            #{{ $pendaftaran->pasien_id }}
-
-                        </span>
-
-                    </div>
+                    <div class="card-body">
 
 
-                    {{-- Tanggal Pendaftaran --}}
+                        {{-- Nama Pasien --}}
 
-                    <div>
+                        <div class="mb-4">
 
-                        <small class="text-muted d-block mb-1">
+                            <small class="text-muted d-block mb-1">
 
-                            Tanggal Pendaftaran
+                                Nama Pasien
 
-                        </small>
+                            </small>
 
-                        <span class="fw-semibold">
+                            <h5 class="fw-bold mb-0">
 
-                            <i class="bi bi-calendar-event"></i>
+                                {{ $pendaftaran->pasien->nama ?? '-' }}
 
-                            {{ \Carbon\Carbon::parse(
-                                $pendaftaran->tanggal_pendaftaran
-                            )->translatedFormat('d F Y') }}
+                            </h5>
 
-                        </span>
+                        </div>
+
+
+
+                        {{-- ID Pasien --}}
+
+                        <div class="mb-4">
+
+                            <small class="text-muted d-block mb-1">
+
+                                ID Pasien
+
+                            </small>
+
+                            <span class="fw-semibold">
+
+                                #{{ $pendaftaran->pasien_id }}
+
+                            </span>
+
+                        </div>
+
+
+
+                        {{-- Tanggal Pendaftaran --}}
+
+                        <div>
+
+                            <small class="text-muted d-block mb-1">
+
+                                Tanggal Pendaftaran
+
+                            </small>
+
+                            <span class="fw-semibold">
+
+                                <i class="bi bi-calendar-event"></i>
+
+                                {{ \Carbon\Carbon::parse(
+                                    $pendaftaran->tanggal_pendaftaran
+                                )->translatedFormat('d F Y') }}
+
+                            </span>
+
+                        </div>
 
                     </div>
 
@@ -188,92 +298,226 @@
 
             </div>
 
-        </div>
 
 
+            {{-- INFORMASI PEMERIKSAAN --}}
 
-        {{-- ========================================== --}}
-        {{-- INFORMASI PEMERIKSAAN --}}
-        {{-- ========================================== --}}
+            <div class="col-lg-6 mb-4">
 
-        <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
 
-            <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-success text-white">
 
-                <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
 
-                    <h5 class="mb-0">
+                            <i class="bi bi-hospital"></i>
 
-                        <i class="bi bi-hospital"></i>
-                        Informasi Pemeriksaan
-
-                    </h5>
-
-                </div>
-
-
-                <div class="card-body">
-
-
-                    {{-- DOKTER --}}
-
-                    <div class="mb-4">
-
-                        <small class="text-muted d-block mb-1">
-
-                            Dokter
-
-                        </small>
-
-                        <h5 class="fw-bold mb-0">
-
-                            <i class="bi bi-person-badge"></i>
-
-                            {{ $pendaftaran->dokter->nama ?? '-' }}
+                            Informasi Pemeriksaan
 
                         </h5>
 
                     </div>
 
 
-                    {{-- POLI --}}
+                    <div class="card-body">
 
-                    <div class="mb-4">
 
-                        <small class="text-muted d-block mb-1">
+                        {{-- Dokter --}}
 
-                            Poli
+                        <div class="mb-4">
 
-                        </small>
+                            <small class="text-muted d-block mb-1">
 
-                        <span class="fw-semibold">
+                                Dokter
 
-                            <i class="bi bi-building"></i>
+                            </small>
 
-                            {{ $pendaftaran->poli->nama ?? '-' }}
+                            <h5 class="fw-bold mb-0">
 
-                        </span>
+                                <i class="bi bi-person-badge"></i>
+
+                                {{ $pendaftaran->dokter->nama ?? '-' }}
+
+                            </h5>
+
+                        </div>
+
+
+
+                        {{-- Poli --}}
+
+                        <div class="mb-4">
+
+                            <small class="text-muted d-block mb-1">
+
+                                Poli
+
+                            </small>
+
+                            <span class="fw-semibold">
+
+                                <i class="bi bi-building"></i>
+
+                                {{ $pendaftaran->poli->nama ?? '-' }}
+
+                            </span>
+
+                        </div>
+
+
+
+                        {{-- Kamar --}}
+
+                        <div>
+
+                            <small class="text-muted d-block mb-1">
+
+                                Kamar
+
+                            </small>
+
+                            <span class="fw-semibold">
+
+                                <i class="bi bi-door-open"></i>
+
+                                {{ $pendaftaran->kamar->nama
+                                    ?? 'Tidak menggunakan kamar' }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        {{-- ========================================== --}}
+        {{-- STATUS PENDAFTARAN --}}
+        {{-- ========================================== --}}
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-header bg-dark text-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-clipboard-check"></i>
+
+                    Status Pendaftaran
+
+                </h5>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="row text-center">
+
+
+                    {{-- MENUNGGU --}}
+
+                    <div class="col-md-4 mb-3">
+
+                        <div class="border rounded p-3
+                            {{ $pendaftaran->status == 'menunggu'
+                                ? 'border-warning'
+                                : '' }}">
+
+                            <i class="bi bi-clock fs-3 text-warning"></i>
+
+                            <h6 class="mt-2">
+
+                                Menunggu
+
+                            </h6>
+
+
+                            @if($pendaftaran->status == 'menunggu')
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Status Saat Ini
+
+                                </span>
+
+                            @endif
+
+                        </div>
 
                     </div>
 
 
-                    {{-- KAMAR --}}
 
-                    <div>
+                    {{-- DIPERIKSA --}}
 
-                        <small class="text-muted d-block mb-1">
+                    <div class="col-md-4 mb-3">
 
-                            Kamar
+                        <div class="border rounded p-3
+                            {{ $pendaftaran->status == 'diperiksa'
+                                ? 'border-info'
+                                : '' }}">
 
-                        </small>
+                            <i class="bi bi-heart-pulse fs-3 text-info"></i>
 
-                        <span class="fw-semibold">
+                            <h6 class="mt-2">
 
-                            <i class="bi bi-door-open"></i>
+                                Diperiksa
 
-                            {{ $pendaftaran->kamar->nama ?? 'Tidak menggunakan kamar' }}
+                            </h6>
 
-                        </span>
+
+                            @if($pendaftaran->status == 'diperiksa')
+
+                                <span class="badge bg-info">
+
+                                    Status Saat Ini
+
+                                </span>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{-- SELESAI --}}
+
+                    <div class="col-md-4 mb-3">
+
+                        <div class="border rounded p-3
+                            {{ $pendaftaran->status == 'selesai'
+                                ? 'border-success'
+                                : '' }}">
+
+                            <i class="bi bi-check-circle fs-3 text-success"></i>
+
+                            <h6 class="mt-2">
+
+                                Selesai
+
+                            </h6>
+
+
+                            @if($pendaftaran->status == 'selesai')
+
+                                <span class="badge bg-success">
+
+                                    Status Saat Ini
+
+                                </span>
+
+                            @endif
+
+                        </div>
 
                     </div>
 
@@ -284,153 +528,38 @@
 
         </div>
 
-    </div>
 
 
+        {{-- ========================================== --}}
+        {{-- TOMBOL BAWAH --}}
+        {{-- ========================================== --}}
 
-    {{-- ========================================== --}}
-    {{-- INFORMASI STATUS --}}
-    {{-- ========================================== --}}
+        <div class="d-flex justify-content-between mb-4 no-print">
 
-    <div class="card border-0 shadow-sm mb-4">
+            <a href="{{ route('pendaftaran.index') }}"
+               class="btn btn-outline-secondary">
 
-        <div class="card-header bg-dark text-white">
+                <i class="bi bi-arrow-left"></i>
 
-            <h5 class="mb-0">
+                Kembali ke Daftar
 
-                <i class="bi bi-clipboard-check"></i>
-                Status Pendaftaran
-
-            </h5>
-
-        </div>
+            </a>
 
 
-        <div class="card-body">
+            <button type="button"
+                    onclick="window.print()"
+                    class="btn btn-primary">
 
-            <div class="row text-center">
+                <i class="bi bi-printer"></i>
 
+                Cetak Bukti Pendaftaran
 
-                {{-- MENUNGGU --}}
-
-                <div class="col-md-4 mb-3">
-
-                    <div class="border rounded p-3
-                        {{ $pendaftaran->status == 'menunggu'
-                            ? 'border-warning'
-                            : '' }}">
-
-                        <i class="bi bi-clock fs-3 text-warning"></i>
-
-                        <h6 class="mt-2">
-
-                            Menunggu
-
-                        </h6>
-
-                        @if($pendaftaran->status == 'menunggu')
-
-                            <span class="badge bg-warning text-dark">
-
-                                Status Saat Ini
-
-                            </span>
-
-                        @endif
-
-                    </div>
-
-                </div>
-
-
-                {{-- DIPERIKSA --}}
-
-                <div class="col-md-4 mb-3">
-
-                    <div class="border rounded p-3
-                        {{ $pendaftaran->status == 'diperiksa'
-                            ? 'border-info'
-                            : '' }}">
-
-                        <i class="bi bi-heart-pulse fs-3 text-info"></i>
-
-                        <h6 class="mt-2">
-
-                            Diperiksa
-
-                        </h6>
-
-                        @if($pendaftaran->status == 'diperiksa')
-
-                            <span class="badge bg-info">
-
-                                Status Saat Ini
-
-                            </span>
-
-                        @endif
-
-                    </div>
-
-                </div>
-
-
-                {{-- SELESAI --}}
-
-                <div class="col-md-4 mb-3">
-
-                    <div class="border rounded p-3
-                        {{ $pendaftaran->status == 'selesai'
-                            ? 'border-success'
-                            : '' }}">
-
-                        <i class="bi bi-check-circle fs-3 text-success"></i>
-
-                        <h6 class="mt-2">
-
-                            Selesai
-
-                        </h6>
-
-                        @if($pendaftaran->status == 'selesai')
-
-                            <span class="badge bg-success">
-
-                                Status Saat Ini
-
-                            </span>
-
-                        @endif
-
-                    </div>
-
-                </div>
-
-
-            </div>
+            </button>
 
         </div>
 
-    </div>
-
-
-
-    <!-- {{-- ========================================== --}}
-    {{-- TOMBOL AKSI --}}
-    {{-- ========================================== --}}
-
-    <div class="d-flex justify-content-between mb-4">
-
-        <a href="{{ route('pendaftaran.index') }}"
-           class="btn btn-outline-secondary">
-
-            <i class="bi bi-arrow-left"></i>
-            Kembali ke Daftar
-
-        </a> -->
 
     </div>
-
 
 </div>
 

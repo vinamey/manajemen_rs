@@ -29,7 +29,7 @@ class MasterDokterController extends Controller
             'tanggal_lahir' => 'required|date',
             'spesialis' => 'nullable|string|max:255',
             'alamat' => 'nullable|string',
-            'poli_id' => 'nullable|exists:master_poli,id',
+           'poli_id' => 'nullable|exists:master_polis,id',
         ]);
 
         $dokter = MasterDokter::create($validated);
@@ -78,7 +78,7 @@ class MasterDokterController extends Controller
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'tanggal_lahir' => 'required|date',
             'alamat' => 'nullable|string',
-            'poli_id' => 'nullable|exists:master_poli,id',
+           'poli_id' => 'nullable|exists:master_polis,id',
         ]);
 
         $dokter->update($validated);

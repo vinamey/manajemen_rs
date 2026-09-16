@@ -324,7 +324,7 @@
 
             <table class="table table-bordered table-hover">
 
-                <thead class="table-dark">
+                <thead class="table-primary">
 
                     <tr>
 
@@ -772,10 +772,19 @@
 
     <div class="d-flex justify-content-center mt-4">
 
-    {{ $pendaftarans->links() }}
+        {{ $pendaftarans->links() }}
 
 </div>
 
 </div>
+
+<style>
+    /* Header tabel Pendaftaran Pasien */
+    .table thead th {
+        background-color: #0d6efd !important;
+        color: white !important;
+        font-weight: 600;
+    }
+</style>
 
 @endsection
