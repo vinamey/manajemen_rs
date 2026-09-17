@@ -9,46 +9,59 @@ use Illuminate\Http\Request;
 
 class MasterObatController extends Controller
 {
+    // MENAMPILKAN DATA OBAT
     public function index()
     {
         $obats = MasterObat::latest()->get();
+        $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
+        $satuans = MasterSatuanObat::orderBy('nama', 'asc')->get();
 
-        return view('master-obat.index', compact('obats'));
+        return view('master-obat.index', compact(
+            'obats',
+            'kategoris',
+            'satuans'
+        ));
     }
 
+    // HALAMAN TAMBAH OBAT
     public function create()
-{
-    $kategoris = MasterKategori::orderBy('nama_kategori')->get();
-    $satuans = MasterSatuanObat::orderBy('nama')->get();
+    {
+        $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
+        $satuans = MasterSatuanObat::orderBy('nama', 'asc')->get();
 
-    return view('master-obat.create', compact('kategoris', 'satuans'));
-}
+        return view('master-obat.create', compact(
+            'kategoris',
+            'satuans'
+        ));
+    }
 
+    // MENYIMPAN DATA OBAT
     public function store(Request $request)
-{
-    $request->validate([
-        'kode_obat' => 'required|string|max:50|unique:master_obats,kode_obat',
-        'nama_obat' => 'required|string|max:255',
-        'kategori' => 'required|string|max:100',
-        'satuan' => 'required|string|max:100',
-        'harga' => 'required|numeric|min:0',
-        'stok' => 'required|integer|min:0',
-    ]);
+    {
+        $request->validate([
+            'kode_obat' => 'required|string|max:50|unique:master_obats,kode_obat',
+            'nama_obat' => 'required|string|max:255',
+            'kategori' => 'required|string|max:100',
+            'satuan' => 'required|string|max:100',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+        ]);
 
-    MasterObat::create([
-        'kode_obat' => $request->kode_obat,
-        'nama_obat' => $request->nama_obat,
-        'kategori' => $request->kategori,
-        'satuan' => $request->satuan,
-        'harga' => $request->harga,
-        'stok' => $request->stok,
-    ]);
+        MasterObat::create([
+            'kode_obat' => $request->kode_obat,
+            'nama_obat' => $request->nama_obat,
+            'kategori' => $request->kategori,
+            'satuan' => $request->satuan,
+            'harga' => $request->harga,
+            'stok' => $request->stok,
+        ]);
 
-    return redirect()
-        ->route('master-obat.index')
-        ->with('success', 'Data obat berhasil ditambahkan.');
-}
+        return redirect()
+            ->route('master-obat.index')
+            ->with('success', 'Data obat berhasil ditambahkan.');
+    }
 
+    // MELIHAT DETAIL OBAT
     public function show(string $id)
     {
         $obat = MasterObat::findOrFail($id);
@@ -56,13 +69,21 @@ class MasterObatController extends Controller
         return view('master-obat.show', compact('obat'));
     }
 
+    // HALAMAN EDIT OBAT
     public function edit(string $id)
     {
         $obat = MasterObat::findOrFail($id);
+        $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
+        $satuans = MasterSatuanObat::orderBy('nama', 'asc')->get();
 
-        return view('master-obat.edit', compact('obat'));
+        return view('master-obat.edit', compact(
+            'obat',
+            'kategoris',
+            'satuans'
+        ));
     }
 
+    // MEMPERBARUI DATA OBAT
     public function update(Request $request, string $id)
     {
         $obat = MasterObat::findOrFail($id);
@@ -90,6 +111,7 @@ class MasterObatController extends Controller
             ->with('success', 'Data obat berhasil diperbarui.');
     }
 
+    // MENGHAPUS DATA OBAT
     public function destroy(string $id)
     {
         $obat = MasterObat::findOrFail($id);
