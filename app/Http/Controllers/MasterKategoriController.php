@@ -25,13 +25,14 @@ class MasterKategoriController extends Controller
     public function store(Request $request)
 {
     $request->validate([
-        'nama_kategori' => 'required|string|max:255',
-    ]);
+    'kode' => 'required|string|max:255',
+    'nama' => 'required|string|max:255',
+]);
 
-    MasterKategori::create([
-        'nama_kategori' => $request->nama_kategori,
-    ]);
-
+   MasterKategori::create([
+    'kode' => $request->kode,
+    'nama' => $request->nama,
+]);
     return redirect()
         ->route('master-kategori.index')
         ->with('success', 'Data kategori berhasil ditambahkan.');

@@ -157,6 +157,12 @@ Route::resource(
     MasterObatController::class
 );
 
+// Kurangi Stok Obat
+Route::post(
+    '/master-obat/{id}/kurangi-stok',
+    [MasterObatController::class, 'kurangiStok']
+)->name('master-obat.kurangi-stok');
+
 // Master Pasien
 Route::resource(
     'master-pasien',
