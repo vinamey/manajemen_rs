@@ -5,662 +5,965 @@
 @section('content')
 
 <style>
-    /* =========================
-       GLOBAL & CARD CONTAINER
-    ========================= */
-    .main-wrapper {
+    :root {
+        --kamar-blue: #1877f2;
+        --kamar-blue-dark: #0f58c6;
+        --kamar-blue-light: #e8f1fd;
+        --kamar-bg: #f4f6f9;
+    }
+
+    .kamar-page {
         padding: 20px 28px;
-        background: #f4f6f9;
-        font-family: 'Public Sans', sans-serif, -apple-system, BlinkMacSystemFont;
+        background: var(--kamar-bg);
+        min-height: calc(100vh - 70px);
     }
 
-    .card-container {
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-        padding: 24px;
-    }
+    /* ================= HEADER ================= */
 
-    /* =========================
-       HEADER SECTION
-    ========================= */
-    .page-header {
+    .kamar-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 24px;
+        margin-bottom: 22px;
     }
 
-    .header-title-box {
+    .kamar-title-wrapper {
         display: flex;
         align-items: center;
         gap: 12px;
     }
 
-    .header-icon {
-        width: 40px;
-        height: 40px;
-        background: #e8f1fd !important;
-        color: #1e78f6 !important;
+    .kamar-icon {
+        width: 42px;
+        height: 42px;
+        background: var(--kamar-blue-light);
+        color: var(--kamar-blue);
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 18px;
-        flex-shrink: 0;
     }
 
-    .header-text h5 {
+    .kamar-title {
         margin: 0;
-        font-size: 18px;
+        font-size: 19px;
         font-weight: 700;
-        color: #1a202c;
-        line-height: 1.2;
+        color: #1f2937;
     }
 
-    .header-text small {
-        display: block;
+    .kamar-subtitle {
+        margin: 3px 0 0;
         font-size: 11px;
-        color: #8c98a4;
-        margin-top: 3px;
+        color: #8b95a5;
     }
 
-    /* =========================
-       ALERT NOTIFIKASI (SESUAI GAMBAR)
-    ========================= */
-    .custom-alert-success {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-left: 4px solid #1e78f6;
+    /* ================= BUTTON TAMBAH ================= */
+
+    .btn-tambah-kamar {
+        background: var(--kamar-blue);
+        color: white;
+        border: none;
         border-radius: 8px;
-        padding: 14px 18px;
-        margin-bottom: 24px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-    }
-
-    .custom-alert-success .alert-icon {
-        width: 22px;
-        height: 22px;
-        background-color: #0f5132;
-        color: #ffffff;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        flex-shrink: 0;
-    }
-
-    .custom-alert-success .alert-text {
-        color: #2c3e50;
-        font-size: 13px;
-        font-weight: 500;
-        margin: 0;
-    }
-
-    /* =========================
-       TOMBOL TAMBAH
-    ========================= */
-    .btn-tambah {
-        background: #1e78f6 !important;
-        border: none !important;
-        color: #ffffff !important;
+        padding: 10px 16px;
         font-size: 11px;
         font-weight: 600;
-        padding: 10px 18px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        cursor: pointer;
-        box-shadow: 0 3px 8px rgba(30, 120, 246, 0.3) !important;
-        transition: background 0.2s;
+        box-shadow: 0 3px 8px rgba(24, 119, 242, 0.25);
     }
 
-    .btn-tambah:hover {
-        background: #1565c0 !important;
+    .btn-tambah-kamar:hover {
+        background: var(--kamar-blue-dark);
+        color: white;
     }
 
-    /* =========================
-       TABLE STYLING
-    ========================= */
-    .table-container {
-        border-radius: 8px;
+    /* ================= CARD ================= */
+
+    .kamar-card {
+        background: white;
+        border-radius: 12px;
         overflow: hidden;
+        border: none;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
     }
 
-    .custom-table {
+    /* ================= TABLE ================= */
+
+    .kamar-table {
         width: 100%;
         margin: 0;
         border-collapse: collapse;
-        font-size: 11px;
     }
 
-    .custom-table thead th {
-        background: #1e78f6 !important;
-        color: #ffffff !important;
+    .kamar-table thead th {
+        background: var(--kamar-blue);
+        color: white;
+        padding: 13px 14px;
         font-size: 11px;
         font-weight: 600;
-        padding: 12px 14px;
-        border: none !important;
-        text-align: left;
+        border: none;
+        white-space: nowrap;
     }
 
-    .custom-table tbody td {
+    .kamar-table tbody td {
         padding: 14px;
-        vertical-align: middle;
-        border-bottom: 1px solid #f1f3f5;
-        color: #2c3e50 !important;
-        background: #ffffff !important;
         font-size: 11px;
+        color: #657184;
+        vertical-align: middle;
+        border-bottom: 1px solid #eef1f5;
     }
 
-    .custom-table tbody tr:last-child td {
+    .kamar-table tbody tr:last-child td {
         border-bottom: none;
     }
 
-    .custom-table tbody tr:hover td {
-        background: #f8fafc !important;
+    .kamar-table tbody tr:hover td {
+        background: #f8fbff;
     }
 
-    /* =========================
-       BADGES & STATUS
-    ========================= */
-    .text-center {
-        text-align: center;
-    }
-
-    .text-muted-no {
-        color: #6c757d;
-        font-weight: 500;
-    }
+    /* ================= BADGE KODE ================= */
 
     .kode-badge {
         display: inline-block;
-        background: #e8f1fd !important;
-        color: #1e78f6 !important;
-        padding: 4px 10px;
+        background: #e8f1fd;
+        color: var(--kamar-blue);
+        padding: 5px 10px;
         border-radius: 6px;
-        font-size: 10px !important;
+        font-size: 10px;
         font-weight: 600;
     }
 
+    /* ================= BADGE NAMA ================= */
+
+    .nama-badge {
+        display: inline-block;
+        background: #fef0d5;
+        color: #e67e22;
+        padding: 5px 11px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    /* ================= STATUS ================= */
+
     .status-badge {
-        display: inline-block !important;
-        padding: 5px 12px !important;
-        border-radius: 6px !important;
-        font-size: 10px !important;
-        font-weight: 600 !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 600;
     }
 
-    .status-aktif {
-        background-color: #d1e7dd !important;
-        color: #0f5132 !important;
+    .status-tersedia {
+        background: #e8f8ef;
+        color: #198754;
     }
 
-    .status-perbaikan {
-        background-color: #fef0d5 !important;
-        color: #e67e22 !important;
+    .status-terisi {
+        background: #fff0f0;
+        color: #dc3545;
     }
 
-    .status-tidak-aktif {
-        background-color: #f8d7da !important;
-        color: #842029 !important;
-    }
+    /* ================= AKSI ================= */
 
-    /* =========================
-       AKSI BUTTONS
-    ========================= */
     .aksi-column {
         white-space: nowrap;
-        text-align: right;
     }
 
-    .btn-aksi {
-        border: none !important;
-        padding: 6px 12px;
+    .btn-aksi-kamar {
+        border: none;
         border-radius: 6px;
-        font-size: 10px !important;
-        font-weight: 500;
-        color: #ffffff !important;
-        margin-left: 3px;
-        line-height: 1.2;
-        text-decoration: none !important;
+        padding: 7px 10px;
+        font-size: 10px;
+        font-weight: 600;
+        margin-right: 3px;
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        cursor: pointer;
     }
 
-    .btn-lihat {
-        background: #e3f2fd !important;
-        color: #0288d1 !important;
+    .btn-lihat-kamar {
+        background: #e3f2fd;
+        color: #0288d1;
     }
 
-    .btn-edit {
-        background: #1e78f6 !important;
-        color: #ffffff !important;
+    .btn-lihat-kamar:hover {
+        background: #cce9fa;
+        color: #0288d1;
     }
 
-    .btn-hapus {
-        background: #ff4d4f !important;
-        color: #ffffff !important;
+    .btn-edit-kamar {
+        background: var(--kamar-blue);
+        color: white;
     }
 
-    .btn-aksi:hover {
-        opacity: 0.88;
+    .btn-edit-kamar:hover {
+        background: var(--kamar-blue-dark);
+        color: white;
     }
+
+    .btn-hapus-kamar {
+        background: #ef4444;
+        color: white;
+    }
+
+    .btn-hapus-kamar:hover {
+        background: #dc2626;
+        color: white;
+    }
+
+    /* ================= EMPTY ================= */
 
     .empty-data {
-        color: #a0aec0 !important;
-        font-size: 11px !important;
-        padding: 24px !important;
+        padding: 45px 20px !important;
         text-align: center;
+        color: #9ca3af !important;
+        font-size: 11px !important;
     }
 
-    /* =========================
-       MODAL DESAIN PERSIS GAMBAR
-    ========================= */
-    .modal-content {
-        border: none !important;
-        border-radius: 14px !important;
+    /* ================= MODAL ================= */
+
+    .kamar-modal .modal-dialog {
+        max-width: 500px;
+    }
+
+    .kamar-modal .modal-content {
+        border: none;
+        border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
     }
 
-    .modal-header {
-        background: #1e78f6 !important;
-        color: #ffffff !important;
-        padding: 16px 20px !important;
-        border-bottom: none !important;
+    .kamar-modal .modal-header {
+        background: var(--kamar-blue);
+        color: white;
+        padding: 14px 18px;
+        border: none;
     }
 
-    .modal-title {
-        font-size: 14px !important;
-        font-weight: 600 !important;
-        color: #ffffff !important;
+    .kamar-modal .modal-title {
+        font-size: 14px;
+        font-weight: 600;
     }
 
-    .modal-body {
-        padding: 24px 20px 12px 20px !important;
+    .kamar-modal .modal-body {
+        padding: 20px;
     }
 
-    .modal-body .form-label {
-        font-size: 11px !important;
-        font-weight: 600 !important;
-        color: #4a5568 !important;
-        margin-bottom: 6px !important;
+    .kamar-modal .modal-footer {
+        background: #f8fafc;
+        padding: 12px 18px;
+        border-top: 1px solid #edf0f4;
     }
 
-    .modal-body .form-control,
-    .modal-body .form-select {
-        font-size: 11px !important;
-        border-radius: 8px !important;
-        border: 1px solid #e2e8f0 !important;
-        padding: 10px 12px !important;
-        color: #4a5568 !important;
+    .kamar-modal .form-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 6px;
     }
 
-    .modal-body .form-control:focus,
-    .modal-body .form-select:focus {
-        border-color: #1e78f6 !important;
-        box-shadow: 0 0 0 3px rgba(30, 120, 246, 0.15) !important;
+    .kamar-modal .form-control,
+    .kamar-modal .form-select {
+        font-size: 11px;
+        border-radius: 7px;
+        padding: 9px 11px;
+        border: 1px solid #d9e1ea;
     }
 
-    .modal-footer {
-        border-top: 1px solid #edf2f7 !important;
-        padding: 14px 20px !important;
-        gap: 8px;
+    .kamar-modal .form-control:focus,
+    .kamar-modal .form-select:focus {
+        border-color: var(--kamar-blue);
+        box-shadow: 0 0 0 0.15rem rgba(24, 119, 242, 0.12);
     }
 
-    .btn-modal-batal {
-        background: #6c757d !important;
-        color: #ffffff !important;
-        border: none !important;
-        padding: 8px 20px !important;
-        border-radius: 8px !important;
-        font-size: 11px !important;
-        font-weight: 600 !important;
+    .btn-batal-kamar {
+        background: #e9eef5;
+        color: #64748b;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-size: 10px;
+        font-weight: 600;
     }
 
-    .btn-modal-simpan {
-        background: #1e78f6 !important;
-        color: #ffffff !important;
-        border: none !important;
-        padding: 8px 20px !important;
-        border-radius: 8px !important;
-        font-size: 11px !important;
-        font-weight: 600 !important;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
+    .btn-simpan-kamar {
+        background: var(--kamar-blue);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-size: 10px;
+        font-weight: 600;
     }
 
-    .btn-modal-batal:hover {
-        background: #5a6268 !important;
+    .btn-simpan-kamar:hover {
+        background: var(--kamar-blue-dark);
+        color: white;
     }
 
-    .btn-modal-simpan:hover {
-        background: #1565c0 !important;
+    .detail-box {
+        background: #f8fafc;
+        border: 1px solid #edf0f4;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    .detail-label {
+        font-size: 10px;
+        color: #8b95a5;
+        margin-bottom: 4px;
+    }
+
+    .detail-value {
+        font-size: 12px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    /* Hilangkan X */
+
+    .kamar-modal .btn-close {
+        display: none !important;
     }
 
     @media (max-width: 768px) {
-        .main-wrapper {
+        .kamar-page {
             padding: 12px;
         }
-        .table-container {
-            overflow-x: auto;
+
+        .kamar-header {
+            align-items: flex-start;
+            gap: 12px;
         }
-        .custom-table {
-            min-width: 650px;
+
+        .kamar-table {
+            min-width: 700px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
         }
     }
 </style>
 
-<div class="main-wrapper">
-    <div class="card-container">
 
-        {{-- HEADER --}}
-        <div class="page-header">
-            <div class="header-title-box">
-                <div class="header-icon">
-                    <i class="fas fa-bed"></i>
-                </div>
-                <div class="header-text">
-                    <h5>Master Kamar</h5>
-                    <small>Data kamar yang terdaftar</small>
-                </div>
+<div class="kamar-page">
+
+    {{-- ================= HEADER ================= --}}
+
+    <div class="kamar-header">
+
+        <div class="kamar-title-wrapper">
+
+            <div class="kamar-icon">
+                <i class="fas fa-bed"></i>
             </div>
 
-            <button type="button"
-                    class="btn-tambah"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalTambahKamar">
-                <i class="fas fa-plus"></i>
-                Tambah Kamar
-            </button>
+            <div>
+                <h2 class="kamar-title">
+                    Master Kamar
+                </h2>
+
+                <p class="kamar-subtitle">
+                    Data kamar yang terdaftar
+                </p>
+            </div>
+
         </div>
 
-        {{-- ALERT NOTIFIKASI BERHASIL --}}
-        @if(session('success'))
-            <div class="custom-alert-success">
-                <div class="alert-icon">
-                    <i class="fas fa-check"></i>
-                </div>
-                <div class="alert-text">
-                    {{ session('success') }}
-                </div>
-            </div>
-        @endif
 
-        {{-- TABLE CONTAINER --}}
-        <div class="table-container">
-            <table class="custom-table">
+        <button type="button"
+                class="btn btn-tambah-kamar"
+                data-bs-toggle="modal"
+                data-bs-target="#modalTambahKamar">
+
+            <i class="fas fa-plus me-1"></i>
+            Tambah Kamar
+
+        </button>
+
+    </div>
+
+
+    {{-- ================= TABLE ================= --}}
+
+    <div class="kamar-card">
+
+        <div class="table-responsive">
+
+            <table class="kamar-table">
+
                 <thead>
+
                     <tr>
-                        <th class="text-center" width="60px">No</th>
-                        <th width="20%">Kode</th>
-                        <th>Nama Kamar</th>
-                        <th width="20%">Status</th>
-                        <th class="text-center" width="220px">Aksi</th>
+
+                        <th width="7%" class="text-center">
+                            No
+                        </th>
+
+                        <th width="22%">
+                            Kode Kamar
+                        </th>
+
+                        <th width="30%">
+                            Nama Kamar
+                        </th>
+
+                        <th width="20%">
+                            Status
+                        </th>
+
+                        <th width="21%">
+                            Aksi
+                        </th>
+
                     </tr>
+
                 </thead>
 
+
                 <tbody>
-                    @forelse($kamars as $kamar)
+
+                    @forelse($kamars as $index => $kamar)
+
                         <tr>
-                            <td class="text-center text-muted-no">{{ $loop->iteration }}</td>
+
+                            {{-- NO --}}
+
+                            <td class="text-center">
+
+                                {{ $index + 1 }}
+
+                            </td>
+
+
+                            {{-- KODE --}}
 
                             <td>
+
                                 <span class="kode-badge">
+
                                     {{ $kamar->kode }}
+
                                 </span>
+
                             </td>
 
-                            <td style="font-weight: 600; color: #2c3e50;">
-                                {{ $kamar->nama }}
-                            </td>
+
+                            {{-- NAMA --}}
 
                             <td>
-                                @if($kamar->status == 'aktif')
-                                    <span class="status-badge status-aktif">
-                                        Aktif
-                                    </span>
-                                @elseif($kamar->status == 'rusak' || $kamar->status == 'perbaikan')
-                                    <span class="status-badge status-perbaikan">
-                                        Perbaikan
-                                    </span>
-                                @else
-                                    <span class="status-badge status-tidak-aktif">
-                                        Tidak Aktif
-                                    </span>
-                                @endif
+
+                                <span class="nama-badge">
+
+                                    {{ $kamar->nama }}
+
+                                </span>
+
                             </td>
+
+
+                            {{-- STATUS --}}
+
+                            <td>
+
+                                @if($kamar->status === 'tersedia')
+
+                                    <span class="status-badge status-tersedia">
+
+                                        <i class="fas fa-check-circle"></i>
+
+                                        Tersedia
+
+                                    </span>
+
+                                @elseif($kamar->status === 'terisi')
+
+                                    <span class="status-badge status-terisi">
+
+                                        <i class="fas fa-user"></i>
+
+                                        Terisi
+
+                                    </span>
+
+                                @else
+
+                                    <span class="status-badge status-terisi">
+
+                                        {{ ucfirst($kamar->status) }}
+
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+
+                            {{-- AKSI --}}
 
                             <td class="aksi-column">
-                                <div class="d-inline-flex">
-                                    {{-- LIHAT --}}
-                                    <button type="button"
-                                            class="btn-aksi btn-lihat"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalLihatKamar{{ $kamar->id }}">
-                                        <i class="fas fa-eye"></i> Lihat
+
+                                {{-- LIHAT --}}
+
+                                <button type="button"
+                                        class="btn btn-aksi-kamar btn-lihat-kamar"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalLihatKamar{{ $kamar->id }}">
+
+                                    <i class="fas fa-eye"></i>
+                                    Lihat
+
+                                </button>
+
+
+                                {{-- EDIT --}}
+
+                                <button type="button"
+                                        class="btn btn-aksi-kamar btn-edit-kamar"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditKamar{{ $kamar->id }}">
+
+                                    <i class="fas fa-edit"></i>
+                                    Edit
+
+                                </button>
+
+
+                                {{-- HAPUS --}}
+
+                                <form action="{{ route('master-kamar.destroy', $kamar->id) }}"
+                                      method="POST"
+                                      class="d-inline"
+                                      onsubmit="return confirm('Yakin ingin menghapus data kamar ini?');">
+
+                                    @csrf
+
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="btn btn-aksi-kamar btn-hapus-kamar">
+
+                                        <i class="fas fa-trash"></i>
+                                        Hapus
+
                                     </button>
 
-                                    {{-- EDIT --}}
-                                    <button type="button"
-                                            class="btn-aksi btn-edit"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalEditKamar{{ $kamar->id }}">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
+                                </form>
 
-                                    {{-- HAPUS --}}
-                                    <form action="{{ route('master-kamar.destroy', $kamar->id) }}"
-                                          method="POST"
-                                          class="d-inline"
-                                          onsubmit="return confirm('Yakin ingin menghapus kamar ini?');">
-                                        @csrf
-                                        @method('DELETE')
+                            </td>
 
-                                        <button type="submit" class="btn-aksi btn-hapus">
-                                            <i class="fas fa-trash"></i> Hapus
+                        </tr>
+
+
+                        {{-- ================================================= --}}
+                        {{-- MODAL LIHAT --}}
+                        {{-- ================================================= --}}
+
+                        <div class="modal fade kamar-modal"
+                             id="modalLihatKamar{{ $kamar->id }}"
+                             tabindex="-1"
+                             aria-hidden="true">
+
+                            <div class="modal-dialog modal-dialog-centered">
+
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+
+                                        <h5 class="modal-title">
+
+                                            <i class="fas fa-eye me-2"></i>
+
+                                            Detail Kamar
+
+                                        </h5>
+
+                                    </div>
+
+
+                                    <div class="modal-body">
+
+                                        <div class="detail-box">
+
+                                            <div class="detail-label">
+                                                Kode Kamar
+                                            </div>
+
+                                            <div class="detail-value">
+                                                {{ $kamar->kode }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="detail-box">
+
+                                            <div class="detail-label">
+                                                Nama Kamar
+                                            </div>
+
+                                            <div class="detail-value">
+                                                {{ $kamar->nama }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="detail-box">
+
+                                            <div class="detail-label">
+                                                Status
+                                            </div>
+
+                                            <div class="detail-value">
+
+                                                @if($kamar->status === 'tersedia')
+
+                                                    <span class="status-badge status-tersedia">
+
+                                                        <i class="fas fa-check-circle"></i>
+
+                                                        Tersedia
+
+                                                    </span>
+
+                                                @else
+
+                                                    <span class="status-badge status-terisi">
+
+                                                        <i class="fas fa-user"></i>
+
+                                                        Terisi
+
+                                                    </span>
+
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="modal-footer">
+
+                                        <button type="button"
+                                                class="btn btn-batal-kamar"
+                                                data-bs-dismiss="modal">
+
+                                            Tutup
+
                                         </button>
-                                    </form>
+
+                                    </div>
+
                                 </div>
-                            </td>
-                        </tr>
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- ================================================= --}}
+                        {{-- MODAL EDIT --}}
+                        {{-- ================================================= --}}
+
+                        <div class="modal fade kamar-modal"
+                             id="modalEditKamar{{ $kamar->id }}"
+                             tabindex="-1"
+                             aria-hidden="true">
+
+                            <div class="modal-dialog modal-dialog-centered">
+
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+
+                                        <h5 class="modal-title">
+
+                                            <i class="fas fa-edit me-2"></i>
+
+                                            Edit Kamar
+
+                                        </h5>
+
+                                    </div>
+
+
+                                    <form action="{{ route('master-kamar.update', $kamar->id) }}"
+                                          method="POST">
+
+                                        @csrf
+
+                                        @method('PUT')
+
+
+                                        <div class="modal-body">
+
+                                            {{-- KODE --}}
+
+                                            <div class="mb-3">
+
+                                                <label class="form-label">
+                                                    Kode Kamar
+                                                </label>
+
+                                                <input type="text"
+                                                       name="kode"
+                                                       class="form-control"
+                                                       value="{{ $kamar->kode }}"
+                                                       placeholder="Contoh: KMR001"
+                                                       required>
+
+                                            </div>
+
+
+                                            {{-- NAMA --}}
+
+                                            <div class="mb-3">
+
+                                                <label class="form-label">
+                                                    Nama Kamar
+                                                </label>
+
+                                                <input type="text"
+                                                       name="nama"
+                                                       class="form-control"
+                                                       value="{{ $kamar->nama }}"
+                                                       placeholder="Contoh: Melati"
+                                                       required>
+
+                                            </div>
+
+
+                                            {{-- STATUS --}}
+
+                                            <div class="mb-3">
+
+                                                <label class="form-label">
+                                                    Status
+                                                </label>
+
+                                                <select name="status"
+                                                        class="form-select"
+                                                        required>
+
+                                                    <option value="">
+                                                        -- Pilih Status --
+                                                    </option>
+
+                                                    <option value="tersedia"
+                                                        {{ $kamar->status === 'tersedia' ? 'selected' : '' }}>
+                                                        Tersedia
+                                                    </option>
+
+                                                    <option value="terisi"
+                                                        {{ $kamar->status === 'terisi' ? 'selected' : '' }}>
+                                                        Terisi
+                                                    </option>
+
+                                                </select>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="modal-footer">
+
+                                            <button type="button"
+                                                    class="btn btn-batal-kamar"
+                                                    data-bs-dismiss="modal">
+
+                                                Batal
+
+                                            </button>
+
+
+                                            <button type="submit"
+                                                    class="btn btn-simpan-kamar">
+
+                                                <i class="fas fa-save me-1"></i>
+
+                                                Simpan Perubahan
+
+                                            </button>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     @empty
+
                         <tr>
-                            <td colspan="5" class="empty-data">
+
+                            <td colspan="5"
+                                class="empty-data">
+
                                 <i class="fas fa-inbox fa-2x d-block mb-2"></i>
+
                                 Belum ada data kamar.
+
                             </td>
+
                         </tr>
+
                     @endforelse
+
                 </tbody>
+
             </table>
+
         </div>
 
     </div>
+
 </div>
 
-{{-- MODAL TAMBAH KAMAR --}}
-<div class="modal fade"
+
+{{-- ================================================= --}}
+{{-- MODAL TAMBAH --}}
+{{-- ================================================= --}}
+
+<div class="modal fade kamar-modal"
      id="modalTambahKamar"
      tabindex="-1"
      aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content">
+
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Kamar</h5>
+
+                <h5 class="modal-title">
+
+                    <i class="fas fa-plus-circle me-2"></i>
+
+                    Tambah Kamar
+
+                </h5>
+
             </div>
 
-            <form action="{{ route('master-kamar.store') }}" method="POST">
+
+            <form action="{{ route('master-kamar.store') }}"
+                  method="POST">
+
                 @csrf
 
+
                 <div class="modal-body">
+
+                    {{-- KODE --}}
+
                     <div class="mb-3">
-                        <label class="form-label">Kode Kamar</label>
+
+                        <label class="form-label">
+                            Kode Kamar
+                        </label>
+
                         <input type="text"
                                name="kode"
                                class="form-control"
+                               value="{{ old('kode') }}"
                                placeholder="Contoh: KMR001"
                                required>
+
                     </div>
 
+
+                    {{-- NAMA --}}
+
                     <div class="mb-3">
-                        <label class="form-label">Nama Kamar</label>
+
+                        <label class="form-label">
+                            Nama Kamar
+                        </label>
+
                         <input type="text"
                                name="nama"
                                class="form-control"
-                               placeholder="Contoh: Kamar Mawar 01"
+                               value="{{ old('nama') }}"
+                               placeholder="Contoh: Melati"
                                required>
+
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
 
-                        <select name="status" class="form-select" required>
-                            <option value="" selected disabled>-- Pilih Status --</option>
-                            <option value="aktif">Terisi</option>
-                            <option value="tidak aktif">Tersedia</option>
-                         
+                    {{-- STATUS --}}
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <select name="status"
+                                class="form-select"
+                                required>
+
+                            <option value="">
+                                -- Pilih Status --
+                            </option>
+
+                            <option value="tersedia"
+                                {{ old('status') === 'tersedia' ? 'selected' : '' }}>
+                                Tersedia
+                            </option>
+
+                            <option value="terisi"
+                                {{ old('status') === 'terisi' ? 'selected' : '' }}>
+                                Terisi
+                            </option>
+
                         </select>
+
                     </div>
+
                 </div>
 
+
                 <div class="modal-footer">
+
                     <button type="button"
-                            class="btn-modal-batal"
+                            class="btn btn-batal-kamar"
                             data-bs-dismiss="modal">
+
                         Batal
+
                     </button>
 
-                    <button type="submit" class="btn-modal-simpan">
-                        <i class="fas fa-save"></i>
-                        Simpan
+
+                    <button type="submit"
+                            class="btn btn-simpan-kamar">
+
+                        <i class="fas fa-save me-1"></i>
+
+                        Simpan Data
+
                     </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
-
-{{-- MODAL LIHAT & EDIT KAMAR (DITARUH DI LUAR TABEL) --}}
-@foreach($kamars as $kamar)
-    {{-- MODAL LIHAT KAMAR --}}
-    <div class="modal fade"
-         id="modalLihatKamar{{ $kamar->id }}"
-         tabindex="-1"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Detail Kamar</h5>
-                </div>
-
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Kode Kamar</label>
-                        <input type="text"
-                               class="form-control"
-                               value="{{ $kamar->kode }}"
-                               readonly>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Nama Kamar</label>
-                        <input type="text"
-                               class="form-control"
-                               value="{{ $kamar->nama }}"
-                               readonly>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <input type="text"
-                               class="form-control"
-                               value="{{ ucfirst($kamar->status) }}"
-                               readonly>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button"
-                            class="btn-modal-batal"
-                            data-bs-dismiss="modal">
-                        Tutup
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- MODAL EDIT KAMAR --}}
-    <div class="modal fade"
-         id="modalEditKamar{{ $kamar->id }}"
-         tabindex="-1"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Kamar</h5>
-                </div>
-
-                <form action="{{ route('master-kamar.update', $kamar->id) }}"
-                      method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Kode Kamar</label>
-                            <input type="text"
-                                   name="kode"
-                                   class="form-control"
-                                   value="{{ $kamar->kode }}"
-                                   required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Nama Kamar</label>
-                            <input type="text"
-                                   name="nama"
-                                   class="form-control"
-                                   value="{{ $kamar->nama }}"
-                                   required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select name="status" class="form-select" required>
-                                <option value="aktif" {{ $kamar->status == 'terisi' || $kamar->status == 'tersedia' ? 'selected' : '' }}>Terisi (Ready)</option>
-                                <option value="perbaikan" {{ $kamar->status == 'tersedia' || $kamar->status == 'maintenance' ? 'selected' : '' }}>Tersedia (Maintenance)</option>
-
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button"
-                                class="btn-modal-batal"
-                                data-bs-dismiss="modal">
-                            Batal
-                        </button>
-
-                        <button type="submit" class="btn-modal-simpan">
-                            <i class="fas fa-save"></i>
-                            Simpan
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-@endforeach
 
 @endsection
