@@ -8,13 +8,14 @@ use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-    // Menampilkan semua role
-    public function index()
-    {
-        $roles = Role::orderBy('id', 'ASC')->get();
+   public function index()
+{
+    $roles = Role::orderBy('id', 'ASC')->get();
 
-        return view('roles.index', compact('roles'));
-    }
+    $permissions = Permission::orderBy('name')->get();
+
+    return view('roles.index', compact('roles', 'permissions'));
+}
 
     // Form tambah role
     public function create()
