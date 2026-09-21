@@ -120,8 +120,17 @@ Route::resource('permissions', PermissionController::class);
 // USER MANAGEMENT
 // ==================================================
 
-Route::resource('users', UserController::class);
+Route::get(
+    '/users/{id}/reset-password',
+    [UserController::class, 'resetPasswordForm']
+)->name('users.reset-password');
 
+Route::post(
+    '/users/{id}/reset-password',
+    [UserController::class, 'resetPassword']
+)->name('users.reset-password.update');
+
+Route::resource('users', UserController::class);
 
 // ==================================================
 // MASTER DATA

@@ -55,7 +55,6 @@
         font-size: 16px;
         font-weight: 700;
         color: var(--text-dark);
-        line-height: 1.2;
     }
 
     .obat-subtitle {
@@ -75,11 +74,9 @@
         border-radius: 7px;
         font-size: 10px;
         font-weight: 600;
-        text-decoration: none;
         display: inline-flex;
         align-items: center;
         gap: 5px;
-        transition: 0.2s;
         cursor: pointer;
     }
 
@@ -95,7 +92,7 @@
         background: white;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     }
 
     .obat-table-wrapper {
@@ -105,14 +102,11 @@
 
     .obat-table {
         width: 100%;
+        min-width: 900px;
         border-collapse: collapse;
         margin: 0;
-        min-width: 900px;
     }
 
-    /* =========================
-       TABLE HEADER
-    ========================= */
     .obat-table thead th {
         background: var(--blue-main);
         color: white;
@@ -124,11 +118,8 @@
         text-align: left;
     }
 
-    /* =========================
-       TABLE BODY
-    ========================= */
     .obat-table tbody td {
-        padding: 10px 10px;
+        padding: 10px;
         font-size: 9px;
         color: #6b7280;
         border-bottom: 1px solid #edf0f4;
@@ -136,36 +127,34 @@
         background: white;
     }
 
-    .obat-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
     .obat-table tbody tr:hover td {
         background: #fafcff;
     }
 
-    /* =========================
-       KOLOM
-    ========================= */
     .nomor {
         width: 45px;
-        color: #6b7280 !important;
     }
 
-   .kode-obat {
-    white-space: nowrap;
-}
+    /* =========================
+       KODE
+    ========================= */
+    .kode-obat {
+        white-space: nowrap;
+    }
 
-.kode-obat-badge {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 5px;
-    background: #e7f3ff;
-    color: #1877f2;
-    font-size: 8px;
-    font-weight: 600;
-}
+    .kode-obat-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 5px;
+        background: #e7f3ff;
+        color: #1877f2;
+        font-size: 8px;
+        font-weight: 600;
+    }
 
+    /* =========================
+       NAMA
+    ========================= */
     .nama-obat {
         font-weight: 600;
         color: #1f2937 !important;
@@ -173,7 +162,7 @@
     }
 
     /* =========================
-       BADGE KATEGORI
+       KATEGORI
     ========================= */
     .badge-kategori {
         display: inline-block;
@@ -260,10 +249,10 @@
         align-items: center;
         justify-content: center;
         gap: 4px;
-        text-decoration: none;
         cursor: pointer;
         transition: 0.2s;
         min-width: 43px;
+        text-decoration: none;
     }
 
     .btn-lihat {
@@ -307,10 +296,6 @@
         padding: 8px 11px;
     }
 
-    .alert-danger ul {
-        padding-left: 16px;
-    }
-
     /* =========================
        DATA KOSONG
     ========================= */
@@ -320,48 +305,61 @@
         color: #9ca3af !important;
     }
 
-    /* =========================
+    /* =====================================================
        MODAL
-    ========================= */
+    ===================================================== */
+
     .modal-obat .modal-dialog {
-        max-width: 337px;
+        max-width: 600px;
     }
 
     .modal-obat .modal-content {
         border: none;
-        border-radius: 10px;
+        border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.20);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.20);
     }
 
+    /* HEADER MODAL BIRU */
     .modal-obat .modal-header {
         background: var(--blue-main);
         color: white;
         border: none;
-        padding: 12px 14px;
+        padding: 13px 15px;
     }
 
     .modal-obat .modal-title {
-        font-size: 12px;
-        font-weight: 600;
+        font-size: 13px;
+        font-weight: 700;
         margin: 0;
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 7px;
     }
 
-    /* HILANGKAN X */
-    .modal-obat .btn-close {
-        display: none !important;
-    }
+    /*
+       TIDAK ADA TOMBOL X
+    */
 
     .modal-obat .modal-body {
-        padding: 15px 14px 7px;
         background: white;
+        padding: 18px 15px;
     }
 
+    .modal-obat .modal-footer {
+        background: #f8fafc;
+        border: none;
+        padding: 10px 15px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 7px;
+    }
+
+    /* =========================
+       FORM
+    ========================= */
     .form-obat-group {
-        margin-bottom: 9px;
+        margin-bottom: 10px;
     }
 
     .form-obat-label {
@@ -369,15 +367,15 @@
         font-size: 9px;
         font-weight: 500;
         color: #526071;
-        margin-bottom: 4px;
+        margin-bottom: 5px;
     }
 
     .form-obat-control {
         width: 100%;
-        height: 30px;
+        min-height: 32px;
         border: 1px solid #d4dce6;
         border-radius: 6px;
-        padding: 5px 8px;
+        padding: 6px 9px;
         font-size: 9px;
         color: #374151;
         outline: none;
@@ -387,7 +385,7 @@
 
     .form-obat-control:focus {
         border-color: var(--blue-main);
-        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.10);
+        box-shadow: 0 0 0 2px rgba(24,119,242,0.10);
     }
 
     .form-obat-control::placeholder {
@@ -398,14 +396,21 @@
         cursor: pointer;
     }
 
-    /* HARGA */
+    textarea.form-obat-control {
+        min-height: 60px;
+        resize: vertical;
+    }
+
+    /* =========================
+       HARGA
+    ========================= */
     .harga-input-wrapper {
         position: relative;
     }
 
     .harga-prefix {
         position: absolute;
-        left: 8px;
+        left: 9px;
         top: 50%;
         transform: translateY(-50%);
         font-size: 9px;
@@ -414,39 +419,52 @@
     }
 
     .harga-input {
-        padding-left: 23px !important;
+        padding-left: 24px !important;
     }
 
-    /* FOOTER */
-    .modal-obat .modal-footer {
+    /* =========================
+       VIEW / LIHAT
+    ========================= */
+    .view-obat-value {
+        width: 100%;
+        min-height: 32px;
+        border: 1px solid #e1e7ef;
+        border-radius: 6px;
         background: #f8fafc;
-        border: none;
-        padding: 9px 14px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 6px;
+        padding: 8px 9px;
+        font-size: 9px;
+        color: #374151;
     }
 
+    /* =========================
+       BUTTON MODAL
+    ========================= */
     .btn-batal-obat {
-        background: transparent;
+        background: #f1f5f9;
         border: none;
-        color: #374151;
+        color: #64748b;
+        border-radius: 6px;
+        padding: 7px 12px;
         font-size: 9px;
-        padding: 6px 9px;
         cursor: pointer;
+    }
+
+    .btn-batal-obat:hover {
+        background: #e2e8f0;
+        color: #374151;
     }
 
     .btn-simpan-obat {
         background: var(--blue-main);
         color: white;
         border: none;
-        border-radius: 5px;
-        padding: 6px 10px;
+        border-radius: 6px;
+        padding: 7px 12px;
         font-size: 9px;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
+        gap: 5px;
         cursor: pointer;
     }
 
@@ -454,7 +472,9 @@
         background: var(--blue-dark);
     }
 
-    /* ERROR VALIDASI */
+    /* =========================
+       ERROR
+    ========================= */
     .error-obat {
         color: #dc3545;
         font-size: 8px;
@@ -473,14 +493,6 @@
         .obat-header {
             align-items: flex-start;
             gap: 12px;
-        }
-
-        .obat-title {
-            font-size: 15px;
-        }
-
-        .btn-tambah-obat {
-            white-space: nowrap;
         }
 
         .modal-obat .modal-dialog {
@@ -514,6 +526,7 @@
 
         </div>
 
+
         {{-- TOMBOL TAMBAH --}}
         <button
             type="button"
@@ -528,7 +541,7 @@
     </div>
 
 
-    {{-- PESAN SUCCESS --}}
+    {{-- SUCCESS --}}
     @if(session('success'))
 
         <div class="alert alert-success">
@@ -538,7 +551,7 @@
     @endif
 
 
-    {{-- ERROR VALIDASI --}}
+    {{-- ERROR --}}
     @if($errors->any())
 
         <div class="alert alert-danger">
@@ -593,14 +606,17 @@
                             </td>
 
 
-                           <td class="kode-obat">
-    <span class="kode-obat-badge">
-        {{ $obat->kode_obat }}
-    </span>
-</td>
+                            {{-- KODE --}}
+                            <td class="kode-obat">
+
+                                <span class="kode-obat-badge">
+                                    {{ $obat->kode_obat }}
+                                </span>
+
+                            </td>
 
 
-                            {{-- NAMA OBAT --}}
+                            {{-- NAMA --}}
                             <td class="nama-obat">
                                 {{ $obat->nama_obat }}
                             </td>
@@ -624,7 +640,9 @@
 
                             {{-- HARGA --}}
                             <td class="harga-obat">
+
                                 Rp {{ number_format($obat->harga, 0, ',', '.') }}
+
                             </td>
 
 
@@ -653,6 +671,7 @@
 
                                     @endif
 
+
                                     <span class="jumlah-stok">
                                         {{ $obat->stok }} {{ $obat->satuan }}
                                     </span>
@@ -668,30 +687,34 @@
                                 <div class="aksi-wrapper">
 
                                     {{-- LIHAT --}}
-                                    <a
-                                        href="{{ route('master-obat.show', $obat->id) }}"
+                                    <button
+                                        type="button"
                                         class="btn-aksi btn-lihat"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalLihatObat{{ $obat->id }}"
                                     >
                                         <i class="fas fa-eye"></i>
                                         Lihat
-                                    </a>
+                                    </button>
 
 
                                     {{-- EDIT --}}
-                                    <a
-                                        href="{{ route('master-obat.edit', $obat->id) }}"
+                                    <button
+                                        type="button"
                                         class="btn-aksi btn-edit"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditObat{{ $obat->id }}"
                                     >
                                         <i class="fas fa-edit"></i>
                                         Edit
-                                    </a>
+                                    </button>
 
 
                                     {{-- HAPUS --}}
                                     <form
                                         action="{{ route('master-obat.destroy', $obat->id) }}"
                                         method="POST"
-                                        style="display: inline;"
+                                        style="display:inline;"
                                     >
 
                                         @csrf
@@ -713,6 +736,7 @@
                             </td>
 
                         </tr>
+
 
                     @empty
 
@@ -740,15 +764,14 @@
 </div>
 
 
-{{-- =====================================================
+{{-- =========================================================
      MODAL TAMBAH OBAT
-===================================================== --}}
+========================================================= --}}
 
 <div
     class="modal fade modal-obat"
     id="modalTambahObat"
     tabindex="-1"
-    aria-labelledby="modalTambahObatLabel"
     aria-hidden="true"
 >
 
@@ -756,21 +779,20 @@
 
         <div class="modal-content">
 
-            {{-- HEADER MODAL --}}
+            {{-- HEADER --}}
+
             <div class="modal-header">
 
-                <h5
-                    class="modal-title"
-                    id="modalTambahObatLabel"
-                >
+                <h5 class="modal-title">
+
                     <i class="fas fa-pills"></i>
                     Tambah Obat
+
                 </h5>
 
             </div>
 
 
-            {{-- FORM --}}
             <form
                 action="{{ route('master-obat.store') }}"
                 method="POST"
@@ -778,10 +800,11 @@
 
                 @csrf
 
-                {{-- BODY --}}
+
                 <div class="modal-body">
 
-                    {{-- KODE OBAT --}}
+                    {{-- KODE --}}
+
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -806,21 +829,36 @@
                     </div>
 
 
-                    {{-- NAMA OBAT --}}
+                    {{-- NAMA OBAT LIST --}}
+
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
                             Nama Obat
                         </label>
 
-                        <input
-                            type="text"
+                        <select
                             name="nama_obat"
                             class="form-obat-control"
-                            placeholder="Masukkan nama obat"
-                            value="{{ old('nama_obat') }}"
                             required
                         >
+
+                            <option value="">
+                                -- Pilih Nama Obat --
+                            </option>
+
+                            @foreach($obats->unique('nama_obat') as $obatName)
+
+                                <option
+                                    value="{{ $obatName->nama_obat }}"
+                                    {{ old('nama_obat') == $obatName->nama_obat ? 'selected' : '' }}
+                                >
+                                    {{ $obatName->nama_obat }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
 
                         @error('nama_obat')
                             <span class="error-obat">
@@ -832,6 +870,7 @@
 
 
                     {{-- KATEGORI --}}
+
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -871,6 +910,7 @@
 
 
                     {{-- SATUAN --}}
+
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -910,6 +950,7 @@
 
 
                     {{-- HARGA --}}
+
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -944,6 +985,7 @@
 
 
                     {{-- STOK --}}
+
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -972,6 +1014,7 @@
 
 
                 {{-- FOOTER --}}
+
                 <div class="modal-footer">
 
                     <button
@@ -999,5 +1042,394 @@
     </div>
 
 </div>
+
+
+
+{{-- =========================================================
+     MODAL EDIT OBAT
+========================================================= --}}
+
+@foreach($obats as $obat)
+
+<div
+    class="modal fade modal-obat"
+    id="modalEditObat{{ $obat->id }}"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            {{-- HEADER --}}
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    <i class="fas fa-edit"></i>
+                    Edit Obat
+
+                </h5>
+
+            </div>
+
+
+            <form
+                action="{{ route('master-obat.update', $obat->id) }}"
+                method="POST"
+            >
+
+                @csrf
+                @method('PUT')
+
+
+                <div class="modal-body">
+
+                    {{-- KODE --}}
+
+                    <div class="form-obat-group">
+
+                        <label class="form-obat-label">
+                            Kode Obat
+                        </label>
+
+                        <input
+                            type="text"
+                            name="kode_obat"
+                            class="form-obat-control"
+                            value="{{ $obat->kode_obat }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    {{-- NAMA --}}
+
+                    <div class="form-obat-group">
+
+                        <label class="form-obat-label">
+                            Nama Obat
+                        </label>
+
+                        <select
+                            name="nama_obat"
+                            class="form-obat-control"
+                            required
+                        >
+
+                            @foreach($obats->unique('nama_obat') as $obatName)
+
+                                <option
+                                    value="{{ $obatName->nama_obat }}"
+                                    {{ $obat->nama_obat == $obatName->nama_obat ? 'selected' : '' }}
+                                >
+                                    {{ $obatName->nama_obat }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- KATEGORI --}}
+
+                    <div class="form-obat-group">
+
+                        <label class="form-obat-label">
+                            Kategori
+                        </label>
+
+                        <select
+                            name="kategori"
+                            class="form-obat-control"
+                            required
+                        >
+
+                            @foreach($kategoris as $kategori)
+
+                                <option
+                                    value="{{ $kategori->nama }}"
+                                    {{ $obat->kategori == $kategori->nama ? 'selected' : '' }}
+                                >
+                                    {{ $kategori->nama }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- SATUAN --}}
+
+                    <div class="form-obat-group">
+
+                        <label class="form-obat-label">
+                            Satuan
+                        </label>
+
+                        <select
+                            name="satuan"
+                            class="form-obat-control"
+                            required
+                        >
+
+                            @foreach($satuans as $satuan)
+
+                                <option
+                                    value="{{ $satuan->nama }}"
+                                    {{ $obat->satuan == $satuan->nama ? 'selected' : '' }}
+                                >
+                                    {{ $satuan->nama }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- HARGA --}}
+
+                    <div class="form-obat-group">
+
+                        <label class="form-obat-label">
+                            Harga
+                        </label>
+
+                        <div class="harga-input-wrapper">
+
+                            <span class="harga-prefix">
+                                Rp
+                            </span>
+
+                            <input
+                                type="number"
+                                name="harga"
+                                class="form-obat-control harga-input"
+                                value="{{ $obat->harga }}"
+                                min="0"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- STOK --}}
+
+                    <div class="form-obat-group">
+
+                        <label class="form-obat-label">
+                            Stok
+                        </label>
+
+                        <input
+                            type="number"
+                            name="stok"
+                            class="form-obat-control"
+                            value="{{ $obat->stok }}"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                {{-- FOOTER --}}
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn-batal-obat"
+                        data-bs-dismiss="modal"
+                    >
+                        Batal
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn-simpan-obat"
+                    >
+                        <i class="fas fa-save"></i>
+                        Simpan Perubahan
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endforeach
+
+
+
+{{-- =========================================================
+     MODAL LIHAT OBAT
+========================================================= --}}
+
+@foreach($obats as $obat)
+
+<div
+    class="modal fade modal-obat"
+    id="modalLihatObat{{ $obat->id }}"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            {{-- HEADER --}}
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    <i class="fas fa-eye"></i>
+                    Detail Obat
+
+                </h5>
+
+            </div>
+
+
+            {{-- BODY --}}
+
+            <div class="modal-body">
+
+                {{-- KODE --}}
+
+                <div class="form-obat-group">
+
+                    <label class="form-obat-label">
+                        Kode Obat
+                    </label>
+
+                    <div class="view-obat-value">
+                        {{ $obat->kode_obat }}
+                    </div>
+
+                </div>
+
+
+                {{-- NAMA --}}
+
+                <div class="form-obat-group">
+
+                    <label class="form-obat-label">
+                        Nama Obat
+                    </label>
+
+                    <div class="view-obat-value">
+                        {{ $obat->nama_obat }}
+                    </div>
+
+                </div>
+
+
+                {{-- KATEGORI --}}
+
+                <div class="form-obat-group">
+
+                    <label class="form-obat-label">
+                        Kategori
+                    </label>
+
+                    <div class="view-obat-value">
+                        {{ $obat->kategori }}
+                    </div>
+
+                </div>
+
+
+                {{-- SATUAN --}}
+
+                <div class="form-obat-group">
+
+                    <label class="form-obat-label">
+                        Satuan
+                    </label>
+
+                    <div class="view-obat-value">
+                        {{ $obat->satuan }}
+                    </div>
+
+                </div>
+
+
+                {{-- HARGA --}}
+
+                <div class="form-obat-group">
+
+                    <label class="form-obat-label">
+                        Harga
+                    </label>
+
+                    <div class="view-obat-value">
+                        Rp {{ number_format($obat->harga, 0, ',', '.') }}
+                    </div>
+
+                </div>
+
+
+                {{-- STOK --}}
+
+                <div class="form-obat-group">
+
+                    <label class="form-obat-label">
+                        Stok
+                    </label>
+
+                    <div class="view-obat-value">
+
+                        {{ $obat->stok }}
+                        {{ $obat->satuan }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- FOOTER --}}
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-batal-obat"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endforeach
 
 @endsection

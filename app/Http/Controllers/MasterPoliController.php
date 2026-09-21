@@ -7,29 +7,45 @@ use Illuminate\Http\Request;
 
 class MasterPoliController extends Controller
 {
-
+    /**
+     * Menampilkan semua data poli
+     * Data terbaru ditampilkan paling atas
+     */
     public function index()
     {
-        $polis = MasterPoli::latest()->get();
+        $polis = MasterPoli::orderBy('created_at', 'DESC')->get();
 
         return view('master-poli.index', compact('polis'));
     }
 
 
+    /**
+     * Menampilkan form tambah
+     * Tidak digunakan karena tambah menggunakan modal
+     */
     public function create()
     {
         return view('master-poli.create');
     }
 
 
+    /**
+     * Menyimpan data poli baru
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'nama_poli' => 'required|string|max:255',
+            'kode' => 'required|unique:master_polis,kode',
+            'nama' => 'required',
+        ], [
+            'kode.required' => 'Kode Poli wajib diisi.',
+            'kode.unique' => 'Kode Poli sudah digunakan.',
+            'nama.required' => 'Nama Poli wajib diisi.',
         ]);
 
         MasterPoli::create([
-            'nama_poli' => $request->nama_poli,
+            'kode' => $request->kode,
+            'nama' => $request->nama,
         ]);
 
         return redirect()
@@ -37,7 +53,11 @@ class MasterPoliController extends Controller
             ->with('success', 'Data poli berhasil ditambahkan.');
     }
 
-    public function show(string $id)
+
+    /**
+     * Menampilkan detail data poli
+     */
+    public function show($id)
     {
         $poli = MasterPoli::findOrFail($id);
 
@@ -45,7 +65,11 @@ class MasterPoliController extends Controller
     }
 
 
-    public function edit(string $id)
+    /**
+     * Menampilkan form edit
+     * Tidak digunakan karena edit menggunakan modal
+     */
+    public function edit($id)
     {
         $poli = MasterPoli::findOrFail($id);
 
@@ -53,24 +77,37 @@ class MasterPoliController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    /**
+     * Mengupdate data poli
+     */
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama_poli' => 'required|string|max:255',
-        ]);
-
         $poli = MasterPoli::findOrFail($id);
 
+        $request->validate([
+            'kode' => 'required|unique:master_polis,kode,' . $poli->id,
+            'nama' => 'required',
+        ], [
+            'kode.required' => 'Kode Poli wajib diisi.',
+            'kode.unique' => 'Kode Poli sudah digunakan.',
+            'nama.required' => 'Nama Poli wajib diisi.',
+        ]);
+
         $poli->update([
-            'nama_poli' => $request->nama_poli,
+            'kode' => $request->kode,
+            'nama' => $request->nama,
         ]);
 
         return redirect()
             ->route('master-poli.index')
-            ->with('success', 'Data poli berhasil diperbarui.');
+            ->with('success', 'Data poli berhasil diupdate.');
     }
 
-    public function destroy(string $id)
+
+    /**
+     * Menghapus data poli
+     */
+    public function destroy($id)
     {
         $poli = MasterPoli::findOrFail($id);
 
