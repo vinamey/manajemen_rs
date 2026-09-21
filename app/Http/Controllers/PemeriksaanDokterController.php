@@ -6,6 +6,7 @@ use App\Models\PemeriksaanDokter;
 use App\Models\PendaftaranPasien;
 use App\Models\MasterDokter;
 use Illuminate\Http\Request;
+use App\Models\MasterObat;
 
 class PemeriksaanDokterController extends Controller
 {
@@ -13,18 +14,33 @@ class PemeriksaanDokterController extends Controller
      * Menampilkan daftar pemeriksaan dokter
      */
     public function index()
-    {
-        $pemeriksaans = PemeriksaanDokter::with([
-            'pendaftaran.pasien',
-            'pendaftaran.poli',
-            'dokter'
-        ])
-        ->latest()
-        ->get();
+{
+    $pemeriksaans = PemeriksaanDokter::with([
+        'pendaftaran.pasien',
+        'pendaftaran.poli',
+        'dokter'
+    ])->latest()->get();
 
-        return view('pemeriksaan-dokter.index', compact('pemeriksaans'));
-    }
+    $pendaftarans = PendaftaranPasien::with([
+        'pasien',
+        'dokter',
+        'poli'
+    ])->latest()->get();
 
+    $dokters = MasterDokter::orderBy('nama')->get();
+
+    $obats = MasterObat::orderBy('nama_obat')->get();
+
+    return view(
+        'pemeriksaan-dokter.index',
+        compact(
+            'pemeriksaans',
+            'pendaftarans',
+            'dokters',
+            'obats'
+        )
+    );
+}
     /**
      * Menampilkan form pemeriksaan dokter
      */
@@ -52,26 +68,24 @@ class PemeriksaanDokterController extends Controller
      * Menyimpan pemeriksaan dokter
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'pendaftaran_id' => 'required|exists:pendaftaran_pasiens,id',
-            'dokter_id' => 'required|exists:master_dokters,id',
-            'keluhan' => 'required|string',
-            'resep_obat' => 'required|integer',
-        ]);
+{
+    $validated = $request->validate([
+        'pendaftaran_id' => 'required|exists:pendaftaran_pasiens,id',
+        'dokter_id' => 'required|exists:master_dokters,id',
+        'keluhan' => 'required|string',
+    ]);
 
-        PemeriksaanDokter::create([
-            'pendaftaran_id' => $request->pendaftaran_id,
-            'dokter_id' => $request->dokter_id,
-            'keluhan' => $request->keluhan,
-            'resep_obat' => $request->resep_obat,
-        ]);
+    PemeriksaanDokter::create([
+        'pendaftaran_id' => $validated['pendaftaran_id'],
+        'dokter_id' => $validated['dokter_id'],
+        'keluhan' => $validated['keluhan'],
+        'resep_obat' => 0,
+    ]);
 
-        return redirect()
-            ->route('pemeriksaan-dokter.index')
-            ->with('success', 'Pemeriksaan dokter berhasil disimpan!');
-    }
-
+    return redirect()
+        ->route('pemeriksaan-dokter.index')
+        ->with('success', 'Pemeriksaan dokter berhasil disimpan!');
+}
     /**
      * Menampilkan detail pemeriksaan dokter
      */

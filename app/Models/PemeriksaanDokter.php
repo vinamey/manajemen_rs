@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PendaftaranPasien;
+use App\Models\MasterDokter;
 
 class PemeriksaanDokter extends Model
 {
@@ -15,9 +17,7 @@ class PemeriksaanDokter extends Model
         'resep_obat',
     ];
 
-    /**
-     * Relasi ke pendaftaran pasien
-     */
+   
     public function pendaftaran()
     {
         return $this->belongsTo(
@@ -26,9 +26,7 @@ class PemeriksaanDokter extends Model
         );
     }
 
-    /**
-     * Relasi ke dokter
-     */
+    
     public function dokter()
     {
         return $this->belongsTo(
