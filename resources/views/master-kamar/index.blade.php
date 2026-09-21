@@ -526,9 +526,9 @@
 
                         <select name="status" class="form-select" required>
                             <option value="" selected disabled>-- Pilih Status --</option>
-                            <option value="aktif">Aktif</option>
-                            <option value="tidak aktif">Tidak Aktif</option>
-                            <option value="perbaikan">Perbaikan</option>
+                            <option value="aktif">Terisi</option>
+                            <option value="tidak aktif">Tersedia</option>
+                         
                         </select>
                     </div>
                 </div>
@@ -638,9 +638,9 @@
                         <div class="mb-3">
                             <label class="form-label">Status</label>
                             <select name="status" class="form-select" required>
-                                <option value="aktif" {{ $kamar->status == 'aktif' || $kamar->status == 'tersedia' ? 'selected' : '' }}>Aktif (Ready)</option>
-                                <option value="perbaikan" {{ $kamar->status == 'perbaikan' || $kamar->status == 'maintenance' ? 'selected' : '' }}>Perbaikan (Maintenance)</option>
-                                <option value="tidak_aktif" {{ $kamar->status == 'tidak_aktif' || $kamar->status == 'tidak aktif' || $kamar->status == 'terisi' ? 'selected' : '' }}>Tidak Aktif (Inactive)</option>
+                                <option value="aktif" {{ $kamar->status == 'terisi' || $kamar->status == 'tersedia' ? 'selected' : '' }}>Terisi (Ready)</option>
+                                <option value="perbaikan" {{ $kamar->status == 'tersedia' || $kamar->status == 'maintenance' ? 'selected' : '' }}>Tersedia (Maintenance)</option>
+
                             </select>
                         </div>
                     </div>

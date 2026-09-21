@@ -10,12 +10,13 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        $users = User::with('roles')->get();
+   public function index()
+{
+    $users = User::with('roles')->get();
+    $roles = Role::all();
 
-        return view('users.index', compact('users'));
-    }
+    return view('users.index', compact('users', 'roles'));
+}
 
     public function create()
     {
