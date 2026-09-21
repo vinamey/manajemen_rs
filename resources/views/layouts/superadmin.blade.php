@@ -374,24 +374,42 @@
             </li>
 
 
-            {{-- ========================= --}}
-            {{-- PENDAFTARAN PASIEN --}}
-            {{-- ========================= --}}
+ {{-- ========================= --}}
+{{-- PENDAFTARAN PASIEN --}}
+{{-- ========================= --}}
 
-            <li class="nav-item">
+<li class="nav-item">
 
-                <a
-                    href="{{ route('pendaftaran.index') }}"
-                    class="nav-link">
+    <a
+        href="{{ route('pendaftaran.index') }}"
+        class="nav-link">
 
-                    <i class="fa-solid fa-clipboard-user me-2"></i>
+        <i class="fa-solid fa-clipboard-user me-2"></i>
 
-                    Pendaftaran Pasien
+        Pendaftaran Pasien
 
-                </a>
+    </a>
 
-            </li>
+</li>
 
+
+{{-- ========================= --}}
+{{-- PEMERIKSAAN DOKTER --}}
+{{-- ========================= --}}
+
+<li class="nav-item">
+
+    <a
+        href="{{ route('pemeriksaan-dokter.index') }}"
+        class="nav-link">
+
+        <i class="fa-solid fa-stethoscope me-2"></i>
+
+        Pemeriksaan Dokter
+
+    </a>
+
+</li>
 
             {{-- ========================= --}}
             {{-- LAPORAN --}}
