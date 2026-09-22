@@ -29,9 +29,9 @@ class AuthController extends Controller
                 return redirect()->route('superadmin.dashboard');
             }
 
-            if (Auth::user()->hasRole('Admin Rumah Sakit')) {
-                return redirect()->route('admin.dashboard');
-            }
+           if (Auth::user()->hasRole('Admin Rumah Sakit')) {
+    return redirect()->route('dashboard');
+}
 
             if (Auth::user()->hasRole('Dokter')) {
                 return redirect()->route('dokter.dashboard');
