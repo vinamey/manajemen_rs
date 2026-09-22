@@ -50,11 +50,10 @@ class LoginController extends Controller
         // ADMIN RUMAH SAKIT
         // ==========================
         if ($user->hasRole('Admin Rumah Sakit')) {
-            return redirect()
-                ->route('admin.dashboard')
-                ->with('success', 'Selamat datang Admin Rumah Sakit!');
-        }
-
+    return redirect()
+        ->route('superadmin.dashboard')
+        ->with('success', 'Selamat datang Admin Rumah Sakit!');
+}
         // ==========================
         // DOKTER
         // ==========================
