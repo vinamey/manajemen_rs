@@ -821,11 +821,7 @@
                                             </div>
 
 
-                                            <div class="asuransi-id">
-
-                                                ID: {{ $asuransi->id }}
-
-                                            </div>
+                                           
 
                                         </div>
 

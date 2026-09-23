@@ -10,12 +10,12 @@ class MasterPerawatController extends Controller
     /**
      * Menampilkan semua data perawat.
      */
-    public function index()
-    {
-        $perawats = MasterPerawat::latest()->get();
+  public function index()
+{
+    $perawats = MasterPerawat::latest()->get();
 
-        return view('master-perawat.index', compact('perawats'));
-    }
+    return view('master-perawat.index', compact('perawats'));
+}
 
     /**
      * Menampilkan form tambah perawat.
@@ -24,44 +24,37 @@ class MasterPerawatController extends Controller
     {
         return view('master-perawat.create');
     }
+public function store(Request $request)
+{
+    $request->merge([
+        'jenis_kelamin' => strtolower($request->jenis_kelamin),
+    ]);
 
-    /**
-     * Menyimpan data perawat baru.
-     */
-    public function store(Request $request)
-    {
-        // Ubah jenis kelamin menjadi huruf kecil
-        // agar "Laki-laki" dan "laki-laki" sama-sama bisa diterima.
-        $request->merge([
-            'jenis_kelamin' => strtolower($request->jenis_kelamin),
-        ]);
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+        'tanggal_lahir' => 'required|date',
+        'alamat' => 'required|string',
+    ], [
+        'nama.required' => 'Nama perawat wajib diisi.',
+        'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+        'jenis_kelamin.in' => 'Jenis kelamin harus Laki-laki atau Perempuan.',
+        'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+        'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
+        'alamat.required' => 'Alamat wajib diisi.',
+    ]);
 
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
-            'tanggal_lahir' => 'required|date',
-            'alamat' => 'required|string',
-        ], [
-            'nama.required' => 'Nama perawat wajib diisi.',
-            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
-            'jenis_kelamin.in' => 'Jenis kelamin harus Laki-laki atau Perempuan.',
-            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
-            'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
-            'alamat.required' => 'Alamat wajib diisi.',
-        ]);
+    MasterPerawat::create([
+        'nama' => $request->nama,
+        'jenis_kelamin' => $request->jenis_kelamin,
+        'tanggal_lahir' => $request->tanggal_lahir,
+        'alamat' => $request->alamat,
+    ]);
 
-        MasterPerawat::create([
-            'nama' => $request->nama,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'alamat' => $request->alamat,
-        ]);
-
-        return redirect()
-            ->route('master-perawat.index')
-            ->with('success', 'Data perawat berhasil ditambahkan.');
-    }
-
+    return redirect()
+        ->route('master-perawat.index')
+        ->with('success', 'Data perawat berhasil ditambahkan.');
+}
     /**
      * Menampilkan detail perawat.
      */
@@ -87,11 +80,12 @@ class MasterPerawatController extends Controller
      */
     public function update(Request $request, MasterPerawat $master_perawat)
     {
-        // Samakan format jenis kelamin menjadi huruf kecil.
+        // Ubah jenis kelamin menjadi huruf kecil
         $request->merge([
             'jenis_kelamin' => strtolower($request->jenis_kelamin),
         ]);
 
+        // Validasi
         $request->validate([
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
@@ -106,6 +100,7 @@ class MasterPerawatController extends Controller
             'alamat.required' => 'Alamat wajib diisi.',
         ]);
 
+        // Update data
         $master_perawat->update([
             'nama' => $request->nama,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -113,6 +108,15 @@ class MasterPerawatController extends Controller
             'alamat' => $request->alamat,
         ]);
 
+        // Jika request AJAX, kirim JSON
+        if ($request->ajax()) {
+            return response()->json([
+                'message' => 'Data perawat berhasil diperbarui.',
+                'data' => $master_perawat->fresh(),
+            ]);
+        }
+
+        // Jika bukan AJAX, redirect
         return redirect()
             ->route('master-perawat.index')
             ->with('success', 'Data perawat berhasil diperbarui.');
@@ -121,10 +125,19 @@ class MasterPerawatController extends Controller
     /**
      * Menghapus data perawat.
      */
-    public function destroy(MasterPerawat $master_perawat)
+    public function destroy(Request $request, MasterPerawat $master_perawat)
     {
         $master_perawat->delete();
 
+        // Jika request AJAX, kirim JSON
+        if ($request->ajax()) {
+            return response()->json([
+                'message' => 'Data perawat berhasil dihapus.',
+                'id' => $master_perawat->id,
+            ]);
+        }
+
+        // Jika bukan AJAX, redirect
         return redirect()
             ->route('master-perawat.index')
             ->with('success', 'Data perawat berhasil dihapus.');

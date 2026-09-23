@@ -759,12 +759,7 @@
                                             </div>
 
 
-                                            <div class="tindakan-id">
-
-                                                ID: {{ $tindakan->id }}
-
-                                            </div>
-
+                                           
                                         </div>
 
                                     </div>

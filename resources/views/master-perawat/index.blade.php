@@ -736,183 +736,116 @@
                         </tr>
 
                     </thead>
-
-
-                    <tbody>
-
-                        @forelse($perawats as $perawat)
-
-                            <tr id="perawat-{{ $perawat->id }}">
-
-
-                                {{-- NO --}}
-
-                                <td class="text-center text-muted">
-
-                                    {{ $loop->iteration }}
-
-                                </td>
-
-
-                                {{-- NAMA --}}
-
-                                <td>
-
-                                    <div class="d-flex align-items-center gap-2">
-
-
-                                        <div class="avatar-perawat">
-
-                                            <i class="fas fa-user-nurse"></i>
-
-                                        </div>
-
-
-                                        <div>
-
-                                            <div class="perawat-name">
-
-                                                {{ $perawat->Nama }}
-
-                                            </div>
-
-
-                                            <div class="perawat-id">
-
-                                                ID: {{ $perawat->id }}
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-
-                                {{-- JENIS KELAMIN --}}
-
-                                <td>
-
-                                    <span class="badge badge-blue-soft-perawat">
-
-                                        {{ ucfirst($perawat->Jenis_Kelamin) }}
-
-                                    </span>
-
-                                </td>
-
-
-                                {{-- TANGGAL LAHIR --}}
-
-                                <td>
-
-                                    {{ $perawat->Tanggal_Lahir }}
-
-                                </td>
-
-
-                                {{-- ALAMAT --}}
-
-                                <td>
-
-                                    {{ $perawat->Alamat ?? '-' }}
-
-                                </td>
-
-
-                                {{-- AKSI --}}
-
-                                <td class="text-center">
-
-                                    <div class="d-flex justify-content-center gap-1">
-
-
-                                        {{-- LIHAT --}}
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-action-view-perawat"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalLihatPerawat{{ $perawat->id }}"
-                                        >
-
-                                            <i class="fas fa-eye me-1"></i>
-
-                                            Lihat
-
-                                        </button>
-
-
-                                        {{-- EDIT --}}
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-action-edit-perawat"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalEditPerawat{{ $perawat->id }}"
-                                        >
-
-                                            <i class="fas fa-edit me-1"></i>
-
-                                            Edit
-
-                                        </button>
-
-
-                                        {{-- HAPUS --}}
-
-                                        <form
-                                            action="{{ route('master-perawat.destroy', $perawat->id) }}"
-                                            method="POST"
-                                            class="d-inline"
-                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus data perawat {{ $perawat->nama }}?')"
-                                        >
-
-                                            @csrf
-
-                                            @method('DELETE')
-
-
-                                            <button
-                                                type="submit"
-                                                class="btn btn-sm btn-action-delete-perawat"
-                                            >
-
-                                                <i class="fas fa-trash me-1"></i>
-
-                                                Hapus
-
-                                            </button>
-
-                                        </form>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td
-                                    colspan="6"
-                                    class="text-center empty-perawat"
-                                >
-
-                                    <i class="fas fa-user-nurse fa-2x mb-2 d-block"></i>
-
-                                    Belum ada data perawat
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
+<tbody>
+
+    @forelse($perawats as $perawat)
+
+        <tr id="perawat-{{ $perawat->id }}">
+
+            {{-- NO --}}
+            <td class="text-center text-muted">
+                {{ $loop->iteration }}
+            </td>
+
+            {{-- NAMA --}}
+            <td>
+                <div class="d-flex align-items-center gap-2">
+
+                    <div class="avatar-perawat">
+                        <i class="fas fa-user-nurse"></i>
+                    </div>
+
+                    <div>
+                        <div class="perawat-name">
+                            {{ $perawat->nama }}
+                        </div>
+                    </div>
+
+                </div>
+            </td>
+
+            {{-- JENIS KELAMIN --}}
+            <td>
+                <span class="badge badge-blue-soft-perawat">
+                    {{ ucfirst($perawat->jenis_kelamin) }}
+                </span>
+            </td>
+
+            {{-- TANGGAL LAHIR --}}
+            <td>
+                {{ $perawat->tanggal_lahir }}
+            </td>
+
+            {{-- ALAMAT --}}
+            <td>
+                {{ $perawat->alamat ?? '-' }}
+            </td>
+
+            {{-- AKSI --}}
+            <td class="text-center">
+                <div class="d-flex justify-content-center gap-1">
+
+                    {{-- LIHAT --}}
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-action-view-perawat"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalLihatPerawat{{ $perawat->id }}"
+                    >
+                        <i class="fas fa-eye me-1"></i>
+                        Lihat
+                    </button>
+
+                    {{-- EDIT --}}
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-action-edit-perawat"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalEditPerawat{{ $perawat->id }}"
+                    >
+                        <i class="fas fa-edit me-1"></i>
+                        Edit
+                    </button>
+
+                    {{-- HAPUS --}}
+                    <form
+                        action="{{ route('master-perawat.destroy', $perawat->id) }}"
+                        method="POST"
+                        class="d-inline"
+                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus data perawat {{ $perawat->nama }}?')"
+                    >
+                        @csrf
+                        @method('DELETE')
+
+                        <button
+                            type="submit"
+                            class="btn btn-sm btn-action-delete-perawat"
+                        >
+                            <i class="fas fa-trash me-1"></i>
+                            Hapus
+                        </button>
+                    </form>
+
+                </div>
+            </td>
+
+        </tr>
+
+    @empty
+
+        <tr>
+            <td
+                colspan="6"
+                class="text-center empty-perawat"
+            >
+                <i class="fas fa-user-nurse fa-2x mb-2 d-block"></i>
+                Belum ada data perawat
+            </td>
+        </tr>
+
+    @endforelse
+
+</tbody>
 
                 </table>
 
