@@ -7,84 +7,109 @@ use App\Models\PendaftaranPasien;
 use App\Models\MasterDokter;
 use Illuminate\Http\Request;
 use App\Models\MasterObat;
+use App\Models\ResepObat;
 
 class PemeriksaanDokterController extends Controller
 {
     /**
      * Menampilkan daftar pemeriksaan dokter
      */
-    public function index()
+   public function index()
 {
     $pemeriksaans = PemeriksaanDokter::with([
         'pendaftaran.pasien',
         'pendaftaran.poli',
-        'dokter'
-    ])->latest()->get();
+        'pendaftaran.kamar',
+        'dokter',
+        'obat',
+    ])
+    ->latest()
+    ->get();
 
+    $pendaftarans = PendaftaranPasien::with([
+        'pasien',
+        'dokter',
+        'poli',
+    ])
+    ->latest()
+    ->get();
+
+    $dokters = MasterDokter::orderBy('nama')->get();
+
+    $obats = MasterObat::orderBy('nama_obat')->get();
+
+    return view('pemeriksaan-dokter.index', compact(
+        'pemeriksaans',
+        'pendaftarans',
+        'dokters',
+        'obats'
+    ));
+}
+    /**
+     * Menampilkan form pemeriksaan dokter
+     */
+    public function create()
+{
     $pendaftarans = PendaftaranPasien::with([
         'pasien',
         'dokter',
         'poli'
     ])->latest()->get();
 
-    $dokters = MasterDokter::orderBy('nama')->get();
+    $dokters = MasterDokter::all();
 
     $obats = MasterObat::orderBy('nama_obat')->get();
 
     return view(
-        'pemeriksaan-dokter.index',
+        'pemeriksaan-dokter.create',
         compact(
-            'pemeriksaans',
             'pendaftarans',
             'dokters',
             'obats'
         )
     );
 }
-    /**
-     * Menampilkan form pemeriksaan dokter
-     */
-    public function create()
-    {
-        // Mengambil data pendaftaran pasien
-        $pendaftarans = PendaftaranPasien::with([
-            'pasien',
-            'dokter',
-            'poli'
-        ])
-        ->latest()
-        ->get();
-
-        // Mengambil data dokter
-        $dokters = MasterDokter::all();
-
-        return view(
-            'pemeriksaan-dokter.create',
-            compact('pendaftarans', 'dokters')
-        );
-    }
 
     /**
      * Menyimpan pemeriksaan dokter
      */
     public function store(Request $request)
 {
-    $validated = $request->validate([
+    $request->validate([
         'pendaftaran_id' => 'required|exists:pendaftaran_pasiens,id',
         'dokter_id' => 'required|exists:master_dokters,id',
         'keluhan' => 'required|string',
+        'resep_obat' => 'required|exists:master_obats,id',
     ]);
 
-    PemeriksaanDokter::create([
-        'pendaftaran_id' => $validated['pendaftaran_id'],
-        'dokter_id' => $validated['dokter_id'],
-        'keluhan' => $validated['keluhan'],
-        'resep_obat' => 0,
+    // Simpan pemeriksaan dokter
+    $pemeriksaan = PemeriksaanDokter::create([
+        'pendaftaran_id' => $request->pendaftaran_id,
+        'dokter_id' => $request->dokter_id,
+        'keluhan' => $request->keluhan,
+        'resep_obat' => $request->resep_obat,
+    ]);
+
+    // Buat data resep berdasarkan pemeriksaan
+    ResepObat::create([
+        'pemeriksaan_id' => $pemeriksaan->id,
+    ]);
+
+    // Ubah status pendaftaran menjadi selesai
+    $pendaftaran = PendaftaranPasien::findOrFail(
+        $request->pendaftaran_id
+    );
+
+    $pendaftaran->update([
+        'status' => 'selesai',
     ]);
 
     return redirect()
         ->route('pemeriksaan-dokter.index')
-        ->with('success', 'Pemeriksaan dokter berhasil disimpan!');
+        ->with(
+            'success',
+            'Pemeriksaan dokter dan resep obat berhasil disimpan. Status pasien menjadi selesai.'
+        );
 }
     /**
      * Menampilkan detail pemeriksaan dokter

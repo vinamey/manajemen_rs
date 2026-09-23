@@ -373,49 +373,57 @@
                     </div>
 
 
-                    {{-- ========================= --}}
-                    {{-- RESEP OBAT --}}
-                    {{-- ========================= --}}
-                    <div class="col-12">
+{{-- ========================= --}}
+{{-- RESEP OBAT --}}
+{{-- ========================= --}}
+<div class="col-12">
 
-                        <label for="resep_obat" class="form-label">
-                            Resep Obat
-                            <span class="required">*</span>
-                        </label>
+    <label for="resep_obat" class="form-label">
+        Resep Obat
+        <span class="required">*</span>
+    </label>
 
-                        <div class="input-icon">
+    <div class="input-icon">
 
-                            <i class="fa-solid fa-pills"></i>
+        <i class="fa-solid fa-pills"></i>
 
-                            <input
-                                type="number"
-                                name="resep_obat"
-                                id="resep_obat"
-                                class="form-control @error('resep_obat') is-invalid @enderror"
-                                value="{{ old('resep_obat') }}"
-                                placeholder="Masukkan ID resep obat"
-                                min="1"
-                                required
-                            >
+        <select
+            name="resep_obat"
+            id="resep_obat"
+            class="form-select @error('resep_obat') is-invalid @enderror"
+            required
+        >
 
-                        </div>
+            <option value="">
+                -- Pilih Obat --
+            </option>
 
-                        <div class="form-help">
-                            Isi sesuai ID resep obat.
-                        </div>
+            @foreach ($obats as $obat)
 
-                        @error('resep_obat')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
+                <option
+                    value="{{ $obat->id }}"
+                    {{ old('resep_obat') == $obat->id ? 'selected' : '' }}
+                >
+                    {{ $obat->nama_obat }}
+                </option>
 
-                    </div>
+            @endforeach
 
-                </div>
+        </select>
 
+    </div>
+
+    <div class="form-help">
+        Pilih obat yang diresepkan untuk pasien.
+    </div>
+
+    @error('resep_obat')
+        <div class="invalid-feedback">
+            {{ $message }}
         </div>
+    @enderror
 
+</div>
 
         {{-- ========================= --}}
         {{-- FOOTER / BUTTON --}}

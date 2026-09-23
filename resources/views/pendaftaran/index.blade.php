@@ -413,33 +413,15 @@
 
                         {{-- STATUS --}}
                         <td>
-
-                            @if($pendaftaran->status == 'menunggu')
-
-                                <span class="badge bg-warning text-dark">
-
-                                    Menunggu
-
-                                </span>
-
-                            @elseif($pendaftaran->status == 'diperiksa')
-
-                                <span class="badge bg-info">
-
-                                    Diperiksa
-
-                                </span>
-
-                            @elseif($pendaftaran->status == 'selesai')
-
-                                <span class="badge bg-success">
-
-                                    Selesai
-
-                                </span>
-
-                            @endif
-
+                    @if($pendaftaran->status === 'menunggu')
+                        <span class="badge bg-warning text-dark">
+                        Menunggu
+                        </span>
+                    @elseif($pendaftaran->status === 'selesai')
+                        <span class="badge bg-success">
+                        Selesai
+                        </span>
+                    @endif
                         </td>
 
 
