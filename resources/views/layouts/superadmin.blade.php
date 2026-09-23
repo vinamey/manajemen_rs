@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,87 +10,385 @@
         @yield('page-title', 'Dashboard Super Admin')
     </title>
 
+    {{-- Bootstrap --}}
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
 
+    {{-- Font Awesome --}}
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
 
     <style>
 
+        /* =====================================================
+           BODY
+        ===================================================== */
+
         body {
+            margin: 0;
             background: #f5f6fa;
+            font-family: Arial, Helvetica, sans-serif;
         }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
 
         .sidebar {
             width: 260px;
             height: 100vh;
+
             background: #0d6efd;
             color: white;
+
             position: fixed;
             left: 0;
             top: 0;
+
             overflow-y: auto;
+            overflow-x: hidden;
+
+            z-index: 1000;
         }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
 
         .sidebar .logo {
-            padding: 20px 10px; 
+            padding: 20px 10px;
+            text-align: center;
         }
 
-        .sidebar .nav-link {
-            color: white;
-            padding: 12px 20px;
+        .sidebar .logo h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
         }
 
-        .sidebar .nav-link:hover {
-            background: rgba(255,255,255,0.15);
-            color: white;
+        .sidebar .logo i {
+            margin-right: 7px;
         }
 
-        .sidebar .dropdown-menu {
-            background: #0b5ed7;
-            border: none;
+
+        /* =====================================================
+           GARIS SIDEBAR
+        ===================================================== */
+
+        .sidebar hr {
+            margin: 0;
+            opacity: 0.2;
+        }
+
+
+        /* =====================================================
+           MENU UTAMA
+        ===================================================== */
+
+        .sidebar .nav {
+            padding-top: 8px;
+            padding-bottom: 20px;
+        }
+
+        .sidebar .nav-item {
             width: 100%;
         }
 
-        .sidebar .dropdown-item {
+
+        /* =====================================================
+           NAV LINK
+        ===================================================== */
+
+        .sidebar .nav-link {
             color: white;
-            padding: 10px 35px;
+
+            padding: 12px 20px;
+
+            font-size: 14px;
+
+            text-decoration: none;
+
+            display: flex;
+            align-items: center;
+
+            transition: 0.2s ease;
         }
 
-        .sidebar .dropdown-item:hover {
-            background: rgba(255,255,255,0.15);
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
             color: white;
         }
+
+        .sidebar .nav-link i {
+            width: 18px;
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           MASTER DATA - TOMBOL
+        ===================================================== */
+
+        .master-toggle {
+            display: flex !important;
+
+            align-items: center;
+            justify-content: space-between;
+
+            cursor: pointer;
+        }
+
+        .master-toggle-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .master-toggle-left i {
+            margin-right: 8px;
+        }
+
+
+        /* =====================================================
+           PANAH MASTER DATA
+        ===================================================== */
+
+        .master-arrow {
+            font-size: 10px !important;
+            width: auto !important;
+
+            transition: transform 0.25s ease;
+        }
+
+        .master-toggle[aria-expanded="true"] .master-arrow {
+            transform: rotate(180deg);
+        }
+
+
+        /* =====================================================
+           MASTER DATA AKTIF
+        ===================================================== */
+
+        .master-toggle.master-active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+
+        /* =====================================================
+           SUB MENU MASTER
+        ===================================================== */
+
+        .master-menu {
+            list-style: none;
+
+            padding: 0;
+            margin: 0;
+
+            background: #0b5ed7;
+        }
+
+        .master-menu li {
+            padding: 0;
+            margin: 0;
+        }
+
+
+        /* =====================================================
+           ITEM MASTER
+        ===================================================== */
+
+        .master-item {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 20px 10px 45px;
+
+            font-size: 13px;
+
+            transition: all 0.2s ease;
+        }
+
+        .master-item i {
+            width: 18px;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        .master-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           MASTER ITEM AKTIF
+        ===================================================== */
+
+        .master-item.active {
+            background: rgba(255, 255, 255, 0.22);
+
+            color: white;
+
+            font-weight: 600;
+
+            border-left: 3px solid white;
+
+            padding-left: 42px;
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
 
         .content {
             margin-left: 260px;
+
             width: calc(100% - 260px);
+
             min-height: 100vh;
         }
 
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
         .navbar {
             min-height: 65px;
+
+            padding: 0 12px;
+        }
+
+        .navbar-brand {
+            font-size: 16px;
+
+            color: #222 !important;
+
+            font-weight: 500;
+        }
+
+
+        /* =====================================================
+           USER
+        ===================================================== */
+
+        .navbar .user-name {
+            font-size: 14px;
+
+            color: #333;
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        .navbar .btn-danger {
+            font-size: 12px;
+
+            padding: 6px 10px;
+        }
+
+
+        /* =====================================================
+           PAGE CONTENT
+        ===================================================== */
+
+        .page-container {
+            padding: 0;
+            margin: 0;
+        }
+
+
+        /* =====================================================
+           SCROLLBAR SIDEBAR
+        ===================================================== */
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #0d6efd;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.35);
+
+            border-radius: 10px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .content {
+                margin-left: 220px;
+
+                width: calc(100% - 220px);
+            }
+
+            .sidebar .nav-link {
+                font-size: 12px;
+            }
+
+            .master-item {
+                font-size: 12px;
+
+                padding-left: 35px;
+            }
+
+            .master-item.active {
+                padding-left: 32px;
+            }
+
         }
 
     </style>
 
 </head>
 
+
 <body>
+
 
 <div class="d-flex">
 
-    {{-- ========================= --}}
-    {{-- SIDEBAR --}}
-    {{-- ========================= --}}
+
+    {{-- =====================================================
+         SIDEBAR
+    ====================================================== --}}
 
     <div class="sidebar">
 
-        {{-- LOGO --}}
-        <div class="logo text-center">
+
+        {{-- =================================================
+             LOGO
+        ================================================== --}}
+
+        <div class="logo">
 
             <h3>
                 <i class="fa-solid fa-hospital"></i>
@@ -101,18 +397,27 @@
 
         </div>
 
-        <hr class="bg-white">
 
+        <hr>
+
+
+        {{-- =================================================
+             MENU
+        ================================================== --}}
 
         <ul class="nav flex-column">
 
 
-            {{-- DASHBOARD --}}
+            {{-- =================================================
+                 DASHBOARD
+            ================================================== --}}
+
             <li class="nav-item">
 
                 <a
                     href="{{ route('superadmin.dashboard') }}"
-                    class="nav-link">
+                    class="nav-link"
+                >
 
                     <i class="fa fa-home me-2"></i>
 
@@ -123,12 +428,16 @@
             </li>
 
 
-            {{-- ROLE MANAGEMENT --}}
+            {{-- =================================================
+                 ROLE MANAGEMENT
+            ================================================== --}}
+
             <li class="nav-item">
 
                 <a
                     href="{{ route('roles.index') }}"
-                    class="nav-link">
+                    class="nav-link"
+                >
 
                     <i class="fa-solid fa-user-shield me-2"></i>
 
@@ -139,12 +448,16 @@
             </li>
 
 
-            {{-- PERMISSION MANAGEMENT --}}
+            {{-- =================================================
+                 PERMISSION MANAGEMENT
+            ================================================== --}}
+
             <li class="nav-item">
 
                 <a
                     href="{{ route('permissions.index') }}"
-                    class="nav-link">
+                    class="nav-link"
+                >
 
                     <i class="fa-solid fa-key me-2"></i>
 
@@ -155,12 +468,16 @@
             </li>
 
 
-            {{-- USER MANAGEMENT --}}
+            {{-- =================================================
+                 USER MANAGEMENT
+            ================================================== --}}
+
             <li class="nav-item">
 
                 <a
                     href="{{ route('users.index') }}"
-                    class="nav-link">
+                    class="nav-link"
+                >
 
                     <i class="fa-solid fa-users me-2"></i>
 
@@ -171,255 +488,412 @@
             </li>
 
 
-            {{-- ========================= --}}
-            {{-- MASTER DATA --}}
-            {{-- ========================= --}}
+            {{-- =================================================
+                 MASTER DATA
+            ================================================== --}}
 
-            <li class="nav-item dropdown">
+            @php
+
+                $masterRoutes = [
+
+                    'master-pasien.*',
+                    'master-dokter.*',
+                    'master-perawat.*',
+                    'master-obat.*',
+                    'master-supplier.*',
+                    'master-kategori.*',
+                    'master-satuan.*',
+                    'master-poli.*',
+                    'master-kamar.*',
+                    'master-asuransi.*',
+                    'master-tindakan.*',
+
+                ];
+
+                $masterAktif = false;
+
+                foreach ($masterRoutes as $route) {
+
+                    if (request()->routeIs($route)) {
+
+                        $masterAktif = true;
+
+                        break;
+                    }
+                }
+
+            @endphp
+
+
+            <li class="nav-item">
+
+
+                {{-- =================================================
+                     TOMBOL MASTER DATA
+                ================================================== --}}
 
                 <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
+                    class="nav-link master-toggle
+                    {{ $masterAktif ? 'master-active' : '' }}"
+
+                    data-bs-toggle="collapse"
+
+                    href="#masterDataMenu"
+
                     role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
 
-                    <i class="fa-solid fa-database me-2"></i>
+                    aria-expanded="{{ $masterAktif ? 'true' : 'false' }}"
 
-                    Master Data
+                    aria-controls="masterDataMenu"
+                >
+
+                    <span class="master-toggle-left">
+
+                        <i class="fa-solid fa-database"></i>
+
+                        Master Data
+
+                    </span>
+
+
+                    <i class="fa-solid fa-chevron-down master-arrow"></i>
 
                 </a>
 
 
-                <ul class="dropdown-menu">
+                {{-- =================================================
+                     SUB MENU MASTER DATA
+                ================================================== --}}
 
+                <div
+                    class="collapse {{ $masterAktif ? 'show' : '' }}"
+                    id="masterDataMenu"
+                >
 
-                    {{-- MASTER PASIEN --}}
-                    <li>
+                    <ul class="master-menu">
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-pasien.index') }}">
 
-                            <i class="fa-solid fa-hospital-user me-2"></i>
+                        {{-- =================================================
+                             MASTER PASIEN
+                        ================================================== --}}
 
-                            Master Pasien
+                        <li>
 
-                        </a>
+                            <a
+                                href="{{ route('master-pasien.index') }}"
 
-                    </li>
+                                class="master-item
+                                {{ request()->routeIs('master-pasien.*') ? 'active' : '' }}"
+                            >
 
+                                <i class="fa-solid fa-hospital-user"></i>
 
-                    {{-- MASTER DOKTER --}}
-                    <li>
+                                <span>
+                                    Master Pasien
+                                </span>
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-dokter.index') }}">
+                            </a>
 
-                            <i class="fa-solid fa-user-doctor me-2"></i>
+                        </li>
 
-                            Master Dokter
 
-                        </a>
+                        {{-- =================================================
+                             MASTER DOKTER
+                        ================================================== --}}
 
-                    </li>
+                        <li>
 
+                            <a
+                                href="{{ route('master-dokter.index') }}"
 
-                    {{-- MASTER PERAWAT --}}
-                    <li>
+                                class="master-item
+                                {{ request()->routeIs('master-dokter.*') ? 'active' : '' }}"
+                            >
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-perawat.index') }}">
+                                <i class="fa-solid fa-user-doctor"></i>
 
-                            <i class="fa-solid fa-user-nurse me-2"></i>
+                                <span>
+                                    Master Dokter
+                                </span>
 
-                            Master Perawat
+                            </a>
 
-                        </a>
+                        </li>
 
-                    </li>
 
+                        {{-- =================================================
+                             MASTER PERAWAT
+                        ================================================== --}}
 
-                    {{-- MASTER OBAT --}}
-                    <li>
+                        <li>
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-obat.index') }}">
+                            <a
+                                href="{{ route('master-perawat.index') }}"
 
-                            <i class="fa-solid fa-pills me-2"></i>
+                                class="master-item
+                                {{ request()->routeIs('master-perawat.*') ? 'active' : '' }}"
+                            >
 
-                            Master Obat
+                                <i class="fa-solid fa-user-nurse"></i>
 
-                        </a>
+                                <span>
+                                    Master Perawat
+                                </span>
 
-                    </li>
+                            </a>
 
+                        </li>
 
-                    {{-- MASTER SUPPLIER --}}
-                    <li>
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-supplier.index') }}">
+                        {{-- =================================================
+                             MASTER OBAT
+                        ================================================== --}}
 
-                            <i class="fa-solid fa-truck me-2"></i>
+                        <li>
 
-                            Master Supplier
+                            <a
+                                href="{{ route('master-obat.index') }}"
 
-                        </a>
+                                class="master-item
+                                {{ request()->routeIs('master-obat.*') ? 'active' : '' }}"
+                            >
 
-                    </li>
+                                <i class="fa-solid fa-pills"></i>
 
+                                <span>
+                                    Master Obat
+                                </span>
 
-                    {{-- MASTER KATEGORI --}}
-                    <li>
+                            </a>
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-kategori.index') }}">
+                        </li>
 
-                            <i class="fa-solid fa-tags me-2"></i>
 
-                            Master Kategori
+                        {{-- =================================================
+                             MASTER SUPPLIER
+                        ================================================== --}}
 
-                        </a>
+                        <li>
 
-                    </li>
+                            <a
+                                href="{{ route('master-supplier.index') }}"
 
+                                class="master-item
+                                {{ request()->routeIs('master-supplier.*') ? 'active' : '' }}"
+                            >
 
-                    {{-- MASTER SATUAN --}}
-                    <li>
+                                <i class="fa-solid fa-truck"></i>
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-satuan.index') }}">
+                                <span>
+                                    Master Supplier
+                                </span>
 
-                            <i class="fa-solid fa-box me-2"></i>
+                            </a>
 
-                            Master Satuan Obat
+                        </li>
 
-                        </a>
 
-                    </li>
+                        {{-- =================================================
+                             MASTER KATEGORI
+                        ================================================== --}}
 
+                        <li>
 
-                    {{-- MASTER POLI --}}
-                    <li>
+                            <a
+                                href="{{ route('master-kategori.index') }}"
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-poli.index') }}">
+                                class="master-item
+                                {{ request()->routeIs('master-kategori.*') ? 'active' : '' }}"
+                            >
 
-                            <i class="fa-solid fa-hospital me-2"></i>
+                                <i class="fa-solid fa-tags"></i>
 
-                            Master Poli
+                                <span>
+                                    Master Kategori
+                                </span>
 
-                        </a>
+                            </a>
 
-                    </li>
+                        </li>
 
 
-                    {{-- MASTER KAMAR --}}
-                    <li>
+                        {{-- =================================================
+                             MASTER SATUAN
+                        ================================================== --}}
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-kamar.index') }}">
+                        <li>
 
-                            <i class="fa-solid fa-bed me-2"></i>
+                            <a
+                                href="{{ route('master-satuan.index') }}"
 
-                            Master Kamar
+                                class="master-item
+                                {{ request()->routeIs('master-satuan.*') ? 'active' : '' }}"
+                            >
 
-                        </a>
+                                <i class="fa-solid fa-box"></i>
 
-                    </li>
+                                <span>
+                                    Master Satuan Obat
+                                </span>
 
+                            </a>
 
-                    {{-- MASTER ASURANSI --}}
-                    <li>
+                        </li>
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-asuransi.index') }}">
 
-                            <i class="fa-solid fa-shield-heart me-2"></i>
+                        {{-- =================================================
+                             MASTER POLI
+                        ================================================== --}}
 
-                            Master Asuransi
+                        <li>
 
-                        </a>
+                            <a
+                                href="{{ route('master-poli.index') }}"
 
-                    </li>
+                                class="master-item
+                                {{ request()->routeIs('master-poli.*') ? 'active' : '' }}"
+                            >
 
+                                <i class="fa-solid fa-hospital"></i>
 
-                    {{-- MASTER TINDAKAN --}}
-                    <li>
+                                <span>
+                                    Master Poli
+                                </span>
 
-                        <a
-                            class="dropdown-item"
-                            href="{{ route('master-tindakan.index') }}">
+                            </a>
 
-                            <i class="fa-solid fa-stethoscope me-2"></i>
+                        </li>
 
-                            Master Tindakan
 
-                        </a>
+                        {{-- =================================================
+                             MASTER KAMAR
+                        ================================================== --}}
 
-                    </li>
+                        <li>
 
-                </ul>
+                            <a
+                                href="{{ route('master-kamar.index') }}"
+
+                                class="master-item
+                                {{ request()->routeIs('master-kamar.*') ? 'active' : '' }}"
+                            >
+
+                                <i class="fa-solid fa-bed"></i>
+
+                                <span>
+                                    Master Kamar
+                                </span>
+
+                            </a>
+
+                        </li>
+
+
+                        {{-- =================================================
+                             MASTER ASURANSI
+                        ================================================== --}}
+
+                        <li>
+
+                            <a
+                                href="{{ route('master-asuransi.index') }}"
+
+                                class="master-item
+                                {{ request()->routeIs('master-asuransi.*') ? 'active' : '' }}"
+                            >
+
+                                <i class="fa-solid fa-shield-heart"></i>
+
+                                <span>
+                                    Master Asuransi
+                                </span>
+
+                            </a>
+
+                        </li>
+
+
+                        {{-- =================================================
+                             MASTER TINDAKAN
+                        ================================================== --}}
+
+                        <li>
+
+                            <a
+                                href="{{ route('master-tindakan.index') }}"
+
+                                class="master-item
+                                {{ request()->routeIs('master-tindakan.*') ? 'active' : '' }}"
+                            >
+
+                                <i class="fa-solid fa-stethoscope"></i>
+
+                                <span>
+                                    Master Tindakan
+                                </span>
+
+                            </a>
+
+                        </li>
+
+
+                    </ul>
+
+                </div>
 
             </li>
 
 
- {{-- ========================= --}}
-{{-- PENDAFTARAN PASIEN --}}
-{{-- ========================= --}}
+            {{-- =================================================
+                 PENDAFTARAN PASIEN
+            ================================================== --}}
 
-<li class="nav-item">
+            <li class="nav-item">
 
-    <a
-        href="{{ route('pendaftaran.index') }}"
-        class="nav-link">
+                <a
+                    href="{{ route('pendaftaran.index') }}"
+                    class="nav-link"
+                >
 
-        <i class="fa-solid fa-clipboard-user me-2"></i>
+                    <i class="fa-solid fa-clipboard-user me-2"></i>
 
-        Pendaftaran Pasien
+                    Pendaftaran Pasien
 
-    </a>
+                </a>
 
-</li>
+            </li>
 
 
-{{-- ========================= --}}
-{{-- PEMERIKSAAN DOKTER --}}
-{{-- ========================= --}}
+            {{-- =================================================
+                 PEMERIKSAAN DOKTER
+            ================================================== --}}
 
-<li class="nav-item">
+            <li class="nav-item">
 
-    <a
-        href="{{ route('pemeriksaan-dokter.index') }}"
-        class="nav-link">
+                <a
+                    href="{{ route('pemeriksaan-dokter.index') }}"
+                    class="nav-link"
+                >
 
-        <i class="fa-solid fa-stethoscope me-2"></i>
+                    <i class="fa-solid fa-stethoscope me-2"></i>
 
-        Pemeriksaan Dokter
+                    Pemeriksaan Dokter
 
-    </a>
+                </a>
 
-</li>
+            </li>
 
-            {{-- ========================= --}}
-            {{-- LAPORAN --}}
-            {{-- ========================= --}}
+
+            {{-- =================================================
+                 LAPORAN
+            ================================================== --}}
 
             <li class="nav-item">
 
                 <a
                     href="#"
-                    class="nav-link">
+                    class="nav-link"
+                >
 
                     <i class="fa-solid fa-chart-column me-2"></i>
 
@@ -429,51 +903,75 @@
 
             </li>
 
+
         </ul>
 
     </div>
 
 
 
-    {{-- ========================= --}}
-    {{-- CONTENT --}}
-    {{-- ========================= --}}
+    {{-- =====================================================
+         CONTENT
+    ====================================================== --}}
 
     <div class="content">
 
 
-        {{-- NAVBAR --}}
+        {{-- =================================================
+             NAVBAR
+        ================================================== --}}
+
         <nav class="navbar navbar-light bg-white shadow-sm">
+
 
             <div class="container-fluid">
 
 
-                {{-- JUDUL HALAMAN OTOMATIS --}}
+                {{-- =================================================
+                     JUDUL HALAMAN
+                ================================================== --}}
+
                 <span class="navbar-brand">
-                    @yield('page-title', 'Dashboard Super Admin')
+
+                    @yield(
+                        'page-title',
+                        'Dashboard Super Admin'
+                    )
+
                 </span>
 
 
-                {{-- USER + LOGOUT --}}
-                <div>
+                {{-- =================================================
+                     USER + LOGOUT
+                ================================================== --}}
 
-                    <span class="me-2">
+                <div class="d-flex align-items-center">
+
+
+                    <span class="me-2 user-name">
+
                         {{ Auth::user()?->name }}
+
                     </span>
 
 
                     <form
                         action="{{ route('logout') }}"
                         method="POST"
-                        style="display:inline">
+                        style="display:inline"
+                    >
 
                         @csrf
 
+
                         <button
                             type="submit"
-                            class="btn btn-danger btn-sm">
+                            class="btn btn-danger btn-sm"
+                        >
 
-                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <i
+                                class="fa-solid fa-right-from-bracket"
+                            ></i>
 
                             Logout
 
@@ -483,28 +981,39 @@
 
                 </div>
 
+
             </div>
 
         </nav>
 
 
-        {{-- PAGE CONTENT --}}
-        <div class="container mt-4">
+
+        {{-- =================================================
+             PAGE CONTENT
+        ================================================== --}}
+
+        <div class="container-fluid page-container">
 
             @yield('content')
 
         </div>
 
+
     </div>
+
 
 </div>
 
 
 
-{{-- BOOTSTRAP JS --}}
+{{-- =====================================================
+     BOOTSTRAP JS
+====================================================== --}}
+
 <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
 
 </body>
 

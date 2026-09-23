@@ -4,6 +4,11 @@
 
 @section('content')
 
+{{-- =========================================================
+    SELECT2 CSS
+========================================================= --}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
     :root {
         --blue-main: #1877f2;
@@ -13,23 +18,23 @@
         --text-muted: #6b7280;
     }
 
-    /* =========================
+    /* =========================================================
        HALAMAN
-    ========================= */
+    ========================================================= */
     .master-obat-page {
         background: #f4f6fa;
         min-height: calc(100vh - 70px);
-        padding: 20px 18px;
+        padding: 22px 18px;
     }
 
-    /* =========================
+    /* =========================================================
        HEADER
-    ========================= */
+    ========================================================= */
     .obat-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 17px;
+        margin-bottom: 18px;
     }
 
     .obat-title-wrapper {
@@ -39,38 +44,39 @@
     }
 
     .obat-icon {
-        width: 34px;
-        height: 34px;
+        width: 36px;
+        height: 36px;
         border-radius: 9px;
         background: var(--blue-light);
         color: var(--blue-main);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-size: 15px;
+        flex-shrink: 0;
     }
 
     .obat-title {
         margin: 0;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 700;
         color: var(--text-dark);
     }
 
     .obat-subtitle {
         margin: 3px 0 0;
-        font-size: 9px;
+        font-size: 10px;
         color: var(--text-muted);
     }
 
-    /* =========================
+    /* =========================================================
        BUTTON TAMBAH
-    ========================= */
+    ========================================================= */
     .btn-tambah-obat {
         background: var(--blue-main);
         border: none;
         color: white;
-        padding: 8px 12px;
+        padding: 9px 14px;
         border-radius: 7px;
         font-size: 10px;
         font-weight: 600;
@@ -78,6 +84,7 @@
         align-items: center;
         gap: 5px;
         cursor: pointer;
+        transition: 0.2s;
     }
 
     .btn-tambah-obat:hover {
@@ -85,14 +92,29 @@
         color: white;
     }
 
-    /* =========================
+    /* =========================================================
+       ALERT
+    ========================================================= */
+    .alert-success,
+    .alert-danger {
+        margin: 0 0 12px;
+        border-radius: 7px;
+        font-size: 10px;
+        padding: 9px 12px;
+    }
+
+    .alert-danger ul {
+        padding-left: 18px;
+    }
+
+    /* =========================================================
        CARD TABLE
-    ========================= */
+    ========================================================= */
     .obat-card {
         background: white;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     }
 
     .obat-table-wrapper {
@@ -102,159 +124,142 @@
 
     .obat-table {
         width: 100%;
-        min-width: 900px;
         border-collapse: collapse;
         margin: 0;
     }
 
+    /* HEADER TABLE */
     .obat-table thead th {
         background: var(--blue-main);
         color: white;
-        font-size: 9px;
+        font-size: 10px;
         font-weight: 600;
-        padding: 11px 10px;
+        padding: 11px 12px;
         border: none;
         white-space: nowrap;
         text-align: left;
     }
 
+    /* BODY TABLE */
     .obat-table tbody td {
-        padding: 10px;
-        font-size: 9px;
+        padding: 10px 12px;
+        font-size: 10px;
         color: #6b7280;
         border-bottom: 1px solid #edf0f4;
         vertical-align: middle;
         background: white;
     }
 
+    .obat-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
     .obat-table tbody tr:hover td {
         background: #fafcff;
     }
 
+    /* =========================================================
+       NO
+    ========================================================= */
     .nomor {
         width: 45px;
+        color: #6b7280 !important;
     }
 
-    /* =========================
-       KODE
-    ========================= */
+    /* =========================================================
+       KODE OBAT
+    ========================================================= */
     .kode-obat {
-        white-space: nowrap;
+        width: 150px;
     }
 
     .kode-obat-badge {
         display: inline-block;
-        padding: 4px 8px;
+        padding: 5px 9px;
         border-radius: 5px;
         background: #e7f3ff;
         color: #1877f2;
-        font-size: 8px;
+        font-size: 9px;
         font-weight: 600;
+        white-space: nowrap;
     }
 
-    /* =========================
-       NAMA
-    ========================= */
+    /* =========================================================
+       NAMA OBAT
+    ========================================================= */
     .nama-obat {
+        min-width: 180px;
         font-weight: 600;
         color: #1f2937 !important;
-        min-width: 130px;
     }
 
-    /* =========================
+    /* =========================================================
        KATEGORI
-    ========================= */
+    ========================================================= */
+    .kategori-obat {
+        min-width: 150px;
+    }
+
     .badge-kategori {
         display: inline-block;
-        padding: 4px 8px;
+        padding: 5px 9px;
         border-radius: 5px;
         background: #fff0d5;
         color: #e8791b;
-        font-size: 8px;
+        font-size: 9px;
         font-weight: 600;
         white-space: nowrap;
     }
 
-    /* =========================
+    /* =========================================================
        SATUAN
-    ========================= */
+    ========================================================= */
     .satuan-obat {
+        min-width: 100px;
         color: #6b7280;
-        white-space: nowrap;
     }
 
-    /* =========================
+    /* =========================================================
        HARGA
-    ========================= */
+    ========================================================= */
     .harga-obat {
+        min-width: 130px;
         color: #374151 !important;
         font-weight: 600;
         white-space: nowrap;
     }
 
-    /* =========================
-       STOK
-    ========================= */
-    .stok-wrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-    }
-
-    .badge-stok {
-        width: fit-content;
-        padding: 4px 7px;
-        border-radius: 5px;
-        font-size: 8px;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    .stok-aman {
-        background: #d9f8e5;
-        color: #198754;
-    }
-
-    .stok-menipis {
-        background: #fff0c9;
-        color: #a16207;
-    }
-
-    .stok-habis {
-        background: #ffe0e0;
-        color: #dc3545;
-    }
-
-    .jumlah-stok {
-        font-size: 8px;
-        color: #6b7280;
-    }
-
-    /* =========================
+    /* =========================================================
        AKSI
-    ========================= */
+    ========================================================= */
+    .aksi-header {
+        text-align: center !important;
+    }
+
     .aksi-wrapper {
         display: flex;
-        gap: 4px;
+        gap: 5px;
         align-items: center;
+        justify-content: flex-end;
         white-space: nowrap;
     }
 
     .btn-aksi {
         border: none;
-        border-radius: 5px;
-        padding: 6px 8px;
-        font-size: 8px;
+        border-radius: 6px;
+        padding: 7px 9px;
+        font-size: 9px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 4px;
         cursor: pointer;
         transition: 0.2s;
-        min-width: 43px;
+        min-width: 47px;
         text-decoration: none;
     }
 
+    /* LIHAT */
     .btn-lihat {
         background: #dff2ff;
         color: #087db9;
@@ -265,6 +270,7 @@
         color: #087db9;
     }
 
+    /* EDIT */
     .btn-edit {
         background: var(--blue-main);
         color: white;
@@ -275,6 +281,7 @@
         color: white;
     }
 
+    /* HAPUS */
     .btn-hapus {
         background: #ff4b4b;
         color: white;
@@ -285,30 +292,18 @@
         color: white;
     }
 
-    /* =========================
-       ALERT
-    ========================= */
-    .alert-success,
-    .alert-danger {
-        margin: 0 0 12px;
-        border-radius: 7px;
-        font-size: 10px;
-        padding: 8px 11px;
-    }
-
-    /* =========================
+    /* =========================================================
        DATA KOSONG
-    ========================= */
+    ========================================================= */
     .data-kosong {
         text-align: center;
-        padding: 30px !important;
+        padding: 35px !important;
         color: #9ca3af !important;
     }
 
-    /* =====================================================
+    /* =========================================================
        MODAL
-    ===================================================== */
-
+    ========================================================= */
     .modal-obat .modal-dialog {
         max-width: 600px;
     }
@@ -316,20 +311,20 @@
     .modal-obat .modal-content {
         border: none;
         border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.20);
+        overflow: visible;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
     }
 
-    /* HEADER MODAL BIRU */
     .modal-obat .modal-header {
         background: var(--blue-main);
         color: white;
         border: none;
-        padding: 13px 15px;
+        padding: 14px 16px;
+        border-radius: 12px 12px 0 0;
     }
 
     .modal-obat .modal-title {
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 700;
         margin: 0;
         display: flex;
@@ -337,46 +332,47 @@
         gap: 7px;
     }
 
-    /*
-       TIDAK ADA TOMBOL X
-    */
-
     .modal-obat .modal-body {
         background: white;
-        padding: 18px 15px;
+        padding: 18px 16px;
     }
 
     .modal-obat .modal-footer {
         background: #f8fafc;
         border: none;
-        padding: 10px 15px;
+        padding: 11px 16px;
         display: flex;
         justify-content: flex-end;
         gap: 7px;
+        border-radius: 0 0 12px 12px;
     }
 
-    /* =========================
+    /* =========================================================
        FORM
-    ========================= */
+    ========================================================= */
     .form-obat-group {
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+    }
+
+    .form-obat-group:last-child {
+        margin-bottom: 0;
     }
 
     .form-obat-label {
         display: block;
-        font-size: 9px;
-        font-weight: 500;
+        font-size: 10px;
+        font-weight: 600;
         color: #526071;
         margin-bottom: 5px;
     }
 
     .form-obat-control {
         width: 100%;
-        min-height: 32px;
+        min-height: 34px;
         border: 1px solid #d4dce6;
         border-radius: 6px;
-        padding: 6px 9px;
-        font-size: 9px;
+        padding: 7px 9px;
+        font-size: 10px;
         color: #374151;
         outline: none;
         background: white;
@@ -385,66 +381,124 @@
 
     .form-obat-control:focus {
         border-color: var(--blue-main);
-        box-shadow: 0 0 0 2px rgba(24,119,242,0.10);
+        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.10);
     }
 
     .form-obat-control::placeholder {
         color: #9ca3af;
     }
 
-    select.form-obat-control {
-        cursor: pointer;
+    /* =========================================================
+       SELECT2
+    ========================================================= */
+    .select2-container {
+        width: 100% !important;
     }
 
-    textarea.form-obat-control {
-        min-height: 60px;
-        resize: vertical;
+    .select2-container--default .select2-selection--single {
+        height: 34px;
+        border: 1px solid #d4dce6;
+        border-radius: 6px;
+        background: white;
+        display: flex;
+        align-items: center;
     }
 
-    /* =========================
-       HARGA
-    ========================= */
-    .harga-input-wrapper {
-        position: relative;
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
+        color: #374151;
+        font-size: 10px;
+        line-height: 32px;
+        padding-left: 9px;
+        padding-right: 30px;
     }
 
-    .harga-prefix {
-        position: absolute;
-        left: 9px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 9px;
-        color: #6b7280;
-        z-index: 2;
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__placeholder {
+        color: #9ca3af;
     }
 
-    .harga-input {
-        padding-left: 24px !important;
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
+        height: 32px;
+        right: 5px;
     }
 
-    /* =========================
-       VIEW / LIHAT
-    ========================= */
+    .select2-container--default.select2-container--focus
+    .select2-selection--single {
+        border-color: var(--blue-main);
+        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.10);
+    }
+
+    .select2-dropdown {
+        border: 1px solid #d4dce6;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+        z-index: 9999;
+    }
+
+    .select2-search--dropdown {
+        padding: 7px;
+        background: white;
+    }
+
+    .select2-search--dropdown .select2-search__field {
+        border: 1px solid #d4dce6;
+        border-radius: 5px;
+        padding: 6px 8px;
+        font-size: 10px;
+        outline: none;
+    }
+
+    .select2-search--dropdown .select2-search__field:focus {
+        border-color: var(--blue-main);
+    }
+
+    .select2-container--default
+    .select2-results__option {
+        font-size: 10px;
+        padding: 7px 9px;
+    }
+
+    .select2-container--default
+    .select2-results__option--highlighted[aria-selected] {
+        background: var(--blue-main);
+        color: white;
+    }
+
+    .select2-container--default
+    .select2-results__option[aria-selected="true"] {
+        background: #e7f3ff;
+        color: var(--blue-main);
+    }
+
+    /* =========================================================
+       VIEW DETAIL
+    ========================================================= */
     .view-obat-value {
         width: 100%;
-        min-height: 32px;
+        min-height: 34px;
         border: 1px solid #e1e7ef;
         border-radius: 6px;
         background: #f8fafc;
         padding: 8px 9px;
-        font-size: 9px;
+        font-size: 10px;
         color: #374151;
     }
 
-    /* =========================
+    /* =========================================================
        BUTTON MODAL
-    ========================= */
+    ========================================================= */
     .btn-batal-obat {
         background: #f1f5f9;
         border: none;
         color: #64748b;
         border-radius: 6px;
-        padding: 7px 12px;
+        padding: 8px 13px;
         font-size: 9px;
         cursor: pointer;
     }
@@ -459,7 +513,7 @@
         color: white;
         border: none;
         border-radius: 6px;
-        padding: 7px 12px;
+        padding: 8px 13px;
         font-size: 9px;
         font-weight: 600;
         display: inline-flex;
@@ -472,9 +526,9 @@
         background: var(--blue-dark);
     }
 
-    /* =========================
+    /* =========================================================
        ERROR
-    ========================= */
+    ========================================================= */
     .error-obat {
         color: #dc3545;
         font-size: 8px;
@@ -482,10 +536,11 @@
         display: block;
     }
 
-    /* =========================
+    /* =========================================================
        RESPONSIVE
-    ========================= */
+    ========================================================= */
     @media (max-width: 768px) {
+
         .master-obat-page {
             padding: 18px 12px;
         }
@@ -493,6 +548,10 @@
         .obat-header {
             align-items: flex-start;
             gap: 12px;
+        }
+
+        .obat-title {
+            font-size: 16px;
         }
 
         .modal-obat .modal-dialog {
@@ -503,6 +562,9 @@
 </style>
 
 
+{{-- =========================================================
+     HALAMAN MASTER OBAT
+========================================================= --}}
 <div class="master-obat-page">
 
     {{-- HEADER --}}
@@ -560,7 +622,9 @@
 
                 @foreach($errors->all() as $error)
 
-                    <li>{{ $error }}</li>
+                    <li>
+                        {{ $error }}
+                    </li>
 
                 @endforeach
 
@@ -571,7 +635,9 @@
     @endif
 
 
-    {{-- TABLE --}}
+    {{-- =====================================================
+         TABLE
+    ====================================================== --}}
     <div class="obat-card">
 
         <div class="obat-table-wrapper">
@@ -581,14 +647,35 @@
                 <thead>
 
                     <tr>
-                        <th>No</th>
-                        <th>Kode Obat</th>
-                        <th>Nama Obat</th>
-                        <th>Kategori</th>
-                        <th>Satuan</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
-                        <th>Aksi</th>
+
+                        <th style="width: 45px;">
+                            No
+                        </th>
+
+                        <th>
+                            Kode
+                        </th>
+
+                        <th>
+                            Nama Obat
+                        </th>
+
+                        <th>
+                            Kategori
+                        </th>
+
+                        <th>
+                            Satuan
+                        </th>
+
+                        <th>
+                            Harga
+                        </th>
+
+                        <th class="aksi-header">
+                            Aksi
+                        </th>
+
                     </tr>
 
                 </thead>
@@ -623,7 +710,7 @@
 
 
                             {{-- KATEGORI --}}
-                            <td>
+                            <td class="kategori-obat">
 
                                 <span class="badge-kategori">
                                     {{ $obat->kategori }}
@@ -640,44 +727,7 @@
 
                             {{-- HARGA --}}
                             <td class="harga-obat">
-
                                 Rp {{ number_format($obat->harga, 0, ',', '.') }}
-
-                            </td>
-
-
-                            {{-- STOK --}}
-                            <td>
-
-                                <div class="stok-wrapper">
-
-                                    @if($obat->stok <= 0)
-
-                                        <span class="badge-stok stok-habis">
-                                            Habis
-                                        </span>
-
-                                    @elseif($obat->stok <= 5)
-
-                                        <span class="badge-stok stok-menipis">
-                                            Stok Menipis
-                                        </span>
-
-                                    @else
-
-                                        <span class="badge-stok stok-aman">
-                                            Stok Aman
-                                        </span>
-
-                                    @endif
-
-
-                                    <span class="jumlah-stok">
-                                        {{ $obat->stok }} {{ $obat->satuan }}
-                                    </span>
-
-                                </div>
-
                             </td>
 
 
@@ -718,6 +768,7 @@
                                     >
 
                                         @csrf
+
                                         @method('DELETE')
 
                                         <button
@@ -743,7 +794,7 @@
                         <tr>
 
                             <td
-                                colspan="8"
+                                colspan="7"
                                 class="data-kosong"
                             >
                                 Belum ada data obat.
@@ -764,10 +815,10 @@
 </div>
 
 
+
 {{-- =========================================================
      MODAL TAMBAH OBAT
 ========================================================= --}}
-
 <div
     class="modal fade modal-obat"
     id="modalTambahObat"
@@ -780,12 +831,12 @@
         <div class="modal-content">
 
             {{-- HEADER --}}
-
             <div class="modal-header">
 
                 <h5 class="modal-title">
 
                     <i class="fas fa-pills"></i>
+
                     Tambah Obat
 
                 </h5>
@@ -804,7 +855,6 @@
                 <div class="modal-body">
 
                     {{-- KODE --}}
-
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -821,16 +871,17 @@
                         >
 
                         @error('kode_obat')
+
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
+
                         @enderror
 
                     </div>
 
 
-                    {{-- NAMA OBAT LIST --}}
-
+                    {{-- NAMA OBAT --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -839,13 +890,12 @@
 
                         <select
                             name="nama_obat"
-                            class="form-obat-control"
+                            class="form-obat-control select2-obat"
+                            data-placeholder="Cari / pilih nama obat..."
                             required
                         >
 
-                            <option value="">
-                                -- Pilih Nama Obat --
-                            </option>
+                            <option value=""></option>
 
                             @foreach($obats->unique('nama_obat') as $obatName)
 
@@ -861,16 +911,17 @@
                         </select>
 
                         @error('nama_obat')
+
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
+
                         @enderror
 
                     </div>
 
 
                     {{-- KATEGORI --}}
-
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -879,13 +930,12 @@
 
                         <select
                             name="kategori"
-                            class="form-obat-control"
+                            class="form-obat-control select2-obat"
+                            data-placeholder="Cari / pilih kategori..."
                             required
                         >
 
-                            <option value="">
-                                -- Pilih Kategori --
-                            </option>
+                            <option value=""></option>
 
                             @foreach($kategoris as $kategori)
 
@@ -901,16 +951,17 @@
                         </select>
 
                         @error('kategori')
+
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
+
                         @enderror
 
                     </div>
 
 
                     {{-- SATUAN --}}
-
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -919,13 +970,12 @@
 
                         <select
                             name="satuan"
-                            class="form-obat-control"
+                            class="form-obat-control select2-obat"
+                            data-placeholder="Cari / pilih satuan..."
                             required
                         >
 
-                            <option value="">
-                                -- Pilih Satuan --
-                            </option>
+                            <option value=""></option>
 
                             @foreach($satuans as $satuan)
 
@@ -941,32 +991,44 @@
                         </select>
 
                         @error('satuan')
+
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
+
                         @enderror
 
                     </div>
 
 
                     {{-- HARGA --}}
-
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
                             Harga
                         </label>
 
-                        <div class="harga-input-wrapper">
+                        <div style="position: relative;">
 
-                            <span class="harga-prefix">
+                            <span
+                                style="
+                                    position:absolute;
+                                    left:9px;
+                                    top:50%;
+                                    transform:translateY(-50%);
+                                    font-size:10px;
+                                    color:#6b7280;
+                                    z-index:2;
+                                "
+                            >
                                 Rp
                             </span>
 
                             <input
                                 type="number"
                                 name="harga"
-                                class="form-obat-control harga-input"
+                                class="form-obat-control"
+                                style="padding-left:25px;"
                                 placeholder="Masukkan harga obat"
                                 value="{{ old('harga') }}"
                                 min="0"
@@ -976,36 +1038,11 @@
                         </div>
 
                         @error('harga')
+
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
-                        @enderror
 
-                    </div>
-
-
-                    {{-- STOK --}}
-
-                    <div class="form-obat-group">
-
-                        <label class="form-obat-label">
-                            Stok
-                        </label>
-
-                        <input
-                            type="number"
-                            name="stok"
-                            class="form-obat-control"
-                            placeholder="Masukkan jumlah stok"
-                            value="{{ old('stok') }}"
-                            min="0"
-                            required
-                        >
-
-                        @error('stok')
-                            <span class="error-obat">
-                                {{ $message }}
-                            </span>
                         @enderror
 
                     </div>
@@ -1014,7 +1051,6 @@
 
 
                 {{-- FOOTER --}}
-
                 <div class="modal-footer">
 
                     <button
@@ -1025,12 +1061,16 @@
                         Batal
                     </button>
 
+
                     <button
                         type="submit"
                         class="btn-simpan-obat"
                     >
+
                         <i class="fas fa-save"></i>
+
                         Simpan Data
+
                     </button>
 
                 </div>
@@ -1048,7 +1088,6 @@
 {{-- =========================================================
      MODAL EDIT OBAT
 ========================================================= --}}
-
 @foreach($obats as $obat)
 
 <div
@@ -1063,12 +1102,12 @@
         <div class="modal-content">
 
             {{-- HEADER --}}
-
             <div class="modal-header">
 
                 <h5 class="modal-title">
 
                     <i class="fas fa-edit"></i>
+
                     Edit Obat
 
                 </h5>
@@ -1082,13 +1121,13 @@
             >
 
                 @csrf
+
                 @method('PUT')
 
 
                 <div class="modal-body">
 
                     {{-- KODE --}}
-
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -1106,8 +1145,7 @@
                     </div>
 
 
-                    {{-- NAMA --}}
-
+                    {{-- NAMA OBAT --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -1116,9 +1154,12 @@
 
                         <select
                             name="nama_obat"
-                            class="form-obat-control"
+                            class="form-obat-control select2-obat"
+                            data-placeholder="Cari / pilih nama obat..."
                             required
                         >
+
+                            <option value=""></option>
 
                             @foreach($obats->unique('nama_obat') as $obatName)
 
@@ -1137,7 +1178,6 @@
 
 
                     {{-- KATEGORI --}}
-
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -1146,9 +1186,12 @@
 
                         <select
                             name="kategori"
-                            class="form-obat-control"
+                            class="form-obat-control select2-obat"
+                            data-placeholder="Cari / pilih kategori..."
                             required
                         >
+
+                            <option value=""></option>
 
                             @foreach($kategoris as $kategori)
 
@@ -1167,7 +1210,6 @@
 
 
                     {{-- SATUAN --}}
-
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -1176,9 +1218,12 @@
 
                         <select
                             name="satuan"
-                            class="form-obat-control"
+                            class="form-obat-control select2-obat"
+                            data-placeholder="Cari / pilih satuan..."
                             required
                         >
+
+                            <option value=""></option>
 
                             @foreach($satuans as $satuan)
 
@@ -1197,23 +1242,33 @@
 
 
                     {{-- HARGA --}}
-
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
                             Harga
                         </label>
 
-                        <div class="harga-input-wrapper">
+                        <div style="position: relative;">
 
-                            <span class="harga-prefix">
+                            <span
+                                style="
+                                    position:absolute;
+                                    left:9px;
+                                    top:50%;
+                                    transform:translateY(-50%);
+                                    font-size:10px;
+                                    color:#6b7280;
+                                    z-index:2;
+                                "
+                            >
                                 Rp
                             </span>
 
                             <input
                                 type="number"
                                 name="harga"
-                                class="form-obat-control harga-input"
+                                class="form-obat-control"
+                                style="padding-left:25px;"
                                 value="{{ $obat->harga }}"
                                 min="0"
                                 required
@@ -1223,31 +1278,10 @@
 
                     </div>
 
-
-                    {{-- STOK --}}
-
-                    <div class="form-obat-group">
-
-                        <label class="form-obat-label">
-                            Stok
-                        </label>
-
-                        <input
-                            type="number"
-                            name="stok"
-                            class="form-obat-control"
-                            value="{{ $obat->stok }}"
-                            min="0"
-                            required
-                        >
-
-                    </div>
-
                 </div>
 
 
                 {{-- FOOTER --}}
-
                 <div class="modal-footer">
 
                     <button
@@ -1258,12 +1292,16 @@
                         Batal
                     </button>
 
+
                     <button
                         type="submit"
                         class="btn-simpan-obat"
                     >
+
                         <i class="fas fa-save"></i>
+
                         Simpan Perubahan
+
                     </button>
 
                 </div>
@@ -1283,7 +1321,6 @@
 {{-- =========================================================
      MODAL LIHAT OBAT
 ========================================================= --}}
-
 @foreach($obats as $obat)
 
 <div
@@ -1298,12 +1335,12 @@
         <div class="modal-content">
 
             {{-- HEADER --}}
-
             <div class="modal-header">
 
                 <h5 class="modal-title">
 
                     <i class="fas fa-eye"></i>
+
                     Detail Obat
 
                 </h5>
@@ -1312,11 +1349,9 @@
 
 
             {{-- BODY --}}
-
             <div class="modal-body">
 
                 {{-- KODE --}}
-
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1331,7 +1366,6 @@
 
 
                 {{-- NAMA --}}
-
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1346,7 +1380,6 @@
 
 
                 {{-- KATEGORI --}}
-
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1361,7 +1394,6 @@
 
 
                 {{-- SATUAN --}}
-
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1376,7 +1408,6 @@
 
 
                 {{-- HARGA --}}
-
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1389,29 +1420,10 @@
 
                 </div>
 
-
-                {{-- STOK --}}
-
-                <div class="form-obat-group">
-
-                    <label class="form-obat-label">
-                        Stok
-                    </label>
-
-                    <div class="view-obat-value">
-
-                        {{ $obat->stok }}
-                        {{ $obat->satuan }}
-
-                    </div>
-
-                </div>
-
             </div>
 
 
             {{-- FOOTER --}}
-
             <div class="modal-footer">
 
                 <button
@@ -1431,5 +1443,103 @@
 </div>
 
 @endforeach
+
+
+
+{{-- =========================================================
+     JQUERY + SELECT2
+========================================================= --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | SELECT2 UNTUK MODAL TAMBAH
+        |--------------------------------------------------------------------------
+        */
+
+        $('#modalTambahObat').on('shown.bs.modal', function () {
+
+            $(this).find('.select2-obat').each(function () {
+
+                let select = $(this);
+
+                if (select.hasClass('select2-hidden-accessible')) {
+                    select.select2('destroy');
+                }
+
+                select.select2({
+                    width: '100%',
+                    placeholder: select.data('placeholder'),
+                    allowClear: true,
+                    dropdownParent: $('#modalTambahObat')
+                });
+
+            });
+
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SELECT2 UNTUK MODAL EDIT
+        |--------------------------------------------------------------------------
+        */
+
+        @foreach($obats as $obat)
+
+            $('#modalEditObat{{ $obat->id }}').on('shown.bs.modal', function () {
+
+                $(this).find('.select2-obat').each(function () {
+
+                    let select = $(this);
+
+                    if (select.hasClass('select2-hidden-accessible')) {
+                        select.select2('destroy');
+                    }
+
+                    select.select2({
+                        width: '100%',
+                        placeholder: select.data('placeholder'),
+                        allowClear: true,
+                        dropdownParent: $('#modalEditObat{{ $obat->id }}')
+                    });
+
+                });
+
+            });
+
+        @endforeach
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | HANCURKAN SELECT2 SAAT MODAL DITUTUP
+        |--------------------------------------------------------------------------
+        */
+
+        $('.modal-obat').on('hidden.bs.modal', function () {
+
+            $(this).find('.select2-obat').each(function () {
+
+                let select = $(this);
+
+                if (select.hasClass('select2-hidden-accessible')) {
+                    select.select2('destroy');
+                }
+
+            });
+
+        });
+
+    });
+
+</script>
 
 @endsection

@@ -666,12 +666,7 @@
                                                 {{ $pasien->nama }}
                                             </div>
 
-                                            <small
-                                                class="text-muted"
-                                                style="font-size: 11px;"
-                                            >
-                                                ID: {{ $pasien->id }}
-                                            </small>
+                                          
 
                                         </div>
 
@@ -1342,7 +1337,7 @@
 
                 </div>
 
-               
+
 
             </div>
 

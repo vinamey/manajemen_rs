@@ -699,11 +699,7 @@
 
                                             </div>
 
-                                            <div class="doctor-id">
-
-                                                ID: {{ $dokter->id }}
-
-                                            </div>
+                                            
 
                                         </div>
 
