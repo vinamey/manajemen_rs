@@ -772,7 +772,7 @@
 
                                             <div class="perawat-name">
 
-                                                {{ $perawat->nama }}
+                                                {{ $perawat->Nama }}
 
                                             </div>
 
@@ -796,7 +796,7 @@
 
                                     <span class="badge badge-blue-soft-perawat">
 
-                                        {{ ucfirst($perawat->jenis_kelamin) }}
+                                        {{ ucfirst($perawat->Jenis_Kelamin) }}
 
                                     </span>
 
@@ -807,7 +807,7 @@
 
                                 <td>
 
-                                    {{ $perawat->tanggal_lahir }}
+                                    {{ $perawat->Tanggal_Lahir }}
 
                                 </td>
 
@@ -816,7 +816,7 @@
 
                                 <td>
 
-                                    {{ $perawat->alamat ?? '-' }}
+                                    {{ $perawat->Alamat ?? '-' }}
 
                                 </td>
 

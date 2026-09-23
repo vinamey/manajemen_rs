@@ -155,7 +155,7 @@
 
 </div>
 
-<div class="card shadow">
+<div class="card shadow pendaftaran-card">
 
     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 
@@ -163,12 +163,14 @@
             Pendaftaran Pasien
         </h4>
 
-        <a href="{{ route('pendaftaran.create') }}"
-           class="btn btn-success">
+        <button type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#modalTambahPendaftaran">
 
-            + Daftar Pasien
+    <i class="fas fa-plus"></i> Daftar Pasien
 
-        </a>
+    </button>
 
     </div>
 
@@ -781,12 +783,476 @@
 </div>
 
 <style>
-    /* Header tabel Pendaftaran Pasien */
-    .table thead th {
-        background-color: #0d6efd !important;
-        color: white !important;
+    /* =====================================================
+       DESAIN PENDAFTARAN PASIEN
+       HANYA MENGUBAH TAMPILAN BAGIAN PENDAFTARAN
+       FITUR, ROUTE, FORM, DATA, DAN NAMA TIDAK DIUBAH
+    ===================================================== */
+
+    .pendaftaran-card {
+        border: none !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+        background: #ffffff !important;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08) !important;
+    }
+
+    /* Header Pendaftaran */
+    .pendaftaran-card .card-header {
+        background: #1677f2 !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 14px 18px !important;
+    }
+
+    .pendaftaran-card .card-header h4 {
+        color: #ffffff !important;
         font-weight: 600;
+        margin: 0;
+    }
+
+    /* Tombol Daftar Pasien */
+    .pendaftaran-card .card-header .btn-success {
+        background: #1677f2 !important;
+        border-color: #1677f2 !important;
+        color: #ffffff !important;
+        border-radius: 7px !important;
+        font-weight: 500;
+    }
+
+    .pendaftaran-card .card-header .btn-success:hover {
+        background: #0d6efd !important;
+        border-color: #0d6efd !important;
+    }
+
+    /* Area filter */
+    .pendaftaran-card .form-label {
+        color: #475569 !important;
+        font-weight: 500;
+    }
+
+    .pendaftaran-card .form-control,
+    .pendaftaran-card .form-select {
+        border: 1px solid #d5dde8 !important;
+        border-radius: 7px !important;
+        color: #334155 !important;
+        background: #ffffff !important;
+    }
+
+    .pendaftaran-card .form-control:focus,
+    .pendaftaran-card .form-select:focus {
+        border-color: #1677f2 !important;
+        box-shadow: 0 0 0 0.15rem rgba(22, 119, 242, 0.15) !important;
+    }
+
+    /* Tombol Cari */
+    .pendaftaran-card .btn-primary {
+        background: #1677f2 !important;
+        border-color: #1677f2 !important;
+        border-radius: 7px !important;
+    }
+
+    .pendaftaran-card .btn-primary:hover {
+        background: #0d6efd !important;
+        border-color: #0d6efd !important;
+    }
+
+    /* Tombol Reset */
+    .pendaftaran-card .btn-secondary {
+        background: #6c757d !important;
+        border-color: #6c757d !important;
+        border-radius: 7px !important;
+    }
+
+    /* Header tabel */
+    .pendaftaran-card .table thead th {
+        background-color: #1677f2 !important;
+        color: #ffffff !important;
+        border-color: #1677f2 !important;
+        font-weight: 600;
+        vertical-align: middle;
+    }
+
+    /* Isi tabel */
+    .pendaftaran-card .table tbody td {
+        color: #334155 !important;
+        border-color: #e5eaf0 !important;
+        vertical-align: middle;
+    }
+
+    .pendaftaran-card .table tbody tr:hover {
+        background: #f8fbff !important;
+    }
+
+    /* Tombol Lihat */
+    .pendaftaran-card .btn-info {
+        background: #dff1ff !important;
+        border-color: #dff1ff !important;
+        color: #0879c9 !important;
+        border-radius: 7px !important;
+    }
+
+    .pendaftaran-card .btn-info:hover {
+        background: #c9e9ff !important;
+        color: #0069b4 !important;
+    }
+
+    /* Tombol Edit */
+    .pendaftaran-card .btn-warning {
+        background: #1677f2 !important;
+        border-color: #1677f2 !important;
+        color: #ffffff !important;
+        border-radius: 7px !important;
+    }
+
+    .pendaftaran-card .btn-warning:hover {
+        background: #0d6efd !important;
+        border-color: #0d6efd !important;
+        color: #ffffff !important;
+    }
+
+    /* Tombol Hapus */
+    .pendaftaran-card .btn-danger {
+        background: #ef3340 !important;
+        border-color: #ef3340 !important;
+        color: #ffffff !important;
+        border-radius: 7px !important;
+    }
+
+    .pendaftaran-card .btn-danger:hover {
+        background: #dc2633 !important;
+        border-color: #dc2633 !important;
+    }
+
+    /* Badge status */
+    .pendaftaran-card .badge {
+        border-radius: 6px !important;
+        padding: 5px 9px !important;
+        font-weight: 500 !important;
+    }
+
+    .pendaftaran-card .badge.bg-warning {
+        background: #fff3cd !important;
+        color: #9a6b00 !important;
+    }
+
+    .pendaftaran-card .badge.bg-info {
+        background: #dff1ff !important;
+        color: #0879c9 !important;
+    }
+
+    .pendaftaran-card .badge.bg-success {
+        background: #d9f7e5 !important;
+        color: #159447 !important;
     }
 </style>
 
+<!-- MODAL TAMBAH PENDAFTARAN -->
+<div class="modal fade"
+     id="modalTambahPendaftaran"
+     tabindex="-1"
+     aria-labelledby="modalTambahPendaftaranLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content"
+             style="
+                border: none;
+                border-radius: 14px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+             ">
+
+            <!-- HEADER -->
+            <div class="modal-header"
+                 style="
+                    background: #1677f2;
+                    color: white;
+                    padding: 14px 16px;
+                    border: none;
+                 ">
+
+                <h6 class="modal-title fw-bold"
+                    id="modalTambahPendaftaranLabel"
+                    style="font-size: 14px;">
+
+                    <i class="fas fa-user-plus me-1"></i>
+                    Tambah Pendaftaran
+
+                </h6>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+
+            <!-- FORM -->
+            <form action="{{ route('pendaftaran.store') }}"
+                  method="POST">
+
+                @csrf
+
+                <div class="modal-body"
+                     style="
+                        padding: 18px 16px 12px;
+                        background: white;
+                     ">
+
+
+                    <!-- PASIEN -->
+                    <div class="mb-3">
+
+                        <label for="pasien_id"
+                               class="form-label"
+                               style="
+                                    font-size: 11px;
+                                    color: #52627a;
+                                    margin-bottom: 5px;
+                               ">
+
+                            Pasien
+
+                        </label>
+
+                        <select name="pasien_id"
+                                id="pasien_id"
+                                class="form-select"
+                                required
+                                style="
+                                    height: 34px;
+                                    font-size: 11px;
+                                    border-radius: 6px;
+                                    border: 1px solid #cbd5e1;
+                                ">
+
+                            <option value="">
+                                -- Pilih Pasien --
+                            </option>
+
+                            @foreach($pasiens as $pasien)
+
+                                <option value="{{ $pasien->id }}">
+                                    {{ $pasien->nama }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DOKTER -->
+                    <div class="mb-3">
+
+                        <label for="dokter_id"
+                               class="form-label"
+                               style="
+                                    font-size: 11px;
+                                    color: #52627a;
+                                    margin-bottom: 5px;
+                               ">
+
+                            Dokter
+
+                        </label>
+
+                        <select name="dokter_id"
+                                id="dokter_id"
+                                class="form-select"
+                                required
+                                style="
+                                    height: 34px;
+                                    font-size: 11px;
+                                    border-radius: 6px;
+                                    border: 1px solid #cbd5e1;
+                                ">
+
+                            <option value="">
+                                -- Pilih Dokter --
+                            </option>
+
+                            @foreach($dokters as $dokter)
+
+                                <option value="{{ $dokter->id }}">
+                                    {{ $dokter->nama }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- POLI -->
+                    <div class="mb-3">
+
+                        <label for="poli_id"
+                               class="form-label"
+                               style="
+                                    font-size: 11px;
+                                    color: #52627a;
+                                    margin-bottom: 5px;
+                               ">
+
+                            Poli
+
+                        </label>
+
+                        <select name="poli_id"
+                                id="poli_id"
+                                class="form-select"
+                                required
+                                style="
+                                    height: 34px;
+                                    font-size: 11px;
+                                    border-radius: 6px;
+                                    border: 1px solid #cbd5e1;
+                                ">
+
+                            <option value="">
+                                -- Pilih Poli --
+                            </option>
+
+                            @foreach($polis as $poli)
+
+                                <option value="{{ $poli->id }}">
+                                    {{ $poli->nama }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- KAMAR -->
+                    <div class="mb-3">
+
+                        <label for="kamar_id"
+                               class="form-label"
+                               style="
+                                    font-size: 11px;
+                                    color: #52627a;
+                                    margin-bottom: 5px;
+                               ">
+
+                            Kamar
+                            <span class="text-muted">(Opsional)</span>
+
+                        </label>
+
+                        <select name="kamar_id"
+                                id="kamar_id"
+                                class="form-select"
+                                style="
+                                    height: 34px;
+                                    font-size: 11px;
+                                    border-radius: 6px;
+                                    border: 1px solid #cbd5e1;
+                                ">
+
+                            <option value="">
+                                -- Pilih Kamar --
+                            </option>
+
+                            @foreach($kamars as $kamar)
+
+                                <option value="{{ $kamar->id }}">
+                                    {{ $kamar->nama }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- TANGGAL -->
+                    <div class="mb-2">
+
+                        <label for="tanggal_pendaftaran"
+                               class="form-label"
+                               style="
+                                    font-size: 11px;
+                                    color: #52627a;
+                                    margin-bottom: 5px;
+                               ">
+
+                            Tanggal Pendaftaran
+
+                        </label>
+
+                        <input type="date"
+                               name="tanggal_pendaftaran"
+                               id="tanggal_pendaftaran"
+                               class="form-control"
+                               value="{{ date('Y-m-d') }}"
+                               required
+                               style="
+                                    height: 34px;
+                                    font-size: 11px;
+                                    border-radius: 6px;
+                                    border: 1px solid #cbd5e1;
+                               ">
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOOTER -->
+                <div class="modal-footer"
+                     style="
+                        background: #f8fafc;
+                        border-top: 1px solid #edf0f4;
+                        padding: 12px 16px;
+                     ">
+
+                    <button type="button"
+                            class="btn"
+                            data-bs-dismiss="modal"
+                            style="
+                                font-size: 10px;
+                                color: #333;
+                                background: transparent;
+                                border: none;
+                            ">
+
+                        Batal
+
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary"
+                            style="
+                                background: #1677f2;
+                                border: none;
+                                border-radius: 6px;
+                                font-size: 10px;
+                                padding: 8px 14px;
+                            ">
+
+                        <i class="fas fa-save me-1"></i>
+                        Simpan Data
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
 @endsection

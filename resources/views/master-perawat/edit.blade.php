@@ -120,7 +120,7 @@
                     <input type="text"
                            name="nama"
                            class="form-control"
-                           value="{{ old('nama', $perawat->nama) }}"
+                           value="{{ old('nama', $perawat->Nama) }}"
                            placeholder="Masukkan nama perawat"
                            required>
 
@@ -142,14 +142,14 @@
                         </option>
 
                         <option value="laki-laki"
-                            {{ old('jenis_kelamin', $perawat->jenis_kelamin) == 'laki-laki' ? 'selected' : '' }}>
+                            {{ old('jenis_kelamin', $perawat->Jenis_Kelamin) == 'laki-laki' ? 'selected' : '' }}>
 
                             Laki-laki
 
                         </option>
 
                         <option value="perempuan"
-                            {{ old('jenis_kelamin', $perawat->jenis_kelamin) == 'perempuan' ? 'selected' : '' }}>
+                            {{ old('jenis_kelamin', $perawat->Jenis_Kelamin) == 'perempuan' ? 'selected' : '' }}>
 
                             Perempuan
 
@@ -169,7 +169,7 @@
                     <input type="date"
                            name="tanggal_lahir"
                            class="form-control"
-                           value="{{ old('tanggal_lahir', $perawat->tanggal_lahir ? \Carbon\Carbon::parse($perawat->tanggal_lahir)->format('Y-m-d') : '') }}"
+                           value="{{ old('tanggal_lahir', $perawat->Tanggal_Lahir ? \Carbon\Carbon::parse($perawat->Tanggal_Lahir)->format('Y-m-d') : '') }}"
                            required>
 
                 </div>
@@ -185,7 +185,7 @@
                               class="form-control"
                               rows="4"
                               placeholder="Masukkan alamat perawat"
-                              required>{{ old('alamat', $perawat->alamat) }}</textarea>
+                              required>{{ old('alamat', $perawat->Alamat) }}</textarea>
 
                 </div>
 
