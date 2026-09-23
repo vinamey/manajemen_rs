@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>
@@ -271,7 +270,7 @@
         .navbar {
             min-height: 65px;
 
-            padding: 0 12px;
+            padding: 0 24px;
         }
 
         .navbar-brand {
@@ -310,7 +309,7 @@
         ===================================================== */
 
         .page-container {
-            padding: 0;
+            padding: 24px;
             margin: 0;
         }
 
@@ -362,6 +361,10 @@
 
             .master-item.active {
                 padding-left: 32px;
+            }
+
+            .page-container {
+                padding: 16px;
             }
 
         }
@@ -549,7 +552,7 @@
 
                     <span class="master-toggle-left">
 
-                        <i class="fa-solid fa-database"></i>
+                        <i class="fa-solid fa-database me-2"></i>
 
                         Master Data
 
@@ -843,6 +846,12 @@
 
             </li>
 
+            <li class="nav-item">
+              <a href="{{ route('log-stok-obat.index') }}" class="nav-link">
+                <i class="fa-solid fa-boxes-stacked me-2"></i>
+                Stok Obat</a>
+            </li>
+
 
             {{-- =================================================
                  PENDAFTARAN PASIEN
@@ -970,7 +979,7 @@
                         >
 
                             <i
-                                class="fa-solid fa-right-from-bracket"
+                                class="fa-solid fa-right-from-bracket me-1"
                             ></i>
 
                             Logout
