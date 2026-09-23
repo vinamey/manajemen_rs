@@ -33,6 +33,7 @@ use App\Http\Controllers\MasterSupplierController;
 use App\Http\Controllers\MasterTindakanController;
 use App\Http\Controllers\PendaftaranPasienController;
 use App\Http\Controllers\PemeriksaanDokterController;
+use App\Http\Controllers\LogStokObatController;
 
 
 
@@ -161,10 +162,7 @@ Route::resource(
 );
 
 // Master Obat
-Route::resource(
-    'master-obat',
-    MasterObatController::class
-);
+
 
 // Kurangi Stok Obat
 Route::post(
@@ -217,3 +215,11 @@ Route::resource(
     'pemeriksaan-dokter',
     PemeriksaanDokterController::class
 );
+
+Route::middleware(['role:super admin|admin rumah sakit|apoteker'])->group(function () {
+        // Sesuaikan ->name() dengan yang dipanggil di sidebar: 'log-stok-obat.index'
+        Route::get('/log-stok-obat', [LogStokObatController::class, 'index'])->name('log-stok-obat.index');
+        
+        Route::resource('master-obat', MasterObatController::class);
+        Route::post('/master-obat/{id}/kurangi-stok', [MasterObatController::class, 'kurangiStok'])->name('master-obat.kurangi-stok');
+    });
