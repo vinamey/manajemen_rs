@@ -421,9 +421,7 @@
 
                                 <br>
 
-                                <small>
-                                    ID: {{ $satuan->id }}
-                                </small>
+                               
 
                             </td>
 
