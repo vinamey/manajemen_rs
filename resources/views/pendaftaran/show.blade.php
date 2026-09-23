@@ -155,46 +155,17 @@
 
                 {{-- STATUS --}}
 
-                @if($pendaftaran->status == 'menunggu')
-
-                    <span class="badge bg-warning text-dark px-3 py-2">
-
-                        <i class="bi bi-clock"></i>
-
-                        Menunggu
-
-                    </span>
-
-                @elseif($pendaftaran->status == 'diperiksa')
-
-                    <span class="badge bg-info px-3 py-2">
-
-                        <i class="bi bi-heart-pulse"></i>
-
-                        Sedang Diperiksa
-
-                    </span>
-
-                @elseif($pendaftaran->status == 'selesai')
-
-                    <span class="badge bg-success px-3 py-2">
-
-                        <i class="bi bi-check-circle"></i>
-
-                        Selesai
-
-                    </span>
-
-                @else
-
-                    <span class="badge bg-secondary px-3 py-2">
-
-                        {{ ucfirst($pendaftaran->status) }}
-
-                    </span>
-
-                @endif
-
+                <td>
+    @if($pendaftaran->status === 'menunggu')
+        <span class="badge bg-warning text-dark">
+            Menunggu
+        </span>
+    @elseif($pendaftaran->status === 'selesai')
+        <span class="badge bg-success">
+            Selesai
+        </span>
+    @endif
+</td>
             </div>
 
         </div>
