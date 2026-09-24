@@ -123,17 +123,20 @@ class RolePermissionSeeder extends Seeder
             'laporan',
         ]);
 
-        $dokter->givePermissionTo([
-            'dashboard',
-            'pemeriksaan dokter',
-            'resep obat',
-        ]);
+      $dokter->givePermissionTo([
+    'dashboard',
+    'master dokter',
+    'master pasien',
+    'pemeriksaan dokter',
+    'resep obat',
+]);
 
-        $perawat->givePermissionTo([
-            'dashboard',
-            'pendaftaran pasien',
-        ]);
-
+     $perawat->givePermissionTo([
+    'dashboard',
+    'master perawat',
+    'master pasien',
+    'pendaftaran pasien',
+]);
         $apoteker->givePermissionTo([
             'dashboard',
             'master obat',
