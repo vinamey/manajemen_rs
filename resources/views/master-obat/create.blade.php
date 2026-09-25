@@ -116,48 +116,89 @@
                             Kode Obat
                         </label>
 
-                        <input type="text"
-                               name="kode_obat"
-                               class="form-control"
-                               value="{{ old('kode_obat') }}"
-                               placeholder="Contoh: OBT001"
-                               required>
+                        <input
+                        type="text"
+                        name="kode"
+                        class="form-obat-control"
+                        placeholder="Masukkan kode obat"
+                        value="{{ old('kode') }}"
+                        required>
 
                     </div>
 
-                    <div class="col-md-8 mb-3">
+                    {{-- NAMA OBAT --}}
+<div class="form-obat-group">
 
-                        <label class="form-label">
-                            Nama Obat
-                        </label>
+    <label class="form-obat-label">
+        Nama Obat
+    </label>
 
-                        <input type="text"
-                               name="nama_obat"
-                               class="form-control"
-                               value="{{ old('nama_obat') }}"
-                               placeholder="Contoh: Paracetamol 500mg"
-                               required>
+    <select
+        name="nama"
+        class="form-obat-control select2-obat"
+        data-placeholder="Cari / pilih nama obat..."
+        required
+    >
 
-                    </div>
+        <option value=""></option>
 
-                    <div class="mb-3">
+        @foreach($obats as $obat)
 
-    <label>Kategori</label>
-
-    <select name="kategori" class="form-control" required>
-
-        <option value="">-- Pilih Kategori --</option>
-
-        @foreach($kategoris as $kategori)
-
-            <option value="{{ $kategori->nama_kategori }}"
-                {{ old('kategori') == $kategori->nama_kategori ? 'selected' : '' }}>
-
-                {{ $kategori->nama_kategori }}
-
+            <option
+                value="{{ $obat->nama }}"
+                {{ old('nama') == $obat->nama ? 'selected' : '' }}
+            >
+                {{ $obat->nama }}
             </option>
 
         @endforeach
+
+    </select>
+
+    @error('nama')
+        <span class="error-obat">
+            {{ $message }}
+        </span>
+    @enderror
+
+</div>
+                    {{-- KATEGORI --}}
+<div class="form-obat-group">
+
+    <label class="form-obat-label">
+        Kategori
+    </label>
+
+    <select
+        name="kategori_id"
+        class="form-obat-control select2-kategori"
+        required
+    >
+
+        <option value="">
+            -- Cari / pilih kategori --
+        </option>
+
+        @foreach($kategoris as $kategori)
+
+            <option
+                value="{{ $kategori->id }}"
+                {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}
+            >
+                {{ $kategori->nama }}
+            </option>
+
+        @endforeach
+
+    </select>
+
+    @error('kategori_id')
+        <span class="error-obat">
+            {{ $message }}
+        </span>
+    @enderror
+
+</div>
 
     </select>
 
@@ -264,12 +305,13 @@
                             Stok Awal
                         </label>
 
-                        <input type="number"
-                               name="stok"
-                               class="form-control"
-                               value="{{ old('stok', 0) }}"
-                               min="0"
-                               required>
+                        <input
+                            type="number"
+                            name="stok"
+                            class="form-obat-control"
+                            value="{{ old('stok', 0) }}"
+                            min="0"
+                            required>
 
                         <small class="text-muted">
                             Jumlah obat yang tersedia saat ini.
