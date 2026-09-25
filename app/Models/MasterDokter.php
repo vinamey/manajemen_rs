@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\MasterPoli;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MasterDokter extends Model
 {
@@ -21,8 +21,15 @@ class MasterDokter extends Model
         'poli_id',
     ];
 
-    public function poli()
-{
-    return $this->belongsTo(MasterPoli::class, 'poli_id');
-}
+    /**
+     * Relasi dokter ke poli
+     */
+    public function poli(): BelongsTo
+    {
+        return $this->belongsTo(
+            MasterPoli::class,
+            'poli_id',
+            'id'
+        );
+    }
 }
