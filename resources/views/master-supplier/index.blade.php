@@ -36,49 +36,50 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($suppliers as $supplier)
-                        <tr>
-                            <td class="py-3 px-4 text-center text-muted">{{ $loop->iteration }}</td>
-                            <td class="py-3 px-4 font-monospace fw-bold text-dark">{{ $supplier->kode }}</td>
-                            <td class="py-3 px-4">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold" style="background-color: #e0edff; color: #1d72f3; width: 40px; height: 40px; min-width: 40px;">
-                                        {{ strtoupper(substr($supplier->nama, 0, 2)) }}
-                                    </div>
-                                    <div>
-                                        <div class="fw-bold text-dark">{{ $supplier->nama }}</div>
-                                        <small class="text-muted">ID: {{ $supplier->id }}</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-3 px-4 text-center text-nowrap">
-                                <div class="d-inline-flex gap-1">
-                                    
-                                    <button type="button" class="btn btn-sm border-0 px-3 py-2 rounded-2 d-flex flex-column align-items-center fw-medium" style="background-color: #e0f2fe; color: #0284c7; min-width: 55px;" 
-                                        onclick="openDetailModal('{{ $supplier->kode }}', '{{ $supplier->nama }}')">
-                                        <span>👁</span> <small style="font-size: 11px;">Lihat</small>
-                                    </button>
+    @forelse($suppliers as $supplier)
+    <tr>
+        <td class="py-3 px-4 text-center text-muted">{{ $loop->iteration }}</td>
+        
+        <!-- KODE SUPPLIER (Badge Biru) -->
+        <td class="py-3 px-4">
+            <span class="badge rounded-3 px-3 py-2 fw-bold" style="background-color: #e0edff; color: #1d72f3; font-size: 13px;">
+                {{ $supplier->kode }}
+            </span>
+        </td>
 
-                                    <button type="button" class="btn btn-sm text-white border-0 px-3 py-2 rounded-2 d-flex flex-column align-items-center fw-medium" style="background-color: #1d72f3; min-width: 55px;" 
-                                        onclick="openEditModal('{{ $supplier->id }}', '{{ $supplier->kode }}', '{{ $supplier->nama }}', '{{ route('master-supplier.update', $supplier->id) }}')">
-                                        <span>✏️</span> <small style="font-size: 11px;">Edit</small>
-                                    </button>
+        <!-- NAMA SUPPLIER (Badge Orange/Krem) -->
+        <td class="py-3 px-4">
+            <span class="badge rounded-3 px-3 py-2 fw-bold" style="background-color: #ffedd5; color: #ea580c; font-size: 13px;">
+                {{ $supplier->nama }}
+            </span>
+        </td>
 
-                                
-                                    <button type="button" class="btn btn-sm text-white border-0 px-3 py-2 rounded-2 d-flex flex-column align-items-center fw-medium btn-hapus-supplier" style="background-color: #ef4444; min-width: 55px;" 
-                                        data-nama="{{ $supplier->nama }}" 
-                                        data-url="{{ route('master-supplier.destroy', $supplier->id) }}">
-                                        <span>🗑</span> <small style="font-size: 11px;">Hapus</small>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="text-center py-5 text-muted">Belum ada data supplier.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
+        <td class="py-3 px-4 text-center text-nowrap">
+            <div class="d-inline-flex gap-1">
+                <button type="button" class="btn btn-sm border-0 px-3 py-2 rounded-2 d-flex flex-column align-items-center fw-medium" style="background-color: #e0f2fe; color: #0284c7; min-width: 55px;" 
+                    onclick="openDetailModal('{{ $supplier->kode }}', '{{ $supplier->nama }}')">
+                    <span>👁</span> <small style="font-size: 11px;">Lihat</small>
+                </button>
+
+                <button type="button" class="btn btn-sm text-white border-0 px-3 py-2 rounded-2 d-flex flex-column align-items-center fw-medium" style="background-color: #1d72f3; min-width: 55px;" 
+                    onclick="openEditModal('{{ $supplier->id }}', '{{ $supplier->kode }}', '{{ $supplier->nama }}', '{{ route('master-supplier.update', $supplier->id) }}')">
+                    <span>✏️</span> <small style="font-size: 11px;">Edit</small>
+                </button>
+
+                <button type="button" class="btn btn-sm text-white border-0 px-3 py-2 rounded-2 d-flex flex-column align-items-center fw-medium btn-hapus-supplier" style="background-color: #ef4444; min-width: 55px;" 
+                    data-nama="{{ $supplier->nama }}" 
+                    data-url="{{ route('master-supplier.destroy', $supplier->id) }}">
+                    <span>🗑</span> <small style="font-size: 11px;">Hapus</small>
+                </button>
+            </div>
+        </td>
+    </tr>
+    @empty
+    <tr>
+        <td colspan="4" class="text-center py-5 text-muted">Belum ada data supplier.</td>
+    </tr>
+    @endforelse
+</tbody>
                 </table>
             </div>
         </div>
@@ -117,7 +118,9 @@
                                    name="kode"
                                    class="form-control rounded-3 py-2 px-3"
                                    placeholder="Contoh: SUP01"
-                                   required>
+                                   required
+                                      style="background-color: #1d72f3;">
+                              
                         </div>
 
                         <div class="col-md-6">
