@@ -36,7 +36,7 @@ class PemeriksaanDokterController extends Controller
 
     $dokters = MasterDokter::orderBy('nama')->get();
 
-    $obats = MasterObat::orderBy('nama_obat')->get();
+    $obats = MasterObat::orderBy('nama')->get();
 
     return view('pemeriksaan-dokter.index', compact(
         'pemeriksaans',
@@ -58,7 +58,7 @@ class PemeriksaanDokterController extends Controller
 
     $dokters = MasterDokter::all();
 
-    $obats = MasterObat::orderBy('nama_obat')->get();
+    $obats = MasterObat::orderBy('nama')->get();
 
     return view(
         'pemeriksaan-dokter.create',

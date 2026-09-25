@@ -5,9 +5,72 @@
 @section('content')
 
 {{-- =========================================================
-    SELECT2 CSS
+     SELECT2 CSS
 ========================================================= --}}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+@php
+    /*
+    |--------------------------------------------------------------------------
+    | DAFTAR NAMA OBAT
+    |--------------------------------------------------------------------------
+    | Kalau nanti mau menambah nama obat, cukup tambahkan di array ini.
+    */
+    $daftarNamaObat = [
+        'Acyclovir',
+        'Albendazole',
+        'Allopurinol',
+        'Ambroxol',
+        'Amlodipine',
+        'Amoxicillin',
+        'Antasida',
+        'Asam Folat',
+        'Asam Mefenamat',
+        'Aspirin',
+        'Azithromycin',
+        'Betahistine',
+        'Bisacodyl',
+        'Captopril',
+        'Cefadroxil',
+        'Cefixime',
+        'Cetirizine',
+        'Chloramphenicol',
+        'Chlorpheniramine',
+        'Ciprofloxacin',
+        'Clindamycin',
+        'Dexamethasone',
+        'Dextromethorphan',
+        'Diazepam',
+        'Diclofenac Sodium',
+        'Digoxin',
+        'Domperidone',
+        'Doxycycline',
+        'Erythromycin',
+        'Furosemide',
+        'Glibenclamide',
+        'Hydrochlorothiazide',
+        'Ibuprofen',
+        'Ketoconazole',
+        'Lansoprazole',
+        'Loratadine',
+        'Metformin',
+        'Metronidazole',
+        'Nystatin',
+        'Omeprazole',
+        'Ondansetron',
+        'Oralit',
+        'Paracetamol',
+        'Prednisone',
+        'Ranitidine',
+        'Salbutamol',
+        'Simvastatin',
+        'Sucralfate',
+        'Vitamin B Complex',
+        'Vitamin C',
+        'Vitamin D',
+        'Zinc',
+    ];
+@endphp
 
 <style>
     :root {
@@ -128,7 +191,6 @@
         margin: 0;
     }
 
-    /* HEADER TABLE */
     .obat-table thead th {
         background: var(--blue-main);
         color: white;
@@ -140,7 +202,6 @@
         text-align: left;
     }
 
-    /* BODY TABLE */
     .obat-table tbody td {
         padding: 10px 12px;
         font-size: 10px;
@@ -159,16 +220,13 @@
     }
 
     /* =========================================================
-       NO
+       KOLOM
     ========================================================= */
     .nomor {
         width: 45px;
         color: #6b7280 !important;
     }
 
-    /* =========================================================
-       KODE OBAT
-    ========================================================= */
     .kode-obat {
         width: 150px;
     }
@@ -184,18 +242,12 @@
         white-space: nowrap;
     }
 
-    /* =========================================================
-       NAMA OBAT
-    ========================================================= */
     .nama-obat {
         min-width: 180px;
         font-weight: 600;
         color: #1f2937 !important;
     }
 
-    /* =========================================================
-       KATEGORI
-    ========================================================= */
     .kategori-obat {
         min-width: 150px;
     }
@@ -211,17 +263,11 @@
         white-space: nowrap;
     }
 
-    /* =========================================================
-       SATUAN
-    ========================================================= */
     .satuan-obat {
         min-width: 100px;
         color: #6b7280;
     }
 
-    /* =========================================================
-       HARGA
-    ========================================================= */
     .harga-obat {
         min-width: 130px;
         color: #374151 !important;
@@ -259,7 +305,6 @@
         text-decoration: none;
     }
 
-    /* LIHAT */
     .btn-lihat {
         background: #dff2ff;
         color: #087db9;
@@ -270,7 +315,6 @@
         color: #087db9;
     }
 
-    /* EDIT */
     .btn-edit {
         background: var(--blue-main);
         color: white;
@@ -281,7 +325,6 @@
         color: white;
     }
 
-    /* HAPUS */
     .btn-hapus {
         background: #ff4b4b;
         color: white;
@@ -292,9 +335,6 @@
         color: white;
     }
 
-    /* =========================================================
-       DATA KOSONG
-    ========================================================= */
     .data-kosong {
         text-align: center;
         padding: 35px !important;
@@ -458,8 +498,7 @@
         border-color: var(--blue-main);
     }
 
-    .select2-container--default
-    .select2-results__option {
+    .select2-container--default .select2-results__option {
         font-size: 10px;
         padding: 7px 9px;
     }
@@ -474,6 +513,11 @@
     .select2-results__option[aria-selected="true"] {
         background: #e7f3ff;
         color: var(--blue-main);
+    }
+
+    /* Supaya daftar obat tidak terlalu panjang */
+    .select2-results__options {
+        max-height: 220px !important;
     }
 
     /* =========================================================
@@ -526,9 +570,6 @@
         background: var(--blue-dark);
     }
 
-    /* =========================================================
-       ERROR
-    ========================================================= */
     .error-obat {
         color: #dc3545;
         font-size: 8px;
@@ -536,11 +577,7 @@
         display: block;
     }
 
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
     @media (max-width: 768px) {
-
         .master-obat-page {
             padding: 18px 12px;
         }
@@ -561,13 +598,11 @@
     }
 </style>
 
-
 {{-- =========================================================
      HALAMAN MASTER OBAT
 ========================================================= --}}
 <div class="master-obat-page">
 
-    {{-- HEADER --}}
     <div class="obat-header">
 
         <div class="obat-title-wrapper">
@@ -577,19 +612,12 @@
             </div>
 
             <div>
-                <h2 class="obat-title">
-                    Master Obat
-                </h2>
-
-                <p class="obat-subtitle">
-                    Data obat yang terdaftar
-                </p>
+                <h2 class="obat-title">Master Obat</h2>
+                <p class="obat-subtitle">Data obat yang terdaftar</p>
             </div>
 
         </div>
 
-
-        {{-- TOMBOL TAMBAH --}}
         <button
             type="button"
             class="btn-tambah-obat"
@@ -602,38 +630,21 @@
 
     </div>
 
-
-    {{-- SUCCESS --}}
     @if(session('success'))
-
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
-
     @endif
 
-
-    {{-- ERROR --}}
     @if($errors->any())
-
         <div class="alert alert-danger">
-
             <ul class="mb-0">
-
                 @foreach($errors->all() as $error)
-
-                    <li>
-                        {{ $error }}
-                    </li>
-
+                    <li>{{ $error }}</li>
                 @endforeach
-
             </ul>
-
         </div>
-
     @endif
-
 
     {{-- =====================================================
          TABLE
@@ -645,41 +656,16 @@
             <table class="obat-table">
 
                 <thead>
-
                     <tr>
-
-                        <th style="width: 45px;">
-                            No
-                        </th>
-
-                        <th>
-                            Kode
-                        </th>
-
-                        <th>
-                            Nama Obat
-                        </th>
-
-                        <th>
-                            Kategori
-                        </th>
-
-                        <th>
-                            Satuan
-                        </th>
-
-                        <th>
-                            Harga
-                        </th>
-
-                        <th class="aksi-header">
-                            Aksi
-                        </th>
-
+                        <th style="width:45px;">No</th>
+                        <th>Kode</th>
+                        <th>Nama Obat</th>
+                        <th>Kategori</th>
+                        <th>Satuan</th>
+                        <th>Harga</th>
+                        <th class="aksi-header">Aksi</th>
                     </tr>
-
                 </thead>
-
 
                 <tbody>
 
@@ -687,56 +673,37 @@
 
                         <tr>
 
-                            {{-- NO --}}
                             <td class="nomor">
                                 {{ $loop->iteration }}
                             </td>
 
-
-                            {{-- KODE --}}
                             <td class="kode-obat">
-
                                 <span class="kode-obat-badge">
                                     {{ $obat->kode_obat }}
                                 </span>
-
                             </td>
 
-
-                            {{-- NAMA --}}
                             <td class="nama-obat">
                                 {{ $obat->nama_obat }}
                             </td>
 
-
-                            {{-- KATEGORI --}}
                             <td class="kategori-obat">
-
                                 <span class="badge-kategori">
                                     {{ $obat->kategori }}
                                 </span>
-
                             </td>
 
-
-                            {{-- SATUAN --}}
                             <td class="satuan-obat">
                                 {{ $obat->satuan }}
                             </td>
 
-
-                            {{-- HARGA --}}
                             <td class="harga-obat">
                                 Rp {{ number_format($obat->harga, 0, ',', '.') }}
                             </td>
 
-
-                            {{-- AKSI --}}
                             <td>
-
                                 <div class="aksi-wrapper">
 
-                                    {{-- LIHAT --}}
                                     <button
                                         type="button"
                                         class="btn-aksi btn-lihat"
@@ -747,8 +714,6 @@
                                         Lihat
                                     </button>
 
-
-                                    {{-- EDIT --}}
                                     <button
                                         type="button"
                                         class="btn-aksi btn-edit"
@@ -759,16 +724,12 @@
                                         Edit
                                     </button>
 
-
-                                    {{-- HAPUS --}}
                                     <form
                                         action="{{ route('master-obat.destroy', $obat->id) }}"
                                         method="POST"
                                         style="display:inline;"
                                     >
-
                                         @csrf
-
                                         @method('DELETE')
 
                                         <button
@@ -779,27 +740,19 @@
                                             <i class="fas fa-trash"></i>
                                             Hapus
                                         </button>
-
                                     </form>
 
                                 </div>
-
                             </td>
 
                         </tr>
 
-
                     @empty
 
                         <tr>
-
-                            <td
-                                colspan="7"
-                                class="data-kosong"
-                            >
+                            <td colspan="7" class="data-kosong">
                                 Belum ada data obat.
                             </td>
-
                         </tr>
 
                     @endforelse
@@ -815,7 +768,6 @@
 </div>
 
 
-
 {{-- =========================================================
      MODAL TAMBAH OBAT
 ========================================================= --}}
@@ -825,36 +777,26 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered">
 
         <div class="modal-content">
 
-            {{-- HEADER --}}
             <div class="modal-header">
-
                 <h5 class="modal-title">
-
                     <i class="fas fa-pills"></i>
-
                     Tambah Obat
-
                 </h5>
-
             </div>
-
 
             <form
                 action="{{ route('master-obat.store') }}"
                 method="POST"
             >
-
                 @csrf
-
 
                 <div class="modal-body">
 
-                    {{-- KODE --}}
+                    {{-- KODE OBAT --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -871,17 +813,17 @@
                         >
 
                         @error('kode_obat')
-
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
-
                         @enderror
 
                     </div>
 
 
-                    {{-- NAMA OBAT --}}
+                    {{-- =================================================
+                         NAMA OBAT - BANYAK PILIHAN + SEARCH
+                    ================================================== --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -897,13 +839,13 @@
 
                             <option value=""></option>
 
-                            @foreach($obats->unique('nama_obat') as $obatName)
+                            @foreach($daftarNamaObat as $namaObat)
 
                                 <option
-                                    value="{{ $obatName->nama_obat }}"
-                                    {{ old('nama_obat') == $obatName->nama_obat ? 'selected' : '' }}
+                                    value="{{ $namaObat }}"
+                                    {{ old('nama_obat') == $namaObat ? 'selected' : '' }}
                                 >
-                                    {{ $obatName->nama_obat }}
+                                    {{ $namaObat }}
                                 </option>
 
                             @endforeach
@@ -911,11 +853,9 @@
                         </select>
 
                         @error('nama_obat')
-
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
-
                         @enderror
 
                     </div>
@@ -951,11 +891,9 @@
                         </select>
 
                         @error('kategori')
-
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
-
                         @enderror
 
                     </div>
@@ -991,11 +929,9 @@
                         </select>
 
                         @error('satuan')
-
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
-
                         @enderror
 
                     </div>
@@ -1008,7 +944,7 @@
                             Harga
                         </label>
 
-                        <div style="position: relative;">
+                        <div style="position:relative;">
 
                             <span
                                 style="
@@ -1038,19 +974,15 @@
                         </div>
 
                         @error('harga')
-
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
-
                         @enderror
 
                     </div>
 
                 </div>
 
-
-                {{-- FOOTER --}}
                 <div class="modal-footer">
 
                     <button
@@ -1061,16 +993,12 @@
                         Batal
                     </button>
 
-
                     <button
                         type="submit"
                         class="btn-simpan-obat"
                     >
-
                         <i class="fas fa-save"></i>
-
                         Simpan Data
-
                     </button>
 
                 </div>
@@ -1080,9 +1008,7 @@
         </div>
 
     </div>
-
 </div>
-
 
 
 {{-- =========================================================
@@ -1096,34 +1022,23 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered">
 
         <div class="modal-content">
 
-            {{-- HEADER --}}
             <div class="modal-header">
-
                 <h5 class="modal-title">
-
                     <i class="fas fa-edit"></i>
-
                     Edit Obat
-
                 </h5>
-
             </div>
-
 
             <form
                 action="{{ route('master-obat.update', $obat->id) }}"
                 method="POST"
             >
-
                 @csrf
-
                 @method('PUT')
-
 
                 <div class="modal-body">
 
@@ -1145,7 +1060,9 @@
                     </div>
 
 
-                    {{-- NAMA OBAT --}}
+                    {{-- =================================================
+                         NAMA OBAT - BANYAK PILIHAN + SEARCH
+                    ================================================== --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -1161,13 +1078,26 @@
 
                             <option value=""></option>
 
-                            @foreach($obats->unique('nama_obat') as $obatName)
+                            {{-- Jika nama lama tidak ada di daftar, tetap tampilkan --}}
+                            @if(
+                                $obat->nama_obat &&
+                                !in_array($obat->nama_obat, $daftarNamaObat)
+                            )
+                                <option
+                                    value="{{ $obat->nama_obat }}"
+                                    selected
+                                >
+                                    {{ $obat->nama_obat }}
+                                </option>
+                            @endif
+
+                            @foreach($daftarNamaObat as $namaObat)
 
                                 <option
-                                    value="{{ $obatName->nama_obat }}"
-                                    {{ $obat->nama_obat == $obatName->nama_obat ? 'selected' : '' }}
+                                    value="{{ $namaObat }}"
+                                    {{ $obat->nama_obat == $namaObat ? 'selected' : '' }}
                                 >
-                                    {{ $obatName->nama_obat }}
+                                    {{ $namaObat }}
                                 </option>
 
                             @endforeach
@@ -1248,7 +1178,7 @@
                             Harga
                         </label>
 
-                        <div style="position: relative;">
+                        <div style="position:relative;">
 
                             <span
                                 style="
@@ -1280,8 +1210,6 @@
 
                 </div>
 
-
-                {{-- FOOTER --}}
                 <div class="modal-footer">
 
                     <button
@@ -1292,16 +1220,12 @@
                         Batal
                     </button>
 
-
                     <button
                         type="submit"
                         class="btn-simpan-obat"
                     >
-
                         <i class="fas fa-save"></i>
-
                         Simpan Perubahan
-
                     </button>
 
                 </div>
@@ -1311,11 +1235,9 @@
         </div>
 
     </div>
-
 </div>
 
 @endforeach
-
 
 
 {{-- =========================================================
@@ -1329,29 +1251,21 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered">
 
         <div class="modal-content">
 
-            {{-- HEADER --}}
             <div class="modal-header">
 
                 <h5 class="modal-title">
-
                     <i class="fas fa-eye"></i>
-
                     Detail Obat
-
                 </h5>
 
             </div>
 
-
-            {{-- BODY --}}
             <div class="modal-body">
 
-                {{-- KODE --}}
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1364,8 +1278,6 @@
 
                 </div>
 
-
-                {{-- NAMA --}}
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1378,8 +1290,6 @@
 
                 </div>
 
-
-                {{-- KATEGORI --}}
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1392,8 +1302,6 @@
 
                 </div>
 
-
-                {{-- SATUAN --}}
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1406,8 +1314,6 @@
 
                 </div>
 
-
-                {{-- HARGA --}}
                 <div class="form-obat-group">
 
                     <label class="form-obat-label">
@@ -1422,8 +1328,6 @@
 
             </div>
 
-
-            {{-- FOOTER --}}
             <div class="modal-footer">
 
                 <button
@@ -1439,11 +1343,9 @@
         </div>
 
     </div>
-
 </div>
 
 @endforeach
-
 
 
 {{-- =========================================================
@@ -1453,17 +1355,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-
 <script>
-
     $(document).ready(function () {
 
         /*
         |--------------------------------------------------------------------------
-        | SELECT2 UNTUK MODAL TAMBAH
+        | SELECT2 MODAL TAMBAH
         |--------------------------------------------------------------------------
         */
-
         $('#modalTambahObat').on('shown.bs.modal', function () {
 
             $(this).find('.select2-obat').each(function () {
@@ -1488,32 +1387,39 @@
 
         /*
         |--------------------------------------------------------------------------
-        | SELECT2 UNTUK MODAL EDIT
+        | SELECT2 MODAL EDIT
         |--------------------------------------------------------------------------
         */
-
         @foreach($obats as $obat)
 
-            $('#modalEditObat{{ $obat->id }}').on('shown.bs.modal', function () {
+            $('#modalEditObat{{ $obat->id }}').on(
+                'shown.bs.modal',
+                function () {
 
-                $(this).find('.select2-obat').each(function () {
+                    $(this).find('.select2-obat').each(function () {
 
-                    let select = $(this);
+                        let select = $(this);
 
-                    if (select.hasClass('select2-hidden-accessible')) {
-                        select.select2('destroy');
-                    }
+                        if (
+                            select.hasClass(
+                                'select2-hidden-accessible'
+                            )
+                        ) {
+                            select.select2('destroy');
+                        }
 
-                    select.select2({
-                        width: '100%',
-                        placeholder: select.data('placeholder'),
-                        allowClear: true,
-                        dropdownParent: $('#modalEditObat{{ $obat->id }}')
+                        select.select2({
+                            width: '100%',
+                            placeholder: select.data('placeholder'),
+                            allowClear: true,
+                            dropdownParent:
+                                $('#modalEditObat{{ $obat->id }}')
+                        });
+
                     });
 
-                });
-
-            });
+                }
+            );
 
         @endforeach
 
@@ -1523,7 +1429,6 @@
         | HANCURKAN SELECT2 SAAT MODAL DITUTUP
         |--------------------------------------------------------------------------
         */
-
         $('.modal-obat').on('hidden.bs.modal', function () {
 
             $(this).find('.select2-obat').each(function () {
@@ -1538,8 +1443,23 @@
 
         });
 
-    });
 
+        /*
+        |--------------------------------------------------------------------------
+        | BUKA MODAL TAMBAH LAGI JIKA VALIDASI GAGAL
+        |--------------------------------------------------------------------------
+        */
+        @if($errors->any())
+
+            const modalTambah = new bootstrap.Modal(
+                document.getElementById('modalTambahObat')
+            );
+
+            modalTambah.show();
+
+        @endif
+
+    });
 </script>
 
 @endsection
