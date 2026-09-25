@@ -5,12 +5,14 @@
 @section('content')
 
 <style>
+
     :root {
         --blue-main: #1877f2;
         --blue-dark: #0f58c6;
         --blue-light-bg: #e7f3ff;
         --blue-soft: #f0f7ff;
     }
+
 
     /* =========================================================
        GENERAL
@@ -19,6 +21,7 @@
     .master-dokter {
         padding: 12px 0 30px;
     }
+
 
     /* =========================================================
        HEADER
@@ -33,11 +36,9 @@
         height: 42px;
         background-color: var(--blue-light-bg);
         border-radius: 10px;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         color: var(--blue-main);
         font-size: 18px;
         flex-shrink: 0;
@@ -57,6 +58,7 @@
         margin: 3px 0 0;
     }
 
+
     /* =========================================================
        BUTTON PRIMARY
     ========================================================= */
@@ -65,13 +67,10 @@
         background-color: var(--blue-main) !important;
         border: none !important;
         color: #ffffff !important;
-
         border-radius: 8px;
         padding: 9px 15px;
-
         font-size: 13px;
         font-weight: 600;
-
         transition: all 0.2s ease;
     }
 
@@ -81,6 +80,7 @@
         transform: translateY(-1px);
     }
 
+
     /* =========================================================
        ALERT
     ========================================================= */
@@ -89,16 +89,14 @@
         border: none;
         border-left: 3px solid var(--blue-main);
         border-radius: 10px;
-
         background-color: #ffffff;
-
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-
+        box-shadow:
+            0 3px 12px rgba(0, 0, 0, 0.05);
         padding: 12px 15px;
         margin-bottom: 18px;
-
         font-size: 13px;
     }
+
 
     /* =========================================================
        TABLE
@@ -108,7 +106,6 @@
         border: none !important;
         border-radius: 12px !important;
         overflow: hidden;
-
         box-shadow:
             0 4px 12px rgba(0, 0, 0, 0.05) !important;
     }
@@ -120,24 +117,18 @@
     .table-dokter thead th {
         background-color: var(--blue-main) !important;
         color: #ffffff !important;
-
         border: none !important;
-
         font-size: 13px;
         font-weight: 600;
-
         padding: 14px 16px;
         white-space: nowrap;
     }
 
     .table-dokter tbody td {
         padding: 12px 16px;
-
         font-size: 13px;
         color: #475569;
-
         border-bottom: 1px solid #f1f5f9;
-
         vertical-align: middle;
     }
 
@@ -148,6 +139,7 @@
     .table-dokter tbody tr:hover {
         background-color: var(--blue-soft) !important;
     }
+
 
     /* =========================================================
        DOKTER NAME
@@ -167,19 +159,16 @@
     .avatar-dokter {
         width: 34px;
         height: 34px;
-
         border-radius: 50%;
-
         background-color: var(--blue-light-bg);
         color: var(--blue-main);
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         font-size: 13px;
         flex-shrink: 0;
     }
+
 
     /* =========================================================
        BADGES
@@ -188,10 +177,8 @@
     .badge-blue-soft {
         background-color: #e0f2fe !important;
         color: #0284c7 !important;
-
         font-size: 11px;
         font-weight: 500;
-
         padding: 6px 12px;
         border-radius: 6px;
     }
@@ -199,13 +186,12 @@
     .badge-green-soft {
         background-color: #dcfce7 !important;
         color: #15803d !important;
-
         font-size: 11px;
         font-weight: 500;
-
         padding: 6px 12px;
         border-radius: 6px;
     }
+
 
     /* =========================================================
        ACTION BUTTON
@@ -214,13 +200,10 @@
     .btn-action-view {
         background-color: #e0f2fe !important;
         color: #0284c7 !important;
-
         border: none !important;
         border-radius: 6px;
-
         font-size: 11px;
         font-weight: 500;
-
         padding: 6px 10px;
     }
 
@@ -232,13 +215,10 @@
     .btn-action-edit {
         background-color: var(--blue-main) !important;
         color: #ffffff !important;
-
         border: none !important;
         border-radius: 6px;
-
         font-size: 11px;
         font-weight: 500;
-
         padding: 6px 10px;
     }
 
@@ -250,13 +230,10 @@
     .btn-action-delete {
         background-color: #ef4444 !important;
         color: #ffffff !important;
-
         border: none !important;
         border-radius: 6px;
-
         font-size: 11px;
         font-weight: 500;
-
         padding: 6px 10px;
     }
 
@@ -264,285 +241,339 @@
         background-color: #dc2626 !important;
     }
 
+
     /* =========================================================
-       MODAL UMUM
+       MODAL TAMBAH / EDIT DOKTER
     ========================================================= */
 
     .modal-dokter .modal-dialog {
-        max-width: 460px;
+        width: calc(100% - 30px) !important;
+        max-width: 430px !important;
+        margin: 1.75rem auto !important;
+    }
+
+    .modal-dokter .modal-dialog.modal-dialog-centered {
+        min-height: calc(100% - 3.5rem) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
     .modal-dokter .modal-content {
-        border: none;
-        border-radius: 14px;
-
-        overflow: hidden;
-
+        width: 100% !important;
+        max-width: 430px !important;
+        margin: auto !important;
+        border: none !important;
+        border-radius: 14px !important;
+        overflow: visible !important;
         box-shadow:
-            0 15px 40px rgba(15, 23, 42, 0.18);
+            0 15px 40px rgba(15, 23, 42, 0.18) !important;
     }
 
+
+    /* =========================================================
+       MODAL HEADER
+    ========================================================= */
+
     .modal-dokter .modal-header {
-        background-color: var(--blue-main);
-        color: #ffffff;
-
-        border: none;
-
-        padding: 15px 18px;
+        background-color: var(--blue-main) !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 15px 18px !important;
+        border-radius: 14px 14px 0 0 !important;
     }
 
     .modal-dokter .modal-title {
-        font-size: 15px;
-        font-weight: 700;
-        margin: 0;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
     }
+
+
+    /* =========================================================
+       MODAL BODY
+    ========================================================= */
 
     .modal-dokter .modal-body {
-        padding: 20px 18px;
-        background-color: #ffffff;
+        padding: 20px 18px !important;
+        background-color: #ffffff !important;
+        overflow: visible !important;
     }
 
-    .modal-dokter .modal-footer {
-        background-color: #f8fafc;
-        border: none;
-
-        padding: 12px 18px;
-    }
 
     /* =========================================================
        FORM
     ========================================================= */
 
+    .form-group-dokter {
+        width: 100% !important;
+        margin-bottom: 13px !important;
+    }
+
     .form-label-dokter {
-        display: block;
-
-        font-size: 11px;
-        font-weight: 600;
-
-        color: #64748b;
-
-        margin-bottom: 6px;
+        display: block !important;
+        width: 100% !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        color: #64748b !important;
+        margin-bottom: 6px !important;
     }
 
     .form-control-dokter,
     .form-select-dokter {
-        width: 100%;
-
-        border: 1px solid #d7e0ea;
-        border-radius: 8px;
-
-        padding: 9px 11px;
-
-        font-size: 12px;
-        color: #334155;
-
-        background-color: #ffffff;
-
-        transition: all 0.2s ease;
+        width: 100% !important;
+        height: 38px !important;
+        box-sizing: border-box !important;
+        border: 1px solid #d7e0ea !important;
+        border-radius: 8px !important;
+        padding: 9px 11px !important;
+        font-size: 12px !important;
+        color: #334155 !important;
+        background-color: #ffffff !important;
     }
 
     .form-control-dokter:focus,
     .form-select-dokter:focus {
-        border-color: var(--blue-main);
-
+        border-color: var(--blue-main) !important;
         box-shadow:
-            0 0 0 3px rgba(24, 119, 242, 0.12);
-
-        outline: none;
+            0 0 0 3px rgba(24, 119, 242, 0.12) !important;
+        outline: none !important;
     }
 
     textarea.form-control-dokter {
-        min-height: 78px;
-        resize: vertical;
+        height: auto !important;
+        min-height: 78px !important;
+        resize: vertical !important;
     }
 
-    .form-group-dokter {
-        margin-bottom: 13px;
-    }
-
-    .btn-modal-cancel {
-        background-color: #f1f5f9 !important;
-        color: #64748b !important;
-
-        border: none !important;
-        border-radius: 7px;
-
-        padding: 8px 15px;
-
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .btn-modal-cancel:hover {
-        background-color: #e2e8f0 !important;
-    }
-
-    .btn-modal-save {
-        background-color: var(--blue-main) !important;
-        color: #ffffff !important;
-
-        border: none !important;
-        border-radius: 7px;
-
-        padding: 8px 16px;
-
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .btn-modal-save:hover {
-        background-color: var(--blue-dark) !important;
-    }
 
     /* =========================================================
-       DETAIL DOKTER
-       SAMA SEPERTI DETAIL PASIEN
+       SELECT2 POLI
     ========================================================= */
 
-    .detail-modal-dokter {
-        border: none !important;
-        border-radius: 14px !important;
-
-        overflow: hidden;
-
-        box-shadow:
-            0 15px 40px rgba(15, 23, 42, 0.18);
+    .select2-container {
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
-    /* HEADER DETAIL */
-
-    .detail-header-dokter {
-        background-color: var(--blue-main) !important;
-        color: #ffffff !important;
-
-        border: none !important;
-
-        padding: 13px 16px !important;
-
-        min-height: 42px;
-    }
-
-    .detail-header-dokter .modal-title {
-        font-size: 13px !important;
-        font-weight: 700;
-
-        margin: 0;
-    }
-
-    .detail-header-dokter i {
-        font-size: 13px;
-    }
-
-    /* BODY DETAIL */
-
-    .detail-body-dokter {
-        padding: 0 14px !important;
-
-        background-color: #ffffff;
-    }
-
-    /* NAMA */
-
-    .detail-full-dokter {
-        padding: 13px 5px;
-
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    /* ROW */
-
-    .detail-row-dokter {
-        margin: 0 !important;
-        padding: 0;
-
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .detail-row-dokter > div {
-        padding: 13px 5px;
-    }
-
-    .detail-row-dokter > div:first-child {
-        border-right: 1px solid #e5e7eb;
-    }
-
-    /* LABEL */
-
-    .detail-label-dokter {
-        font-size: 10px;
-
-        color: #64748b;
-
-        font-weight: 500;
-
-        margin-bottom: 5px;
-    }
-
-    /* VALUE */
-
-    .detail-value-dokter {
-        font-size: 12px;
-
-        color: #475569;
-
-        line-height: 1.4;
-    }
-
-    .detail-full-dokter .fw-bold {
-        color: #334155;
-
-        font-weight: 700 !important;
-    }
-
-    /* ALAMAT */
-
-    .alamat-detail-dokter {
-        border-bottom: none;
-
-        padding-bottom: 14px;
-    }
-
-    /* FOOTER DETAIL */
-
-    .detail-footer-dokter {
+    .select2-container--default
+    .select2-selection--single {
+        width: 100% !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        box-sizing: border-box !important;
+        border: 1px solid #d7e0ea !important;
+        border-radius: 8px !important;
         background-color: #ffffff !important;
-
-        border: none !important;
-
-        padding: 8px 10px 16px !important;
-
-        justify-content: flex-end;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 11px !important;
+        position: relative !important;
     }
 
-    .detail-footer-dokter .btn {
-        min-width: 72px;
-
-        padding: 8px 16px !important;
-
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
+        width: 100% !important;
+        color: #334155 !important;
         font-size: 12px !important;
-
-        border-radius: 7px !important;
+        line-height: 36px !important;
+        padding: 0 28px 0 0 !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
+
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__placeholder {
+        color: #94a3b8 !important;
+    }
+
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
+        width: 20px !important;
+        height: 36px !important;
+        top: 1px !important;
+        right: 7px !important;
+    }
+
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow b {
+        border-color:
+            #64748b
+            transparent
+            transparent
+            transparent !important;
+    }
+
 
     /* =========================================================
-       EMPTY STATE
+       SELECT2 SAAT DIBUKA
     ========================================================= */
 
-    .empty-dokter {
-        padding: 45px 20px !important;
-
-        color: #94a3b8 !important;
-
-        font-size: 13px;
+    .select2-container--default.select2-container--open
+    .select2-selection--single {
+        border-color: var(--blue-main) !important;
+        box-shadow:
+            0 0 0 3px rgba(24, 119, 242, 0.12) !important;
     }
+
+
+    /* =========================================================
+       DROPDOWN SELECT2
+    ========================================================= */
+
+    .select2-container--default
+    .select2-dropdown {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        border: 1px solid var(--blue-main) !important;
+        border-radius: 8px !important;
+        background-color: #ffffff !important;
+        box-shadow:
+            0 5px 15px rgba(15, 23, 42, 0.12) !important;
+        overflow: hidden !important;
+        z-index: 999999 !important;
+    }
+
+
+    /* =========================================================
+       SEARCH SELECT2
+    ========================================================= */
+
+    .select2-search--dropdown {
+        padding: 7px !important;
+        background-color: #ffffff !important;
+    }
+
+    .select2-search--dropdown
+    .select2-search__field {
+        width: 100% !important;
+        height: 30px !important;
+        box-sizing: border-box !important;
+        border: 1px solid #d7e0ea !important;
+        border-radius: 6px !important;
+        padding: 5px 8px !important;
+        font-size: 11px !important;
+        color: #334155 !important;
+        outline: none !important;
+    }
+
+    .select2-search--dropdown
+    .select2-search__field:focus {
+        border-color: var(--blue-main) !important;
+        box-shadow:
+            0 0 0 2px rgba(24, 119, 242, 0.10) !important;
+    }
+
+
+    /* =========================================================
+       LIST POLI
+    ========================================================= */
+
+    .select2-results {
+        overflow: hidden !important;
+    }
+
+    .select2-results__options {
+        max-height: 125px !important;
+        overflow-y: auto !important;
+        padding: 0 !important;
+    }
+
+    .select2-results__option {
+        padding: 8px 10px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+        color: #334155 !important;
+        background-color: #ffffff !important;
+        cursor: pointer !important;
+    }
+
+    .select2-results__option--highlighted[aria-selected] {
+        background-color: #e7f3ff !important;
+        color: var(--blue-main) !important;
+    }
+
+    .select2-results__option[aria-selected="true"] {
+        background-color: #e7f3ff !important;
+        color: var(--blue-main) !important;
+    }
+
+
+    /* =========================================================
+       SCROLLBAR
+    ========================================================= */
+
+    .select2-results__options::-webkit-scrollbar {
+        width: 6px !important;
+    }
+
+    .select2-results__options::-webkit-scrollbar-track {
+        background: #f1f5f9 !important;
+    }
+
+    .select2-results__options::-webkit-scrollbar-thumb {
+        background: #94a3b8 !important;
+        border-radius: 10px !important;
+    }
+
+
+    /* =========================================================
+       KHUSUS SELECT2 DALAM MODAL
+    ========================================================= */
+
+    #modalTambahDokter .select2-container,
+    #modalEditDokter .select2-container {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #modalTambahDokter .select2-dropdown,
+    #modalEditDokter .select2-dropdown {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+
+    /* =========================================================
+       MODAL FOOTER
+    ========================================================= */
+
+    .modal-dokter .modal-footer {
+        background-color: #f8fafc !important;
+        border: none !important;
+        padding: 12px 18px !important;
+        border-radius: 0 0 14px 14px !important;
+    }
+
 </style>
 
 
+{{-- =========================================================
+     LIBRARY
+========================================================= --}}
+
+<link
+    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+    rel="stylesheet"
+/>
+
+
+{{-- =========================================================
+     CONTENT
+========================================================= --}}
+
 <div class="container-fluid master-dokter">
 
-    {{-- =====================================================
-         HEADER
-    ====================================================== --}}
+    {{-- HEADER --}}
 
     <div class="d-flex justify-content-between align-items-center page-header-dokter">
 
@@ -553,6 +584,7 @@
             </div>
 
             <div>
+
                 <h3 class="page-title-dokter">
                     Master Dokter
                 </h3>
@@ -560,6 +592,7 @@
                 <p class="page-subtitle-dokter">
                     Data dokter yang terdaftar
                 </p>
+
             </div>
 
         </div>
@@ -578,9 +611,7 @@
     </div>
 
 
-    {{-- =====================================================
-         SUCCESS
-    ====================================================== --}}
+    {{-- SUCCESS --}}
 
     @if(session('success'))
 
@@ -595,9 +626,7 @@
     @endif
 
 
-    {{-- =====================================================
-         TABLE
-    ====================================================== --}}
+    {{-- TABLE --}}
 
     <div class="card card-table-dokter">
 
@@ -611,10 +640,7 @@
 
                         <tr>
 
-                            <th
-                                width="50"
-                                class="text-center"
-                            >
+                            <th width="50" class="text-center">
                                 No
                             </th>
 
@@ -642,10 +668,7 @@
                                 Poli
                             </th>
 
-                            <th
-                                width="220"
-                                class="text-center"
-                            >
+                            <th width="220" class="text-center">
                                 Aksi
                             </th>
 
@@ -673,9 +696,7 @@
                                 {{-- NO --}}
 
                                 <td class="text-center nomor text-muted">
-
                                     {{ $loop->iteration }}
-
                                 </td>
 
 
@@ -686,20 +707,14 @@
                                     <div class="d-flex align-items-center gap-2">
 
                                         <div class="avatar-dokter">
-
                                             <i class="fas fa-user-md"></i>
-
                                         </div>
 
                                         <div>
 
                                             <div class="doctor-name data-nama">
-
                                                 {{ $dokter->nama }}
-
                                             </div>
-
-                                            
 
                                         </div>
 
@@ -715,13 +730,9 @@
                                     <span class="badge badge-blue-soft data-jenis-kelamin">
 
                                         @if($dokter->jenis_kelamin === 'laki-laki')
-
                                             Laki-laki
-
                                         @else
-
                                             Perempuan
-
                                         @endif
 
                                     </span>
@@ -734,9 +745,7 @@
                                 <td>
 
                                     <span class="data-tanggal-lahir">
-
                                         {{ $dokter->tanggal_lahir }}
-
                                     </span>
 
                                 </td>
@@ -747,9 +756,7 @@
                                 <td>
 
                                     <span class="data-spesialis">
-
                                         {{ $dokter->spesialis ?? '-' }}
-
                                     </span>
 
                                 </td>
@@ -760,9 +767,7 @@
                                 <td>
 
                                     <span class="data-alamat">
-
                                         {{ $dokter->alamat ?? '-' }}
-
                                     </span>
 
                                 </td>
@@ -773,9 +778,7 @@
                                 <td>
 
                                     <span class="badge badge-green-soft data-poli">
-
                                         {{ $poliDokter->nama ?? '-' }}
-
                                     </span>
 
                                 </td>
@@ -891,6 +894,7 @@
     class="modal fade modal-dokter"
     id="modalTambahDokter"
     tabindex="-1"
+    aria-labelledby="modalTambahDokterLabel"
     aria-hidden="true"
 >
 
@@ -898,8 +902,7 @@
 
         <div class="modal-content">
 
-
-            {{-- HEADER TANPA X --}}
+            {{-- HEADER --}}
 
             <div class="modal-header">
 
@@ -907,7 +910,10 @@
 
                     <i class="fas fa-user-plus"></i>
 
-                    <h5 class="modal-title">
+                    <h5
+                        class="modal-title"
+                        id="modalTambahDokterLabel"
+                    >
                         Tambah Dokter
                     </h5>
 
@@ -924,8 +930,7 @@
 
                 <div class="modal-body">
 
-
-                    {{-- NAMA --}}
+                    {{-- NAMA DOKTER --}}
 
                     <div class="form-group-dokter">
 
@@ -941,9 +946,7 @@
                             id="tambah_nama"
                             name="nama"
                             class="form-control-dokter"
-
                             placeholder="Masukkan nama dokter"
-
                             required
                         >
 
@@ -965,7 +968,6 @@
                             id="tambah_jenis_kelamin"
                             name="jenis_kelamin"
                             class="form-select-dokter"
-
                             required
                         >
 
@@ -1002,7 +1004,6 @@
                             id="tambah_tanggal_lahir"
                             name="tanggal_lahir"
                             class="form-control-dokter"
-
                             required
                         >
 
@@ -1025,7 +1026,6 @@
                             id="tambah_spesialis"
                             name="spesialis"
                             class="form-control-dokter"
-
                             placeholder="Masukkan spesialis"
                         >
 
@@ -1048,14 +1048,13 @@
                             name="alamat"
                             class="form-control-dokter"
                             rows="3"
-
                             placeholder="Ketikkan alamat lengkap..."
                         ></textarea>
 
                     </div>
 
 
-                    {{-- POLI --}}
+                    {{-- POLI SELECT2 --}}
 
                     <div class="form-group-dokter mb-0">
 
@@ -1069,12 +1068,11 @@
                         <select
                             id="tambah_poli_id"
                             name="poli_id"
-                            class="form-select-dokter"
+                            class="select2-poli"
+                            required
                         >
 
-                            <option value="">
-                                -- Pilih Poli --
-                            </option>
+                            <option value=""></option>
 
                             @foreach($polis as $poli)
 
@@ -1140,9 +1138,6 @@
 
         <div class="modal-content">
 
-
-            {{-- HEADER TANPA X --}}
-
             <div class="modal-header">
 
                 <div class="d-flex align-items-center gap-2">
@@ -1158,8 +1153,6 @@
             </div>
 
 
-            {{-- FORM --}}
-
             <form id="formEditDokter">
 
                 @csrf
@@ -1171,7 +1164,6 @@
 
 
                 <div class="modal-body">
-
 
                     {{-- NAMA --}}
 
@@ -1189,7 +1181,6 @@
                             id="edit_nama"
                             name="nama"
                             class="form-control-dokter"
-
                             required
                         >
 
@@ -1211,7 +1202,6 @@
                             id="edit_jenis_kelamin"
                             name="jenis_kelamin"
                             class="form-select-dokter"
-
                             required
                         >
 
@@ -1244,7 +1234,6 @@
                             id="edit_tanggal_lahir"
                             name="tanggal_lahir"
                             class="form-control-dokter"
-
                             required
                         >
 
@@ -1307,12 +1296,10 @@
                         <select
                             id="edit_poli_id"
                             name="poli_id"
-                            class="form-select-dokter"
+                            class="form-select-dokter select2-poli"
                         >
 
-                            <option value="">
-                                -- Pilih Poli --
-                            </option>
+                            <option value=""></option>
 
                             @foreach($polis as $poli)
 
@@ -1364,7 +1351,7 @@
 
 
 {{-- =========================================================
-     MODAL LIHAT / DETAIL DOKTER
+     MODAL LIHAT
 ========================================================= --}}
 
 <div
@@ -1377,9 +1364,6 @@
     <div class="modal-dialog modal-dialog-centered">
 
         <div class="modal-content detail-modal-dokter">
-
-
-            {{-- HEADER TANPA X --}}
 
             <div class="modal-header detail-header-dokter">
 
@@ -1396,12 +1380,7 @@
             </div>
 
 
-            {{-- BODY --}}
-
             <div class="modal-body detail-body-dokter">
-
-
-                {{-- NAMA DOKTER --}}
 
                 <div class="detail-full-dokter">
 
@@ -1418,8 +1397,6 @@
 
                 </div>
 
-
-                {{-- JENIS KELAMIN + TANGGAL LAHIR --}}
 
                 <div class="row detail-row-dokter">
 
@@ -1457,8 +1434,6 @@
                 </div>
 
 
-                {{-- SPESIALIS + POLI --}}
-
                 <div class="row detail-row-dokter">
 
                     <div class="col-6">
@@ -1495,8 +1470,6 @@
                 </div>
 
 
-                {{-- ALAMAT --}}
-
                 <div class="detail-full-dokter alamat-detail-dokter">
 
                     <div class="detail-label-dokter">
@@ -1514,8 +1487,6 @@
 
             </div>
 
-
-            {{-- FOOTER --}}
 
             <div class="modal-footer detail-footer-dokter">
 
@@ -1543,8 +1514,68 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+{{-- =========================================================
+     JQUERY
+========================================================= --}}
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+{{-- =========================================================
+     SELECT2
+========================================================= --}}
+
+<script
+    src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js">
+</script>
+
+
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
+
+
+    /* =====================================================
+       SELECT2 POLI TAMBAH
+    ===================================================== */
+
+    $('#tambah_poli_id').select2({
+
+        dropdownParent: $('#modalTambahDokter'),
+
+        width: '100%',
+
+        placeholder: 'Pilih Poli',
+
+        allowClear: false,
+
+        minimumResultsForSearch: 0,
+
+        dropdownAutoWidth: false
+
+    });
+
+
+    /* =====================================================
+       SELECT2 POLI EDIT
+    ===================================================== */
+
+    $('#edit_poli_id').select2({
+
+        dropdownParent: $('#modalEditDokter'),
+
+        width: '100%',
+
+        placeholder: 'Pilih Poli',
+
+        allowClear: false,
+
+        minimumResultsForSearch: 0,
+
+        dropdownAutoWidth: false
+
+    });
+
 
     /* =====================================================
        CSRF
@@ -1576,9 +1607,10 @@ document.addEventListener('DOMContentLoaded', function () {
        FORM TAMBAH
     ===================================================== */
 
-    const formTambah = document.getElementById(
-        'formTambahDokter'
-    );
+    const formTambah =
+        document.getElementById(
+            'formTambahDokter'
+        );
 
 
     formTambah.addEventListener(
@@ -1588,9 +1620,10 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
 
 
-            const button = document.getElementById(
-                'btnSimpanTambah'
-            );
+            const button =
+                document.getElementById(
+                    'btnSimpanTambah'
+                );
 
 
             button.disabled = true;
@@ -1599,9 +1632,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
 
 
-            const formData = new FormData(
-                formTambah
-            );
+            const formData =
+                new FormData(formTambah);
 
 
             fetch(storeUrl, {
@@ -1618,6 +1650,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     'X-Requested-With':
                         'XMLHttpRequest'
+
                 },
 
                 body: formData
@@ -1626,27 +1659,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
             .then(async response => {
 
-    const contentType = response.headers.get('content-type') || '';
+                const contentType =
+                    response.headers.get(
+                        'content-type'
+                    ) || '';
 
-    if (contentType.includes('application/json')) {
 
-        const data = await response.json();
+                if (
+                    contentType.includes(
+                        'application/json'
+                    )
+                ) {
 
-        if (!response.ok) {
-            throw data;
-        }
+                    const data =
+                        await response.json();
 
-        return data;
 
-    } else {
+                    if (!response.ok) {
+                        throw data;
+                    }
 
-        const text = await response.text();
 
-        throw {
-            message: 'Server mengembalikan halaman HTML. Status: ' + response.status
-        };
-    }
-})
+                    return data;
+
+                }
+
+
+                throw {
+
+                    message:
+                        'Server mengembalikan halaman HTML. Status: ' +
+                        response.status
+
+                };
+
+            })
 
             .then(data => {
 
@@ -1668,6 +1715,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                 formTambah.reset();
+
+
+                $('#tambah_poli_id')
+                    .val('')
+                    .trigger('change');
 
 
                 const barisKosong =
@@ -1708,7 +1760,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 button.disabled = false;
 
-
                 button.innerHTML =
                     '<i class="fas fa-save me-1"></i> Simpan Data';
 
@@ -1718,9 +1769,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 tampilkanError(error);
 
-
                 button.disabled = false;
-
 
                 button.innerHTML =
                     '<i class="fas fa-save me-1"></i> Simpan Data';
@@ -1732,7 +1781,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* =====================================================
-       EVENT AWAL EDIT
+       EVENT EDIT AWAL
     ===================================================== */
 
     document
@@ -1745,7 +1794,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* =====================================================
-       EVENT AWAL LIHAT
+       EVENT LIHAT AWAL
     ===================================================== */
 
     document
@@ -1806,6 +1855,7 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch(
                 baseUrl + '/' + id,
                 {
+
                     method: 'POST',
 
                     headers: {
@@ -1818,24 +1868,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         'X-Requested-With':
                             'XMLHttpRequest'
+
                     },
 
                     body: formData
+
                 }
             )
 
             .then(async response => {
 
-                const data =
-                    await response.json();
+                const contentType =
+                    response.headers.get(
+                        'content-type'
+                    ) || '';
 
 
-                if (!response.ok) {
-                    throw data;
+                if (
+                    contentType.includes(
+                        'application/json'
+                    )
+                ) {
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+                        throw data;
+                    }
+
+
+                    return data;
+
                 }
 
 
-                return data;
+                throw {
+
+                    message:
+                        'Server mengembalikan HTML. Status: ' +
+                        response.status
+
+                };
 
             })
 
@@ -1892,9 +1967,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 tampilkanError(error);
 
-
                 button.disabled = false;
-
 
                 button.innerHTML =
                     '<i class="fas fa-save me-1"></i> Update Data';
@@ -1906,7 +1979,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* =====================================================
-       EVENT AWAL HAPUS
+       EVENT HAPUS AWAL
     ===================================================== */
 
     document
@@ -1919,7 +1992,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* =====================================================
-       TAMBAH BARIS KE TABLE
+       TAMBAH BARIS
     ===================================================== */
 
     function tambahBarisKeTabel(dokter) {
@@ -1977,10 +2050,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${escapeHtml(dokter.nama)}
                         </div>
 
-                        <div class="doctor-id">
-                            ID: ${escapeHtml(dokter.id)}
-                        </div>
-
                     </div>
 
                 </div>
@@ -1992,9 +2061,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 <span class="badge badge-blue-soft data-jenis-kelamin">
 
-                    ${ucfirst(
-                        dokter.jenis_kelamin
-                    )}
+                    ${ucfirst(dokter.jenis_kelamin)}
 
                 </span>
 
@@ -2005,9 +2072,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 <span class="data-tanggal-lahir">
 
-                    ${escapeHtml(
-                        dokter.tanggal_lahir
-                    )}
+                    ${escapeHtml(dokter.tanggal_lahir)}
 
                 </span>
 
@@ -2044,9 +2109,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 <span class="badge badge-green-soft data-poli">
 
-                    ${escapeHtml(
-                        namaPoli
-                    )}
+                    ${escapeHtml(namaPoli)}
 
                 </span>
 
@@ -2057,10 +2120,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 <div class="d-flex justify-content-center gap-1">
 
-
                     <button
                         type="button"
-
                         class="btn btn-sm btn-action-view btn-view"
 
                         data-id="${escapeAttr(dokter.id)}"
@@ -2080,7 +2141,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button
                         type="button"
-
                         class="btn btn-sm btn-action-edit btn-edit"
 
                         data-id="${escapeAttr(dokter.id)}"
@@ -2100,7 +2160,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button
                         type="button"
-
                         class="btn btn-sm btn-action-delete btn-hapus"
 
                         data-id="${escapeAttr(dokter.id)}"
@@ -2122,36 +2181,18 @@ document.addEventListener('DOMContentLoaded', function () {
         tabel.prepend(row);
 
 
-        const editButton =
-            row.querySelector(
-                '.btn-edit'
-            );
-
-
-        const viewButton =
-            row.querySelector(
-                '.btn-view'
-            );
-
-
-        const hapusButton =
-            row.querySelector(
-                '.btn-hapus'
-            );
-
-
         pasangEventEdit(
-            editButton
+            row.querySelector('.btn-edit')
         );
 
 
         pasangEventLihat(
-            viewButton
+            row.querySelector('.btn-view')
         );
 
 
         pasangEventHapus(
-            hapusButton
+            row.querySelector('.btn-hapus')
         );
 
     }
@@ -2230,39 +2271,34 @@ document.addEventListener('DOMContentLoaded', function () {
             namaPoli;
 
 
-        /* UPDATE BUTTON EDIT */
-
         const editButton =
             row.querySelector(
                 '.btn-edit'
             );
 
 
-        editButton.dataset.nama =
-            dokter.nama;
+        if (editButton) {
 
+            editButton.dataset.nama =
+                dokter.nama;
 
-        editButton.dataset.jenis_kelamin =
-            dokter.jenis_kelamin;
+            editButton.dataset.jenis_kelamin =
+                dokter.jenis_kelamin;
 
+            editButton.dataset.tanggal_lahir =
+                dokter.tanggal_lahir;
 
-        editButton.dataset.tanggal_lahir =
-            dokter.tanggal_lahir;
+            editButton.dataset.spesialis =
+                dokter.spesialis || '';
 
+            editButton.dataset.alamat =
+                dokter.alamat || '';
 
-        editButton.dataset.spesialis =
-            dokter.spesialis || '';
+            editButton.dataset.poli_id =
+                dokter.poli_id || '';
 
+        }
 
-        editButton.dataset.alamat =
-            dokter.alamat || '';
-
-
-        editButton.dataset.poli_id =
-            dokter.poli_id || '';
-
-
-        /* UPDATE BUTTON LIHAT */
 
         const viewButton =
             row.querySelector(
@@ -2275,22 +2311,17 @@ document.addEventListener('DOMContentLoaded', function () {
             viewButton.dataset.nama =
                 dokter.nama;
 
-
             viewButton.dataset.jenis_kelamin =
                 dokter.jenis_kelamin;
-
 
             viewButton.dataset.tanggal_lahir =
                 dokter.tanggal_lahir;
 
-
             viewButton.dataset.spesialis =
                 dokter.spesialis || '';
 
-
             viewButton.dataset.alamat =
                 dokter.alamat || '';
-
 
             viewButton.dataset.poli =
                 namaPoli;
@@ -2314,7 +2345,6 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener(
             'click',
             function () {
-
 
                 document.getElementById(
                     'lihat_nama'
@@ -2389,7 +2419,6 @@ document.addEventListener('DOMContentLoaded', function () {
             'click',
             function () {
 
-
                 document.getElementById(
                     'edit_id'
                 ).value =
@@ -2426,10 +2455,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.dataset.alamat || '';
 
 
-                document.getElementById(
-                    'edit_poli_id'
-                ).value =
-                    this.dataset.poli_id || '';
+                $('#edit_poli_id')
+                    .val(
+                        this.dataset.poli_id || ''
+                    )
+                    .trigger('change');
 
 
                 const modalElement =
@@ -2466,7 +2496,6 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener(
             'click',
             function () {
-
 
                 const id =
                     this.dataset.id;
@@ -2527,6 +2556,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                 'X-Requested-With':
                                     'XMLHttpRequest'
+
                             }
 
                         }
@@ -2535,22 +2565,44 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(
                         async response => {
 
-                            const data =
-                                await response.json();
+                            const contentType =
+                                response.headers.get(
+                                    'content-type'
+                                ) || '';
 
 
-                            if (!response.ok) {
-                                throw data;
+                            if (
+                                contentType.includes(
+                                    'application/json'
+                                )
+                            ) {
+
+                                const data =
+                                    await response.json();
+
+
+                                if (!response.ok) {
+                                    throw data;
+                                }
+
+
+                                return data;
+
                             }
 
 
-                            return data;
+                            throw {
+
+                                message:
+                                    'Server mengembalikan HTML. Status: ' +
+                                    response.status
+
+                            };
 
                         }
                     )
 
                     .then(data => {
-
 
                         const row =
                             document.getElementById(
@@ -2564,6 +2616,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                         perbaruiNomor();
+
+
+                        const jumlahBaris =
+                            document.querySelectorAll(
+                                '#tabelDokter tr'
+                            );
+
+
+                        if (jumlahBaris.length === 0) {
+
+                            const tabel =
+                                document.getElementById(
+                                    'tabelDokter'
+                                );
+
+
+                            tabel.innerHTML = `
+
+                                <tr id="barisKosong">
+
+                                    <td
+                                        colspan="8"
+                                        class="text-center empty-dokter"
+                                    >
+
+                                        <i class="fas fa-user-md fa-2x mb-2 d-block"></i>
+
+                                        Belum ada data dokter.
+
+                                    </td>
+
+                                </tr>
+
+                            `;
+
+                        }
 
 
                         Swal.fire({
@@ -2758,7 +2846,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
+
+    /* =====================================================
+       RESET SELECT2 SAAT MODAL DITUTUP
+    ===================================================== */
+
+    $('#modalTambahDokter').on(
+        'hidden.bs.modal',
+        function () {
+
+            $('#tambah_poli_id')
+                .val('')
+                .trigger('change');
+
+        }
+    );
+
+
+    /* =====================================================
+       RESET FORM TAMBAH SAAT MODAL DIBUKA
+    ===================================================== */
+
+    $('#modalTambahDokter').on(
+        'show.bs.modal',
+        function () {
+
+            $('#formTambahDokter')[0].reset();
+
+            $('#tambah_poli_id')
+                .val('')
+                .trigger('change');
+
+        }
+    );
+
+
 });
+
 </script>
+
 
 @endsection
