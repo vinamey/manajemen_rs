@@ -1,5 +1,7 @@
 @extends('layouts.superadmin')
 
+@section('page-title', 'Dashboard Log Stok Obat')
+
 @section('content')
 <div class="container-fluid py-4">
     <div class="row">
