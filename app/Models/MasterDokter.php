@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MasterPoli;
 
 class MasterDokter extends Model
 {
@@ -19,4 +20,9 @@ class MasterDokter extends Model
         'alamat',
         'poli_id',
     ];
+
+    public function poli()
+{
+    return $this->belongsTo(MasterPoli::class, 'poli_id');
+}
 }

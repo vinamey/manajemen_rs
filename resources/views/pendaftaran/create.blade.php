@@ -79,77 +79,61 @@
             </div>
 
 
-            {{-- ============================= --}}
-            {{-- PILIH DOKTER --}}
-            {{-- ============================= --}}
+            
+{{-- ============================= --}}
+{{-- PILIH DOKTER --}}
+{{-- ============================= --}}
 
-            <div class="mb-3">
+<div class="mb-3">
 
-                <label class="form-label">
+    <label for="dokter_id" class="form-label">
+        Dokter
+    </label>
 
-                    Dokter
+    <select
+        name="dokter_id"
+        id="dokter_id"
+        class="form-select"
+        required
+    >
 
-                </label>
+        <option value="">
+            -- Pilih Dokter --
+        </option>
 
-                <select name="dokter_id"
-                        class="form-select"
-                        required>
+        @foreach($dokters as $dokter)
+            <option
+                value="{{ $dokter->id }}"
+                data-poli="{{ $dokter->poli ? $dokter->poli->nama : '' }}"
+            >
+                {{ $dokter->nama }} - {{ $dokter->spesialis }}
+            </option>
+        @endforeach
 
-                    <option value="">
-                        -- Pilih Dokter --
-                    </option>
+    </select>
 
-                    @foreach($dokters as $dokter)
-
-                        <option value="{{ $dokter->id }}"
-                            {{ old('dokter_id') == $dokter->id ? 'selected' : '' }}>
-
-                            {{ $dokter->nama }}
-
-                        </option>
-
-                    @endforeach
-
-                </select>
-
-            </div>
+</div>
 
 
-            {{-- ============================= --}}
-            {{-- PILIH POLI --}}
-            {{-- ============================= --}}
+{{-- ============================= --}}
+{{-- POLI OTOMATIS DARI DOKTER --}}
+{{-- ============================= --}}
 
-            <div class="mb-3">
+<div class="mb-3">
 
-                <label class="form-label">
+    <label for="poli_display" class="form-label">
+        Poli
+    </label>
 
-                    Poli
+    <input
+        type="text"
+        id="poli_display"
+        class="form-control"
+        placeholder="Pilih dokter terlebih dahulu"
+        readonly
+    >
 
-                </label>
-
-                <select name="poli_id"
-                        class="form-select"
-                        required>
-
-                    <option value="">
-                        -- Pilih Poli --
-                    </option>
-
-                    @foreach($polis as $poli)
-
-                        <option value="{{ $poli->id }}"
-                            {{ old('poli_id') == $poli->id ? 'selected' : '' }}>
-
-                            {{ $poli->nama }}
-
-                        </option>
-
-                    @endforeach
-
-                </select>
-
-            </div>
-
+</div>
 
             {{-- ============================= --}}
             {{-- PILIH KAMAR --}}
@@ -238,5 +222,34 @@
     </div>
 
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const dokter = document.getElementById('dokter_id');
+    const poli = document.getElementById('poli_display');
+
+    dokter.addEventListener('change', function () {
+
+        const pilihan = dokter.options[dokter.selectedIndex];
+
+        if (pilihan.value !== '') {
+
+            const namaPoli = pilihan.getAttribute('data-poli');
+
+            poli.value = namaPoli || 'Dokter belum memiliki poli';
+
+        } else {
+
+            poli.value = '';
+            poli.placeholder = 'Pilih dokter terlebih dahulu';
+
+        }
+
+    });
+
+});
+</script>
 
 @endsection
