@@ -1,516 +1,615 @@
 @extends('layouts.superadmin')
 
-@section('page-title', 'Dashboard Master Perawat')
+@section('page-title', 'Dashboard Master Pasien')
 
 @section('content')
 
+<link rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
+
 <style>
-    /* ================================
-       MASTER PERAWAT
-    ================================= */
-
-    .master-perawat {
-        padding: 10px 5px 30px;
+    /* =====================================================
+       MASTER PASIEN
+    ====================================================== */
+    .master-pasien {
+        padding: 5px 0 30px;
     }
 
-    .master-perawat .card {
-        border: none;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-        background: #ffffff;
-    }
-
-    /* ================================
-       HEADER
-    ================================= */
-
-    .master-perawat .card-header {
-        background: linear-gradient(135deg, #0d6efd, #0b5ed7);
-        color: #ffffff;
-        padding: 20px 24px;
-        border: none;
-    }
-
-    .header-title {
+    /* =====================================================
+       HEADER HALAMAN
+    ====================================================== */
+    .pasien-page-header {
         display: flex;
         align-items: center;
-        gap: 12px;
+        justify-content: space-between;
+        margin-bottom: 22px;
     }
 
-    .header-icon {
+    .pasien-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .pasien-title-icon {
         width: 42px;
         height: 42px;
         border-radius: 10px;
-        background: rgba(255, 255, 255, 0.18);
+        background: #e7f3ff;
+        color: #1877f2;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
+        font-size: 18px;
     }
 
-    .header-title h4 {
+    .pasien-title h4 {
         margin: 0;
+        color: #17233c;
         font-size: 20px;
         font-weight: 700;
     }
 
-    .header-title small {
-        display: block;
-        margin-top: 3px;
-        opacity: 0.85;
-        font-size: 13px;
+    .pasien-title p {
+        margin: 4px 0 0;
+        color: #8a94a6;
+        font-size: 12px;
     }
 
-    /* ================================
-       BUTTON TAMBAH
-    ================================= */
-
-    .btn-tambah {
-        background: #ffffff;
-        color: #0d6efd;
+    /* =====================================================
+       TOMBOL TAMBAH
+    ====================================================== */
+    .btn-tambah-pasien {
+        background: #1877f2;
+        color: #ffffff !important;
         border: none;
-        border-radius: 9px;
-        padding: 10px 17px;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 13px;
         font-weight: 600;
-        font-size: 14px;
-        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        box-shadow: 0 3px 8px rgba(24, 119, 242, 0.18);
+        transition: 0.2s;
     }
 
-    .btn-tambah:hover {
-        background: #f1f6ff;
-        color: #0b5ed7;
+    .btn-tambah-pasien:hover {
+        background: #0f67d8;
+        color: #ffffff !important;
         transform: translateY(-1px);
     }
 
-    /* ================================
-       BODY
-    ================================= */
-
-    .master-perawat .card-body {
-        padding: 24px;
-    }
-
-    /* ================================
-       TABLE
-    ================================= */
-
-    .table-wrapper {
-        border: 1px solid #e9ecef;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    .table {
-        margin-bottom: 0;
-        vertical-align: middle;
-    }
-
-    .table thead th {
-        background: #f4f7fb;
-        color: #495057;
+    /* =====================================================
+       ALERT
+    ====================================================== */
+    .alert-custom {
+        border: none;
+        border-radius: 9px;
         font-size: 13px;
+        padding: 12px 15px;
+        margin-bottom: 18px;
+    }
+
+    /* =====================================================
+       TABLE CARD
+    ====================================================== */
+    .pasien-table-card {
+        width: 100%;
+        background: #ffffff;
+        border-radius: 11px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .pasien-table-content {
+        background: #ffffff;
+    }
+
+    /* =====================================================
+       DATATABLES
+    ====================================================== */
+    .dataTables_wrapper {
+        background: #ffffff !important;
+    }
+
+    .dataTables_wrapper > .row:first-child {
+        padding: 15px 15px 10px;
+        margin: 0 !important;
+        background: #ffffff !important;
+    }
+
+    .dataTables_wrapper > .row:last-child {
+        padding: 10px 15px 14px;
+        margin: 0 !important;
+        background: #ffffff !important;
+    }
+
+    .dataTables_wrapper .dataTables_length label,
+    .dataTables_wrapper .dataTables_filter label {
+        color: #687386;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .dataTables_wrapper .dataTables_length select {
+        min-width: 65px;
+        margin: 0 5px;
+        padding: 6px 28px 6px 9px;
+        border: 1px solid #dfe5ec;
+        border-radius: 7px;
+        background-color: #ffffff;
+        color: #495057;
+        font-size: 12px;
+        box-shadow: none !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        width: 170px;
+        margin-left: 7px;
+        padding: 6px 10px;
+        border: 1px solid #dfe5ec;
+        border-radius: 7px;
+        background: #ffffff;
+        color: #495057;
+        font-size: 12px;
+        outline: none;
+        box-shadow: none !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: #1877f2;
+        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.10) !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        color: #7b8494;
+        font-size: 11px;
+        padding-top: 8px !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        padding-top: 4px !important;
+    }
+
+    .dataTables_wrapper .page-link {
+        color: #657080;
+        background: #ffffff;
+        border: 1px solid #e0e5eb;
+        font-size: 11px;
+        border-radius: 6px !important;
+        margin: 0 2px;
+        box-shadow: none !important;
+    }
+
+    .dataTables_wrapper .page-item.active .page-link {
+        background: #1877f2 !important;
+        border-color: #1877f2 !important;
+        color: #ffffff !important;
+    }
+
+    div.dataTables_processing {
+        display: none !important;
+    }
+
+    /* =====================================================
+       TABLE
+    ====================================================== */
+    #pasien-table {
+        width: 100% !important;
+        margin: 0 !important;
+        border-collapse: collapse !important;
+    }
+
+    #pasien-table thead th {
+        background: #1877f2 !important;
+        color: #ffffff !important;
+        font-size: 12px;
         font-weight: 700;
-        padding: 14px 16px;
-        border-bottom: 1px solid #e3e7ec;
+        padding: 13px 14px !important;
+        border: none !important;
+        vertical-align: middle;
         white-space: nowrap;
     }
 
-    .table tbody td {
-        padding: 14px 16px;
-        color: #495057;
-        font-size: 14px;
-        border-bottom: 1px solid #f0f1f3;
+    #pasien-table tbody tr {
+        background: #ffffff !important;
     }
 
-    .table tbody tr:last-child td {
-        border-bottom: none;
+    #pasien-table tbody td {
+        background: #ffffff !important;
+        color: #4f5969;
+        font-size: 12px;
+        padding: 12px 14px !important;
+        border-bottom: 1px solid #eef1f5 !important;
+        vertical-align: middle;
     }
 
-    .table tbody tr {
-        transition: background 0.2s ease;
+    #pasien-table tbody tr:last-child td {
+        border-bottom: none !important;
     }
 
-    .table tbody tr:hover {
-        background: #f8fbff;
+    #pasien-table tbody tr:hover td {
+        background: #f8fbff !important;
     }
 
-    /* ================================
-       NOMOR
-    ================================= */
-
-    .nomor {
-        width: 45px;
+    #pasien-table tbody td:first-child {
         text-align: center;
-        font-weight: 600;
-        color: #6c757d;
     }
 
-    /* ================================
-       NAMA PERAWAT
-    ================================= */
-
-    .nama-perawat {
-        font-weight: 600;
-        color: #212529;
+    #pasien-table tbody td:nth-child(2) {
+        color: #17233c;
+        font-weight: 700;
     }
 
-    /* ================================
-       BADGE JENIS KELAMIN
-    ================================= */
+    table.dataTable thead > tr > th.sorting:before,
+    table.dataTable thead > tr > th.sorting:after,
+    table.dataTable thead > tr > th.sorting_asc:before,
+    table.dataTable thead > tr > th.sorting_asc:after,
+    table.dataTable thead > tr > th.sorting_desc:before,
+    table.dataTable thead > tr > th.sorting_desc:after {
+        color: #ffffff !important;
+        opacity: 0.75 !important;
+    }
 
-    .badge-gender {
+    /* =====================================================
+       BADGE
+    ====================================================== */
+    .badge-gender,
+    .badge-darah,
+    .badge-asuransi {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 5px;
-        padding: 6px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-        background: #eef5ff;
-        color: #0d6efd;
+        padding: 5px 9px;
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: 500;
+        white-space: nowrap;
     }
 
-    /* ================================
-       ALAMAT
-    ================================= */
+    .badge-gender {
+        background: #dff2ff;
+        color: #0784c9;
+    }
 
-    .alamat {
-        max-width: 280px;
+    .badge-darah {
+        background: #ffe9ec;
+        color: #dc3545;
+    }
+
+    .badge-asuransi.aktif {
+        background: #e4f7ec;
+        color: #198754;
+    }
+
+    .badge-asuransi.tidak {
+        background: #edf1f4;
         color: #6c757d;
     }
 
-    /* ================================
-       TOMBOL AKSI
-    ================================= */
-
+    /* =====================================================
+       ACTION
+    ====================================================== */
     .action-buttons {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 5px;
     }
 
     .btn-action {
         width: 34px;
         height: 34px;
-        border-radius: 8px;
         border: none;
+        border-radius: 6px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s ease;
+        text-decoration: none;
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 12px;
+    }
+
+    .btn-view {
+        background: #dff5ff;
+        color: #0797d5;
+    }
+
+    .btn-view:hover {
+        background: #0797d5;
+        color: #ffffff;
     }
 
     .btn-edit {
-        background: #eaf3ff;
-        color: #0d6efd;
+        background: #1877f2;
+        color: #ffffff;
     }
 
     .btn-edit:hover {
-        background: #0d6efd;
+        background: #0f67d8;
         color: #ffffff;
     }
 
     .btn-delete {
-        background: #fff0f0;
-        color: #dc3545;
-    }
-
-    .btn-delete:hover {
-        background: #dc3545;
+        background: #ef3f45;
         color: #ffffff;
     }
 
-    /* ================================
-       EMPTY DATA
-    ================================= */
-
-    .empty-data {
-        text-align: center;
-        padding: 55px 20px !important;
-        color: #6c757d;
+    .btn-delete:hover {
+        background: #d92f35;
+        color: #ffffff;
     }
 
-    .empty-icon {
-        width: 65px;
-        height: 65px;
-        margin: 0 auto 15px;
-        border-radius: 50%;
-        background: #eef5ff;
-        color: #0d6efd;
+    /* =====================================================
+       MODAL
+    ====================================================== */
+    .modal-content {
+        border: none;
+        border-radius: 13px;
+        overflow: hidden;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal-header-custom {
+        background: #1877f2;
+        color: #ffffff;
+        border: none;
+        padding: 15px 18px;
+    }
+
+    .modal-header-custom .modal-title {
+        margin: 0;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 25px;
+        gap: 8px;
     }
 
-    .empty-data h6 {
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-group-custom {
+        margin-bottom: 15px;
+    }
+
+    .form-group-custom:last-child {
+        margin-bottom: 0;
+    }
+
+    .form-label-custom {
+        display: block;
+        color: #697386;
+        font-size: 11px;
         font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .form-control-custom,
+    .form-select-custom {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid #d9e0e8;
+        border-radius: 8px;
+        padding: 9px 11px;
+        background: #ffffff;
         color: #495057;
+        font-size: 12px;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    textarea.form-control-custom {
+        min-height: 85px;
+        resize: vertical;
+    }
+
+    .form-control-custom:focus,
+    .form-select-custom:focus {
+        border-color: #1877f2;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.10);
+    }
+
+    .modal-footer-custom {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 13px 18px;
+        background: #f8fafc;
+        border-top: none;
+    }
+
+    .btn-modal-batal {
+        border: none;
+        background: #f0f3f7;
+        color: #667085;
+        border-radius: 7px;
+        padding: 9px 15px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .btn-modal-batal:hover {
+        background: #e4e8ee;
+    }
+
+    .btn-modal-simpan {
+        border: none;
+        background: #1877f2;
+        color: #ffffff;
+        border-radius: 7px;
+        padding: 9px 15px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .btn-modal-simpan:hover {
+        background: #0f67d8;
+    }
+
+    /* =====================================================
+       DETAIL PASIEN
+    ====================================================== */
+    .detail-item {
+        margin-bottom: 14px;
+    }
+
+    .detail-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .detail-label {
+        color: #8a94a6;
+        font-size: 11px;
+        font-weight: 600;
         margin-bottom: 5px;
     }
 
-    .empty-data p {
-        margin-bottom: 0;
+    .detail-value {
+        background: #f8fafc;
+        border: 1px solid #edf0f4;
+        border-radius: 7px;
+        padding: 10px 12px;
+        color: #344054;
         font-size: 13px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
     }
 
-    /* ================================
+    /* =====================================================
        RESPONSIVE
-    ================================= */
-
+    ====================================================== */
     @media (max-width: 768px) {
-
-        .master-perawat .card-header {
-            padding: 16px;
+        .pasien-page-header {
+            gap: 15px;
+            align-items: flex-start;
         }
 
-        .master-perawat .card-body {
-            padding: 15px;
-        }
-
-        .header-title h4 {
+        .pasien-title h4 {
             font-size: 17px;
         }
 
-        .header-title small {
+        .btn-tambah-pasien {
+            padding: 8px 11px;
             font-size: 11px;
         }
 
-        .btn-tambah {
-            padding: 8px 12px;
-            font-size: 12px;
-        }
-
-        .table-wrapper {
+        .pasien-table-card {
             overflow-x: auto;
         }
 
-        .table {
-            min-width: 850px;
+        #pasien-table {
+            min-width: 1100px;
         }
     }
 </style>
 
 
-<div class="master-perawat">
+<div class="master-pasien">
 
-    <div class="card">
+    {{-- HEADER --}}
+    <div class="pasien-page-header">
 
-        {{-- ================================
-             HEADER
-        ================================= --}}
-        <div class="card-header">
+        <div class="pasien-title-wrapper">
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="pasien-title-icon">
+                <i class="fas fa-hospital-user"></i>
+            </div>
 
-                <div class="header-title">
-
-                    <div class="header-icon">
-                        <i class="fas fa-user-nurse"></i>
-                    </div>
-
-                    <div>
-                        <h4>Master Perawat</h4>
-                        <small>Kelola data perawat rumah sakit</small>
-                    </div>
-
-                </div>
-
-                {{-- TOMBOL TAMBAH --}}
-                <a href="{{ route('master-perawat.create') }}"
-                   class="btn btn-tambah">
-
-                    <i class="fas fa-plus me-1"></i>
-                    Tambah Perawat
-
-                </a>
-
+            <div class="pasien-title">
+                <h4>Master Pasien</h4>
+                <p>Data pasien yang terdaftar</p>
             </div>
 
         </div>
 
+        <button type="button"
+                class="btn-tambah-pasien"
+                data-bs-toggle="modal"
+                data-bs-target="#modalTambahPasien">
 
-        {{-- ================================
-             BODY
-        ================================= --}}
-        <div class="card-body">
+            <i class="fas fa-plus"></i>
+            Tambah Pasien
 
-            <div class="table-wrapper">
+        </button>
 
-                <div class="table-responsive">
+    </div>
 
-                    <table class="table">
 
-                        <thead>
+    {{-- SUCCESS --}}
+    @if(session('success'))
 
-                            <tr>
+        <div class="alert alert-success alert-custom">
 
-                                <th class="text-center" style="width: 60px;">
-                                    No
-                                </th>
+            <i class="fas fa-circle-check me-1"></i>
 
-                                <th>
-                                    Nama Perawat
-                                </th>
+            {{ session('success') }}
 
-                                <th>
-                                    Jenis Kelamin
-                                </th>
+        </div>
 
-                                <th>
-                                    Tanggal Lahir
-                                </th>
+    @endif
 
-                                <th>
-                                    Alamat
-                                </th>
 
-                                <th class="text-center" style="width: 130px;">
-                                    Aksi
-                                </th>
+    {{-- TABLE --}}
+    <div class="pasien-table-card">
 
-                            </tr>
+        <div class="pasien-table-content">
 
-                        </thead>
+            <div class="table-responsive">
 
+                <table id="pasien-table"
+                       class="table align-middle">
 
-                        <tbody>
+                    <thead>
 
-                            @forelse($perawats as $perawat)
+                        <tr>
 
-                                <tr>
+                            <th class="text-center">
+                                No
+                            </th>
 
-                                    {{-- NO --}}
-                                    <td class="nomor">
-                                        {{ $loop->iteration }}
-                                    </td>
+                            <th>
+                                Nama Pasien
+                            </th>
 
+                            <th>
+                                Jenis Kelamin
+                            </th>
 
-                                    {{-- NAMA --}}
-                                    <td>
-                                        <span class="nama-perawat">
-                                            {{ $perawat->nama }}
-                                        </span>
-                                    </td>
+                            <th>
+                                Tanggal Lahir
+                            </th>
 
+                            <th>
+                                Alamat
+                            </th>
 
-                                    {{-- JENIS KELAMIN --}}
-                                    <td>
+                            <th>
+                                Golongan Darah
+                            </th>
 
-                                        @if($perawat->jenis_kelamin == 'laki-laki')
+                            <th>
+                                Status Asuransi
+                            </th>
 
-                                            <span class="badge-gender">
-                                                <i class="fas fa-mars"></i>
-                                                Laki-laki
-                                            </span>
+                            <th class="text-center">
+                                Aksi
+                            </th>
 
-                                        @else
+                        </tr>
 
-                                            <span class="badge-gender">
-                                                <i class="fas fa-venus"></i>
-                                                Perempuan
-                                            </span>
+                    </thead>
 
-                                        @endif
+                    <tbody></tbody>
 
-                                    </td>
-
-
-                                    {{-- TANGGAL LAHIR --}}
-                                    <td>
-
-                                        @if($perawat->tanggal_lahir)
-
-                                            {{ \Carbon\Carbon::parse($perawat->tanggal_lahir)->format('d-m-Y') }}
-
-                                        @else
-
-                                            -
-
-                                        @endif
-
-                                    </td>
-
-
-                                    {{-- ALAMAT --}}
-                                    <td>
-
-                                        <span class="alamat">
-                                            {{ $perawat->alamat ?? '-' }}
-                                        </span>
-
-                                    </td>
-
-
-                                    {{-- AKSI --}}
-                                    <td>
-
-                                        <div class="action-buttons">
-
-                                            {{-- EDIT --}}
-                                            <a href="{{ route('master-perawat.edit', $perawat->id) }}"
-                                               class="btn-action btn-edit"
-                                               title="Edit">
-
-                                                <i class="fas fa-edit"></i>
-
-                                            </a>
-
-
-                                            {{-- DELETE --}}
-                                            <form action="{{ route('master-perawat.destroy', $perawat->id) }}"
-                                                  method="POST"
-                                                  class="d-inline"
-                                                  onsubmit="return confirm('Yakin ingin menghapus data perawat ini?');">
-
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit"
-                                                        class="btn-action btn-delete"
-                                                        title="Hapus">
-
-                                                    <i class="fas fa-trash"></i>
-
-                                                </button>
-
-                                            </form>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-                            @empty
-
-                                <tr>
-
-                                    <td colspan="6" class="empty-data">
-
-                                        <div class="empty-icon">
-                                            <i class="fas fa-user-nurse"></i>
-                                        </div>
-
-                                        <h6>Belum Ada Data Perawat</h6>
-
-                                        <p>
-                                            Silakan tambahkan data perawat terlebih dahulu.
-                                        </p>
-
-                                    </td>
-
-                                </tr>
-
-                            @endforelse
-
-                        </tbody>
-
-                    </table>
-
-                </div>
+                </table>
 
             </div>
 
@@ -520,519 +619,326 @@
 
 </div>
 
-@endsection@extends('layouts.superadmin')
 
-@section('page-title', 'Dashboard Master Perawat')
+{{-- =========================================================
+     MODAL TAMBAH PASIEN
+     TANPA TANDA X
+========================================================= --}}
+<div class="modal fade"
+     id="modalTambahPasien"
+     tabindex="-1"
+     aria-hidden="true">
 
-@section('content')
+    <div class="modal-dialog modal-dialog-centered">
 
-<style>
-    /* ================================
-       MASTER PERAWAT
-    ================================= */
+        <div class="modal-content">
 
-    .master-perawat {
-        padding: 10px 5px 30px;
-    }
+            <form action="{{ route('master-pasien.store') }}"
+                  method="POST">
 
-    .master-perawat .card {
-        border: none;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-        background: #ffffff;
-    }
+                @csrf
 
-    /* ================================
-       HEADER
-    ================================= */
+                <div class="modal-header modal-header-custom">
 
-    .master-perawat .card-header {
-        background: linear-gradient(135deg, #0d6efd, #0b5ed7);
-        color: #ffffff;
-        padding: 20px 24px;
-        border: none;
-    }
+                    <h5 class="modal-title">
+                        <i class="fas fa-user-plus"></i>
+                        Tambah Pasien
+                    </h5>
 
-    .header-title {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .header-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.18);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-    }
-
-    .header-title h4 {
-        margin: 0;
-        font-size: 20px;
-        font-weight: 700;
-    }
-
-    .header-title small {
-        display: block;
-        margin-top: 3px;
-        opacity: 0.85;
-        font-size: 13px;
-    }
-
-    /* ================================
-       BUTTON TAMBAH
-    ================================= */
-
-    .btn-tambah {
-        background: #ffffff;
-        color: #0d6efd;
-        border: none;
-        border-radius: 9px;
-        padding: 10px 17px;
-        font-weight: 600;
-        font-size: 14px;
-        transition: all 0.2s ease;
-    }
-
-    .btn-tambah:hover {
-        background: #f1f6ff;
-        color: #0b5ed7;
-        transform: translateY(-1px);
-    }
-
-    /* ================================
-       BODY
-    ================================= */
-
-    .master-perawat .card-body {
-        padding: 24px;
-    }
-
-    /* ================================
-       TABLE
-    ================================= */
-
-    .table-wrapper {
-        border: 1px solid #e9ecef;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    .table {
-        margin-bottom: 0;
-        vertical-align: middle;
-    }
-
-    .table thead th {
-        background: #f4f7fb;
-        color: #495057;
-        font-size: 13px;
-        font-weight: 700;
-        padding: 14px 16px;
-        border-bottom: 1px solid #e3e7ec;
-        white-space: nowrap;
-    }
-
-    .table tbody td {
-        padding: 14px 16px;
-        color: #495057;
-        font-size: 14px;
-        border-bottom: 1px solid #f0f1f3;
-    }
-
-    .table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    .table tbody tr {
-        transition: background 0.2s ease;
-    }
-
-    .table tbody tr:hover {
-        background: #f8fbff;
-    }
-
-    /* ================================
-       NOMOR
-    ================================= */
-
-    .nomor {
-        width: 45px;
-        text-align: center;
-        font-weight: 600;
-        color: #6c757d;
-    }
-
-    /* ================================
-       NAMA PERAWAT
-    ================================= */
-
-    .nama-perawat {
-        font-weight: 600;
-        color: #212529;
-    }
-
-    /* ================================
-       BADGE JENIS KELAMIN
-    ================================= */
-
-    .badge-gender {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 6px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-        background: #eef5ff;
-        color: #0d6efd;
-    }
-
-    /* ================================
-       ALAMAT
-    ================================= */
-
-    .alamat {
-        max-width: 280px;
-        color: #6c757d;
-    }
-
-    /* ================================
-       TOMBOL AKSI
-    ================================= */
-
-    .action-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-    }
-
-    .btn-action {
-        width: 34px;
-        height: 34px;
-        border-radius: 8px;
-        border: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-    }
-
-    .btn-edit {
-        background: #eaf3ff;
-        color: #0d6efd;
-    }
-
-    .btn-edit:hover {
-        background: #0d6efd;
-        color: #ffffff;
-    }
-
-    .btn-delete {
-        background: #fff0f0;
-        color: #dc3545;
-    }
-
-    .btn-delete:hover {
-        background: #dc3545;
-        color: #ffffff;
-    }
-
-    /* ================================
-       EMPTY DATA
-    ================================= */
-
-    .empty-data {
-        text-align: center;
-        padding: 55px 20px !important;
-        color: #6c757d;
-    }
-
-    .empty-icon {
-        width: 65px;
-        height: 65px;
-        margin: 0 auto 15px;
-        border-radius: 50%;
-        background: #eef5ff;
-        color: #0d6efd;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 25px;
-    }
-
-    .empty-data h6 {
-        font-weight: 700;
-        color: #495057;
-        margin-bottom: 5px;
-    }
-
-    .empty-data p {
-        margin-bottom: 0;
-        font-size: 13px;
-    }
-
-    /* ================================
-       RESPONSIVE
-    ================================= */
-
-    @media (max-width: 768px) {
-
-        .master-perawat .card-header {
-            padding: 16px;
-        }
-
-        .master-perawat .card-body {
-            padding: 15px;
-        }
-
-        .header-title h4 {
-            font-size: 17px;
-        }
-
-        .header-title small {
-            font-size: 11px;
-        }
-
-        .btn-tambah {
-            padding: 8px 12px;
-            font-size: 12px;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        .table {
-            min-width: 850px;
-        }
-    }
-</style>
+                </div>
 
 
-<div class="master-perawat">
+                <div class="modal-body">
 
-    <div class="card">
+                    <div class="form-group-custom">
 
-        {{-- ================================
-             HEADER
-        ================================= --}}
-        <div class="card-header">
+                        <label class="form-label-custom">
+                            Nama Pasien
+                        </label>
 
-            <div class="d-flex justify-content-between align-items-center">
+                        <input type="text"
+                               name="nama"
+                               class="form-control-custom"
+                               value="{{ old('nama') }}"
+                               placeholder="Masukkan nama pasien"
+                               required>
 
-                <div class="header-title">
-
-                    <div class="header-icon">
-                        <i class="fas fa-user-nurse"></i>
                     </div>
 
-                    <div>
-                        <h4>Master Perawat</h4>
-                        <small>Kelola data perawat rumah sakit</small>
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Jenis Kelamin
+                        </label>
+
+                        <select name="jenis_kelamin"
+                                class="form-select-custom"
+                                required>
+
+                            <option value="">
+                                -- Pilih Jenis Kelamin --
+                            </option>
+
+                            <option value="laki-laki"
+                                {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>
+                                Laki-laki
+                            </option>
+
+                            <option value="perempuan"
+                                {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>
+                                Perempuan
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Tanggal Lahir
+                        </label>
+
+                        <input type="date"
+                               name="tanggal_lahir"
+                               class="form-control-custom"
+                               value="{{ old('tanggal_lahir') }}"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Alamat
+                        </label>
+
+                        <textarea name="alamat"
+                                  class="form-control-custom"
+                                  placeholder="Ketikkan alamat lengkap..."
+                                  required>{{ old('alamat') }}</textarea>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Golongan Darah
+                        </label>
+
+                        <select name="golongan_darah"
+                                class="form-select-custom"
+                                required>
+
+                            <option value="">
+                                -- Pilih Golongan Darah --
+                            </option>
+
+                            <option value="A"
+                                {{ old('golongan_darah') == 'A' ? 'selected' : '' }}>
+                                A
+                            </option>
+
+                            <option value="B"
+                                {{ old('golongan_darah') == 'B' ? 'selected' : '' }}>
+                                B
+                            </option>
+
+                            <option value="AB"
+                                {{ old('golongan_darah') == 'AB' ? 'selected' : '' }}>
+                                AB
+                            </option>
+
+                            <option value="O"
+                                {{ old('golongan_darah') == 'O' ? 'selected' : '' }}>
+                                O
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Status Asuransi
+                        </label>
+
+                        <select name="status_asuransi"
+                                class="form-select-custom"
+                                required>
+
+                            <option value="">
+                                -- Pilih Status Asuransi --
+                            </option>
+
+                            <option value="01"
+                                {{ old('status_asuransi') == '01' ? 'selected' : '' }}>
+                                Memiliki Asuransi
+                            </option>
+
+                            <option value="0"
+                                {{ old('status_asuransi') === '0' ? 'selected' : '' }}>
+                                Tidak Memiliki Asuransi
+                            </option>
+
+                        </select>
+
                     </div>
 
                 </div>
 
-                {{-- TOMBOL TAMBAH --}}
-                <a href="{{ route('master-perawat.create') }}"
-                   class="btn btn-tambah">
 
-                    <i class="fas fa-plus me-1"></i>
-                    Tambah Perawat
+                <div class="modal-footer-custom">
 
-                </a>
+                    <button type="button"
+                            class="btn-modal-batal"
+                            data-bs-dismiss="modal">
+                        Batal
+                    </button>
 
-            </div>
+                    <button type="submit"
+                            class="btn-modal-simpan">
+
+                        <i class="fas fa-floppy-disk me-1"></i>
+                        Simpan Data
+
+                    </button>
+
+                </div>
+
+            </form>
 
         </div>
 
+    </div>
 
-        {{-- ================================
-             BODY
-        ================================= --}}
-        <div class="card-body">
+</div>
 
-            <div class="table-wrapper">
 
-                <div class="table-responsive">
+{{-- =========================================================
+     MODAL LIHAT PASIEN
+     TANPA TANDA X
+========================================================= --}}
+<div class="modal fade"
+     id="modalLihatPasien"
+     tabindex="-1"
+     aria-hidden="true">
 
-                    <table class="table">
+    <div class="modal-dialog modal-dialog-centered">
 
-                        <thead>
+        <div class="modal-content">
 
-                            <tr>
+            <div class="modal-header modal-header-custom">
 
-                                <th class="text-center" style="width: 60px;">
-                                    No
-                                </th>
+                <h5 class="modal-title">
+                    <i class="fas fa-eye"></i>
+                    Detail Pasien
+                </h5>
 
-                                <th>
-                                    Nama Perawat
-                                </th>
+            </div>
 
-                                <th>
-                                    Jenis Kelamin
-                                </th>
 
-                                <th>
-                                    Tanggal Lahir
-                                </th>
+            <div class="modal-body">
 
-                                <th>
-                                    Alamat
-                                </th>
+                <div class="detail-item">
 
-                                <th class="text-center" style="width: 130px;">
-                                    Aksi
-                                </th>
+                    <div class="detail-label">
+                        Nama Pasien
+                    </div>
 
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-                            @forelse($perawats as $perawat)
-
-                                <tr>
-
-                                    {{-- NO --}}
-                                    <td class="nomor">
-                                        {{ $loop->iteration }}
-                                    </td>
-
-
-                                    {{-- NAMA --}}
-                                    <td>
-                                        <span class="nama-perawat">
-                                            {{ $perawat->nama }}
-                                        </span>
-                                    </td>
-
-
-                                    {{-- JENIS KELAMIN --}}
-                                    <td>
-
-                                        @if($perawat->jenis_kelamin == 'laki-laki')
-
-                                            <span class="badge-gender">
-                                                <i class="fas fa-mars"></i>
-                                                Laki-laki
-                                            </span>
-
-                                        @else
-
-                                            <span class="badge-gender">
-                                                <i class="fas fa-venus"></i>
-                                                Perempuan
-                                            </span>
-
-                                        @endif
-
-                                    </td>
-
-
-                                    {{-- TANGGAL LAHIR --}}
-                                    <td>
-
-                                        @if($perawat->tanggal_lahir)
-
-                                            {{ \Carbon\Carbon::parse($perawat->tanggal_lahir)->format('d-m-Y') }}
-
-                                        @else
-
-                                            -
-
-                                        @endif
-
-                                    </td>
-
-
-                                    {{-- ALAMAT --}}
-                                    <td>
-
-                                        <span class="alamat">
-                                            {{ $perawat->alamat ?? '-' }}
-                                        </span>
-
-                                    </td>
-
-
-                                    {{-- AKSI --}}
-                                    <td>
-
-                                        <div class="action-buttons">
-
-                                            {{-- EDIT --}}
-                                            <a href="{{ route('master-perawat.edit', $perawat->id) }}"
-                                               class="btn-action btn-edit"
-                                               title="Edit">
-
-                                                <i class="fas fa-edit"></i>
-
-                                            </a>
-
-
-                                            {{-- DELETE --}}
-                                            <form action="{{ route('master-perawat.destroy', $perawat->id) }}"
-                                                  method="POST"
-                                                  class="d-inline"
-                                                  onsubmit="return confirm('Yakin ingin menghapus data perawat ini?');">
-
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit"
-                                                        class="btn-action btn-delete"
-                                                        title="Hapus">
-
-                                                    <i class="fas fa-trash"></i>
-
-                                                </button>
-
-                                            </form>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-                            @empty
-
-                                <tr>
-
-                                    <td colspan="6" class="empty-data">
-
-                                        <div class="empty-icon">
-                                            <i class="fas fa-user-nurse"></i>
-                                        </div>
-
-                                        <h6>Belum Ada Data Perawat</h6>
-
-                                        <p>
-                                            Silakan tambahkan data perawat terlebih dahulu.
-                                        </p>
-
-                                    </td>
-
-                                </tr>
-
-                            @endforelse
-
-                        </tbody>
-
-                    </table>
+                    <div class="detail-value"
+                         id="lihatNama">
+                        -
+                    </div>
 
                 </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Jenis Kelamin
+                    </div>
+
+                    <div class="detail-value"
+                         id="lihatJenisKelamin">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Tanggal Lahir
+                    </div>
+
+                    <div class="detail-value"
+                         id="lihatTanggalLahir">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Alamat
+                    </div>
+
+                    <div class="detail-value"
+                         id="lihatAlamat">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Golongan Darah
+                    </div>
+
+                    <div class="detail-value"
+                         id="lihatGolonganDarah">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Status Asuransi
+                    </div>
+
+                    <div class="detail-value"
+                         id="lihatStatusAsuransi">
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer-custom">
+
+                <button type="button"
+                        class="btn-modal-batal"
+                        data-bs-dismiss="modal">
+                    Tutup
+                </button>
 
             </div>
 
@@ -1041,5 +947,506 @@
     </div>
 
 </div>
+
+
+{{-- =========================================================
+     MODAL EDIT PASIEN
+     TANPA TANDA X
+========================================================= --}}
+<div class="modal fade"
+     id="modalEditPasien"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <form id="formEditPasien"
+                  method="POST">
+
+                @csrf
+                @method('PUT')
+
+                <div class="modal-header modal-header-custom">
+
+                    <h5 class="modal-title">
+                        <i class="fas fa-pen-to-square"></i>
+                        Edit Pasien
+                    </h5>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Nama Pasien
+                        </label>
+
+                        <input type="text"
+                               id="editNama"
+                               name="nama"
+                               class="form-control-custom"
+                               placeholder="Masukkan nama pasien"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Jenis Kelamin
+                        </label>
+
+                        <select id="editJenisKelamin"
+                                name="jenis_kelamin"
+                                class="form-select-custom"
+                                required>
+
+                            <option value="">
+                                -- Pilih Jenis Kelamin --
+                            </option>
+
+                            <option value="laki-laki">
+                                Laki-laki
+                            </option>
+
+                            <option value="perempuan">
+                                Perempuan
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Tanggal Lahir
+                        </label>
+
+                        <input type="date"
+                               id="editTanggalLahir"
+                               name="tanggal_lahir"
+                               class="form-control-custom"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Alamat
+                        </label>
+
+                        <textarea id="editAlamat"
+                                  name="alamat"
+                                  class="form-control-custom"
+                                  placeholder="Ketikkan alamat lengkap..."
+                                  required></textarea>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Golongan Darah
+                        </label>
+
+                        <select id="editGolonganDarah"
+                                name="golongan_darah"
+                                class="form-select-custom"
+                                required>
+
+                            <option value="">
+                                -- Pilih Golongan Darah --
+                            </option>
+
+                            <option value="A">
+                                A
+                            </option>
+
+                            <option value="B">
+                                B
+                            </option>
+
+                            <option value="AB">
+                                AB
+                            </option>
+
+                            <option value="O">
+                                O
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group-custom">
+
+                        <label class="form-label-custom">
+                            Status Asuransi
+                        </label>
+
+                        <select id="editStatusAsuransi"
+                                name="status_asuransi"
+                                class="form-select-custom"
+                                required>
+
+                            <option value="">
+                                -- Pilih Status Asuransi --
+                            </option>
+
+                            <option value="01">
+                                Memiliki Asuransi
+                            </option>
+
+                            <option value="0">
+                                Tidak Memiliki Asuransi
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer-custom">
+
+                    <button type="button"
+                            class="btn-modal-batal"
+                            data-bs-dismiss="modal">
+                        Batal
+                    </button>
+
+                    <button type="submit"
+                            class="btn-modal-simpan">
+
+                        <i class="fas fa-floppy-disk me-1"></i>
+                        Simpan Perubahan
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- =========================================================
+     JAVASCRIPT
+========================================================= --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+$(document).ready(function () {
+
+    /* =====================================================
+       YAJRA DATATABLE
+    ====================================================== */
+    const table = $('#pasien-table').DataTable({
+
+        processing: false,
+        serverSide: true,
+
+        ajax: "{{ route('master-pasien.data') }}",
+
+        columns: [
+            {
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'nama',
+                name: 'nama'
+            },
+            {
+                data: 'jenis_kelamin',
+                name: 'jenis_kelamin'
+            },
+            {
+                data: 'tanggal_lahir',
+                name: 'tanggal_lahir'
+            },
+            {
+                data: 'alamat',
+                name: 'alamat'
+            },
+            {
+                data: 'golongan_darah',
+                name: 'golongan_darah'
+            },
+            {
+                data: 'status_asuransi',
+                name: 'status_asuransi'
+            },
+            {
+                data: 'aksi',
+                name: 'aksi',
+                orderable: false,
+                searchable: false
+            }
+        ],
+
+        order: [[1, 'asc']],
+
+        pageLength: 10,
+
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+
+        language: {
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ data",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+            infoFiltered: "(disaring dari _MAX_ total data)",
+            zeroRecords: "Data pasien tidak ditemukan",
+            emptyTable: "Belum ada data pasien",
+
+            paginate: {
+                first: "Pertama",
+                previous: "Sebelumnya",
+                next: "Berikutnya",
+                last: "Terakhir"
+            }
+        },
+
+        columnDefs: [
+            {
+                targets: [0, 7],
+                className: 'text-center'
+            }
+        ]
+    });
+
+
+    /* =====================================================
+       MODAL LIHAT
+    ====================================================== */
+    $('#pasien-table').on('click', '.btn-view', function () {
+
+        const row = table.row(
+            $(this).closest('tr')
+        ).data();
+
+        if (!row) {
+            return;
+        }
+
+        $('#lihatNama').text(
+            row.nama || '-'
+        );
+
+
+        /* JENIS KELAMIN ASLI */
+        let jenisKelamin = row.jenis_kelamin_raw;
+
+        if (
+            jenisKelamin === 'laki-laki' ||
+            jenisKelamin === 'laki_laki'
+        ) {
+            jenisKelamin = 'Laki-laki';
+
+        } else if (
+            jenisKelamin === 'perempuan'
+        ) {
+            jenisKelamin = 'Perempuan';
+
+        } else {
+            jenisKelamin = '-';
+        }
+
+        $('#lihatJenisKelamin').text(
+            jenisKelamin
+        );
+
+
+        /* TANGGAL */
+        let tanggal = row.tanggal_lahir;
+
+        if (!tanggal) {
+            tanggal = '-';
+        }
+
+        $('#lihatTanggalLahir').text(
+            tanggal
+        );
+
+
+        /* ALAMAT */
+        $('#lihatAlamat').text(
+            row.alamat || '-'
+        );
+
+
+        /* GOLONGAN DARAH ASLI */
+        $('#lihatGolonganDarah').text(
+            row.golongan_darah_raw || '-'
+        );
+
+
+        /* STATUS ASURANSI ASLI */
+        let statusAsuransi =
+            row.status_asuransi_raw;
+
+        if (
+            statusAsuransi === '01' ||
+            statusAsuransi === '1' ||
+            statusAsuransi === 1
+        ) {
+            statusAsuransi =
+                'Memiliki Asuransi';
+
+        } else {
+            statusAsuransi =
+                'Tidak Memiliki Asuransi';
+        }
+
+        $('#lihatStatusAsuransi').text(
+            statusAsuransi
+        );
+
+
+        const modalLihat =
+            new bootstrap.Modal(
+                document.getElementById(
+                    'modalLihatPasien'
+                )
+            );
+
+        modalLihat.show();
+
+    });
+
+
+    /* =====================================================
+       MODAL EDIT
+    ====================================================== */
+    $('#pasien-table').on('click', '.btn-edit', function () {
+
+        const row = table.row(
+            $(this).closest('tr')
+        ).data();
+
+        if (!row) {
+            return;
+        }
+
+
+        /* ID */
+        const id = row.id;
+
+
+        /* NAMA */
+        $('#editNama').val(
+            row.nama || ''
+        );
+
+
+        /* JENIS KELAMIN */
+        let jenisKelamin =
+            row.jenis_kelamin_raw || '';
+
+        if (jenisKelamin === 'laki_laki') {
+            jenisKelamin = 'laki-laki';
+        }
+
+        $('#editJenisKelamin').val(
+            jenisKelamin
+        );
+
+
+        /* TANGGAL LAHIR */
+        $('#editTanggalLahir').val(
+            row.tanggal_lahir_raw || ''
+        );
+
+
+        /* ALAMAT */
+        $('#editAlamat').val(
+            row.alamat || ''
+        );
+
+
+        /* GOLONGAN DARAH */
+        $('#editGolonganDarah').val(
+            row.golongan_darah_raw || ''
+        );
+
+
+        /* STATUS ASURANSI */
+        let statusAsuransi =
+            row.status_asuransi_raw;
+
+        if (
+            statusAsuransi === 1 ||
+            statusAsuransi === '1'
+        ) {
+            statusAsuransi = '01';
+        }
+
+        if (
+            statusAsuransi === 0 ||
+            statusAsuransi === 0
+        ) {
+            statusAsuransi = '0';
+        }
+
+        $('#editStatusAsuransi').val(
+            String(statusAsuransi ?? '')
+        );
+
+
+        /* UPDATE URL */
+        let updateUrl =
+            "{{ route('master-pasien.update', ':id') }}";
+
+        updateUrl = updateUrl.replace(
+            ':id',
+            id
+        );
+
+        $('#formEditPasien').attr(
+            'action',
+            updateUrl
+        );
+
+
+        const modalEdit =
+            new bootstrap.Modal(
+                document.getElementById(
+                    'modalEditPasien'
+                )
+            );
+
+        modalEdit.show();
+
+    });
+
+});
+</script>
 
 @endsection
