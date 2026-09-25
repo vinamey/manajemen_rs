@@ -143,7 +143,13 @@ Route::resource(
     MasterAsuransiController::class
 );
 
-// Master Dokter
+// Master Dokter - DataTables
+Route::get(
+    '/master-dokter/data',
+    [MasterDokterController::class, 'data']
+)->name('master-dokter.data');
+
+// Master Dokter - CRUD
 Route::resource(
     'master-dokter',
     MasterDokterController::class
@@ -170,13 +176,24 @@ Route::post(
     [MasterObatController::class, 'kurangiStok']
 )->name('master-obat.kurangi-stok');
 
-// Master Pasien
+// Master Pasien - DataTables
+Route::get(
+    '/master-pasien/data',
+    [MasterPasienController::class, 'data']
+)->name('master-pasien.data');
+
+// Master Pasien - CRUD
 Route::resource(
     'master-pasien',
     MasterPasienController::class
 );
+// Master Perawat - DataTables
+Route::get(
+    '/master-perawat/data',
+    [MasterPerawatController::class, 'data']
+)->name('master-perawat.data');
 
-// Master Perawat
+// Master Perawat - CRUD
 Route::resource(
     'master-perawat',
     MasterPerawatController::class

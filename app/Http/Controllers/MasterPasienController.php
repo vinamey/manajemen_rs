@@ -4,19 +4,230 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterPasien;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 class MasterPasienController extends Controller
 {
     public function index()
     {
-        $pasiens = MasterPasien::latest()->get();
+        return view('master-pasien.index');
+    }
 
-        return view('master_pasien.index', compact('pasiens'));
+    public function data()
+    {
+        $pasiens = MasterPasien::query()
+            ->orderBy('id', 'desc');
+
+        return DataTables::of($pasiens)
+
+            ->addIndexColumn()
+
+            /*
+            |--------------------------------------------------------------------------
+            | DATA ASLI UNTUK MODAL
+            |--------------------------------------------------------------------------
+            */
+
+            ->addColumn('jenis_kelamin_raw', function ($pasien) {
+                return $pasien->jenis_kelamin;
+            })
+
+            ->addColumn('tanggal_lahir_raw', function ($pasien) {
+                return $pasien->tanggal_lahir;
+            })
+
+            ->addColumn('golongan_darah_raw', function ($pasien) {
+                return $pasien->golongan_darah;
+            })
+
+            ->addColumn('status_asuransi_raw', function ($pasien) {
+                return $pasien->status_asuransi;
+            })
+
+            /*
+            |--------------------------------------------------------------------------
+            | JENIS KELAMIN
+            |--------------------------------------------------------------------------
+            */
+
+            ->editColumn('jenis_kelamin', function ($pasien) {
+
+                if (
+                    $pasien->jenis_kelamin === 'laki-laki' ||
+                    $pasien->jenis_kelamin === 'laki_laki'
+                ) {
+                    return '
+                        <span class="badge-gender">
+                            <i class="fas fa-mars"></i>
+                            Laki-laki
+                        </span>
+                    ';
+                }
+
+                return '
+                    <span class="badge-gender">
+                        <i class="fas fa-venus"></i>
+                        Perempuan
+                    </span>
+                ';
+            })
+
+            /*
+            |--------------------------------------------------------------------------
+            | TANGGAL LAHIR
+            |--------------------------------------------------------------------------
+            */
+
+            ->editColumn('tanggal_lahir', function ($pasien) {
+
+                if (!$pasien->tanggal_lahir) {
+                    return '-';
+                }
+
+                return Carbon::parse(
+                    $pasien->tanggal_lahir
+                )->format('d-m-Y');
+            })
+
+            /*
+            |--------------------------------------------------------------------------
+            | ALAMAT
+            |--------------------------------------------------------------------------
+            */
+
+            ->editColumn('alamat', function ($pasien) {
+                return $pasien->alamat ?: '-';
+            })
+
+            /*
+            |--------------------------------------------------------------------------
+            | GOLONGAN DARAH
+            |--------------------------------------------------------------------------
+            */
+
+            ->editColumn('golongan_darah', function ($pasien) {
+
+                if (!$pasien->golongan_darah) {
+                    return '-';
+                }
+
+                return '
+                    <span class="badge-darah">
+                        <i class="fas fa-droplet"></i>
+                        ' . e($pasien->golongan_darah) . '
+                    </span>
+                ';
+            })
+
+            /*
+            |--------------------------------------------------------------------------
+            | STATUS ASURANSI
+            |--------------------------------------------------------------------------
+            */
+
+            ->editColumn('status_asuransi', function ($pasien) {
+
+                if (
+                    $pasien->status_asuransi === '01' ||
+                    $pasien->status_asuransi == 1
+                ) {
+                    return '
+                        <span class="badge-asuransi aktif">
+                            <i class="fas fa-shield-heart"></i>
+                            Memiliki Asuransi
+                        </span>
+                    ';
+                }
+
+                return '
+                    <span class="badge-asuransi tidak">
+                        <i class="fas fa-circle-xmark"></i>
+                        Tidak Memiliki Asuransi
+                    </span>
+                ';
+            })
+
+            /*
+            |--------------------------------------------------------------------------
+            | AKSI
+            |--------------------------------------------------------------------------
+            */
+
+            ->addColumn('aksi', function ($pasien) {
+
+                $deleteUrl = route(
+                    'master-pasien.destroy',
+                    $pasien->id
+                );
+
+                $csrf = csrf_token();
+
+                return '
+                    <div class="action-buttons">
+
+                        <button
+                            type="button"
+                            class="btn-action btn-view"
+                            title="Lihat"
+                        >
+                            <i class="fas fa-eye"></i>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-action btn-edit"
+                            title="Edit"
+                        >
+                            <i class="fas fa-edit"></i>
+                        </button>
+
+                        <form
+                            action="' . $deleteUrl . '"
+                            method="POST"
+                            class="d-inline"
+                            onsubmit="return confirm(\'Yakin ingin menghapus data pasien ini?\');"
+                        >
+
+                            <input
+                                type="hidden"
+                                name="_token"
+                                value="' . $csrf . '"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="_method"
+                                value="DELETE"
+                            >
+
+                            <button
+                                type="submit"
+                                class="btn-action btn-delete"
+                                title="Hapus"
+                            >
+                                <i class="fas fa-trash"></i>
+                            </button>
+
+                        </form>
+
+                    </div>
+                ';
+            })
+
+            ->rawColumns([
+                'jenis_kelamin',
+                'golongan_darah',
+                'status_asuransi',
+                'aksi'
+            ])
+
+            ->make(true);
     }
 
     public function create()
     {
-        return view('master_pasien.create');
+        return view('master-pasien.create');
     }
 
     public function store(Request $request)
@@ -34,21 +245,30 @@ class MasterPasienController extends Controller
 
         return redirect()
             ->route('master-pasien.index')
-            ->with('success', 'Data pasien berhasil ditambahkan.');
+            ->with(
+                'success',
+                'Data pasien berhasil ditambahkan.'
+            );
     }
 
     public function show(string $id)
     {
         $pasien = MasterPasien::findOrFail($id);
 
-        return view('master_pasien.show', compact('pasien'));
+        return view(
+            'master-pasien.show',
+            compact('pasien')
+        );
     }
 
     public function edit(string $id)
     {
         $pasien = MasterPasien::findOrFail($id);
 
-        return view('master_pasien.edit', compact('pasien'));
+        return view(
+            'master-pasien.edit',
+            compact('pasien')
+        );
     }
 
     public function update(Request $request, string $id)
@@ -68,7 +288,10 @@ class MasterPasienController extends Controller
 
         return redirect()
             ->route('master-pasien.index')
-            ->with('success', 'Data pasien berhasil diperbarui.');
+            ->with(
+                'success',
+                'Data pasien berhasil diperbarui.'
+            );
     }
 
     public function destroy(string $id)
@@ -79,6 +302,9 @@ class MasterPasienController extends Controller
 
         return redirect()
             ->route('master-pasien.index')
-            ->with('success', 'Data pasien berhasil dihapus.');
+            ->with(
+                'success',
+                'Data pasien berhasil dihapus.'
+            );
     }
 }
