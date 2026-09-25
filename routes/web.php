@@ -182,6 +182,7 @@ Route::resource(
     MasterPerawatController::class
 );
 
+
 // Master Poli
 Route::resource(
     'master-poli',
@@ -219,7 +220,7 @@ Route::resource(
 Route::middleware(['role:super admin|admin rumah sakit|apoteker'])->group(function () {
         // Sesuaikan ->name() dengan yang dipanggil di sidebar: 'log-stok-obat.index'
         Route::get('/log-stok-obat', [LogStokObatController::class, 'index'])->name('log-stok-obat.index');
-        
+
         Route::resource('master-obat', MasterObatController::class);
         Route::post('/master-obat/{id}/kurangi-stok', [MasterObatController::class, 'kurangiStok'])->name('master-obat.kurangi-stok');
     });
