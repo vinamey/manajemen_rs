@@ -3,15 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MasterKategori;
 
 class MasterObat extends Model
 {
+    protected $table = 'master_obats';
+
     protected $fillable = [
-    'kode_obat',
-    'nama_obat',
-    'kategori',
-    'satuan',
-    'harga',
-    'stok',
-];
+        'nama',
+        'kategori_id',
+    ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(
+            MasterKategori::class,
+            'kategori_id'
+        );
+    }
 }

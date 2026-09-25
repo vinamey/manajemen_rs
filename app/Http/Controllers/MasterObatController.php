@@ -25,42 +25,34 @@ class MasterObatController extends Controller
 
     // HALAMAN TAMBAH OBAT
     public function create()
-    {
-        $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
-        $satuans = MasterSatuanObat::orderBy('nama', 'asc')->get();
+{
+    $obats = MasterObat::orderBy('nama')->get();
 
-        return view('master-obat.create', compact(
-            'kategoris',
-            'satuans'
-        ));
-    }
+    $kategoris = MasterKategori::orderBy('nama')->get();
+
+    return view('master-obat.create', compact(
+        'obats',
+        'kategoris'
+    ));
+}
 
     // MENYIMPAN DATA OBAT
     public function store(Request $request)
-    {
-        $request->validate([
-            'kode_obat' => 'required|string|max:50|unique:master_obats,kode_obat',
-            'nama_obat' => 'required|string|max:255',
-            'kategori' => 'required|string|max:100',
-            'satuan' => 'required|string|max:100',
-            'harga' => 'required|numeric|min:0',
-            'stok' => 'required|integer|min:0',
-        ]);
+{
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'kategori_id' => 'required|exists:master_kategoris,id',
+    ]);
 
-        MasterObat::create([
-            'kode_obat' => $request->kode_obat,
-            'nama_obat' => $request->nama_obat,
-            'kategori' => $request->kategori,
-            'satuan' => $request->satuan,
-            'harga' => $request->harga,
-            'stok' => $request->stok,
-        ]);
+    MasterObat::create([
+        'nama' => $request->nama,
+        'kategori_id' => $request->kategori_id,
+    ]);
 
-        return redirect()
-            ->route('master-obat.index')
-            ->with('success', 'Data obat berhasil ditambahkan.');
-    }
-
+    return redirect()
+        ->route('master-obat.index')
+        ->with('success', 'Data obat berhasil ditambahkan.');
+}
     // MELIHAT DETAIL OBAT
     public function show(string $id)
     {

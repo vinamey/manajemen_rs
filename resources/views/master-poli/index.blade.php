@@ -621,7 +621,7 @@
 
                 <i class="bi bi-plus-lg"></i>
 
-                Tambah Poli
+                + Tambah Poli
 
             </button>
 
