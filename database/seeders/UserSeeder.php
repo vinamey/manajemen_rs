@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
     {
         $superAdmin = Role::where('name', 'Super Admin')->first();
         $admin = Role::where('name', 'Admin Rumah Sakit')->first();
-        $dokter = Role::where('name', 'Dokter')->first();
+        $dokter = Role::where('name', 'dokter')->first();
         $perawat = Role::where('name', 'Perawat')->first();
         $apoteker = Role::where('name', 'Apoteker')->first();
         $kasir = Role::where('name', 'Kasir')->first();
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         $user->assignRole($superAdmin);
 
         $user = User::create([
-            'name' => 'Admin Rumah Sakit', 
+            'name' => 'Admin Rumah Sakit',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345'),
         ]);

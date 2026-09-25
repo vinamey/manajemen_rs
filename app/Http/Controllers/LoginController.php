@@ -55,22 +55,22 @@ class LoginController extends Controller
         ->with('success', 'Selamat datang Admin Rumah Sakit!');
 }
         // ==========================
-        // DOKTER
-        // ==========================
-        if ($user->hasRole('Dokter')) {
-            return redirect()
-                ->route('dokter.dashboard')
-                ->with('success', 'Selamat datang Dokter!');
-        }
+// DOKTER
+// ==========================
+if ($user->hasRole('dokter')) {
+    return redirect()
+        ->route('master-dokter.index')
+        ->with('success', 'Selamat datang Dokter!');
+}
 
         // ==========================
         // PERAWAT
         // ==========================
-        if ($user->hasRole('Perawat')) {
-            return redirect()
-                ->route('perawat.dashboard')
-                ->with('success', 'Selamat datang Perawat!');
-        }
+        if ($user->hasRole('perawat')) {
+    return redirect()
+        ->route('master-perawat.index')
+        ->with('success', 'Selamat datang Perawat!');
+}
 
         // ==========================
         // APOTEKER
