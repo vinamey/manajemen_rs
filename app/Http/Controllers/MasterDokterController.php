@@ -30,47 +30,27 @@ class MasterDokterController extends Controller
             ->orderBy('id', 'desc');
 
         return DataTables::of($dokters)
-
             ->addIndexColumn()
-
-            /*
-            |--------------------------------------------------------------------------
-            | Data asli untuk Modal
-            |--------------------------------------------------------------------------
-            */
             ->addColumn('jenis_kelamin_raw', function ($dokter) {
                 return $dokter->jenis_kelamin;
             })
-
-           ->addColumn('tanggal_lahir_raw', function ($dokter) {
-    return $dokter->tanggal_lahir
-        ? Carbon::parse($dokter->tanggal_lahir)->format('Y-m-d')
-        : '';
-})
-
+            ->addColumn('tanggal_lahir_raw', function ($dokter) {
+                return $dokter->tanggal_lahir
+                    ? Carbon::parse($dokter->tanggal_lahir)->format('Y-m-d')
+                    : '';
+            })
             ->addColumn('spesialis_raw', function ($dokter) {
                 return $dokter->spesialis;
             })
-
             ->addColumn('alamat_raw', function ($dokter) {
                 return $dokter->alamat;
             })
-
             ->addColumn('poli_id_raw', function ($dokter) {
                 return $dokter->poli_id;
             })
-
-            /*
-            |--------------------------------------------------------------------------
-            | Jenis Kelamin
-            |--------------------------------------------------------------------------
-            */
             ->editColumn('jenis_kelamin', function ($dokter) {
-
-                if (
-                    $dokter->jenis_kelamin === 'laki-laki' ||
-                    $dokter->jenis_kelamin === 'laki_laki'
-                ) {
+                $jk = strtolower($dokter->jenis_kelamin);
+                if ($jk === 'laki-laki' || $jk === 'laki_laki' || $jk === 'l') {
                     return '
                         <span class="badge-gender">
                             <i class="fas fa-mars"></i>
@@ -86,148 +66,49 @@ class MasterDokterController extends Controller
                     </span>
                 ';
             })
-
-            /*
-            |--------------------------------------------------------------------------
-            | Tanggal Lahir
-            |--------------------------------------------------------------------------
-            */
             ->editColumn('tanggal_lahir', function ($dokter) {
-
                 if (!$dokter->tanggal_lahir) {
                     return '-';
                 }
 
-                return Carbon::parse(
-                    $dokter->tanggal_lahir
-                )->format('d-m-Y');
+                return Carbon::parse($dokter->tanggal_lahir)->format('d-m-Y');
             })
-
-            /*
-            |--------------------------------------------------------------------------
-            | Spesialis
-            |--------------------------------------------------------------------------
-            */
             ->editColumn('spesialis', function ($dokter) {
-
-                if (!$dokter->spesialis) {
-                    return '-';
-                }
-
-                return e($dokter->spesialis);
+                return $dokter->spesialis ? e($dokter->spesialis) : '-';
             })
-
-            /*
-            |--------------------------------------------------------------------------
-            | Poli
-            |--------------------------------------------------------------------------
-            */
-            ->addColumn('poli', function ($dokter) {
-
-                if (!$dokter->poli) {
-                    return '-';
-                }
-
-                return e($dokter->poli->nama);
+            ->addColumn('poli_nama', function ($dokter) {
+                return $dokter->poli ? e($dokter->poli->nama) : '-';
             })
-
-            /*
-            |--------------------------------------------------------------------------
-            | Alamat
-            |--------------------------------------------------------------------------
-            */
             ->editColumn('alamat', function ($dokter) {
-
-                return $dokter->alamat
-                    ? e($dokter->alamat)
-                    : '-';
+                return $dokter->alamat ? e($dokter->alamat) : '-';
             })
-
-            /*
-            |--------------------------------------------------------------------------
-            | Tombol Aksi
-            |--------------------------------------------------------------------------
-            */
             ->addColumn('aksi', function ($dokter) {
-
-                $deleteUrl = route(
-                    'master-dokter.destroy',
-                    $dokter->id
-                );
-
-                $csrf = csrf_token();
-
                 return '
                     <div class="action-buttons">
-
-                        <button
-                            type="button"
-                            class="btn-action btn-view"
-                            title="Lihat"
-                        >
+                        <button type="button" class="btn-action btn-view" title="Lihat">
                             <i class="fas fa-eye"></i>
                         </button>
-
-                        <button
-                            type="button"
-                            class="btn-action btn-edit"
-                            title="Edit"
-                        >
+                        <button type="button" class="btn-action btn-edit" title="Edit">
                             <i class="fas fa-edit"></i>
                         </button>
-
-                        <form
-                            action="' . $deleteUrl . '"
-                            method="POST"
-                            class="form-delete-dokter d-inline"
-                        >
-
-                            <input
-                                type="hidden"
-                                name="_token"
-                                value="' . $csrf . '"
-                            >
-
-                            <input
-                                type="hidden"
-                                name="_method"
-                                value="DELETE"
-                            >
-
-                            <button
-                                type="submit"
-                                class="btn-action btn-delete"
-                                title="Hapus"
-                            >
-                                <i class="fas fa-trash"></i>
-                            </button>
-
-                        </form>
-
+                        <button type="button" class="btn-action btn-delete" data-id="' . $dokter->id . '" title="Hapus">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 ';
             })
-
-            ->rawColumns([
-                'jenis_kelamin',
-                'aksi'
-            ])
-
+            ->rawColumns(['jenis_kelamin', 'aksi'])
             ->make(true);
     }
 
     /**
-     * Form tambah lama.
-     * Tetap dipertahankan.
+     * Form tambah lama
      */
     public function create()
     {
         $polis = MasterPoli::orderBy('nama', 'asc')->get();
 
-        return view(
-            'master-dokter.create',
-            compact('polis')
-        );
+        return view('master-dokter.create', compact('polis'));
     }
 
     /**
@@ -235,50 +116,32 @@ class MasterDokterController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. Validasi Input (disesuaikan agar menerima format laki_laki/laki-laki & tabel poli yang dinamis)
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-
-            'jenis_kelamin' =>
-                'required|in:laki-laki,perempuan',
-
-            'tanggal_lahir' =>
-                'required|date',
-
-            'spesialis' =>
-                'nullable|string|max:255',
-
-            'alamat' =>
-                'nullable|string',
-
-            'poli_id' =>
-                'nullable|exists:master_polis,id',
+            'nama'          => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan,laki_laki',
+            'tanggal_lahir' => 'required|date',
+            'spesialis'     => 'nullable|string|max:255',
+            'alamat'        => 'nullable|string',
+            'poli_id'       => 'required|exists:' . (new MasterPoli())->getTable() . ',id',
         ]);
 
-        $dokter = MasterDokter::create(
-            $validated
-        );
+        // 2. Simpan Ke Database
+        $dokter = MasterDokter::create($validated);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Jika dikirim dari AJAX/modal
-        |--------------------------------------------------------------------------
-        */
-        if ($request->expectsJson()) {
-
+        // 3. Return Response AJAX / Standard Redirect
+        if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
             return response()->json([
                 'success' => true,
-                'message' =>
-                    'Data dokter berhasil ditambahkan.',
-                'data' => $dokter,
-            ]);
+                'status'  => 'success',
+                'message' => 'Data dokter berhasil ditambahkan.',
+                'data'    => $dokter,
+            ], 200);
         }
 
         return redirect()
             ->route('master-dokter.index')
-            ->with(
-                'success',
-                'Data dokter berhasil ditambahkan.'
-            );
+            ->with('success', 'Data dokter berhasil ditambahkan.');
     }
 
     /**
@@ -286,21 +149,16 @@ class MasterDokterController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $dokter = MasterDokter::with('poli')
-            ->findOrFail($id);
+        $dokter = MasterDokter::with('poli')->findOrFail($id);
 
-        if ($request->expectsJson()) {
-
+        if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
             return response()->json([
                 'success' => true,
-                'data' => $dokter,
-            ]);
+                'data'    => $dokter,
+            ], 200);
         }
 
-        return view(
-            'master-dokter.show',
-            compact('dokter')
-        );
+        return view('master-dokter.show', compact('dokter'));
     }
 
     /**
@@ -310,102 +168,68 @@ class MasterDokterController extends Controller
     {
         $dokter = MasterDokter::findOrFail($id);
 
-        if ($request->expectsJson()) {
-
+        if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
             return response()->json([
                 'success' => true,
-                'data' => $dokter,
-            ]);
+                'data'    => $dokter,
+            ], 200);
         }
 
-        $polis = MasterPoli::orderBy(
-            'nama',
-            'asc'
-        )->get();
+        $polis = MasterPoli::orderBy('nama', 'asc')->get();
 
-        return view(
-            'master-dokter.edit',
-            compact('dokter', 'polis')
-        );
+        return view('master-dokter.edit', compact('dokter', 'polis'));
     }
 
     /**
      * Update dokter
      */
-    public function update(
-        Request $request,
-        string $id
-    ) {
+    public function update(Request $request, string $id)
+    {
         $dokter = MasterDokter::findOrFail($id);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Spesialis sengaja TIDAK diubah saat Edit
-        |--------------------------------------------------------------------------
-        */
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-
-            'jenis_kelamin' =>
-                'required|in:laki-laki,perempuan',
-
-            'tanggal_lahir' =>
-                'required|date',
-
-            'alamat' =>
-                'nullable|string',
-
-            'poli_id' =>
-                'nullable|exists:master_polis,id',
+            'nama'          => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan,laki_laki',
+            'tanggal_lahir' => 'required|date',
+            'spesialis'     => 'nullable|string|max:255',
+            'alamat'        => 'nullable|string',
+            'poli_id'       => 'required|exists:' . (new MasterPoli())->getTable() . ',id',
         ]);
 
-        $dokter->update(
-            $validated
-        );
+        $dokter->update($validated);
 
-        if ($request->expectsJson()) {
-
+        if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
             return response()->json([
                 'success' => true,
-                'message' =>
-                    'Data dokter berhasil diperbarui.',
-                'data' => $dokter->fresh(),
-            ]);
+                'status'  => 'success',
+                'message' => 'Data dokter berhasil diperbarui.',
+                'data'    => $dokter->fresh(),
+            ], 200);
         }
 
         return redirect()
             ->route('master-dokter.index')
-            ->with(
-                'success',
-                'Data dokter berhasil diperbarui.'
-            );
+            ->with('success', 'Data dokter berhasil diperbarui.');
     }
 
     /**
      * Hapus dokter
      */
-    public function destroy(
-        Request $request,
-        string $id
-    ) {
+    public function destroy(Request $request, string $id)
+    {
         $dokter = MasterDokter::findOrFail($id);
-
         $dokter->delete();
 
-        if ($request->expectsJson()) {
-
+        if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
             return response()->json([
                 'success' => true,
-                'message' =>
-                    'Data dokter berhasil dihapus.',
-            ]);
+                'status'  => 'success',
+                'message' => 'Data dokter berhasil dihapus.',
+            ], 200);
         }
 
         return redirect()
             ->route('master-dokter.index')
-            ->with(
-                'success',
-                'Data dokter berhasil dihapus.'
-            );
+            ->with('success', 'Data dokter berhasil dihapus.');
     }
 }

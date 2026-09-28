@@ -229,10 +229,12 @@ Route::resource(
     PendaftaranPasienController::class
 );
 
-Route::resource(
-    'pemeriksaan-dokter',
-    PemeriksaanDokterController::class
-);
+Route::get('/master-dokter/data', [MasterDokterController::class, 'data'])
+    ->name('master-dokter.data');
+
+Route::resource('master-dokter', MasterDokterController::class);
+
+Route::resource('pemeriksaan-dokter', PemeriksaanDokterController::class);
 
 Route::middleware(['role:super admin|admin rumah sakit|apoteker'])->group(function () {
         // Sesuaikan ->name() dengan yang dipanggil di sidebar: 'log-stok-obat.index'

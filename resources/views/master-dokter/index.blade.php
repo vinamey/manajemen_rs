@@ -801,231 +801,559 @@
 
             </form>
 
-        </div>
+        </div> 
     </div>
 </div>
 
 @endsection
 
 @push('scripts')
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    let table;
 
-    $(document).ready(function() {
-        // Inisialisasi Select2 di Modal Tambah & Edit
-        $('.select2-poli').select2({
-            dropdownParent: $('#modalTambahDokter')
-        });
-        $('.select2-poli-edit').select2({
-            dropdownParent: $('#modalEditDokter')
-        });
+let table;
 
-        // 1. DataTables Server-Side Setup
-        table = $('#dokter-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('master-dokter.data') }}",
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center' },
-                { data: 'nama', name: 'nama' },
-                { data: 'jenis_kelamin', name: 'jenis_kelamin' },
-                { data: 'tanggal_lahir', name: 'tanggal_lahir' },
-                { data: 'spesialis', name: 'spesialis', defaultContent: '-' },
-                { data: 'alamat', name: 'alamat', defaultContent: '-' },
-                { data: 'poli_nama', name: 'poli.nama', defaultContent: '-' },
-                { data: 'aksi', name: 'aksi', orderable: false, searchable: false, className: 'text-center' }
-            ],
-            language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Cari dokter...",
-                lengthMenu: "Tampilkan _MENU_ data",
-                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                paginate: {
-                    first: "Awal",
-                    last: "Akhir",
-                    next: "Lanjut",
-                    previous: "Kembali"
-                }
+$(document).ready(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | SELECT2
+    |--------------------------------------------------------------------------
+    */
+
+    $('.select2-poli').select2({
+        dropdownParent: $('#modalTambahDokter'),
+        width: '100%'
+    });
+
+    $('.select2-poli-edit').select2({
+        dropdownParent: $('#modalEditDokter'),
+        width: '100%'
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATATABLES
+    |--------------------------------------------------------------------------
+    */
+
+    table = $('#dokter-table').DataTable({
+
+        processing: true,
+
+        serverSide: true,
+
+        ajax: "{{ route('master-dokter.data') }}",
+
+        columns: [
+
+            {
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
+            },
+
+            {
+                data: 'nama',
+                name: 'nama'
+            },
+
+            {
+                data: 'jenis_kelamin',
+                name: 'jenis_kelamin'
+            },
+
+            {
+                data: 'tanggal_lahir',
+                name: 'tanggal_lahir'
+            },
+
+            {
+                data: 'spesialis',
+                name: 'spesialis',
+                defaultContent: '-'
+            },
+
+            {
+                data: 'alamat',
+                name: 'alamat',
+                defaultContent: '-'
+            },
+
+            {
+                data: 'poli_nama',
+                name: 'poli_nama',
+                defaultContent: '-'
+            },
+
+            {
+                data: 'aksi',
+                name: 'aksi',
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
             }
+
+        ],
+
+        language: {
+
+            search: "",
+
+            searchPlaceholder: "Cari dokter...",
+
+            lengthMenu: "Tampilkan _MENU_ data",
+
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+            emptyTable: "Belum ada data dokter",
+
+            zeroRecords: "Data dokter tidak ditemukan",
+
+            processing: "Memuat data...",
+
+            paginate: {
+
+                first: "Awal",
+
+                last: "Akhir",
+
+                next: "Lanjut",
+
+                previous: "Kembali"
+
+            }
+
+        }
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TAMBAH DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $('#formTambahDokter').on('submit', function (e) {
+
+        e.preventDefault();
+
+        let form = $(this);
+
+        let btn = $('#btnSimpanTambah');
+
+        btn.prop('disabled', true);
+
+        btn.html(
+            '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...'
+        );
+
+        $.ajax({
+
+            url: "{{ route('master-dokter.store') }}",
+
+            type: "POST",
+
+            data: form.serialize(),
+
+            dataType: "json",
+
+            headers: {
+
+                'Accept': 'application/json'
+
+            },
+
+            success: function (response) {
+
+                btn.prop('disabled', false);
+
+                btn.html(
+                    '<i class="fas fa-floppy-disk me-1"></i> Simpan Data'
+                );
+
+                if (response.success === true) {
+
+                    $('#modalTambahDokter').modal('hide');
+
+                    form[0].reset();
+
+                    $('#tambah_poli_id')
+                        .val('')
+                        .trigger('change');
+
+                    table.ajax.reload(null, false);
+
+                    Swal.fire({
+
+                        icon: 'success',
+
+                        title: 'Berhasil!',
+
+                        text: response.message,
+
+                        timer: 1800,
+
+                        showConfirmButton: false
+
+                    });
+
+                }
+
+            },
+
+            error: function (xhr) {
+
+                btn.prop('disabled', false);
+
+                btn.html(
+                    '<i class="fas fa-floppy-disk me-1"></i> Simpan Data'
+                );
+
+                alertError(xhr);
+
+            }
+
         });
 
-        // 2. AJAX Simpan (Tambah Data)
-        $('#formTambahDokter').on('submit', function(e) {
-            e.preventDefault();
-            let btn = $('#btnSimpanTambah');
-            btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...');
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LIHAT DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $(document).on('click', '.btn-view', function () {
+
+        let rowData = table
+            .row($(this).closest('tr'))
+            .data();
+
+        if (!rowData) {
+            return;
+        }
+
+        $('#lihat_nama')
+            .text(rowData.nama || '-');
+
+        $('#lihat_jenis_kelamin')
+            .text(
+                rowData.jenis_kelamin_raw === 'laki-laki'
+                    ? 'Laki-laki'
+                    : 'Perempuan'
+            );
+
+        $('#lihat_tanggal_lahir')
+            .text(rowData.tanggal_lahir || '-');
+
+        $('#lihat_spesialis')
+            .text(rowData.spesialis_raw || '-');
+
+        $('#lihat_poli')
+            .text(rowData.poli_nama || '-');
+
+        $('#lihat_alamat')
+            .text(rowData.alamat_raw || '-');
+
+        $('#modalLihatDokter').modal('show');
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $(document).on('click', '.btn-edit', function () {
+
+        let rowData = table
+            .row($(this).closest('tr'))
+            .data();
+
+        if (!rowData) {
+            return;
+        }
+
+        $('#edit_id')
+            .val(rowData.id);
+
+        $('#edit_nama')
+            .val(rowData.nama);
+
+        $('#edit_jenis_kelamin')
+            .val(rowData.jenis_kelamin_raw);
+
+        $('#edit_tanggal_lahir')
+            .val(rowData.tanggal_lahir_raw);
+
+        $('#edit_spesialis')
+            .val(rowData.spesialis_raw);
+
+        $('#edit_alamat')
+            .val(rowData.alamat_raw);
+
+        $('#edit_poli_id')
+            .val(rowData.poli_id_raw)
+            .trigger('change');
+
+        $('#modalEditDokter').modal('show');
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $('#formEditDokter').on('submit', function (e) {
+
+        e.preventDefault();
+
+        let form = $(this);
+
+        let id = $('#edit_id').val();
+
+        let btn = $('#btnSimpanEdit');
+
+        let url = "{{ url('master-dokter') }}/" + id;
+
+        btn.prop('disabled', true);
+
+        btn.html(
+            '<i class="fas fa-spinner fa-spin me-1"></i> Memperbarui...'
+        );
+
+        $.ajax({
+
+            url: url,
+
+            type: "POST",
+
+            data: form.serialize(),
+
+            dataType: "json",
+
+            headers: {
+
+                'Accept': 'application/json'
+
+            },
+
+            success: function (response) {
+
+                btn.prop('disabled', false);
+
+                btn.html(
+                    '<i class="fas fa-floppy-disk me-1"></i> Perbarui Data'
+                );
+
+                if (response.success === true) {
+
+                    $('#modalEditDokter').modal('hide');
+
+                    table.ajax.reload(null, false);
+
+                    Swal.fire({
+
+                        icon: 'success',
+
+                        title: 'Berhasil!',
+
+                        text: response.message,
+
+                        timer: 1800,
+
+                        showConfirmButton: false
+
+                    });
+
+                }
+
+            },
+
+            error: function (xhr) {
+
+                btn.prop('disabled', false);
+
+                btn.html(
+                    '<i class="fas fa-floppy-disk me-1"></i> Perbarui Data'
+                );
+
+                alertError(xhr);
+
+            }
+
+        });
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | HAPUS DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $(document).on('click', '.btn-delete', function () {
+
+        let id = $(this).data('id');
+
+        if (!id) {
+
+            Swal.fire(
+                'Gagal!',
+                'ID dokter tidak ditemukan.',
+                'error'
+            );
+
+            return;
+        }
+
+        let url = "{{ url('master-dokter') }}/" + id;
+
+        Swal.fire({
+
+            title: 'Apakah Anda Yakin?',
+
+            text: 'Data dokter ini akan dihapus!',
+
+            icon: 'warning',
+
+            showCancelButton: true,
+
+            confirmButtonColor: '#dc2626',
+
+            cancelButtonColor: '#64748b',
+
+            confirmButtonText: 'Ya, Hapus!',
+
+            cancelButtonText: 'Batal'
+
+        }).then(function (result) {
+
+            if (!result.isConfirmed) {
+                return;
+            }
 
             $.ajax({
-                url: "{{ route('master-dokter.store') }}",
-                type: "POST",
-                data: $(this).serialize(),
-                success: function(response) {
-                    btn.prop('disabled', false).html('<i class="fas fa-floppy-disk me-1"></i> Simpan Data');
-                    if (response.status === 'success') {
-                        $('#modalTambahDokter').modal('hide');
-                        $('#formTambahDokter')[0].reset();
-                        $('#tambah_poli_id').val('').trigger('change');
+
+                url: url,
+
+                type: 'DELETE',
+
+                data: {
+
+                    _token: '{{ csrf_token() }}'
+
+                },
+
+                dataType: 'json',
+
+                headers: {
+
+                    'Accept': 'application/json'
+
+                },
+
+                success: function (response) {
+
+                    if (response.success === true) {
+
                         table.ajax.reload(null, false);
 
                         Swal.fire({
+
                             icon: 'success',
-                            title: 'Berhasil!',
+
+                            title: 'Terhapus!',
+
                             text: response.message,
-                            timer: 2000,
+
+                            timer: 1800,
+
                             showConfirmButton: false
+
                         });
+
                     }
+
                 },
-                error: function(xhr) {
-                    btn.prop('disabled', false).html('<i class="fas fa-floppy-disk me-1"></i> Simpan Data');
-                    let errors = xhr.responseJSON ? xhr.responseJSON.errors : null;
-                    let msg = 'Terjadi kesalahan saat menyimpan data.';
-                    if (errors) {
-                        msg = Object.values(errors).flat().join('<br>');
-                    }
-                    Swal.fire('Gagal!', msg, 'error');
-                }
-            });
-        });
 
-        // 3. AJAX Update (Edit Data)
-        // 1. Submit Edit Data
-$('#formEditDokter').on('submit', function(e) {
-    e.preventDefault();
-    let id = $('#edit_id').val();
-    let url = "{{ route('master-dokter.index') }}/" + id; // Menggunakan prefix route dinamis
-    let btn = $('#btnSimpanEdit');
-    btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Memperbarui...');
+                error: function (xhr) {
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: $(this).serialize(),
-        success: function(response) {
-            btn.prop('disabled', false).html('<i class="fas fa-floppy-disk me-1"></i> Perbarui Data');
-            if (response.status === 'success') {
-                $('#modalEditDokter').modal('hide');
-                table.ajax.reload(null, false);
-                Swal.fire('Berhasil!', response.message, 'success');
-            }
-        },
-        error: function(xhr) {
-            btn.prop('disabled', false).html('<i class="fas fa-floppy-disk me-1"></i> Perbarui Data');
-            alertError(xhr);
-        }
-    });
-});
-
-// 2. Submit Hapus Data
-$(document).on('click', '.btn-delete', function() {
-    let id = $(this).data('id');
-    let url = "{{ route('master-dokter.index') }}/" + id;
-
-    Swal.fire({
-        title: 'Apakah Anda Yakin?',
-        text: "Data dokter ini akan dihapus!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc2626',
-        confirmButtonText: 'Ya, Hapus!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: url,
-                type: 'DELETE',
-                data: { _token: '{{ csrf_token() }}' },
-                success: function(response) {
-                    table.ajax.reload(null, false);
-                    Swal.fire('Terhapus!', response.message, 'success');
-                },
-                error: function(xhr) {
                     alertError(xhr);
+
                 }
+
             });
-        }
+
+        });
+
     });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ERROR HANDLER
+    |--------------------------------------------------------------------------
+    */
+
+    function alertError(xhr) {
+
+        let msg = 'Terjadi kesalahan pada server.';
+
+        if (xhr.responseJSON) {
+
+            if (xhr.responseJSON.errors) {
+
+                msg = Object.values(
+                    xhr.responseJSON.errors
+                )
+                .flat()
+                .join('<br>');
+
+            } else if (xhr.responseJSON.message) {
+
+                msg = xhr.responseJSON.message;
+
+            }
+
+        }
+
+        Swal.fire({
+
+            icon: 'error',
+
+            title: 'Gagal!',
+
+            html: msg
+
+        });
+
+    }
+
 });
 
-// Helper untuk membaca pesan error validasi/server
-function alertError(xhr) {
-    let msg = 'Terjadi kesalahan pada server.';
-    if (xhr.responseJSON) {
-        if (xhr.responseJSON.errors) {
-            msg = Object.values(xhr.responseJSON.errors).flat().join('<br>');
-        } else if (xhr.responseJSON.message) {
-            msg = xhr.responseJSON.message;
-        }
-    }
-    Swal.fire('Gagal!', msg, 'error');
-}
-        // 4. Trigger Modal Lihat/Detail
-        $(document).on('click', '.btn-view', function() {
-            let rowData = table.row($(this).closest('tr')).data();
-
-            $('#lihat_nama').text(rowData.nama);
-            $('#lihat_jenis_kelamin').text(rowData.jenis_kelamin === 'laki-laki' ? 'Laki-laki' : 'Perempuan');
-            $('#lihat_tanggal_lahir').text(rowData.tanggal_lahir_formatted || rowData.tanggal_lahir);
-            $('#lihat_spesialis').text(rowData.spesialis || '-');
-            $('#lihat_poli').text(rowData.poli_nama || '-');
-            $('#lihat_alamat').text(rowData.alamat || '-');
-
-            $('#modalLihatDokter').modal('show');
-        });
-
-        // 5. Trigger Modal Edit Data
-        $(document).on('click', '.btn-edit', function() {
-            let rowData = table.row($(this).closest('tr')).data();
-
-            $('#edit_id').val(rowData.id);
-            $('#edit_nama').val(rowData.nama);
-            $('#edit_jenis_kelamin').val(rowData.jenis_kelamin_raw || rowData.jenis_kelamin);
-            $('#edit_tanggal_lahir').val(rowData.tanggal_lahir_raw || rowData.tanggal_lahir);
-            $('#edit_spesialis').val(rowData.spesialis);
-            $('#edit_alamat').val(rowData.alamat);
-            $('#edit_poli_id').val(rowData.poli_id).trigger('change');
-
-            $('#modalEditDokter').modal('show');
-        });
-
-        // 6. Trigger Hapus Data via AJAX
-        $(document).on('click', '.btn-delete', function() {
-            let id = $(this).data('id');
-            let url = "{{ url('master-dokter') }}/" + id;
-
-            Swal.fire({
-                title: 'Apakah Anda Yakin?',
-                text: "Data dokter ini akan dihapus secara permanen!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#64748b',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: url,
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            table.ajax.reload(null, false);
-                            Swal.fire('Terhapus!', response.message, 'success');
-                        },
-                        error: function(xhr) {
-                            Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.', 'error');
-                        }
-                    });
-                }
-            });
-        });
-    });
 </script>
+
 @endpush

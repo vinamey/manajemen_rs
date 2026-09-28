@@ -16,16 +16,13 @@ class PendaftaranPasienController extends Controller
      */
 public function index(Request $request)
 {
-    // =====================================
-    // QUERY PENDAFTARAN + RELASI
-    // =====================================
 
     $query = PendaftaranPasien::with([
         'pasien',
         'dokter',
         'poli',
         'kamar'
-    ]);
+    ])->whereDate('tanggal_pendaftaran', today());
 
 
     // =====================================
@@ -88,21 +85,6 @@ public function index(Request $request)
         $query->where('status', $request->status);
 
     }
-
-
-    // =====================================
-    // FILTER TANGGAL
-    // =====================================
-
-    if ($request->filled('tanggal')) {
-
-        $query->whereDate(
-            'tanggal_pendaftaran',
-            $request->tanggal
-        );
-
-    }
-
 
     // =====================================
     // AMBIL DATA
