@@ -4,73 +4,11 @@
 
 @section('content')
 
-{{-- =========================================================
-     SELECT2 CSS
-========================================================= --}}
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-@php
-    /*
-    |--------------------------------------------------------------------------
-    | DAFTAR NAMA OBAT
-    |--------------------------------------------------------------------------
-    | Kalau nanti mau menambah nama obat, cukup tambahkan di array ini.
-    */
-    $daftarNamaObat = [
-        'Acyclovir',
-        'Albendazole',
-        'Allopurinol',
-        'Ambroxol',
-        'Amlodipine',
-        'Amoxicillin',
-        'Antasida',
-        'Asam Folat',
-        'Asam Mefenamat',
-        'Aspirin',
-        'Azithromycin',
-        'Betahistine',
-        'Bisacodyl',
-        'Captopril',
-        'Cefadroxil',
-        'Cefixime',
-        'Cetirizine',
-        'Chloramphenicol',
-        'Chlorpheniramine',
-        'Ciprofloxacin',
-        'Clindamycin',
-        'Dexamethasone',
-        'Dextromethorphan',
-        'Diazepam',
-        'Diclofenac Sodium',
-        'Digoxin',
-        'Domperidone',
-        'Doxycycline',
-        'Erythromycin',
-        'Furosemide',
-        'Glibenclamide',
-        'Hydrochlorothiazide',
-        'Ibuprofen',
-        'Ketoconazole',
-        'Lansoprazole',
-        'Loratadine',
-        'Metformin',
-        'Metronidazole',
-        'Nystatin',
-        'Omeprazole',
-        'Ondansetron',
-        'Oralit',
-        'Paracetamol',
-        'Prednisone',
-        'Ranitidine',
-        'Salbutamol',
-        'Simvastatin',
-        'Sucralfate',
-        'Vitamin B Complex',
-        'Vitamin C',
-        'Vitamin D',
-        'Zinc',
-    ];
-@endphp
+{{-- DATATABLE CSS --}}
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
+>
 
 <style>
     :root {
@@ -81,23 +19,24 @@
         --text-muted: #6b7280;
     }
 
-    /* =========================================================
+    /* =====================================================
        HALAMAN
-    ========================================================= */
+    ===================================================== */
     .master-obat-page {
         background: #f4f6fa;
         min-height: calc(100vh - 70px);
         padding: 22px 18px;
     }
 
-    /* =========================================================
+    /* =====================================================
        HEADER
-    ========================================================= */
+    ===================================================== */
     .obat-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 18px;
+        gap: 15px;
     }
 
     .obat-title-wrapper {
@@ -132,52 +71,48 @@
         color: var(--text-muted);
     }
 
-    /* =========================================================
-       BUTTON TAMBAH
-    ========================================================= */
+    /* =====================================================
+       TOMBOL TAMBAH
+    ===================================================== */
     .btn-tambah-obat {
         background: var(--blue-main);
         border: none;
-        color: white;
+        color: #fff;
         padding: 9px 14px;
         border-radius: 7px;
         font-size: 10px;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
         cursor: pointer;
-        transition: 0.2s;
+        transition: .2s;
     }
 
     .btn-tambah-obat:hover {
         background: var(--blue-dark);
-        color: white;
+        color: #fff;
     }
 
-    /* =========================================================
+    /* =====================================================
        ALERT
-    ========================================================= */
-    .alert-success,
-    .alert-danger {
-        margin: 0 0 12px;
+    ===================================================== */
+    .alert-obat {
         border-radius: 7px;
+        padding: 10px 12px;
+        margin-bottom: 14px;
         font-size: 10px;
-        padding: 9px 12px;
     }
 
-    .alert-danger ul {
-        padding-left: 18px;
-    }
-
-    /* =========================================================
+    /* =====================================================
        CARD TABLE
-    ========================================================= */
+    ===================================================== */
     .obat-card {
-        background: white;
+        background: #fff;
         border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+        padding-bottom: 10px;
         overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     }
 
     .obat-table-wrapper {
@@ -185,74 +120,114 @@
         overflow-x: auto;
     }
 
+    /* =====================================================
+       TABLE
+    ===================================================== */
     .obat-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0;
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin: 0 !important;
     }
 
     .obat-table thead th {
-        background: var(--blue-main);
-        color: white;
-        font-size: 10px;
-        font-weight: 600;
-        padding: 11px 12px;
-        border: none;
+        background: var(--blue-main) !important;
+        color: #fff !important;
+        font-size: 10px !important;
+        font-weight: 600 !important;
+        padding: 11px 12px !important;
+        border: none !important;
         white-space: nowrap;
         text-align: left;
     }
 
     .obat-table tbody td {
-        padding: 10px 12px;
-        font-size: 10px;
+        padding: 10px 12px !important;
+        font-size: 10px !important;
         color: #6b7280;
-        border-bottom: 1px solid #edf0f4;
-        vertical-align: middle;
-        background: white;
-    }
-
-    .obat-table tbody tr:last-child td {
-        border-bottom: none;
+        border-bottom: 1px solid #edf0f4 !important;
+        vertical-align: middle !important;
+        background: #fff;
     }
 
     .obat-table tbody tr:hover td {
         background: #fafcff;
     }
 
-    /* =========================================================
-       KOLOM
-    ========================================================= */
-    .nomor {
-        width: 45px;
-        color: #6b7280 !important;
+    /* =====================================================
+       HILANGKAN PANAH SORTING PADA KOLOM NON-SORTING
+    ===================================================== */
+    #obat-table.dataTable thead th.sorting_disabled::before,
+    #obat-table.dataTable thead th.sorting_disabled::after {
+        display: none !important;
+        content: none !important;
+        opacity: 0 !important;
     }
 
-    .kode-obat {
-        width: 150px;
+    /* =====================================================
+       PAKSA HILANGKAN PANAH KATEGORI
+       Kategori = kolom ke-3
+    ===================================================== */
+    #obat-table thead th:nth-child(3)::before,
+    #obat-table thead th:nth-child(3)::after,
+    #obat-table.dataTable thead > tr > th:nth-child(3)::before,
+    #obat-table.dataTable thead > tr > th:nth-child(3)::after {
+        display: none !important;
+        content: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
     }
 
-    .kode-obat-badge {
-        display: inline-block;
-        padding: 5px 9px;
-        border-radius: 5px;
-        background: #e7f3ff;
-        color: #1877f2;
-        font-size: 9px;
+    #obat-table thead th:nth-child(3) {
+        background-image: none !important;
+        padding-right: 12px !important;
+        cursor: default !important;
+    }
+
+    /* =====================================================
+       HILANGKAN PANAH NO
+       No = kolom ke-1
+    ===================================================== */
+    #obat-table thead th:nth-child(1)::before,
+    #obat-table thead th:nth-child(1)::after {
+        display: none !important;
+        content: none !important;
+        opacity: 0 !important;
+    }
+
+    #obat-table thead th:nth-child(1) {
+        background-image: none !important;
+        cursor: default !important;
+    }
+
+    /* =====================================================
+       HILANGKAN PANAH AKSI
+       Aksi = kolom ke-4
+    ===================================================== */
+    #obat-table thead th:nth-child(4)::before,
+    #obat-table thead th:nth-child(4)::after {
+        display: none !important;
+        content: none !important;
+        opacity: 0 !important;
+    }
+
+    #obat-table thead th:nth-child(4) {
+        background-image: none !important;
+        cursor: default !important;
+    }
+
+    /* =====================================================
+       NAMA OBAT
+    ===================================================== */
+    .nama-obat {
         font-weight: 600;
+        color: #1f2937;
         white-space: nowrap;
     }
 
-    .nama-obat {
-        min-width: 180px;
-        font-weight: 600;
-        color: #1f2937 !important;
-    }
-
-    .kategori-obat {
-        min-width: 150px;
-    }
-
-    .badge-kategori {
+    /* =====================================================
+       KATEGORI
+    ===================================================== */
+    .kategori-badge {
         display: inline-block;
         padding: 5px 9px;
         border-radius: 5px;
@@ -263,31 +238,24 @@
         white-space: nowrap;
     }
 
-    .satuan-obat {
-        min-width: 100px;
-        color: #6b7280;
-    }
-
-    .harga-obat {
-        min-width: 130px;
-        color: #374151 !important;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    /* =========================================================
+    /* =====================================================
        AKSI
-    ========================================================= */
+    ===================================================== */
     .aksi-header {
         text-align: center !important;
     }
 
-    .aksi-wrapper {
+    .action-buttons {
         display: flex;
-        gap: 5px;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: center;
+        gap: 5px;
         white-space: nowrap;
+    }
+
+    .action-buttons form {
+        margin: 0;
+        padding: 0;
     }
 
     .btn-aksi {
@@ -299,10 +267,10 @@
         align-items: center;
         justify-content: center;
         gap: 4px;
+        min-width: 50px;
         cursor: pointer;
-        transition: 0.2s;
-        min-width: 47px;
-        text-decoration: none;
+        transition: .2s;
+        text-decoration: none !important;
     }
 
     .btn-lihat {
@@ -317,81 +285,167 @@
 
     .btn-edit {
         background: var(--blue-main);
-        color: white;
+        color: #fff;
     }
 
     .btn-edit:hover {
         background: var(--blue-dark);
-        color: white;
+        color: #fff;
     }
 
     .btn-hapus {
-        background: #ff4b4b;
-        color: white;
+        background: #ef4444;
+        color: #fff;
     }
 
     .btn-hapus:hover {
-        background: #dc3030;
-        color: white;
+        background: #dc2626;
+        color: #fff;
     }
 
-    .data-kosong {
-        text-align: center;
-        padding: 35px !important;
-        color: #9ca3af !important;
+    /* =====================================================
+       DATATABLE
+    ===================================================== */
+    .dataTables_wrapper {
+        font-size: 10px;
     }
 
-    /* =========================================================
+    .dataTables_wrapper .row:first-child {
+        padding: 13px 14px 10px;
+        align-items: center;
+    }
+
+    .dataTables_wrapper .row:last-child {
+        padding: 10px 14px 2px;
+        align-items: center;
+    }
+
+    .dataTables_wrapper .dataTables_length label,
+    .dataTables_wrapper .dataTables_filter label,
+    .dataTables_wrapper .dataTables_info {
+        font-size: 10px;
+        color: #64748b;
+    }
+
+    .dataTables_wrapper .dataTables_length select {
+        min-width: 60px;
+        height: 31px;
+        border: 1px solid #d4dce6;
+        border-radius: 6px;
+        font-size: 10px;
+        padding: 4px 24px 4px 7px;
+        box-shadow: none !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        text-align: right;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        width: 190px;
+        height: 31px;
+        border: 1px solid #d4dce6;
+        border-radius: 6px;
+        padding: 5px 9px;
+        margin-left: 5px;
+        font-size: 10px;
+        outline: none;
+        box-shadow: none !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: var(--blue-main);
+        box-shadow: 0 0 0 2px rgba(24, 119, 242, .10) !important;
+    }
+
+    .dataTables_wrapper .pagination {
+        margin: 0;
+        gap: 3px;
+    }
+
+    .dataTables_wrapper .page-link {
+        font-size: 9px;
+        border-radius: 5px !important;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+        padding: 5px 8px;
+        box-shadow: none !important;
+    }
+
+    .dataTables_wrapper .page-item.active .page-link {
+        background: var(--blue-main);
+        border-color: var(--blue-main);
+        color: #fff;
+    }
+
+    .dataTables_wrapper .page-item.disabled .page-link {
+        color: #b0bac8;
+        background: #f8fafc;
+    }
+
+    table.dataTable {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    table.dataTable.no-footer {
+        border-bottom: none !important;
+    }
+
+    div.dataTables_processing {
+        font-size: 10px;
+        color: #64748b;
+    }
+
+    /* =====================================================
        MODAL
-    ========================================================= */
+    ===================================================== */
     .modal-obat .modal-dialog {
-        max-width: 600px;
+        max-width: 460px;
     }
 
     .modal-obat .modal-content {
         border: none;
         border-radius: 12px;
-        overflow: visible;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
     }
 
     .modal-obat .modal-header {
         background: var(--blue-main);
-        color: white;
         border: none;
         padding: 14px 16px;
-        border-radius: 12px 12px 0 0;
+        color: #fff;
     }
 
     .modal-obat .modal-title {
-        font-size: 14px;
-        font-weight: 700;
         margin: 0;
+        font-size: 13px;
+        font-weight: 700;
         display: flex;
         align-items: center;
         gap: 7px;
     }
 
     .modal-obat .modal-body {
-        background: white;
         padding: 18px 16px;
+        background: #fff;
     }
 
     .modal-obat .modal-footer {
-        background: #f8fafc;
         border: none;
+        background: #f8fafc;
         padding: 11px 16px;
         display: flex;
         justify-content: flex-end;
         gap: 7px;
-        border-radius: 0 0 12px 12px;
     }
 
-    /* =========================================================
+    /* =====================================================
        FORM
-    ========================================================= */
+    ===================================================== */
     .form-obat-group {
-        margin-bottom: 12px;
+        margin-bottom: 14px;
     }
 
     .form-obat-group:last-child {
@@ -402,159 +456,80 @@
         display: block;
         font-size: 10px;
         font-weight: 600;
-        color: #526071;
+        color: #64748b;
         margin-bottom: 5px;
     }
 
     .form-obat-control {
         width: 100%;
-        min-height: 34px;
+        min-height: 36px;
         border: 1px solid #d4dce6;
         border-radius: 6px;
-        padding: 7px 9px;
+        padding: 8px 9px;
         font-size: 10px;
         color: #374151;
         outline: none;
-        background: white;
-        transition: 0.2s;
+        background: #fff;
+        transition: .2s;
+        box-sizing: border-box;
     }
 
     .form-obat-control:focus {
         border-color: var(--blue-main);
-        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.10);
+        box-shadow: 0 0 0 2px rgba(24, 119,242,.10);
     }
 
     .form-obat-control::placeholder {
         color: #9ca3af;
     }
 
-    /* =========================================================
-       SELECT2
-    ========================================================= */
-    .select2-container {
-        width: 100% !important;
+    select.form-obat-control {
+        cursor: pointer;
     }
 
-    .select2-container--default .select2-selection--single {
-        height: 34px;
-        border: 1px solid #d4dce6;
-        border-radius: 6px;
-        background: white;
-        display: flex;
-        align-items: center;
+    .error-obat {
+        color: #dc3545;
+        font-size: 8px;
+        margin-top: 3px;
+        display: block;
     }
 
-    .select2-container--default
-    .select2-selection--single
-    .select2-selection__rendered {
-        color: #374151;
-        font-size: 10px;
-        line-height: 32px;
-        padding-left: 9px;
-        padding-right: 30px;
-    }
-
-    .select2-container--default
-    .select2-selection--single
-    .select2-selection__placeholder {
-        color: #9ca3af;
-    }
-
-    .select2-container--default
-    .select2-selection--single
-    .select2-selection__arrow {
-        height: 32px;
-        right: 5px;
-    }
-
-    .select2-container--default.select2-container--focus
-    .select2-selection--single {
-        border-color: var(--blue-main);
-        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.10);
-    }
-
-    .select2-dropdown {
-        border: 1px solid #d4dce6;
-        border-radius: 6px;
-        overflow: hidden;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
-        z-index: 9999;
-    }
-
-    .select2-search--dropdown {
-        padding: 7px;
-        background: white;
-    }
-
-    .select2-search--dropdown .select2-search__field {
-        border: 1px solid #d4dce6;
-        border-radius: 5px;
-        padding: 6px 8px;
-        font-size: 10px;
-        outline: none;
-    }
-
-    .select2-search--dropdown .select2-search__field:focus {
-        border-color: var(--blue-main);
-    }
-
-    .select2-container--default .select2-results__option {
-        font-size: 10px;
-        padding: 7px 9px;
-    }
-
-    .select2-container--default
-    .select2-results__option--highlighted[aria-selected] {
-        background: var(--blue-main);
-        color: white;
-    }
-
-    .select2-container--default
-    .select2-results__option[aria-selected="true"] {
-        background: #e7f3ff;
-        color: var(--blue-main);
-    }
-
-    /* Supaya daftar obat tidak terlalu panjang */
-    .select2-results__options {
-        max-height: 220px !important;
-    }
-
-    /* =========================================================
-       VIEW DETAIL
-    ========================================================= */
+    /* =====================================================
+       DETAIL
+    ===================================================== */
     .view-obat-value {
         width: 100%;
-        min-height: 34px;
+        min-height: 36px;
         border: 1px solid #e1e7ef;
         border-radius: 6px;
         background: #f8fafc;
         padding: 8px 9px;
         font-size: 10px;
         color: #374151;
+        box-sizing: border-box;
     }
 
-    /* =========================================================
+    /* =====================================================
        BUTTON MODAL
-    ========================================================= */
+    ===================================================== */
     .btn-batal-obat {
-        background: #f1f5f9;
+        background: #eef2f7;
         border: none;
         color: #64748b;
         border-radius: 6px;
         padding: 8px 13px;
         font-size: 9px;
+        font-weight: 600;
         cursor: pointer;
     }
 
     .btn-batal-obat:hover {
         background: #e2e8f0;
-        color: #374151;
     }
 
     .btn-simpan-obat {
         background: var(--blue-main);
-        color: white;
+        color: #fff;
         border: none;
         border-radius: 6px;
         padding: 8px 13px;
@@ -570,33 +545,34 @@
         background: var(--blue-dark);
     }
 
-    .error-obat {
-        color: #dc3545;
-        font-size: 8px;
-        margin-top: 3px;
-        display: block;
-    }
-
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
     @media (max-width: 768px) {
         .master-obat-page {
-            padding: 18px 12px;
+            padding: 15px 10px;
         }
 
         .obat-header {
             align-items: flex-start;
-            gap: 12px;
-        }
-
-        .obat-title {
-            font-size: 16px;
         }
 
         .modal-obat .modal-dialog {
             max-width: calc(100% - 30px);
             margin: 15px auto;
         }
+
+        .dataTables_wrapper .dataTables_filter {
+            margin-top: 8px;
+            text-align: left;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 160px;
+        }
     }
 </style>
+
 
 {{-- =========================================================
      HALAMAN MASTER OBAT
@@ -612,11 +588,17 @@
             </div>
 
             <div>
-                <h2 class="obat-title">Master Obat</h2>
-                <p class="obat-subtitle">Data obat yang terdaftar</p>
+                <h2 class="obat-title">
+                    Master Obat
+                </h2>
+
+                <p class="obat-subtitle">
+                    Data obat yang terdaftar
+                </p>
             </div>
 
         </div>
+
 
         <button
             type="button"
@@ -630,449 +612,45 @@
 
     </div>
 
+
+    {{-- SUCCESS --}}
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-obat">
             {{ session('success') }}
         </div>
     @endif
 
+
+    {{-- ERROR --}}
     @if($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-obat">
+
             <ul class="mb-0">
+
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
+
             </ul>
+
         </div>
     @endif
 
-   @extends('layouts.superadmin')
 
-@section('page-title', 'Dashboard Master Obat')
-
-@section('content')
-
-<style>
-    /* =====================================================
-       MASTER OBAT
-    ====================================================== */
-    .master-obat {
-        padding: 10px 5px 30px;
-    }
-
-    /* =====================================================
-       HEADER ATAS
-    ====================================================== */
-    .obat-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .obat-header-left {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .obat-header-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-        background: #e7f3ff;
-        color: #1877f2;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 16px;
-        flex-shrink: 0;
-    }
-
-    .obat-header-title h4 {
-        margin: 0;
-        color: #1f2937;
-        font-size: 20px;
-        font-weight: 700;
-    }
-
-    .obat-header-title small {
-        display: block;
-        margin-top: 2px;
-        color: #8492a6;
-        font-size: 12px;
-    }
-
-    /* =====================================================
-       TOMBOL TAMBAH
-    ====================================================== */
-    .btn-tambah-obat {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-
-        background: #1877f2 !important;
-        color: #ffffff !important;
-
-        border: none !important;
-        border-radius: 7px;
-
-        padding: 10px 15px;
-
-        font-size: 13px;
-        font-weight: 600;
-
-        text-decoration: none !important;
-
-        box-shadow: 0 2px 5px rgba(24, 119, 242, 0.20);
-
-        transition: all 0.2s ease;
-    }
-
-    .btn-tambah-obat:hover {
-        background: #0f58c6 !important;
-        color: #ffffff !important;
-        transform: translateY(-1px);
-    }
-
-    /* =====================================================
-       CARD TABLE
-    ====================================================== */
-    .obat-card {
-        background: #ffffff;
-        border-radius: 12px;
-        overflow: hidden;
-
-        border: 1px solid #edf0f4;
-
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .obat-table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    /* =====================================================
-       TABLE
-    ====================================================== */
-    .obat-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0;
-    }
-
-    /* HEADER TABLE */
-    .obat-table thead {
-        background: #1877f2;
-    }
-
-    .obat-table thead th {
-        background: #1877f2 !important;
-        color: #ffffff !important;
-
-        padding: 13px 15px;
-
-        font-size: 12px;
-        font-weight: 700;
-
-        border: none;
-
-        text-align: left;
-        white-space: nowrap;
-    }
-
-    /* BODY TABLE */
-    .obat-table tbody td {
-        background: #ffffff;
-        color: #4b5563;
-
-        padding: 12px 15px;
-
-        font-size: 13px;
-
-        border-bottom: 1px solid #f0f2f5;
-
-        vertical-align: middle;
-    }
-
-    .obat-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    .obat-table tbody tr:hover td {
-        background: #f8fbff;
-    }
-
-    /* =====================================================
-       KOLOM
-    ====================================================== */
-
-    /* NO */
-    .kolom-no {
-        width: 60px;
-    }
-
-    .nomor-obat {
-        color: #6b7280;
-    }
-
-    /* NAMA OBAT */
-    .nama-obat-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .icon-obat {
-        width: 30px;
-        height: 30px;
-
-        border-radius: 50%;
-
-        background: #e7f3ff;
-        color: #1877f2;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        flex-shrink: 0;
-
-        font-size: 12px;
-    }
-
-    .nama-obat {
-        color: #1f2937;
-        font-weight: 700;
-    }
-
-    /* =====================================================
-       KATEGORI
-    ====================================================== */
-    .badge-kategori {
-        display: inline-flex;
-        align-items: center;
-
-        background: #e7f3ff;
-        color: #1877f2;
-
-        border-radius: 5px;
-
-        padding: 5px 10px;
-
-        font-size: 11px;
-        font-weight: 600;
-    }
-
-    /* =====================================================
-       AKSI
-    ====================================================== */
-    .kolom-aksi {
-        width: 210px;
-        text-align: center !important;
-    }
-
-    .action-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-    }
-
-    .action-buttons form {
-        margin: 0;
-        padding: 0;
-    }
-
-    .btn-aksi {
-        min-width: 52px;
-        height: 38px;
-
-        border: none;
-        border-radius: 6px;
-
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        gap: 2px;
-
-        padding: 4px 8px;
-
-        font-size: 10px;
-        font-weight: 600;
-
-        text-decoration: none !important;
-
-        cursor: pointer;
-
-        transition: all 0.2s ease;
-    }
-
-    .btn-aksi i {
-        font-size: 11px;
-    }
-
-    /* LIHAT */
-    .btn-lihat {
-        background: #dff3ff;
-        color: #0786c8;
-    }
-
-    .btn-lihat:hover {
-        background: #c8ebff;
-        color: #0677b2;
-    }
-
-    /* EDIT */
-    .btn-edit {
-        background: #1877f2;
-        color: #ffffff;
-    }
-
-    .btn-edit:hover {
-        background: #0f58c6;
-        color: #ffffff;
-    }
-
-    /* HAPUS */
-    .btn-hapus {
-        background: #ef4444;
-        color: #ffffff;
-    }
-
-    .btn-hapus:hover {
-        background: #dc2626;
-        color: #ffffff;
-    }
-
-    /* =====================================================
-       DATA KOSONG
-    ====================================================== */
-    .empty-data {
-        text-align: center;
-        padding: 45px 20px !important;
-    }
-
-    .empty-icon {
-        width: 55px;
-        height: 55px;
-
-        margin: 0 auto 10px;
-
-        border-radius: 50%;
-
-        background: #e7f3ff;
-        color: #1877f2;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 22px;
-    }
-
-    .empty-data h6 {
-        margin: 0 0 4px;
-        color: #374151;
-        font-weight: 700;
-    }
-
-    .empty-data p {
-        margin: 0;
-        color: #9ca3af;
-        font-size: 12px;
-    }
-
-    /* =====================================================
-       RESPONSIVE
-    ====================================================== */
-    @media (max-width: 768px) {
-
-        .master-obat {
-            padding: 8px 2px 25px;
-        }
-
-        .obat-header {
-            gap: 15px;
-        }
-
-        .obat-header-title h4 {
-            font-size: 17px;
-        }
-
-        .obat-header-title small {
-            font-size: 10px;
-        }
-
-        .btn-tambah-obat {
-            padding: 8px 11px;
-            font-size: 11px;
-        }
-
-        .obat-table {
-            min-width: 700px;
-        }
-    }
-</style>
-
-
-<div class="master-obat">
-
-    {{-- =====================================================
-         HEADER MASTER OBAT
-    ====================================================== --}}
-    <div class="obat-header">
-
-        <div class="obat-header-left">
-
-            {{-- ICON --}}
-            <div class="obat-header-icon">
-                <i class="fas fa-pills"></i>
-            </div>
-
-            {{-- JUDUL --}}
-            <div class="obat-header-title">
-                <h4>Master Obat</h4>
-                <small>Data obat yang terdaftar</small>
-            </div>
-
-        </div>
-
-
-        {{-- TOMBOL TAMBAH OBAT --}}
-        <a href="{{ route('master-obat.create') }}"
-           class="btn-tambah-obat">
-
-            <i class="fas fa-plus"></i>
-
-            Tambah Obat
-
-        </a>
-
-    </div>
-
-
-    {{-- =====================================================
-         TABLE
-    ====================================================== --}}
+    {{-- TABLE --}}
     <div class="obat-card">
 
         <div class="obat-table-wrapper">
 
-            <table class="obat-table">
+            <table
+                id="obat-table"
+                class="obat-table table align-middle"
+            >
 
-                {{-- HEADER TABLE --}}
                 <thead>
-
                     <tr>
 
-                        <th class="kolom-no">
+                        <th style="width: 70px;">
                             No
                         </th>
 
@@ -1084,164 +662,17 @@
                             Kategori
                         </th>
 
-                        <th class="kolom-aksi">
+                        <th
+                            class="aksi-header"
+                            style="width: 220px;"
+                        >
                             Aksi
                         </th>
 
                     </tr>
-
                 </thead>
 
-
-                {{-- BODY TABLE --}}
-                <tbody>
-
-                    @forelse($obats as $index => $obat)
-
-                        <tr>
-
-                            {{-- =========================
-                                 NO
-                            ========================== --}}
-                            <td class="nomor-obat">
-
-                                {{ $index + 1 }}
-
-                            </td>
-
-
-                            {{-- =========================
-                                 NAMA OBAT
-                            ========================== --}}
-                            <td>
-
-                                <div class="nama-obat-wrapper">
-
-                                    <div class="icon-obat">
-                                        <i class="fas fa-capsules"></i>
-                                    </div>
-
-                                    <span class="nama-obat">
-                                        {{ $obat->nama }}
-                                    </span>
-
-                                </div>
-
-                            </td>
-
-
-                            {{-- =========================
-                                 KATEGORI
-                            ========================== --}}
-                            <td>
-
-                                <span class="badge-kategori">
-
-                                    {{ $obat->kategori->nama ?? '-' }}
-
-                                </span>
-
-                            </td>
-
-
-                            {{-- =========================
-                                 AKSI
-                            ========================== --}}
-                            <td>
-
-                                <div class="action-buttons">
-
-
-                                    {{-- LIHAT --}}
-                                    <a href="{{ route('master-obat.show', $obat->id) }}"
-                                       class="btn-aksi btn-lihat"
-                                       title="Lihat">
-
-                                        <i class="fas fa-eye"></i>
-
-                                        <span>
-                                            Lihat
-                                        </span>
-
-                                    </a>
-
-
-                                    {{-- EDIT --}}
-                                    <a href="{{ route('master-obat.edit', $obat->id) }}"
-                                       class="btn-aksi btn-edit"
-                                       title="Edit">
-
-                                        <i class="fas fa-edit"></i>
-
-                                        <span>
-                                            Edit
-                                        </span>
-
-                                    </a>
-
-
-                                    {{-- HAPUS --}}
-                                    <form
-                                        action="{{ route('master-obat.destroy', $obat->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus obat ini?')"
-                                    >
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="btn-aksi btn-hapus"
-                                            title="Hapus"
-                                        >
-
-                                            <i class="fas fa-trash"></i>
-
-                                            <span>
-                                                Hapus
-                                            </span>
-
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-
-                    @empty
-
-                        {{-- =============================
-                             JIKA DATA KOSONG
-                        ============================== --}}
-                        <tr>
-
-                            <td colspan="4"
-                                class="empty-data">
-
-                                <div class="empty-icon">
-                                    <i class="fas fa-pills"></i>
-                                </div>
-
-                                <h6>
-                                    Belum Ada Data Obat
-                                </h6>
-
-                                <p>
-                                    Silakan tambahkan data obat terlebih dahulu.
-                                </p>
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
-                </tbody>
+                <tbody></tbody>
 
             </table>
 
@@ -1251,174 +682,56 @@
 
 </div>
 
-@endsection
 
-            {{-- =========================================================
-                MODAL TAMBAH OBAT
-            ========================================================= --}}
-            <div
-                class="modal fade modal-obat"
-                id="modalTambahObat"
-                tabindex="-1"
-                aria-hidden="true"
+{{-- =========================================================
+     MODAL TAMBAH
+========================================================= --}}
+<div
+    class="modal fade modal-obat"
+    id="modalTambahObat"
+    tabindex="-1"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    <i class="fas fa-pills"></i>
+                    Tambah Obat
+                </h5>
+
+            </div>
+
+
+            <form
+                action="{{ route('master-obat.store') }}"
+                method="POST"
             >
-                <div class="modal-dialog modal-dialog-centered">
 
-                    <div class="modal-content">
+                @csrf
 
-                        <div class="modal-header">
-                            <h5 class="modal-title">
-                                <i class="fas fa-pills"></i>
-                                Tambah Obat
-                            </h5>
-                        </div>
+                <div class="modal-body">
 
-                        <form
-                            action="{{ route('master-obat.store') }}"
-                            method="POST"
-                        >
-                            @csrf
-
-                            <div class="modal-body">
-
-                                {{-- KODE OBAT --}}
-                                <div class="form-obat-group">
-
-                                    <label class="form-obat-label">
-                                        Kode Obat
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        name="kode"
-                                        class="form-obat-control"
-                                        placeholder="Masukkan kode obat"
-                                        value="{{ old('kode') }}"
-                                        required
-                                    >
-
-                                    @error('kode_obat')
-                                        <span class="error-obat">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-
-                                </div>
-
-
-            {{-- =================================================
-                NAMA OBAT - BANYAK PILIHAN + SEARCH
-            ================================================== --}}
-            <div class="form-obat-group">
-
-                <label class="form-obat-label">
-                    Nama Obat
-                </label>
-
-                <select
-                    name="nama"
-                    class="form-obat-control select2-obat"
-                    data-placeholder="Cari / pilih nama obat..."
-                    required
-                >
-
-                    <option value=""></option>
-
-                    @foreach($daftarNamaObat as $namaObat)
-
-                        <option
-                            value="{{ $namaObat }}"
-                            {{ old('nama') == $namaObat ? 'selected' : '' }}
-                        >
-                            {{ $namaObat }}
-                        </option>
-
-                    @endforeach
-
-                </select>
-
-                @error('nama')
-                    <span class="error-obat">
-                        {{ $message }}
-                    </span>
-                @enderror
-
-            </div>
-
-
-            {{-- =================================================
-                KATEGORI
-            ================================================== --}}
-            <div class="form-obat-group">
-
-                <label class="form-obat-label">
-                    Kategori
-                </label>
-
-                <select
-                    name="kategori_id"
-                    class="form-obat-control"
-                    required
-                >
-
-                    <option value="">
-                        -- Pilih Kategori --
-                    </option>
-
-                    @foreach($kategoris as $kategori)
-
-                        <option
-                            value="{{ $kategori->id }}"
-                            {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}
-                        >
-                            {{ $kategori->nama }}
-                        </option>
-
-                    @endforeach
-
-                </select>
-
-                @error('kategori_id')
-                    <span class="error-obat">
-                        {{ $message }}
-                    </span>
-                @enderror
-
-            </div>
-
-
-                   
-
-                    {{-- SATUAN --}}
+                    {{-- NAMA --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
-                            Satuan
+                            Nama Obat
                         </label>
 
-                        <select
-                            name="satuan"
-                            class="form-obat-control select2-obat"
-                            data-placeholder="Cari / pilih satuan..."
+                        <input
+                            type="text"
+                            name="nama"
+                            class="form-obat-control @error('nama') is-invalid @enderror"
+                            placeholder="Masukkan nama obat"
+                            value="{{ old('nama') }}"
                             required
                         >
 
-                            <option value=""></option>
-
-                            @foreach($satuans as $satuan)
-
-                                <option
-                                    value="{{ $satuan->nama }}"
-                                    {{ old('satuan') == $satuan->nama ? 'selected' : '' }}
-                                >
-                                    {{ $satuan->nama }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        @error('satuan')
+                        @error('nama')
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
@@ -1427,43 +740,37 @@
                     </div>
 
 
-                    {{-- HARGA --}}
+                    {{-- KATEGORI --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
-                            Harga
+                            Kategori
                         </label>
 
-                        <div style="position:relative;">
+                        <select
+                            name="kategori_id"
+                            class="form-obat-control @error('kategori_id') is-invalid @enderror"
+                            required
+                        >
 
-                            <span
-                                style="
-                                    position:absolute;
-                                    left:9px;
-                                    top:50%;
-                                    transform:translateY(-50%);
-                                    font-size:10px;
-                                    color:#6b7280;
-                                    z-index:2;
-                                "
-                            >
-                                Rp
-                            </span>
+                            <option value="">
+                                -- Pilih Kategori --
+                            </option>
 
-                            <input
-                                type="number"
-                                name="harga"
-                                class="form-obat-control"
-                                style="padding-left:25px;"
-                                placeholder="Masukkan harga obat"
-                                value="{{ old('harga') }}"
-                                min="0"
-                                required
-                            >
+                            @foreach($kategoris as $kategori)
 
-                        </div>
+                                <option
+                                    value="{{ $kategori->id }}"
+                                    {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}
+                                >
+                                    {{ $kategori->nama }}
+                                </option>
 
-                        @error('harga')
+                            @endforeach
+
+                        </select>
+
+                        @error('kategori_id')
                             <span class="error-obat">
                                 {{ $message }}
                             </span>
@@ -1472,6 +779,7 @@
                     </div>
 
                 </div>
+
 
                 <div class="modal-footer">
 
@@ -1502,13 +810,11 @@
 
 
 {{-- =========================================================
-     MODAL EDIT OBAT
+     MODAL LIHAT
 ========================================================= --}}
-@foreach($obats as $obat)
-
 <div
     class="modal fade modal-obat"
-    id="modalEditObat{{ $obat->id }}"
+    id="modalLihatObat"
     tabindex="-1"
     aria-hidden="true"
 >
@@ -1517,87 +823,121 @@
         <div class="modal-content">
 
             <div class="modal-header">
+
+                <h5 class="modal-title">
+                    <i class="fas fa-eye"></i>
+                    Detail Obat
+                </h5>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="form-obat-group">
+
+                    <label class="form-obat-label">
+                        Nama Obat
+                    </label>
+
+                    <div
+                        class="view-obat-value"
+                        id="lihatNama"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="form-obat-group">
+
+                    <label class="form-obat-label">
+                        Kategori
+                    </label>
+
+                    <div
+                        class="view-obat-value"
+                        id="lihatKategori"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-batal-obat"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+{{-- =========================================================
+     MODAL EDIT
+========================================================= --}}
+<div
+    class="modal fade modal-obat"
+    id="modalEditObat"
+    tabindex="-1"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
                 <h5 class="modal-title">
                     <i class="fas fa-edit"></i>
                     Edit Obat
                 </h5>
+
             </div>
 
+
             <form
-                action="{{ route('master-obat.update', $obat->id) }}"
+                id="formEditObat"
                 method="POST"
             >
+
                 @csrf
                 @method('PUT')
 
+
                 <div class="modal-body">
 
-                    {{-- KODE --}}
-                    <div class="form-obat-group">
-
-                        <label class="form-obat-label">
-                            Kode Obat
-                        </label>
-
-                        <input
-                            type="text"
-                            name="kode_obat"
-                            class="form-obat-control"
-                            value="{{ $obat->kode_obat }}"
-                            required
-                        >
-
-                    </div>
-
-
-                    {{-- =================================================
-                         NAMA OBAT - BANYAK PILIHAN + SEARCH
-                    ================================================== --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
                             Nama Obat
                         </label>
 
-                        <select
-                            name="nama_obat"
-                            class="form-obat-control select2-obat"
-                            data-placeholder="Cari / pilih nama obat..."
+                        <input
+                            type="text"
+                            name="nama"
+                            id="editNama"
+                            class="form-obat-control"
+                            placeholder="Masukkan nama obat"
                             required
                         >
-
-                            <option value=""></option>
-
-                            {{-- Jika nama lama tidak ada di daftar, tetap tampilkan --}}
-                            @if(
-                                $obat->nama_obat &&
-                                !in_array($obat->nama_obat, $daftarNamaObat)
-                            )
-                                <option
-                                    value="{{ $obat->nama_obat }}"
-                                    selected
-                                >
-                                    {{ $obat->nama_obat }}
-                                </option>
-                            @endif
-
-                            @foreach($daftarNamaObat as $namaObat)
-
-                                <option
-                                    value="{{ $namaObat }}"
-                                    {{ $obat->nama_obat == $namaObat ? 'selected' : '' }}
-                                >
-                                    {{ $namaObat }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
 
                     </div>
 
 
-                    {{-- KATEGORI --}}
                     <div class="form-obat-group">
 
                         <label class="form-obat-label">
@@ -1605,20 +945,19 @@
                         </label>
 
                         <select
-                            name="kategori"
-                            class="form-obat-control select2-obat"
-                            data-placeholder="Cari / pilih kategori..."
+                            name="kategori_id"
+                            id="editKategori"
+                            class="form-obat-control"
                             required
                         >
 
-                            <option value=""></option>
+                            <option value="">
+                                -- Pilih Kategori --
+                            </option>
 
                             @foreach($kategoris as $kategori)
 
-                                <option
-                                    value="{{ $kategori->nama }}"
-                                    {{ $obat->kategori == $kategori->nama ? 'selected' : '' }}
-                                >
+                                <option value="{{ $kategori->id }}">
                                     {{ $kategori->nama }}
                                 </option>
 
@@ -1628,77 +967,8 @@
 
                     </div>
 
-
-                    {{-- SATUAN --}}
-                    <div class="form-obat-group">
-
-                        <label class="form-obat-label">
-                            Satuan
-                        </label>
-
-                        <select
-                            name="satuan"
-                            class="form-obat-control select2-obat"
-                            data-placeholder="Cari / pilih satuan..."
-                            required
-                        >
-
-                            <option value=""></option>
-
-                            @foreach($satuans as $satuan)
-
-                                <option
-                                    value="{{ $satuan->nama }}"
-                                    {{ $obat->satuan == $satuan->nama ? 'selected' : '' }}
-                                >
-                                    {{ $satuan->nama }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
-
-
-                    {{-- HARGA --}}
-                    <div class="form-obat-group">
-
-                        <label class="form-obat-label">
-                            Harga
-                        </label>
-
-                        <div style="position:relative;">
-
-                            <span
-                                style="
-                                    position:absolute;
-                                    left:9px;
-                                    top:50%;
-                                    transform:translateY(-50%);
-                                    font-size:10px;
-                                    color:#6b7280;
-                                    z-index:2;
-                                "
-                            >
-                                Rp
-                            </span>
-
-                            <input
-                                type="number"
-                                name="harga"
-                                class="form-obat-control"
-                                style="padding-left:25px;"
-                                value="{{ $obat->harga }}"
-                                min="0"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
                 </div>
+
 
                 <div class="modal-footer">
 
@@ -1727,229 +997,285 @@
     </div>
 </div>
 
-@endforeach
+@endsection
 
 
-{{-- =========================================================
-     MODAL LIHAT OBAT
-========================================================= --}}
-@foreach($obats as $obat)
+@push('scripts')
 
-<div
-    class="modal fade modal-obat"
-    id="modalLihatObat{{ $obat->id }}"
-    tabindex="-1"
-    aria-hidden="true"
->
-    <div class="modal-dialog modal-dialog-centered">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <h5 class="modal-title">
-                    <i class="fas fa-eye"></i>
-                    Detail Obat
-                </h5>
-
-            </div>
-
-            <div class="modal-body">
-
-                <div class="form-obat-group">
-
-                    <label class="form-obat-label">
-                        Kode Obat
-                    </label>
-
-                    <div class="view-obat-value">
-                        {{ $obat->kode_obat }}
-                    </div>
-
-                </div>
-
-                <div class="form-obat-group">
-
-                    <label class="form-obat-label">
-                        Nama Obat
-                    </label>
-
-                    <div class="view-obat-value">
-                        {{ $obat->nama_obat }}
-                    </div>
-
-                </div>
-
-                <div class="form-obat-group">
-
-                    <label class="form-obat-label">
-                        Kategori
-                    </label>
-
-                    <div class="view-obat-value">
-                        {{ $obat->kategori }}
-                    </div>
-
-                </div>
-
-                <div class="form-obat-group">
-
-                    <label class="form-obat-label">
-                        Satuan
-                    </label>
-
-                    <div class="view-obat-value">
-                        {{ $obat->satuan }}
-                    </div>
-
-                </div>
-
-                <div class="form-obat-group">
-
-                    <label class="form-obat-label">
-                        Harga
-                    </label>
-
-                    <div class="view-obat-value">
-                        Rp {{ number_format($obat->harga, 0, ',', '.') }}
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="btn-batal-obat"
-                    data-bs-dismiss="modal"
-                >
-                    Tutup
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-@endforeach
-
-
-{{-- =========================================================
-     JQUERY + SELECT2
-========================================================= --}}
+{{-- JQUERY --}}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{-- DATATABLE --}}
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
 
 <script>
-    $(document).ready(function () {
+$(document).ready(function () {
+
+    /* =========================================================
+       DATATABLE
+    ========================================================= */
+    const table = $('#obat-table').DataTable({
+
+        processing: true,
+        serverSide: true,
+
+        ajax: "{{ route('master-obat.data') }}",
+
+        pageLength: 10,
+
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+
+        columns: [
+
+            /* NO */
+            {
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
+            },
+
+            /* NAMA OBAT */
+            {
+                data: 'nama',
+                name: 'nama',
+                orderable: true,
+                searchable: true,
+
+                render: function (data) {
+
+                    return `
+                        <span class="nama-obat">
+                            ${escapeHtml(data ?? '-')}
+                        </span>
+                    `;
+                }
+            },
+
+            /* KATEGORI */
+            {
+                data: 'kategori_nama',
+                name: 'kategori_nama',
+
+                orderable: false,
+                searchable: true,
+
+                render: function (data) {
+
+                    return `
+                        <span class="kategori-badge">
+                            ${escapeHtml(data ?? '-')}
+                        </span>
+                    `;
+                }
+            },
+
+            /* AKSI */
+            {
+                data: 'aksi',
+                name: 'aksi',
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
+            }
+
+        ],
 
         /*
         |--------------------------------------------------------------------------
-        | SELECT2 MODAL TAMBAH
+        | Tidak melakukan sorting otomatis
         |--------------------------------------------------------------------------
         */
-        $('#modalTambahObat').on('shown.bs.modal', function () {
+        order: [],
 
-            $(this).find('.select2-obat').each(function () {
+        language: {
 
-                let select = $(this);
+            search: "",
 
-                if (select.hasClass('select2-hidden-accessible')) {
-                    select.select2('destroy');
-                }
+            searchPlaceholder:
+                "Cari obat...",
 
-                select.select2({
-                    width: '100%',
-                    placeholder: select.data('placeholder'),
-                    allowClear: true,
-                    dropdownParent: $('#modalTambahObat')
-                });
+            lengthMenu:
+                "Tampilkan _MENU_ data",
 
-            });
+            info:
+                "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
 
-        });
+            infoEmpty:
+                "Menampilkan 0 sampai 0 dari 0 data",
+
+            emptyTable:
+                "Belum ada data obat",
+
+            zeroRecords:
+                "Data obat tidak ditemukan",
+
+            processing:
+                "Memuat data...",
+
+            paginate: {
+                first: "Awal",
+                last: "Akhir",
+                next: "Lanjut",
+                previous: "Kembali"
+            }
+        }
+    });
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | SELECT2 MODAL EDIT
-        |--------------------------------------------------------------------------
-        */
-        @foreach($obats as $obat)
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+    function escapeHtml(value) {
 
-            $('#modalEditObat{{ $obat->id }}').on(
-                'shown.bs.modal',
-                function () {
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return '';
+        }
 
-                    $(this).find('.select2-obat').each(function () {
+        return $('<div>')
+            .text(value)
+            .html();
+    }
 
-                        let select = $(this);
 
-                        if (
-                            select.hasClass(
-                                'select2-hidden-accessible'
-                            )
-                        ) {
-                            select.select2('destroy');
-                        }
+    /* =========================================================
+       LIHAT
+    ========================================================= */
+    $('#obat-table').on(
+        'click',
+        '.btn-lihat',
+        function (e) {
 
-                        select.select2({
-                            width: '100%',
-                            placeholder: select.data('placeholder'),
-                            allowClear: true,
-                            dropdownParent:
-                                $('#modalEditObat{{ $obat->id }}')
-                        });
+            e.preventDefault();
 
-                    });
+            const rowElement =
+                $(this).closest('tr');
 
-                }
+            const data =
+                table.row(rowElement).data();
+
+            if (!data) {
+                return;
+            }
+
+            $('#lihatNama').text(
+                data.nama ?? '-'
             );
 
-        @endforeach
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | HANCURKAN SELECT2 SAAT MODAL DITUTUP
-        |--------------------------------------------------------------------------
-        */
-        $('.modal-obat').on('hidden.bs.modal', function () {
-
-            $(this).find('.select2-obat').each(function () {
-
-                let select = $(this);
-
-                if (select.hasClass('select2-hidden-accessible')) {
-                    select.select2('destroy');
-                }
-
-            });
-
-        });
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | BUKA MODAL TAMBAH LAGI JIKA VALIDASI GAGAL
-        |--------------------------------------------------------------------------
-        */
-        @if($errors->any())
-
-            const modalTambah = new bootstrap.Modal(
-                document.getElementById('modalTambahObat')
+            $('#lihatKategori').text(
+                data.kategori_nama ?? '-'
             );
+
+            const modalElement =
+                document.getElementById(
+                    'modalLihatObat'
+                );
+
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    modalElement
+                );
+
+            modal.show();
+        }
+    );
+
+
+    /* =========================================================
+       EDIT
+    ========================================================= */
+    $('#obat-table').on(
+        'click',
+        '.btn-edit',
+        function (e) {
+
+            e.preventDefault();
+
+            const rowElement =
+                $(this).closest('tr');
+
+            const data =
+                table.row(rowElement).data();
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#editNama').val(
+                data.nama ?? ''
+            );
+
+
+            $('#editKategori').val(
+                String(
+                    data.kategori_id ?? ''
+                )
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | URL UPDATE
+            |--------------------------------------------------------------------------
+            */
+            const baseUrl =
+                @json(url('/master-obat'));
+
+            $('#formEditObat').attr(
+                'action',
+                baseUrl + '/' + data.id
+            );
+
+
+            const modalElement =
+                document.getElementById(
+                    'modalEditObat'
+                );
+
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    modalElement
+                );
+
+            modal.show();
+        }
+    );
+
+
+    /* =========================================================
+       VALIDASI TAMBAH GAGAL
+    ========================================================= */
+    @if($errors->any())
+
+        const modalTambahElement =
+            document.getElementById(
+                'modalTambahObat'
+            );
+
+        if (modalTambahElement) {
+
+            const modalTambah =
+                bootstrap.Modal.getOrCreateInstance(
+                    modalTambahElement
+                );
 
             modalTambah.show();
+        }
 
-        @endif
+    @endif
 
-    });
+});
 </script>
 
-@endsection
+@endpush

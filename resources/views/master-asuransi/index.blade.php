@@ -4,8 +4,12 @@
 
 @section('content')
 
-<style>
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
+>
 
+<style>
     :root {
         --blue-main: #1877f2;
         --blue-dark: #0f58c6;
@@ -13,11 +17,9 @@
         --blue-soft: #f0f7ff;
     }
 
-
     /* =========================================================
        GENERAL
     ========================================================= */
-
     .master-asuransi {
         padding: 12px 0;
     }
@@ -26,7 +28,6 @@
     /* =========================================================
        HEADER
     ========================================================= */
-
     .page-header-asuransi {
         margin-bottom: 22px;
     }
@@ -35,7 +36,8 @@
         width: 42px;
         height: 42px;
 
-        background-color: var(--blue-light-bg);
+        background-color:
+            var(--blue-light-bg);
 
         border-radius: 10px;
 
@@ -43,7 +45,8 @@
         align-items: center;
         justify-content: center;
 
-        color: var(--blue-main);
+        color:
+            var(--blue-main);
 
         font-size: 18px;
 
@@ -73,9 +76,9 @@
     /* =========================================================
        BUTTON TAMBAH
     ========================================================= */
-
     .btn-blue-primary-asuransi {
-        background-color: var(--blue-main) !important;
+        background-color:
+            var(--blue-main) !important;
 
         border: none !important;
 
@@ -86,14 +89,14 @@
         padding: 9px 15px;
 
         font-size: 13px;
-
         font-weight: 600;
 
         transition: 0.2s ease;
     }
 
     .btn-blue-primary-asuransi:hover {
-        background-color: var(--blue-dark) !important;
+        background-color:
+            var(--blue-dark) !important;
 
         color: #ffffff !important;
 
@@ -102,94 +105,81 @@
 
 
     /* =========================================================
-       ALERT
+       TABLE CARD
     ========================================================= */
+    .card-table-asuransi {
+        border: none !important;
 
-    .alert-asuransi {
-        border: none;
+        border-radius: 12px !important;
 
-        border-left: 3px solid var(--blue-main);
+        box-shadow:
+            0 4px 12px
+            rgba(0, 0, 0, 0.05) !important;
+    }
 
-        border-radius: 10px;
-
-        background-color: #ffffff;
-
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-
-        padding: 12px 15px;
-
-        margin-bottom: 18px;
+    .card-table-asuransi .table-responsive {
+        overflow-x: auto;
     }
 
 
     /* =========================================================
        TABLE
     ========================================================= */
-
-    .card-table-asuransi {
-        border: none !important;
-
-        border-radius: 12px !important;
-
-        overflow: hidden;
-
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-    }
-
     .table-asuransi {
-        margin-bottom: 0;
-    }
+        width: 100% !important;
 
+        margin-bottom: 0 !important;
+    }
 
     .table-asuransi thead th {
-        background-color: var(--blue-main) !important;
+        background-color:
+            var(--blue-main) !important;
 
         color: #ffffff !important;
 
         border: none !important;
 
-        font-size: 13px;
+        font-size: 13px !important;
 
-        font-weight: 600;
+        font-weight: 600 !important;
 
-        padding: 14px 16px;
+        padding: 14px 16px !important;
 
         white-space: nowrap;
     }
 
-
     .table-asuransi tbody td {
-        padding: 12px 16px;
+        padding: 12px 16px !important;
 
-        font-size: 13px;
+        font-size: 13px !important;
 
         color: #475569;
 
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom:
+            1px solid #f1f5f9 !important;
 
         vertical-align: middle;
-    }
 
+        white-space: nowrap;
+    }
 
     .table-asuransi tbody tr {
         transition: 0.15s ease;
     }
 
-
     .table-asuransi tbody tr:hover {
-        background-color: var(--blue-soft) !important;
+        background-color:
+            var(--blue-soft) !important;
     }
 
-
     .table-asuransi tbody tr:last-child td {
-        border-bottom: none;
+        border-bottom: none !important;
     }
 
 
     /* =========================================================
        ASURANSI PROFILE
     ========================================================= */
-
     .asuransi-name {
         color: #1e293b;
 
@@ -198,23 +188,17 @@
         margin-bottom: 2px;
     }
 
-
-    .asuransi-id {
-        color: #94a3b8;
-
-        font-size: 10px;
-    }
-
-
     .avatar-asuransi {
         width: 32px;
         height: 32px;
 
         border-radius: 50%;
 
-        background-color: var(--blue-light-bg);
+        background-color:
+            var(--blue-light-bg);
 
-        color: var(--blue-main);
+        color:
+            var(--blue-main);
 
         display: flex;
         align-items: center;
@@ -229,30 +213,12 @@
     /* =========================================================
        BADGE KODE
     ========================================================= */
-
     .badge-code-asuransi {
-        background-color: #e0f2fe !important;
+        background-color:
+            #e0f2fe !important;
 
-        color: #0284c7 !important;
-
-        font-size: 11px;
-
-        font-weight: 500;
-
-        padding: 6px 12px;
-
-        border-radius: 6px;
-    }
-
-
-    /* =========================================================
-       BADGE JENIS
-    ========================================================= */
-
-    .badge-jenis-asuransi {
-        background-color: #e7f3ff !important;
-
-        color: var(--blue-main) !important;
+        color:
+            #0284c7 !important;
 
         font-size: 11px;
 
@@ -265,13 +231,14 @@
 
 
     /* =========================================================
-       ACTION BUTTON
+       ACTION
     ========================================================= */
-
     .btn-action-view-asuransi {
-        background-color: #e0f2fe !important;
+        background-color:
+            #e0f2fe !important;
 
-        color: #0284c7 !important;
+        color:
+            #0284c7 !important;
 
         border: none !important;
 
@@ -284,18 +251,21 @@
         padding: 6px 10px;
     }
 
-
     .btn-action-view-asuransi:hover {
-        background-color: #bae6fd !important;
+        background-color:
+            #bae6fd !important;
 
-        color: #0369a1 !important;
+        color:
+            #0369a1 !important;
     }
 
 
     .btn-action-edit-asuransi {
-        background-color: var(--blue-main) !important;
+        background-color:
+            var(--blue-main) !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
 
         border: none !important;
 
@@ -308,18 +278,21 @@
         padding: 6px 10px;
     }
 
-
     .btn-action-edit-asuransi:hover {
-        background-color: var(--blue-dark) !important;
+        background-color:
+            var(--blue-dark) !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
     }
 
 
     .btn-action-delete-asuransi {
-        background-color: #ef4444 !important;
+        background-color:
+            #ef4444 !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
 
         border: none !important;
 
@@ -332,22 +305,109 @@
         padding: 6px 10px;
     }
 
-
     .btn-action-delete-asuransi:hover {
-        background-color: #dc2626 !important;
+        background-color:
+            #dc2626 !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
+    }
+
+
+    /* =========================================================
+       DATATABLE
+    ========================================================= */
+    .dataTables_wrapper {
+        padding: 18px;
+    }
+
+    .dataTables_wrapper .row:first-child {
+        margin-bottom: 14px;
+    }
+
+    .dataTables_wrapper .row:last-child {
+        margin-top: 14px;
+    }
+
+    .dataTables_length label,
+    .dataTables_filter label,
+    .dataTables_info {
+        font-size: 11px;
+
+        color: #64748b;
+    }
+
+    .dataTables_length select {
+        font-size: 11px !important;
+
+        border-radius: 7px !important;
+
+        border:
+            1px solid #d7e0ea !important;
+    }
+
+    .dataTables_filter input {
+        font-size: 11px !important;
+
+        border:
+            1px solid #d7e0ea !important;
+
+        border-radius: 7px !important;
+
+        padding: 7px 10px !important;
+
+        margin-left: 7px !important;
+
+        outline: none !important;
+    }
+
+    .dataTables_filter input:focus {
+        border-color:
+            var(--blue-main) !important;
+
+        box-shadow:
+            0 0 0 0.15rem
+            rgba(24, 119, 242, 0.12) !important;
+    }
+
+    .dataTables_paginate .pagination {
+        gap: 3px;
+    }
+
+    .dataTables_paginate .page-link {
+        font-size: 10px;
+
+        border-radius:
+            6px !important;
+
+        color:
+            var(--blue-main);
+
+        border:
+            1px solid #e5e7eb;
+
+        padding: 6px 9px;
+    }
+
+    .dataTables_paginate
+    .page-item.active
+    .page-link {
+        background:
+            var(--blue-main);
+
+        border-color:
+            var(--blue-main);
+
+        color: white;
     }
 
 
     /* =========================================================
        MODAL
     ========================================================= */
-
     .modal-asuransi .modal-dialog {
         max-width: 460px;
     }
-
 
     .modal-asuransi .modal-content {
         border: none;
@@ -356,16 +416,14 @@
 
         overflow: hidden;
 
-        box-shadow: 0 15px 40px rgba(15, 23, 42, 0.18);
+        box-shadow:
+            0 15px 40px
+            rgba(15, 23, 42, 0.18);
     }
 
-
-    /* =========================================================
-       MODAL HEADER
-    ========================================================= */
-
     .modal-asuransi .modal-header {
-        background-color: var(--blue-main);
+        background-color:
+            var(--blue-main);
 
         color: #ffffff;
 
@@ -374,36 +432,31 @@
         padding: 15px 18px;
     }
 
-
     .modal-asuransi .modal-title {
         font-size: 16px;
 
         font-weight: 700;
     }
 
-
-    .modal-asuransi .modal-header .btn-close {
-        filter: brightness(0) invert(1);
-
-        opacity: 0.9;
+    /*
+     * Sesuai halaman master lain:
+     * tombol X disembunyikan.
+     */
+    .modal-asuransi .btn-close {
+        display: none !important;
     }
-
-
-    /* =========================================================
-       MODAL BODY
-    ========================================================= */
 
     .modal-asuransi .modal-body {
         padding: 20px 18px;
 
-        background-color: #ffffff;
+        background-color:
+            #ffffff;
     }
 
 
     /* =========================================================
        FORM
     ========================================================= */
-
     .form-label-asuransi {
         display: block;
 
@@ -416,13 +469,12 @@
         margin-bottom: 6px;
     }
 
-
     .form-control-asuransi,
     .form-select-asuransi {
-
         width: 100%;
 
-        border: 1px solid #d7e0ea;
+        border:
+            1px solid #d7e0ea;
 
         border-radius: 8px;
 
@@ -432,22 +484,23 @@
 
         color: #334155;
 
-        background-color: #ffffff;
+        background-color:
+            #ffffff;
 
         transition: 0.2s ease;
     }
 
-
     .form-control-asuransi:focus,
     .form-select-asuransi:focus {
+        border-color:
+            var(--blue-main);
 
-        border-color: var(--blue-main);
-
-        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.12);
+        box-shadow:
+            0 0 0 3px
+            rgba(24, 119, 242, 0.12);
 
         outline: none;
     }
-
 
     .form-group-asuransi {
         margin-bottom: 13px;
@@ -457,22 +510,21 @@
     /* =========================================================
        MODAL FOOTER
     ========================================================= */
-
     .modal-asuransi .modal-footer {
-
-        background-color: #f8fafc;
+        background-color:
+            #f8fafc;
 
         border: none;
 
         padding: 12px 18px;
     }
 
-
     .btn-modal-cancel-asuransi {
+        background-color:
+            #f1f5f9 !important;
 
-        background-color: #f1f5f9 !important;
-
-        color: #64748b !important;
+        color:
+            #64748b !important;
 
         border: none !important;
 
@@ -485,18 +537,17 @@
         font-weight: 600;
     }
 
-
     .btn-modal-cancel-asuransi:hover {
-
-        background-color: #e2e8f0 !important;
+        background-color:
+            #e2e8f0 !important;
     }
 
-
     .btn-modal-save-asuransi {
+        background-color:
+            var(--blue-main) !important;
 
-        background-color: var(--blue-main) !important;
-
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
 
         border: none !important;
 
@@ -509,45 +560,37 @@
         font-weight: 600;
     }
 
-
     .btn-modal-save-asuransi:hover {
-
-        background-color: var(--blue-dark) !important;
+        background-color:
+            var(--blue-dark) !important;
     }
 
 
     /* =========================================================
        DETAIL
     ========================================================= */
-
     .detail-asuransi-table {
-
         width: 100%;
 
         margin: 0;
     }
 
-
     .detail-asuransi-table td {
-
         padding: 9px 5px;
 
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom:
+            1px solid #f1f5f9;
 
         font-size: 12px;
 
         vertical-align: top;
     }
 
-
     .detail-asuransi-table tr:last-child td {
-
         border-bottom: none;
     }
 
-
     .detail-asuransi-label {
-
         width: 120px;
 
         color: #64748b;
@@ -555,9 +598,7 @@
         font-weight: 600;
     }
 
-
     .detail-asuransi-value {
-
         color: #1e293b;
 
         font-weight: 500;
@@ -565,90 +606,60 @@
 
 
     /* =========================================================
-       EMPTY DATA
-    ========================================================= */
-
-    .empty-asuransi {
-
-        padding: 45px 20px !important;
-
-        color: #94a3b8 !important;
-    }
-
-
-    /* =========================================================
        RESPONSIVE
     ========================================================= */
-
     @media (max-width: 768px) {
 
         .page-header-asuransi {
-
             flex-direction: column;
 
-            align-items: flex-start !important;
+            align-items:
+                flex-start !important;
 
             gap: 15px;
         }
 
-
         .btn-blue-primary-asuransi {
-
             width: 100%;
         }
 
-
         .table-asuransi {
-
             min-width: 700px;
         }
 
-
         .modal-asuransi .modal-dialog {
-
-            max-width: calc(100% - 25px);
+            max-width:
+                calc(100% - 25px);
 
             margin: 12px auto;
         }
-
     }
-
 </style>
 
 
 <div class="container-fluid master-asuransi">
 
-
     {{-- =====================================================
          HEADER
     ====================================================== --}}
-
-    <div class="d-flex justify-content-between align-items-center page-header-asuransi">
-
+    <div
+        class="d-flex justify-content-between align-items-center page-header-asuransi"
+    >
 
         <div class="d-flex align-items-center gap-3">
 
-
             <div class="header-icon-box-asuransi">
-
                 <i class="fas fa-shield-alt"></i>
-
             </div>
-
 
             <div>
 
                 <h3 class="page-title-asuransi">
-
                     Master Asuransi
-
                 </h3>
 
-
                 <p class="page-subtitle-asuransi">
-
                     Data jenis asuransi yang tersedia
-
                 </p>
 
             </div>
@@ -656,82 +667,32 @@
         </div>
 
 
-        {{-- TOMBOL TAMBAH --}}
-
         <button
             type="button"
             class="btn btn-blue-primary-asuransi"
             data-bs-toggle="modal"
             data-bs-target="#modalTambahAsuransi"
         >
-
             <i class="fas fa-plus me-1"></i>
-
             Tambah Asuransi
-
         </button>
 
     </div>
 
 
     {{-- =====================================================
-         ALERT SUCCESS
-    ====================================================== --}}
-
-    @if(session('success'))
-
-        <div class="alert alert-success alert-asuransi">
-
-            <i class="fas fa-check-circle me-2"></i>
-
-            {{ session('success') }}
-
-        </div>
-
-    @endif
-
-
-    {{-- =====================================================
-         ALERT ERROR
-    ====================================================== --}}
-
-    @if($errors->any())
-
-        <div class="alert alert-danger alert-asuransi">
-
-            <strong>
-                Terjadi kesalahan:
-            </strong>
-
-            <ul class="mb-0 mt-1">
-
-                @foreach($errors->all() as $error)
-
-                    <li>
-                        {{ $error }}
-                    </li>
-
-                @endforeach
-
-            </ul>
-
-        </div>
-
-    @endif
-
-
-    {{-- =====================================================
          TABLE
     ====================================================== --}}
-
     <div class="card card-table-asuransi">
 
         <div class="card-body p-0">
 
             <div class="table-responsive">
 
-                <table class="table table-asuransi align-middle">
-
+                <table
+                    id="tableAsuransi"
+                    class="table table-asuransi align-middle"
+                >
 
                     <thead>
 
@@ -744,16 +705,13 @@
                                 No
                             </th>
 
-
                             <th>
                                 Kode
                             </th>
 
-
                             <th>
                                 Jenis Asuransi
                             </th>
-
 
                             <th
                                 class="text-center"
@@ -768,163 +726,7 @@
 
 
                     <tbody>
-
-
-                        @forelse($asuransis as $asuransi)
-
-
-                            <tr id="asuransi-{{ $asuransi->id }}">
-
-
-                                {{-- NO --}}
-
-                                <td class="text-center text-muted">
-
-                                    {{ $loop->iteration }}
-
-                                </td>
-
-
-                                {{-- KODE --}}
-
-                                <td>
-
-                                    <span class="badge badge-code-asuransi">
-
-                                        {{ $asuransi->kode }}
-
-                                    </span>
-
-                                </td>
-
-
-                                {{-- NAMA / JENIS --}}
-
-                                <td>
-
-                                    <div class="d-flex align-items-center gap-2">
-
-
-                                        <div class="avatar-asuransi">
-
-                                            <i class="fas fa-shield-alt"></i>
-
-                                        </div>
-
-
-                                        <div>
-
-                                            <div class="asuransi-name">
-
-                                                {{ $asuransi->nama }}
-
-                                            </div>
-
-
-                                           
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-
-                                {{-- AKSI --}}
-
-                                <td class="text-center">
-
-                                    <div class="d-flex justify-content-center gap-1">
-
-
-                                        {{-- LIHAT --}}
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-action-view-asuransi"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalLihatAsuransi{{ $asuransi->id }}"
-                                        >
-
-                                            <i class="fas fa-eye me-1"></i>
-
-                                            Lihat
-
-                                        </button>
-
-
-                                        {{-- EDIT --}}
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-action-edit-asuransi"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalEditAsuransi{{ $asuransi->id }}"
-                                        >
-
-                                            <i class="fas fa-edit me-1"></i>
-
-                                            Edit
-
-                                        </button>
-
-
-                                        {{-- HAPUS --}}
-
-                                        <form
-                                            action="{{ route('master-asuransi.destroy', $asuransi->id) }}"
-                                            method="POST"
-                                            class="d-inline"
-                                            onsubmit="return confirm('Yakin ingin menghapus asuransi {{ $asuransi->nama }}?')"
-                                        >
-
-                                            @csrf
-
-                                            @method('DELETE')
-
-
-                                            <button
-                                                type="submit"
-                                                class="btn btn-sm btn-action-delete-asuransi"
-                                            >
-
-                                                <i class="fas fa-trash me-1"></i>
-
-                                                Hapus
-
-                                            </button>
-
-                                        </form>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                        @empty
-
-
-                            <tr>
-
-                                <td
-                                    colspan="4"
-                                    class="text-center empty-asuransi"
-                                >
-
-                                    <i class="fas fa-shield-alt fa-2x mb-2 d-block"></i>
-
-                                    Belum ada data asuransi.
-
-                                </td>
-
-                            </tr>
-
-
-                        @endforelse
-
-
+                        {{-- DATA YAJRA --}}
                     </tbody>
 
                 </table>
@@ -938,85 +740,51 @@
 </div>
 
 
-
 {{-- =========================================================
-     MODAL TAMBAH ASURANSI
+     MODAL TAMBAH
 ========================================================= --}}
-
 <div
     class="modal fade modal-asuransi"
     id="modalTambahAsuransi"
     tabindex="-1"
-    aria-labelledby="modalTambahAsuransiLabel"
     aria-hidden="true"
 >
 
-
     <div class="modal-dialog modal-dialog-centered">
-
 
         <div class="modal-content">
 
-
-            {{-- HEADER --}}
-
             <div class="modal-header">
-
 
                 <div class="d-flex align-items-center gap-2">
 
                     <i class="fas fa-shield-alt"></i>
 
-
-                    <h5
-                        class="modal-title"
-                        id="modalTambahAsuransiLabel"
-                    >
-
+                    <h5 class="modal-title">
                         Tambah Asuransi
-
                     </h5>
 
                 </div>
 
-
-                <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
-
             </div>
 
 
-            {{-- FORM --}}
-
-            <form
-                action="{{ route('master-asuransi.store') }}"
-                method="POST"
-            >
+            <form id="formTambahAsuransi">
 
                 @csrf
 
 
                 <div class="modal-body">
 
-
                     {{-- KODE --}}
-
                     <div class="form-group-asuransi">
-
 
                         <label
                             for="tambah_kode_asuransi"
                             class="form-label-asuransi"
                         >
-
                             Kode Asuransi
-
                         </label>
-
 
                         <input
                             type="text"
@@ -1024,25 +792,21 @@
                             name="kode"
                             class="form-control-asuransi"
                             placeholder="Contoh: ASR001"
-                            value="{{ old('kode') }}"
+                            maxlength="255"
                             required
                         >
 
                     </div>
 
 
-                    {{-- JENIS ASURANSI --}}
-
+                    {{-- JENIS --}}
                     <div class="form-group-asuransi mb-0">
-
 
                         <label
                             for="tambah_nama_asuransi"
                             class="form-label-asuransi"
                         >
-
                             Jenis Asuransi
-
                         </label>
 
 
@@ -1057,35 +821,19 @@
                                 -- Pilih Jenis Asuransi --
                             </option>
 
-
-                            <option
-                                value="Gigi"
-                                {{ old('nama') == 'Gigi' ? 'selected' : '' }}
-                            >
+                            <option value="Gigi">
                                 Gigi
                             </option>
 
-
-                            <option
-                                value="Rawat Inap"
-                                {{ old('nama') == 'Rawat Inap' ? 'selected' : '' }}
-                            >
+                            <option value="Rawat Inap">
                                 Rawat Inap
                             </option>
 
-
-                            <option
-                                value="Penyakit Kritis"
-                                {{ old('nama') == 'Penyakit Kritis' ? 'selected' : '' }}
-                            >
+                            <option value="Penyakit Kritis">
                                 Penyakit Kritis
                             </option>
 
-
-                            <option
-                                value="Rawat Jalan"
-                                {{ old('nama') == 'Rawat Jalan' ? 'selected' : '' }}
-                            >
+                            <option value="Rawat Jalan">
                                 Rawat Jalan
                             </option>
 
@@ -1096,19 +844,14 @@
                 </div>
 
 
-                {{-- FOOTER --}}
-
                 <div class="modal-footer">
-
 
                     <button
                         type="button"
                         class="btn btn-modal-cancel-asuransi"
                         data-bs-dismiss="modal"
                     >
-
                         Batal
-
                     </button>
 
 
@@ -1116,11 +859,8 @@
                         type="submit"
                         class="btn btn-modal-save-asuransi"
                     >
-
                         <i class="fas fa-save me-1"></i>
-
                         Simpan Data
-
                     </button>
 
                 </div>
@@ -1134,341 +874,1025 @@
 </div>
 
 
+{{-- =========================================================
+     MODAL LIHAT
+========================================================= --}}
+<div
+    class="modal fade modal-asuransi"
+    id="modalLihatAsuransi"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div class="d-flex align-items-center gap-2">
+
+                    <i class="fas fa-shield-alt"></i>
+
+                    <h5 class="modal-title">
+                        Detail Asuransi
+                    </h5>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <table class="detail-asuransi-table">
+
+                    <tr>
+
+                        <td class="detail-asuransi-label">
+                            ID
+                        </td>
+
+                        <td
+                            class="detail-asuransi-value"
+                            id="lihatAsuransiId"
+                        >
+                            -
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="detail-asuransi-label">
+                            Kode
+                        </td>
+
+                        <td class="detail-asuransi-value">
+
+                            <span
+                                class="badge badge-code-asuransi"
+                                id="lihatAsuransiKode"
+                            >
+                                -
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="detail-asuransi-label">
+                            Jenis Asuransi
+                        </td>
+
+                        <td
+                            class="detail-asuransi-value"
+                            id="lihatAsuransiNama"
+                        >
+                            -
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-modal-cancel-asuransi"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 {{-- =========================================================
-     MODAL LIHAT & EDIT
+     MODAL EDIT
 ========================================================= --}}
+<div
+    class="modal fade modal-asuransi"
+    id="modalEditAsuransi"
+    tabindex="-1"
+    aria-hidden="true"
+>
 
-@foreach($asuransis as $asuransi)
+    <div class="modal-dialog modal-dialog-centered">
 
+        <div class="modal-content">
 
-    {{-- =====================================================
-         MODAL LIHAT
-    ====================================================== --}}
+            <div class="modal-header">
 
-    <div
-        class="modal fade modal-asuransi"
-        id="modalLihatAsuransi{{ $asuransi->id }}"
-        tabindex="-1"
-        aria-labelledby="modalLihatAsuransiLabel{{ $asuransi->id }}"
-        aria-hidden="true"
-    >
+                <div class="d-flex align-items-center gap-2">
 
+                    <i class="fas fa-edit"></i>
 
-        <div class="modal-dialog modal-dialog-centered">
+                    <h5 class="modal-title">
+                        Edit Asuransi
+                    </h5>
 
+                </div>
 
-            <div class="modal-content">
-
-
-                {{-- HEADER --}}
-
-                <div class="modal-header">
+            </div>
 
 
-                    <div class="d-flex align-items-center gap-2">
+            <form id="formEditAsuransi">
 
-                        <i class="fas fa-shield-alt"></i>
+                @csrf
+                @method('PUT')
 
 
-                        <h5
-                            class="modal-title"
-                            id="modalLihatAsuransiLabel{{ $asuransi->id }}"
+                <input
+                    type="hidden"
+                    id="edit_asuransi_id"
+                >
+
+
+                <div class="modal-body">
+
+                    {{-- KODE --}}
+                    <div class="form-group-asuransi">
+
+                        <label
+                            for="edit_kode_asuransi"
+                            class="form-label-asuransi"
                         >
+                            Kode Asuransi
+                        </label>
 
-                            Detail Asuransi
 
-                        </h5>
+                        <input
+                            type="text"
+                            id="edit_kode_asuransi"
+                            name="kode"
+                            class="form-control-asuransi"
+                            maxlength="255"
+                            required
+                        >
 
                     </div>
 
 
-                    <button
-                        type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    ></button>
+                    {{-- JENIS --}}
+                    <div class="form-group-asuransi mb-0">
+
+                        <label
+                            for="edit_nama_asuransi"
+                            class="form-label-asuransi"
+                        >
+                            Jenis Asuransi
+                        </label>
+
+
+                        <select
+                            id="edit_nama_asuransi"
+                            name="nama"
+                            class="form-select-asuransi"
+                            required
+                        >
+
+                            <option value="">
+                                -- Pilih Jenis Asuransi --
+                            </option>
+
+                            <option value="Gigi">
+                                Gigi
+                            </option>
+
+                            <option value="Rawat Inap">
+                                Rawat Inap
+                            </option>
+
+                            <option value="Penyakit Kritis">
+                                Penyakit Kritis
+                            </option>
+
+                            <option value="Rawat Jalan">
+                                Rawat Jalan
+                            </option>
+
+                        </select>
+
+                    </div>
 
                 </div>
 
-
-                {{-- BODY --}}
-
-                <div class="modal-body">
-
-
-                    <table class="detail-asuransi-table">
-
-
-                        <tr>
-
-                            <td class="detail-asuransi-label">
-                                ID
-                            </td>
-
-                            <td class="detail-asuransi-value">
-
-                                {{ $asuransi->id }}
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td class="detail-asuransi-label">
-                                Kode
-                            </td>
-
-                            <td class="detail-asuransi-value">
-
-                                {{ $asuransi->kode }}
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td class="detail-asuransi-label">
-                                Jenis Asuransi
-                            </td>
-
-                            <td class="detail-asuransi-value">
-
-                                {{ $asuransi->nama }}
-
-                            </td>
-
-                        </tr>
-
-
-                    </table>
-
-                </div>
-
-
-                {{-- FOOTER --}}
 
                 <div class="modal-footer">
-
 
                     <button
                         type="button"
                         class="btn btn-modal-cancel-asuransi"
                         data-bs-dismiss="modal"
                     >
+                        Batal
+                    </button>
 
-                        Tutup
 
+                    <button
+                        type="submit"
+                        class="btn btn-modal-save-asuransi"
+                    >
+                        <i class="fas fa-save me-1"></i>
+                        Update Data
                     </button>
 
                 </div>
 
-            </div>
+            </form>
 
         </div>
 
     </div>
 
-
-
-    {{-- =====================================================
-         MODAL EDIT
-    ====================================================== --}}
-
-    <div
-        class="modal fade modal-asuransi"
-        id="modalEditAsuransi{{ $asuransi->id }}"
-        tabindex="-1"
-        aria-labelledby="modalEditAsuransiLabel{{ $asuransi->id }}"
-        aria-hidden="true"
-    >
-
-
-        <div class="modal-dialog modal-dialog-centered">
-
-
-            <div class="modal-content">
-
-
-                {{-- HEADER --}}
-
-                <div class="modal-header">
-
-
-                    <div class="d-flex align-items-center gap-2">
-
-                        <i class="fas fa-edit"></i>
-
-
-                        <h5
-                            class="modal-title"
-                            id="modalEditAsuransiLabel{{ $asuransi->id }}"
-                        >
-
-                            Edit Asuransi
-
-                        </h5>
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    ></button>
-
-                </div>
-
-
-                {{-- FORM EDIT --}}
-
-                <form
-                    action="{{ route('master-asuransi.update', $asuransi->id) }}"
-                    method="POST"
-                >
-
-                    @csrf
-
-                    @method('PUT')
-
-
-                    <div class="modal-body">
-
-
-                        {{-- KODE --}}
-
-                        <div class="form-group-asuransi">
-
-
-                            <label
-                                for="edit_kode_asuransi_{{ $asuransi->id }}"
-                                class="form-label-asuransi"
-                            >
-
-                                Kode Asuransi
-
-                            </label>
-
-
-                            <input
-                                type="text"
-                                id="edit_kode_asuransi_{{ $asuransi->id }}"
-                                name="kode"
-                                class="form-control-asuransi"
-                                value="{{ $asuransi->kode }}"
-                                required
-                            >
-
-                        </div>
-
-
-                        {{-- JENIS ASURANSI --}}
-
-                        <div class="form-group-asuransi mb-0">
-
-
-                            <label
-                                for="edit_nama_asuransi_{{ $asuransi->id }}"
-                                class="form-label-asuransi"
-                            >
-
-                                Jenis Asuransi
-
-                            </label>
-
-
-                            <select
-                                id="edit_nama_asuransi_{{ $asuransi->id }}"
-                                name="nama"
-                                class="form-select-asuransi"
-                                required
-                            >
-
-
-                                <option
-                                    value="Gigi"
-                                    {{ $asuransi->nama == 'Gigi' ? 'selected' : '' }}
-                                >
-                                    Gigi
-                                </option>
-
-
-                                <option
-                                    value="Rawat Inap"
-                                    {{ $asuransi->nama == 'Rawat Inap' ? 'selected' : '' }}
-                                >
-                                    Rawat Inap
-                                </option>
-
-
-                                <option
-                                    value="Penyakit Kritis"
-                                    {{ $asuransi->nama == 'Penyakit Kritis' ? 'selected' : '' }}
-                                >
-                                    Penyakit Kritis
-                                </option>
-
-
-                                <option
-                                    value="Rawat Jalan"
-                                    {{ $asuransi->nama == 'Rawat Jalan' ? 'selected' : '' }}
-                                >
-                                    Rawat Jalan
-                                </option>
-
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- FOOTER --}}
-
-                    <div class="modal-footer">
-
-
-                        <button
-                            type="button"
-                            class="btn btn-modal-cancel-asuransi"
-                            data-bs-dismiss="modal"
-                        >
-
-                            Batal
-
-                        </button>
-
-
-                        <button
-                            type="submit"
-                            class="btn btn-modal-save-asuransi"
-                        >
-
-                            <i class="fas fa-save me-1"></i>
-
-                            Update Data
-
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
-
-    </div>
-
-@endforeach
-
+</div>
 
 @endsection
+
+
+@push('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script>
+$(document).ready(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATATABLE
+    |--------------------------------------------------------------------------
+    */
+
+    const table = $('#tableAsuransi').DataTable({
+
+        processing: true,
+
+        serverSide: true,
+
+        ordering: false,
+
+
+        ajax: {
+            url:
+                "{{ route('master-asuransi.data') }}",
+
+            type:
+                "GET"
+        },
+
+
+        pageLength: 10,
+
+
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+
+
+        columns: [
+
+            /*
+             * NO
+             */
+            {
+                data:
+                    'DT_RowIndex',
+
+                name:
+                    'DT_RowIndex',
+
+                searchable:
+                    false,
+
+                orderable:
+                    false,
+
+                className:
+                    'text-center'
+            },
+
+
+            /*
+             * KODE
+             */
+            {
+                data:
+                    'kode',
+
+                name:
+                    'kode',
+
+                render:
+                    function (data) {
+
+                        return `
+                            <span class="badge badge-code-asuransi">
+                                ${escapeHtml(data || '-')}
+                            </span>
+                        `;
+
+                    }
+            },
+
+
+            /*
+             * JENIS ASURANSI
+             */
+            {
+                data:
+                    'nama',
+
+                name:
+                    'nama',
+
+                render:
+                    function (data) {
+
+                        return `
+                            <div class="d-flex align-items-center gap-2">
+
+                                <div class="avatar-asuransi">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+
+                                <div class="asuransi-name">
+                                    ${escapeHtml(data || '-')}
+                                </div>
+
+                            </div>
+                        `;
+
+                    }
+            },
+
+
+            /*
+             * AKSI
+             */
+            {
+                data:
+                    'aksi',
+
+                name:
+                    'aksi',
+
+                searchable:
+                    false,
+
+                orderable:
+                    false,
+
+                className:
+                    'text-center'
+            }
+
+        ],
+
+
+        language: {
+
+            processing:
+                "Memuat data...",
+
+            search:
+                "Cari:",
+
+            lengthMenu:
+                "Tampilkan _MENU_ data",
+
+            info:
+                "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+            infoEmpty:
+                "Tidak ada data",
+
+            infoFiltered:
+                "(difilter dari _MAX_ total data)",
+
+            zeroRecords:
+                "Data asuransi tidak ditemukan",
+
+            emptyTable:
+                "Belum ada data asuransi",
+
+            paginate: {
+
+                first:
+                    "Pertama",
+
+                last:
+                    "Terakhir",
+
+                next:
+                    "Selanjutnya",
+
+                previous:
+                    "Sebelumnya"
+
+            }
+
+        }
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ESCAPE HTML
+    |--------------------------------------------------------------------------
+    */
+
+    function escapeHtml(text) {
+
+        return $('<div>')
+            .text(text ?? '')
+            .html();
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TAMBAH ASURANSI
+    |--------------------------------------------------------------------------
+    */
+
+    $('#formTambahAsuransi').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            const form =
+                $(this);
+
+
+            const button =
+                form.find(
+                    'button[type="submit"]'
+                );
+
+
+            button.prop(
+                'disabled',
+                true
+            );
+
+
+            $.ajax({
+
+                url:
+                    "{{ route('master-asuransi.store') }}",
+
+                type:
+                    "POST",
+
+                headers: {
+                    'Accept':
+                        'application/json'
+                },
+
+                data:
+                    form.serialize(),
+
+
+                success:
+                    function (response) {
+
+                        const modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    document.getElementById(
+                                        'modalTambahAsuransi'
+                                    )
+                                );
+
+
+                        modal.hide();
+
+
+                        form[0].reset();
+
+
+                        table.ajax.reload(
+                            null,
+                            false
+                        );
+
+
+                        Swal.fire({
+
+                            icon:
+                                'success',
+
+                            title:
+                                'Berhasil!',
+
+                            text:
+                                response.message ||
+                                'Data asuransi berhasil ditambahkan.',
+
+                            confirmButtonText:
+                                'OK'
+
+                        });
+
+                    },
+
+
+                error:
+                    function (xhr) {
+
+                        tampilkanError(
+                            xhr,
+                            'Data asuransi gagal disimpan.'
+                        );
+
+                    },
+
+
+                complete:
+                    function () {
+
+                        button.prop(
+                            'disabled',
+                            false
+                        );
+
+                    }
+
+            });
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LIHAT
+    |--------------------------------------------------------------------------
+    */
+
+    $('#tableAsuransi').on(
+        'click',
+        '.btn-action-view-asuransi',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#lihatAsuransiId').text(
+                data.id || '-'
+            );
+
+
+            $('#lihatAsuransiKode').text(
+                data.kode || '-'
+            );
+
+
+            $('#lihatAsuransiNama').text(
+                data.nama || '-'
+            );
+
+
+            const modal =
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById(
+                            'modalLihatAsuransi'
+                        )
+                    );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUKA EDIT
+    |--------------------------------------------------------------------------
+    */
+
+    $('#tableAsuransi').on(
+        'click',
+        '.btn-action-edit-asuransi',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#edit_asuransi_id').val(
+                data.id
+            );
+
+
+            $('#edit_kode_asuransi').val(
+                data.kode || ''
+            );
+
+
+            $('#edit_nama_asuransi').val(
+                data.nama || ''
+            );
+
+
+            const modal =
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById(
+                            'modalEditAsuransi'
+                        )
+                    );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+
+    $('#formEditAsuransi').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            const id =
+                $('#edit_asuransi_id').val();
+
+
+            const form =
+                $(this);
+
+
+            const button =
+                form.find(
+                    'button[type="submit"]'
+                );
+
+
+            button.prop(
+                'disabled',
+                true
+            );
+
+
+            $.ajax({
+
+                url:
+                    "{{ url('/master-asuransi') }}/" +
+                    id,
+
+                type:
+                    "POST",
+
+                headers: {
+                    'Accept':
+                        'application/json'
+                },
+
+                data:
+                    form.serialize(),
+
+
+                success:
+                    function (response) {
+
+                        const modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    document.getElementById(
+                                        'modalEditAsuransi'
+                                    )
+                                );
+
+
+                        modal.hide();
+
+
+                        table.ajax.reload(
+                            null,
+                            false
+                        );
+
+
+                        Swal.fire({
+
+                            icon:
+                                'success',
+
+                            title:
+                                'Berhasil!',
+
+                            text:
+                                response.message ||
+                                'Data asuransi berhasil diperbarui.',
+
+                            confirmButtonText:
+                                'OK'
+
+                        });
+
+                    },
+
+
+                error:
+                    function (xhr) {
+
+                        tampilkanError(
+                            xhr,
+                            'Data asuransi gagal diperbarui.'
+                        );
+
+                    },
+
+
+                complete:
+                    function () {
+
+                        button.prop(
+                            'disabled',
+                            false
+                        );
+
+                    }
+
+            });
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | HAPUS
+    |--------------------------------------------------------------------------
+    */
+
+    $('#tableAsuransi').on(
+        'click',
+        '.btn-action-delete-asuransi',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            Swal.fire({
+
+                title:
+                    'Apakah Anda yakin?',
+
+                text:
+                    'Data asuransi "' +
+                    (data.nama || '') +
+                    '" akan dihapus.',
+
+                icon:
+                    'warning',
+
+                showCancelButton:
+                    true,
+
+                confirmButtonColor:
+                    '#ef4444',
+
+                cancelButtonColor:
+                    '#64748b',
+
+                confirmButtonText:
+                    'Ya, hapus!',
+
+                cancelButtonText:
+                    'Batal'
+
+            }).then(
+                function (result) {
+
+                    if (
+                        !result.isConfirmed
+                    ) {
+                        return;
+                    }
+
+
+                    $.ajax({
+
+                        url:
+                            "{{ url('/master-asuransi') }}/" +
+                            data.id,
+
+                        type:
+                            "DELETE",
+
+                        headers: {
+                            'Accept':
+                                'application/json'
+                        },
+
+                        data: {
+
+                            _token:
+                                "{{ csrf_token() }}"
+
+                        },
+
+
+                        success:
+                            function (response) {
+
+                                table.ajax.reload(
+                                    null,
+                                    false
+                                );
+
+
+                                Swal.fire({
+
+                                    icon:
+                                        'success',
+
+                                    title:
+                                        'Berhasil!',
+
+                                    text:
+                                        response.message ||
+                                        'Data asuransi berhasil dihapus.',
+
+                                    confirmButtonText:
+                                        'OK'
+
+                                });
+
+                            },
+
+
+                        error:
+                            function (xhr) {
+
+                                tampilkanError(
+                                    xhr,
+                                    'Data asuransi gagal dihapus.'
+                                );
+
+                            }
+
+                    });
+
+                }
+            );
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESET FORM TAMBAH
+    |--------------------------------------------------------------------------
+    */
+
+    $('#modalTambahAsuransi').on(
+        'hidden.bs.modal',
+        function () {
+
+            document
+                .getElementById(
+                    'formTambahAsuransi'
+                )
+                .reset();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ERROR AJAX
+    |--------------------------------------------------------------------------
+    */
+
+    function tampilkanError(
+        xhr,
+        defaultMessage
+    ) {
+
+        let message =
+            defaultMessage;
+
+
+        if (
+            xhr.responseJSON &&
+            xhr.responseJSON.message
+        ) {
+
+            message =
+                xhr.responseJSON.message;
+
+        }
+
+
+        if (
+            xhr.responseJSON &&
+            xhr.responseJSON.errors
+        ) {
+
+            const errors =
+                Object.values(
+                    xhr.responseJSON.errors
+                ).flat();
+
+
+            if (errors.length > 0) {
+
+                message =
+                    errors[0];
+
+            }
+
+        }
+
+
+        Swal.fire({
+
+            icon:
+                'error',
+
+            title:
+                'Gagal!',
+
+            text:
+                message
+
+        });
+
+    }
+
+});
+</script>
+
+@endpush

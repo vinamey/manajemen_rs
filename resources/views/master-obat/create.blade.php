@@ -1,348 +1,697 @@
 @extends('layouts.superadmin')
 
+@section('page-title', 'Tambah Obat')
+
 @section('content')
 
 <style>
-    .obat-card {
-        border: none;
-        border-radius: 18px;
+    :root {
+        --blue-main: #1877f2;
+        --blue-dark: #0f58c6;
+        --blue-light: #e7f3ff;
+        --text-dark: #1f2937;
+        --text-muted: #64748b;
+        --border: #dbe3ed;
+    }
+
+    .tambah-obat-page {
+        background: #f4f6fa;
+        min-height: calc(100vh - 70px);
+        padding: 22px 18px;
+    }
+
+    .obat-form-card {
+        max-width: 850px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 12px;
         overflow: hidden;
+        border: 1px solid #edf0f4;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
     }
 
-    .obat-header {
-        background: linear-gradient(135deg, #0d6efd, #6f42c1);
-        color: white;
-        padding: 22px;
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .obat-form-header {
+        background: var(--blue-main);
+        color: #ffffff;
+        padding: 16px 20px;
     }
 
-    .form-control,
-    .form-select {
-        border-radius: 10px;
-        padding: 11px 14px;
+    .obat-form-header h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .form-control:focus,
-    .form-select:focus {
-        box-shadow: 0 0 0 3px rgba(13, 110, 253, .15);
+    .obat-form-header p {
+        margin: 4px 0 0;
+        font-size: 10px;
+        opacity: 0.9;
+    }
+
+    /* =====================================================
+       BODY
+    ===================================================== */
+
+    .obat-form-body {
+        padding: 20px;
     }
 
     .section-title {
-        font-weight: 600;
-        color: #495057;
-        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #374151;
+        margin: 0 0 14px;
     }
 
-    .price-box {
+    .section-title i {
+        color: var(--blue-main);
+    }
+
+    .section-divider {
+        border: none;
+        border-top: 1px solid #edf0f4;
+        margin: 20px 0;
+        opacity: 1;
+    }
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .form-obat-group {
+        margin-bottom: 14px;
+    }
+
+    .form-obat-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .form-obat-control {
+        display: block;
+        width: 100%;
+        height: 38px;
+        padding: 8px 10px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #ffffff;
+        color: #374151;
+        font-size: 10px;
+        outline: none;
+        box-sizing: border-box;
+        transition: 0.2s;
+    }
+
+    .form-obat-control:focus {
+        border-color: var(--blue-main);
+        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.10);
+    }
+
+    .form-obat-control::placeholder {
+        color: #9ca3af;
+    }
+
+    select.form-obat-control {
+        cursor: pointer;
+    }
+
+    .form-help {
+        display: block;
+        margin-top: 4px;
+        color: #94a3b8;
+        font-size: 9px;
+    }
+
+    .error-obat {
+        display: block;
+        color: #dc3545;
+        font-size: 9px;
+        margin-top: 4px;
+    }
+
+    /* =====================================================
+       HARGA
+    ===================================================== */
+
+    .harga-wrapper {
         position: relative;
     }
 
-    .price-prefix {
+    .harga-prefix {
         position: absolute;
-        left: 14px;
+        left: 11px;
         top: 50%;
         transform: translateY(-50%);
+        color: #64748b;
+        font-size: 10px;
         font-weight: 600;
-        color: #6c757d;
+        pointer-events: none;
         z-index: 2;
     }
 
-    .price-input {
-        padding-left: 45px;
+    .harga-input {
+        padding-left: 32px;
     }
 
+    /* =====================================================
+       INFO
+    ===================================================== */
+
     .info-box {
-        background: #f8f9fa;
-        border-radius: 12px;
-        padding: 15px;
+        background: #f0f7ff;
+        border: 1px solid #dbeafe;
+        border-radius: 7px;
+        padding: 10px 12px;
+        color: #526071;
+        font-size: 9px;
+        margin-top: 3px;
+    }
+
+    .info-box i {
+        color: var(--blue-main);
+        margin-right: 4px;
+    }
+
+    /* =====================================================
+       ALERT
+    ===================================================== */
+
+    .alert-validasi {
+        background: #fff5f5;
+        border: 1px solid #fecaca;
+        color: #991b1b;
+        border-radius: 7px;
+        padding: 10px 12px;
+        margin-bottom: 18px;
+        font-size: 10px;
+    }
+
+    .alert-validasi strong {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .alert-validasi ul {
+        margin: 0;
+        padding-left: 17px;
+    }
+
+    /* =====================================================
+       BUTTON
+    ===================================================== */
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 7px;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #edf0f4;
+    }
+
+    .btn-kembali-obat {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        background: #eef2f7;
+        color: #64748b;
+        border: none;
+        border-radius: 6px;
+        padding: 9px 14px;
+        font-size: 9px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+    .btn-kembali-obat:hover {
+        background: #e2e8f0;
+        color: #374151;
+    }
+
+    .btn-simpan-obat {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        background: var(--blue-main);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        padding: 9px 14px;
+        font-size: 9px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-simpan-obat:hover {
+        background: var(--blue-dark);
+    }
+
+    @media (max-width: 768px) {
+        .tambah-obat-page {
+            padding: 15px 10px;
+        }
+
+        .obat-form-body {
+            padding: 16px;
+        }
     }
 </style>
 
-<div class="container-fluid">
 
-    <div class="card shadow obat-card">
+<div class="tambah-obat-page">
 
-        <div class="obat-header">
+    <div class="obat-form-card">
 
-            <h4 class="mb-1">
-                <i class="fa-solid fa-pills"></i>
+        {{-- =====================================================
+             HEADER
+        ====================================================== --}}
+        <div class="obat-form-header">
+
+            <h4>
+                <i class="fas fa-pills"></i>
                 Tambah Obat
             </h4>
 
-            <small>
+            <p>
                 Masukkan informasi obat dengan lengkap
-            </small>
+            </p>
 
         </div>
 
-        <div class="card-body p-4">
 
+        <div class="obat-form-body">
+
+            {{-- =====================================================
+                 VALIDASI ERROR
+            ====================================================== --}}
             @if($errors->any())
 
-                <div class="alert alert-danger">
+                <div class="alert-validasi">
 
-                    <strong>Data belum dapat disimpan.</strong>
+                    <strong>
+                        Data belum dapat disimpan.
+                    </strong>
 
-                    <ul class="mb-0 mt-2">
-
+                    <ul>
                         @foreach($errors->all() as $error)
-
                             <li>{{ $error }}</li>
-
                         @endforeach
-
                     </ul>
 
                 </div>
 
             @endif
 
-            <form action="{{ route('master-obat.store') }}"
-                  method="POST">
+
+            {{-- =====================================================
+                 FORM
+            ====================================================== --}}
+            <form
+                action="{{ route('master-obat.store') }}"
+                method="POST"
+                id="formTambahObat"
+            >
 
                 @csrf
 
-                {{-- INFORMASI OBAT --}}
 
+                {{-- =====================================================
+                     INFORMASI OBAT
+                ====================================================== --}}
                 <h5 class="section-title">
-                    <i class="fa-solid fa-capsules"></i>
+
+                    <i class="fas fa-capsules"></i>
+
                     Informasi Obat
+
                 </h5>
+
 
                 <div class="row">
 
-                    <div class="col-md-4 mb-3">
 
-                        <label class="form-label">
-                            Kode Obat
-                        </label>
+                    {{-- KODE OBAT --}}
+                    <div class="col-md-6">
 
-                        <input
-                        type="text"
-                        name="kode"
-                        class="form-obat-control"
-                        placeholder="Masukkan kode obat"
-                        value="{{ old('kode') }}"
-                        required>
+                        <div class="form-obat-group">
+
+                            <label
+                                for="kode"
+                                class="form-obat-label"
+                            >
+                                Kode Obat
+                            </label>
+
+                            <input
+                                type="text"
+                                id="kode"
+                                name="kode"
+                                class="form-obat-control"
+                                placeholder="Masukkan kode obat"
+                                value="{{ old('kode') }}"
+                                required
+                            >
+
+                            @error('kode')
+
+                                <span class="error-obat">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+                        </div>
 
                     </div>
+
 
                     {{-- NAMA OBAT --}}
-<div class="form-obat-group">
+                    <div class="col-md-6">
 
-    <label class="form-obat-label">
-        Nama Obat
-    </label>
+                        <div class="form-obat-group">
 
-    <select
-        name="nama"
-        class="form-obat-control select2-obat"
-        data-placeholder="Cari / pilih nama obat..."
-        required
-    >
+                            <label
+                                for="nama"
+                                class="form-obat-label"
+                            >
+                                Nama Obat
+                            </label>
 
-        <option value=""></option>
+                            <input
+                                type="text"
+                                id="nama"
+                                name="nama"
+                                class="form-obat-control"
+                                placeholder="Masukkan nama obat"
+                                value="{{ old('nama') }}"
+                                required
+                            >
 
-        @foreach($obats as $obat)
+                            @error('nama')
 
-            <option
-                value="{{ $obat->nama }}"
-                {{ old('nama') == $obat->nama ? 'selected' : '' }}
-            >
-                {{ $obat->nama }}
-            </option>
+                                <span class="error-obat">
+                                    {{ $message }}
+                                </span>
 
-        @endforeach
+                            @enderror
 
-    </select>
+                        </div>
 
-    @error('nama')
-        <span class="error-obat">
-            {{ $message }}
-        </span>
-    @enderror
+                    </div>
 
-</div>
+
                     {{-- KATEGORI --}}
-<div class="form-obat-group">
+                    <div class="col-md-6">
 
-    <label class="form-obat-label">
-        Kategori
-    </label>
+                        <div class="form-obat-group">
 
-    <select
-        name="kategori_id"
-        class="form-obat-control select2-kategori"
-        required
-    >
+                            <label
+                                for="kategori_id"
+                                class="form-obat-label"
+                            >
+                                Kategori
+                            </label>
 
-        <option value="">
-            -- Cari / pilih kategori --
-        </option>
+                            <select
+                                id="kategori_id"
+                                name="kategori_id"
+                                class="form-obat-control"
+                                required
+                            >
 
-        @foreach($kategoris as $kategori)
+                                <option value="">
+                                    -- Pilih Kategori --
+                                </option>
 
-            <option
-                value="{{ $kategori->id }}"
-                {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}
-            >
-                {{ $kategori->nama }}
-            </option>
+                                @foreach($kategoris as $kategori)
 
-        @endforeach
+                                    <option
+                                        value="{{ $kategori->id }}"
+                                        {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}
+                                    >
+                                        {{ $kategori->nama }}
+                                    </option>
 
-    </select>
+                                @endforeach
 
-    @error('kategori_id')
-        <span class="error-obat">
-            {{ $message }}
-        </span>
-    @enderror
+                            </select>
 
-</div>
+                            @error('kategori_id')
 
-    </select>
+                                <span class="error-obat">
+                                    {{ $message }}
+                                </span>
 
-</div>
+                            @enderror
 
-<div class="mb-3">
+                        </div>
 
-    <label>Satuan</label>
+                    </div>
 
-    <select name="satuan" class="form-control" required>
 
-        <option value="">-- Pilih Satuan --</option>
+                    {{-- SATUAN --}}
+                    <div class="col-md-6">
 
-        @foreach($satuans as $satuan)
+                        <div class="form-obat-group">
 
-            <option value="{{ $satuan->nama }}"
-                {{ old('satuan') == $satuan->nama ? 'selected' : '' }}>
+                            <label
+                                for="satuan"
+                                class="form-obat-label"
+                            >
+                                Satuan
+                            </label>
 
-                {{ $satuan->nama }}
+                            <select
+                                id="satuan"
+                                name="satuan"
+                                class="form-obat-control"
+                                required
+                            >
 
-            </option>
+                                <option value="">
+                                    -- Pilih Satuan --
+                                </option>
 
-        @endforeach
+                                @foreach($satuans as $satuan)
 
-    </select>
+                                    <option
+                                        value="{{ $satuan->nama }}"
+                                        {{ old('satuan') == $satuan->nama ? 'selected' : '' }}
+                                    >
+                                        {{ $satuan->nama }}
+                                    </option>
 
-</div>
+                                @endforeach
+
+                            </select>
+
+                            @error('satuan')
+
+                                <span class="error-obat">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+                        </div>
+
+                    </div>
 
                 </div>
 
-                <hr class="my-4">
 
-                {{-- HARGA --}}
+                <hr class="section-divider">
 
+
+                {{-- =====================================================
+                     INFORMASI HARGA
+                ====================================================== --}}
                 <h5 class="section-title">
-                    <i class="fa-solid fa-money-bill-wave"></i>
+
+                    <i class="fas fa-money-bill-wave"></i>
+
                     Informasi Harga
+
                 </h5>
+
 
                 <div class="row">
 
-                    <!-- <div class="col-md-6 mb-3">
+                    <div class="col-md-6">
 
-                        <label class="form-label">
-                            Harga Beli
-                        </label>
+                        <div class="form-obat-group">
 
-                        <div class="price-box">
+                            <label
+                                for="harga_display"
+                                class="form-obat-label"
+                            >
+                                Harga
+                            </label>
 
-                            <span class="price-prefix">Rp</span>
 
-                            <input type="number"
-                                   name="harga_beli"
-                                   class="form-control price-input"
-                                   value="{{ old('harga_beli') }}"
-                                   min="0"
-                                   placeholder="0"
-                                   required>
+                            <div class="harga-wrapper">
 
-                        </div> -->
+                                <span class="harga-prefix">
+                                    Rp
+                                </span>
 
-                    </div>
+                                <input
+                                    type="text"
+                                    id="harga_display"
+                                    class="form-obat-control harga-input"
+                                    placeholder="Contoh: 5.000"
+                                    autocomplete="off"
+                                    value="{{ old('harga') ? number_format((float) old('harga'), 0, ',', '.') : '' }}"
+                                    required
+                                >
 
-                    <div class="mb-3">
-    <label>Harga</label>
+                            </div>
 
-    <div class="input-group">
-        <span class="input-group-text">Rp</span>
 
-        <input type="text"
-               id="harga_display"
-               class="form-control"
-               placeholder="Contoh: 5.000"
-               autocomplete="off"
-               value="{{ old('harga') ? number_format(old('harga'), 0, ',', '.') : '' }}"
-               required>
-    </div>
+                            {{-- NILAI ASLI UNTUK DATABASE --}}
+                            <input
+                                type="hidden"
+                                id="harga"
+                                name="harga"
+                                value="{{ old('harga') }}"
+                            >
 
-    {{-- INI yang dikirim ke database --}}
-    <input type="hidden"
-           name="harga"
-           id="harga"
-           value="{{ old('harga') }}">
-</div>
+
+                            @error('harga')
+
+                                <span class="error-obat">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                <hr class="my-4">
 
-                {{-- STOK --}}
+                <hr class="section-divider">
 
+
+                {{-- =====================================================
+                     INFORMASI STOK
+                ====================================================== --}}
                 <h5 class="section-title">
-                    <i class="fa-solid fa-boxes-stacked"></i>
+
+                    <i class="fas fa-boxes-stacked"></i>
+
                     Informasi Stok
+
                 </h5>
+
 
                 <div class="row">
 
-                    <div class="col-md-6 mb-3">
 
-                        <label class="form-label">
-                            Stok Awal
-                        </label>
+                    {{-- STOK --}}
+                    <div class="col-md-6">
 
-                        <input
-                            type="number"
-                            name="stok"
-                            class="form-obat-control"
-                            value="{{ old('stok', 0) }}"
-                            min="0"
-                            required>
+                        <div class="form-obat-group">
 
-                        <small class="text-muted">
-                            Jumlah obat yang tersedia saat ini.
-                        </small>
+                            <label
+                                for="stok"
+                                class="form-obat-label"
+                            >
+                                Stok Awal
+                            </label>
+
+                            <input
+                                type="number"
+                                id="stok"
+                                name="stok"
+                                class="form-obat-control"
+                                value="{{ old('stok', 0) }}"
+                                min="0"
+                                required
+                            >
+
+                            <small class="form-help">
+                                Jumlah obat yang tersedia saat ini.
+                            </small>
+
+                            @error('stok')
+
+                                <span class="error-obat">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+                        </div>
 
                     </div>
 
-                    <div class="col-md-6 mb-3">
 
-                        <label class="form-label">
-                            Stok Minimum
-                        </label>
+                    {{-- STOK MINIMUM --}}
+                    <div class="col-md-6">
 
-                        <input type="number"
-                               name="stok_minimum"
-                               class="form-control"
-                               value="{{ old('stok_minimum', 10) }}"
-                               min="0"
-                               required>
+                        <div class="form-obat-group">
 
-                        <small class="text-muted">
-                            Batas untuk memberikan peringatan stok.
-                        </small>
+                            <label
+                                for="stok_minimum"
+                                class="form-obat-label"
+                            >
+                                Stok Minimum
+                            </label>
+
+                            <input
+                                type="number"
+                                id="stok_minimum"
+                                name="stok_minimum"
+                                class="form-obat-control"
+                                value="{{ old('stok_minimum', 10) }}"
+                                min="0"
+                                required
+                            >
+
+                            <small class="form-help">
+                                Batas untuk memberikan peringatan stok.
+                            </small>
+
+                            @error('stok_minimum')
+
+                                <span class="error-obat">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                <div class="info-box mt-2 mb-4">
 
-                    <i class="fa-solid fa-circle-info text-primary"></i>
+                {{-- INFO --}}
+                <div class="info-box">
+
+                    <i class="fas fa-circle-info"></i>
 
                     <strong>Informasi:</strong>
 
@@ -351,23 +700,34 @@
 
                 </div>
 
-                <div class="d-flex gap-2">
 
-                    <button type="submit"
-                            class="btn btn-primary px-4">
+                {{-- =====================================================
+                     BUTTON
+                ====================================================== --}}
+                <div class="form-actions">
 
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        Simpan Obat
+                    <a
+                        href="{{ route('master-obat.index') }}"
+                        class="btn-kembali-obat"
+                    >
 
-                    </button>
+                        <i class="fas fa-arrow-left"></i>
 
-                    <a href="{{ route('master-obat.index') }}"
-                       class="btn btn-secondary px-4">
-
-                        <i class="fa-solid fa-arrow-left"></i>
                         Kembali
 
                     </a>
+
+
+                    <button
+                        type="submit"
+                        class="btn-simpan-obat"
+                    >
+
+                        <i class="fas fa-save"></i>
+
+                        Simpan Data
+
+                    </button>
 
                 </div>
 
@@ -379,37 +739,97 @@
 
 </div>
 
-@endsection
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
+    /*
+    |--------------------------------------------------------------------------
+    | AMBIL ELEMENT
+    |--------------------------------------------------------------------------
+    */
+
     const hargaDisplay = document.getElementById('harga_display');
-    const harga = document.getElementById('harga');
+    const hargaInput = document.getElementById('harga');
+    const form = document.getElementById('formTambahObat');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CEK ELEMENT
+    |--------------------------------------------------------------------------
+    */
+
+    if (!hargaDisplay || !hargaInput || !form) {
+        return;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTION FORMAT RUPIAH
+    |--------------------------------------------------------------------------
+    */
+
+    function formatRupiah(value) {
+
+        const angka = value
+            .toString()
+            .replace(/[^0-9]/g, '');
+
+        if (angka === '') {
+            return '';
+        }
+
+        return new Intl.NumberFormat('id-ID').format(
+            Number(angka)
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SAAT USER MENGETIK HARGA
+    |--------------------------------------------------------------------------
+    */
 
     hargaDisplay.addEventListener('input', function () {
 
-        // Ambil angka saja
-        let angka = this.value.replace(/\D/g, '');
+        const angka = this.value.replace(/[^0-9]/g, '');
 
-        // Masukkan angka asli ke input hidden
-        harga.value = angka;
+        /*
+         * Yang terlihat:
+         * 5.000
+         *
+         * Yang dikirim:
+         * 5000
+         */
 
-        // Tampilkan format Rupiah
-        if (angka !== '') {
-            this.value = new Intl.NumberFormat('id-ID').format(angka);
-        } else {
-            this.value = '';
-        }
+        hargaInput.value = angka;
+
+        this.value = formatRupiah(angka);
+
     });
 
-    // Pastikan nilai harga masuk sebelum form dikirim
-    hargaDisplay.closest('form').addEventListener('submit', function () {
 
-        let angka = hargaDisplay.value.replace(/\D/g, '');
+    /*
+    |--------------------------------------------------------------------------
+    | SEBELUM FORM DIKIRIM
+    |--------------------------------------------------------------------------
+    */
 
-        harga.value = angka;
+    form.addEventListener('submit', function () {
+
+        const angka = hargaDisplay.value.replace(
+            /[^0-9]/g,
+            ''
+        );
+
+        hargaInput.value = angka;
+
     });
 
 });
 </script>
+
+@endsection
