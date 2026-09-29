@@ -4,16 +4,23 @@
 
 @section('content')
 
-<!-- CDN SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- DATATABLE CSS --}}
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
+>
 
 <style>
-    /* ================= GLOBAL ================= */
+    /* =========================================================
+       GLOBAL
+    ========================================================= */
     .satuan-page {
         padding: 0;
     }
 
-    /* ================= HEADER ================= */
+    /* =========================================================
+       HEADER
+    ========================================================= */
     .satuan-header {
         display: flex;
         justify-content: space-between;
@@ -52,7 +59,9 @@
         color: #8b95a5;
     }
 
-    /* ================= TOMBOL TAMBAH ================= */
+    /* =========================================================
+       TOMBOL TAMBAH
+    ========================================================= */
     .btn-tambah-satuan {
         background: #1877f2;
         color: white;
@@ -68,19 +77,28 @@
         color: white;
     }
 
-    /* ================= TABLE ================= */
+    /* =========================================================
+       CARD TABLE
+    ========================================================= */
     .satuan-card {
         background: white;
         border-radius: 12px;
-        overflow: hidden;
         border: none;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        padding: 0;
     }
 
+    .satuan-card .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* =========================================================
+       TABLE
+    ========================================================= */
     .satuan-table {
-        width: 100%;
-        margin-bottom: 0;
-        border-collapse: collapse;
+        width: 100% !important;
+        margin-bottom: 0 !important;
+        border-collapse: collapse !important;
     }
 
     .satuan-table thead {
@@ -89,41 +107,35 @@
     }
 
     .satuan-table thead th {
-        padding: 14px 13px;
-        font-size: 11px;
-        font-weight: 700;
-        border: none;
+        background: #1877f2 !important;
+        color: white !important;
+        padding: 14px 13px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        border: none !important;
         white-space: nowrap;
     }
 
     .satuan-table tbody td {
-        padding: 13px;
-        font-size: 11px;
+        padding: 13px !important;
+        font-size: 11px !important;
         color: #657184;
         vertical-align: middle;
-        border-bottom: 1px solid #f0f2f5;
+        border-bottom: 1px solid #f0f2f5 !important;
         white-space: nowrap;
     }
 
     .satuan-table tbody tr:last-child td {
-        border-bottom: none;
+        border-bottom: none !important;
     }
 
     .satuan-table tbody tr:hover {
         background: #f8fbff;
     }
 
-    .satuan-table strong {
-        color: #374151;
-        font-weight: 600;
-    }
-
-    .satuan-table small {
-        color: #9ca3af;
-        font-size: 10px;
-    }
-
-    /* ================= BADGE KODE & NAMA SATUAN ================= */
+    /* =========================================================
+       BADGE
+    ========================================================= */
     .badge-kode {
         display: inline-block;
         background: #e0edff;
@@ -144,14 +156,21 @@
         font-weight: 700;
     }
 
-    /* ================= TOMBOL AKSI ================= */
+    /* =========================================================
+       TOMBOL AKSI
+    ========================================================= */
+    .aksi-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
     .btn-satuan-aksi {
         border: none;
         border-radius: 6px;
         padding: 8px 10px;
         font-size: 10px;
         font-weight: 600;
-        margin-right: 3px;
         min-width: 48px;
     }
 
@@ -185,7 +204,70 @@
         color: white;
     }
 
-    /* ================= MODAL ================= */
+    /* =========================================================
+       DATATABLE
+    ========================================================= */
+    .dataTables_wrapper {
+        padding: 18px;
+    }
+
+    .dataTables_wrapper .row:first-child {
+        margin-bottom: 14px;
+    }
+
+    .dataTables_wrapper .row:last-child {
+        margin-top: 14px;
+    }
+
+    .dataTables_length label,
+    .dataTables_filter label,
+    .dataTables_info {
+        font-size: 11px;
+        color: #657184;
+    }
+
+    .dataTables_length select {
+        font-size: 11px !important;
+        border-radius: 7px !important;
+        border: 1px solid #d9e0e8 !important;
+        padding: 5px 28px 5px 8px !important;
+    }
+
+    .dataTables_filter input {
+        font-size: 11px !important;
+        border: 1px solid #d9e0e8 !important;
+        border-radius: 7px !important;
+        padding: 7px 10px !important;
+        outline: none !important;
+        margin-left: 7px !important;
+    }
+
+    .dataTables_filter input:focus {
+        border-color: #1877f2 !important;
+        box-shadow: 0 0 0 0.15rem rgba(24, 119, 242, 0.12) !important;
+    }
+
+    .dataTables_paginate .pagination {
+        gap: 3px;
+    }
+
+    .dataTables_paginate .page-link {
+        font-size: 10px;
+        border-radius: 6px !important;
+        color: #1877f2;
+        border: 1px solid #e5e7eb;
+        padding: 6px 9px;
+    }
+
+    .dataTables_paginate .page-item.active .page-link {
+        background: #1877f2;
+        border-color: #1877f2;
+        color: white;
+    }
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
     .satuan-modal .modal-dialog {
         max-width: 520px;
     }
@@ -201,6 +283,7 @@
         color: white;
         padding: 15px 20px;
         border-radius: 12px 12px 0 0;
+        border-bottom: none;
     }
 
     .satuan-modal .modal-title {
@@ -235,7 +318,13 @@
         box-shadow: 0 0 0 0.15rem rgba(24, 119, 242, 0.15);
     }
 
-    /* ================= CUSTOM DROPDOWN ================= */
+    .satuan-modal .btn-close {
+        display: none !important;
+    }
+
+    /* =========================================================
+       CUSTOM DROPDOWN
+    ========================================================= */
     .custom-select-wrapper {
         position: relative;
         width: 100%;
@@ -317,7 +406,9 @@
         color: #8b95a5;
     }
 
-    /* ================= DETAIL ================= */
+    /* =========================================================
+       DETAIL
+    ========================================================= */
     .detail-item {
         margin-bottom: 16px;
     }
@@ -334,487 +425,1637 @@
         color: #657184;
     }
 
-    .satuan-modal .btn-close {
-        display: none !important;
-    }
-
-    /* Kustomisasi warna tombol SweetAlert agar cocok dengan UI */
+    /* =========================================================
+       SWEETALERT
+    ========================================================= */
     .swal2-styled.swal2-confirm {
-        background-color: #1877f2 !important;
         border-radius: 6px !important;
         padding: 8px 24px !important;
         font-size: 13px !important;
     }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 768px) {
+        .satuan-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .btn-tambah-satuan {
+            width: 100%;
+        }
+    }
 </style>
 
+
+{{-- =========================================================
+     HALAMAN MASTER SATUAN
+========================================================= --}}
 <div class="satuan-page">
 
     {{-- HEADER --}}
     <div class="satuan-header">
+
         <div class="satuan-title-wrapper">
+
             <div class="satuan-icon">
                 <i class="fas fa-box"></i>
             </div>
+
             <div>
-                <h2 class="satuan-title">Master Satuan Obat</h2>
-                <p class="satuan-subtitle">Data satuan obat yang terdaftar</p>
+                <h2 class="satuan-title">
+                    Master Satuan Obat
+                </h2>
+
+                <p class="satuan-subtitle">
+                    Data satuan obat yang terdaftar
+                </p>
             </div>
+
         </div>
 
-        <button type="button" class="btn btn-tambah-satuan" data-bs-toggle="modal" data-bs-target="#modalTambah">
-            <i class="fas fa-plus me-1"></i> Tambah Satuan
+
+        <button
+            type="button"
+            class="btn btn-tambah-satuan"
+            data-bs-toggle="modal"
+            data-bs-target="#modalTambah"
+        >
+            <i class="fas fa-plus me-1"></i>
+            Tambah Satuan
         </button>
+
     </div>
+
 
     {{-- TABLE --}}
     <div class="satuan-card">
+
         <div class="table-responsive">
-            <table class="satuan-table">
+
+            <table
+                id="satuan-table"
+                class="satuan-table table align-middle"
+            >
+
                 <thead>
                     <tr>
-                        <th width="8%">No</th>
-                        <th width="25%">Kode Satuan</th>
-                        <th width="35%">Nama Satuan</th>
-                        <th width="32%">Aksi</th>
+
+                        <th width="8%">
+                            No
+                        </th>
+
+                        <th width="25%">
+                            Kode Satuan
+                        </th>
+
+                        <th width="35%">
+                            Nama Satuan
+                        </th>
+
+                        <th width="32%">
+                            Aksi
+                        </th>
+
                     </tr>
                 </thead>
+
                 <tbody>
-                    @forelse($satuans as $satuan)
-                        <tr id="row{{ $satuan->id }}">
-                            <td>{{ $loop->iteration }}</td>
-                            <td>
-                                <span class="badge-kode">{{ $satuan->kode ?? '-' }}</span>
-                            </td>
-                            <td>
-                                <!-- Nama Satuan Berwarna -->
-                                <span class="badge-nama-satuan">
-                                    {{ $satuan->nama }}
-                                </span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-satuan-aksi btn-satuan-lihat" onclick="lihatData({{ $satuan->id }})">
-                                    <i class="fas fa-eye me-1"></i> Lihat
-                                </button>
-
-                                <button type="button" class="btn btn-satuan-aksi btn-satuan-edit" onclick="editData({{ $satuan->id }}, @js($satuan->kode), @js($satuan->nama))">
-                                    <i class="fas fa-edit me-1"></i> Edit
-                                </button>
-
-                                <button type="button" class="btn btn-satuan-aksi btn-satuan-hapus" onclick="hapusData({{ $satuan->id }})">
-                                    <i class="fas fa-trash me-1"></i> Hapus
-                                </button>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center py-5 text-muted">Belum ada data satuan obat.</td>
-                        </tr>
-                    @endforelse
+                    {{-- Data otomatis dari Yajra --}}
                 </tbody>
+
             </table>
+
         </div>
+
     </div>
 
 </div>
 
-{{-- MODAL TAMBAH --}}
-<div class="modal fade satuan-modal" id="modalTambah" tabindex="-1">
+
+{{-- =========================================================
+     MODAL TAMBAH
+========================================================= --}}
+<div
+    class="modal fade satuan-modal"
+    id="modalTambah"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content">
+
             <div class="modal-header">
+
                 <h5 class="modal-title">
-                    <i class="fas fa-plus-circle me-2"></i> Tambah Satuan Obat
+                    <i class="fas fa-plus-circle me-2"></i>
+                    Tambah Satuan Obat
                 </h5>
+
             </div>
+
 
             <form id="formTambah">
+
                 @csrf
+
                 <div class="modal-body">
+
+                    {{-- KODE --}}
                     <div class="mb-3">
-                        <label class="form-label">Kode Satuan</label>
-                        <input type="text" name="kode" id="kode" class="form-control" placeholder="Contoh: TAB" required>
+
+                        <label
+                            for="kode"
+                            class="form-label"
+                        >
+                            Kode Satuan
+                        </label>
+
+                        <input
+                            type="text"
+                            name="kode"
+                            id="kode"
+                            class="form-control"
+                            placeholder="Contoh: TAB"
+                        >
+
                     </div>
 
+
+                    {{-- NAMA --}}
                     <div class="mb-3">
-                        <label class="form-label">Nama Satuan</label>
+
+                        <label class="form-label">
+                            Nama Satuan
+                        </label>
+
                         <div class="custom-select-wrapper">
-                            <input type="hidden" name="nama" id="nama" required>
-                            <button type="button" class="custom-select-button" id="namaButton">
-                                <span id="namaText">-- Pilih Satuan --</span>
-                                <i class="fas fa-chevron-down custom-select-arrow"></i>
+
+                            <input
+                                type="hidden"
+                                name="nama"
+                                id="nama"
+                                required
+                            >
+
+
+                            <button
+                                type="button"
+                                class="custom-select-button"
+                                id="namaButton"
+                            >
+
+                                <span id="namaText">
+                                    -- Pilih Satuan --
+                                </span>
+
+                                <i
+                                    class="fas fa-chevron-down custom-select-arrow"
+                                ></i>
+
                             </button>
 
-                            <div class="custom-select-list" id="namaList">
-                                <div class="custom-option placeholder" data-value="">-- Pilih Satuan --</div>
-                                <div class="custom-option" data-value="Tablet">Tablet</div>
-                                <div class="custom-option" data-value="Kapsul">Kapsul</div>
-                                <div class="custom-option" data-value="Keping">Keping</div>
-                                <div class="custom-option" data-value="Strip">Strip</div>
-                                <div class="custom-option" data-value="Botol">Botol</div>
-                                <div class="custom-option" data-value="Tube">Tube</div>
-                                <div class="custom-option" data-value="Ampul">Ampul</div>
-                                <div class="custom-option" data-value="Vial">Vial</div>
-                                <div class="custom-option" data-value="Sachet">Sachet</div>
-                                <div class="custom-option" data-value="Pcs">Pcs</div>
-                                <div class="custom-option" data-value="Box">Box</div>
-                                <div class="custom-option" data-value="Dus">Dus</div>
-                                <div class="custom-option" data-value="Pot">Pot</div>
+
+                            <div
+                                class="custom-select-list"
+                                id="namaList"
+                            >
+
+                                <div
+                                    class="custom-option placeholder"
+                                    data-value=""
+                                >
+                                    -- Pilih Satuan --
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Tablet"
+                                >
+                                    Tablet
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Kapsul"
+                                >
+                                    Kapsul
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Keping"
+                                >
+                                    Keping
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Strip"
+                                >
+                                    Strip
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Botol"
+                                >
+                                    Botol
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Tube"
+                                >
+                                    Tube
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Ampul"
+                                >
+                                    Ampul
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Vial"
+                                >
+                                    Vial
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Sachet"
+                                >
+                                    Sachet
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Pcs"
+                                >
+                                    Pcs
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Box"
+                                >
+                                    Box
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Dus"
+                                >
+                                    Dus
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Pot"
+                                >
+                                    Pot
+                                </div>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-1"></i> Simpan
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Batal
                     </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        <i class="fas fa-save me-1"></i>
+                        Simpan
+                    </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
 
-{{-- MODAL LIHAT --}}
-<div class="modal fade satuan-modal" id="modalLihat" tabindex="-1">
+
+{{-- =========================================================
+     MODAL LIHAT
+========================================================= --}}
+<div
+    class="modal fade satuan-modal"
+    id="modalLihat"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content">
+
             <div class="modal-header">
+
                 <h5 class="modal-title">
-                    <i class="fas fa-eye me-2"></i> Detail Satuan Obat
+                    <i class="fas fa-eye me-2"></i>
+                    Detail Satuan Obat
                 </h5>
+
             </div>
+
+
             <div class="modal-body">
+
                 <div class="detail-item">
-                    <div class="detail-label">Kode Satuan</div>
-                    <div class="detail-value">
-                        <span class="badge-kode" id="lihatKode">-</span>
+
+                    <div class="detail-label">
+                        Kode Satuan
                     </div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Nama Satuan</div>
+
                     <div class="detail-value">
-                        <span class="badge-nama-satuan" id="lihatNama">-</span>
+                        <span
+                            class="badge-kode"
+                            id="lihatKode"
+                        >
+                            -
+                        </span>
                     </div>
+
                 </div>
+
+
                 <div class="detail-item">
-                    <div class="detail-label">ID</div>
-                    <div class="detail-value" id="lihatId">-</div>
+
+                    <div class="detail-label">
+                        Nama Satuan
+                    </div>
+
+                    <div class="detail-value">
+                        <span
+                            class="badge-nama-satuan"
+                            id="lihatNama"
+                        >
+                            -
+                        </span>
+                    </div>
+
                 </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        ID
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="lihatId"
+                    >
+                        -
+                    </div>
+
+                </div>
+
             </div>
+
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
-{{-- MODAL EDIT --}}
-<div class="modal fade satuan-modal" id="modalEdit" tabindex="-1">
+
+{{-- =========================================================
+     MODAL EDIT
+========================================================= --}}
+<div
+    class="modal fade satuan-modal"
+    id="modalEdit"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content">
+
             <div class="modal-header">
+
                 <h5 class="modal-title">
-                    <i class="fas fa-edit me-2"></i> Edit Satuan Obat
+                    <i class="fas fa-edit me-2"></i>
+                    Edit Satuan Obat
                 </h5>
+
             </div>
+
 
             <form id="formEdit">
+
                 @csrf
                 @method('PUT')
-                <input type="hidden" id="editId">
+
+                <input
+                    type="hidden"
+                    id="editId"
+                >
+
 
                 <div class="modal-body">
+
+                    {{-- KODE --}}
                     <div class="mb-3">
-                        <label class="form-label">Kode Satuan</label>
-                        <input type="text" name="kode" id="editKode" class="form-control" required>
+
+                        <label
+                            for="editKode"
+                            class="form-label"
+                        >
+                            Kode Satuan
+                        </label>
+
+                        <input
+                            type="text"
+                            name="kode"
+                            id="editKode"
+                            class="form-control"
+                        >
+
                     </div>
 
+
+                    {{-- NAMA --}}
                     <div class="mb-3">
-                        <label class="form-label">Nama Satuan</label>
+
+                        <label class="form-label">
+                            Nama Satuan
+                        </label>
+
+
                         <div class="custom-select-wrapper">
-                            <input type="hidden" name="nama" id="editNama" required>
-                            <button type="button" class="custom-select-button" id="editNamaButton">
-                                <span id="editNamaText">-- Pilih Satuan --</span>
-                                <i class="fas fa-chevron-down custom-select-arrow"></i>
+
+                            <input
+                                type="hidden"
+                                name="nama"
+                                id="editNama"
+                                required
+                            >
+
+
+                            <button
+                                type="button"
+                                class="custom-select-button"
+                                id="editNamaButton"
+                            >
+
+                                <span id="editNamaText">
+                                    -- Pilih Satuan --
+                                </span>
+
+                                <i
+                                    class="fas fa-chevron-down custom-select-arrow"
+                                ></i>
+
                             </button>
 
-                            <div class="custom-select-list" id="editNamaList">
-                                <div class="custom-option placeholder" data-value="">-- Pilih Satuan --</div>
-                                <div class="custom-option" data-value="Tablet">Tablet</div>
-                                <div class="custom-option" data-value="Kapsul">Kapsul</div>
-                                <div class="custom-option" data-value="Keping">Keping</div>
-                                <div class="custom-option" data-value="Strip">Strip</div>
-                                <div class="custom-option" data-value="Botol">Botol</div>
-                                <div class="custom-option" data-value="Tube">Tube</div>
-                                <div class="custom-option" data-value="Ampul">Ampul</div>
-                                <div class="custom-option" data-value="Vial">Vial</div>
-                                <div class="custom-option" data-value="Sachet">Sachet</div>
-                                <div class="custom-option" data-value="Pcs">Pcs</div>
-                                <div class="custom-option" data-value="Box">Box</div>
-                                <div class="custom-option" data-value="Dus">Dus</div>
-                                <div class="custom-option" data-value="Pot">Pot</div>
+
+                            <div
+                                class="custom-select-list"
+                                id="editNamaList"
+                            >
+
+                                <div
+                                    class="custom-option placeholder"
+                                    data-value=""
+                                >
+                                    -- Pilih Satuan --
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Tablet"
+                                >
+                                    Tablet
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Kapsul"
+                                >
+                                    Kapsul
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Keping"
+                                >
+                                    Keping
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Strip"
+                                >
+                                    Strip
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Botol"
+                                >
+                                    Botol
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Tube"
+                                >
+                                    Tube
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Ampul"
+                                >
+                                    Ampul
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Vial"
+                                >
+                                    Vial
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Sachet"
+                                >
+                                    Sachet
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Pcs"
+                                >
+                                    Pcs
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Box"
+                                >
+                                    Box
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Dus"
+                                >
+                                    Dus
+                                </div>
+
+                                <div
+                                    class="custom-option"
+                                    data-value="Pot"
+                                >
+                                    Pot
+                                </div>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-1"></i> Simpan Perubahan
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Batal
                     </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        <i class="fas fa-save me-1"></i>
+                        Simpan Perubahan
+                    </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
 
+@endsection
+
+
+@push('scripts')
+
+{{-- SWEETALERT --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- JQUERY --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+{{-- DATATABLE --}}
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function () {
 
-    /* CUSTOM DROPDOWN TAMBAH */
-    const namaButton = document.getElementById('namaButton');
-    const namaList = document.getElementById('namaList');
-    const namaInput = document.getElementById('nama');
-    const namaText = document.getElementById('namaText');
+    /*
+    |--------------------------------------------------------------------------
+    | DATATABLE YAJRA
+    |--------------------------------------------------------------------------
+    */
 
-    namaButton.addEventListener('click', function (e) {
-        e.stopPropagation();
-        namaList.classList.toggle('show');
-        namaButton.classList.toggle('active', namaList.classList.contains('show'));
-    });
+    const table = $('#satuan-table').DataTable({
 
-    namaList.querySelectorAll('.custom-option').forEach(function (option) {
-        option.addEventListener('click', function () {
-            const value = this.dataset.value;
-            const text = this.textContent.trim();
-            namaInput.value = value;
-            namaText.textContent = text;
+        processing: true,
+        serverSide: true,
 
-            namaList.querySelectorAll('.custom-option').forEach(item => item.classList.remove('selected'));
-            this.classList.add('selected');
-            namaList.classList.remove('show');
-            namaButton.classList.remove('active');
-        });
-    });
+        ordering: false,
 
-    /* CUSTOM DROPDOWN EDIT */
-    const editNamaButton = document.getElementById('editNamaButton');
-    const editNamaList = document.getElementById('editNamaList');
-    const editNamaInput = document.getElementById('editNama');
-    const editNamaText = document.getElementById('editNamaText');
+        ajax: {
+            url: "{{ route('master-satuan.data') }}",
+            type: "GET"
+        },
 
-    editNamaButton.addEventListener('click', function (e) {
-        e.stopPropagation();
-        editNamaList.classList.toggle('show');
-        editNamaButton.classList.toggle('active', editNamaList.classList.contains('show'));
-    });
+        pageLength: 10,
 
-    editNamaList.querySelectorAll('.custom-option').forEach(function (option) {
-        option.addEventListener('click', function () {
-            const value = this.dataset.value;
-            const text = this.textContent.trim();
-            editNamaInput.value = value;
-            editNamaText.textContent = text;
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
 
-            editNamaList.querySelectorAll('.custom-option').forEach(item => item.classList.remove('selected'));
-            this.classList.add('selected');
-            editNamaList.classList.remove('show');
-            editNamaButton.classList.remove('active');
-        });
-    });
+        columns: [
 
-    /* TUTUP DROPDOWN KLIK DILUAR */
-    document.addEventListener('click', function () {
-        namaList.classList.remove('show');
-        namaButton.classList.remove('active');
-        editNamaList.classList.remove('show');
-        editNamaButton.classList.remove('active');
-    });
-
-    /* TAMBAH DATA (Menggunakan SweetAlert2) */
-    document.getElementById('formTambah').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        if (!namaInput.value) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan!',
-                text: 'Silakan pilih nama satuan terlebih dahulu.'
-            });
-            return;
-        }
-
-        fetch("{{ route('master-satuan.store') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Accept": "application/json",
-                "Content-Type": "application/x-www-form-urlencoded"
+            {
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                searchable: false,
+                orderable: false
             },
-            body: new URLSearchParams(new FormData(this))
-        })
-        .then(response => response.json())
-        .then(response => {
-            const modalEl = document.getElementById('modalTambah');
-            const modalInstance = bootstrap.Modal.getInstance(modalEl);
-            if(modalInstance) modalInstance.hide();
 
-            Swal.fire({
-                title: 'Berhasil!',
-                text: response.message || 'Data satuan berhasil ditambahkan.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                location.reload();
-            });
-        })
-        .catch(error => {
-            console.error(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: 'Data gagal disimpan.'
-            });
-        });
-    });
+            {
+                data: 'kode',
+                name: 'kode',
 
-    /* LIHAT DATA */
-    window.lihatData = function (id) {
-        fetch("{{ url('/master-satuan') }}/" + id, {
-            headers: { "Accept": "application/json" }
-        })
-        .then(response => response.json())
-        .then(response => {
-            document.getElementById('lihatKode').textContent = response.data.kode || '-';
-            document.getElementById('lihatNama').textContent = response.data.nama || '-';
-            document.getElementById('lihatId').textContent = response.data.id || '-';
+                render: function (data) {
 
-            const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalLihat'));
-            modal.show();
-        })
-        .catch(error => {
-            console.error(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: 'Data gagal ditampilkan.'
-            });
-        });
-    };
+                    return `
+                        <span class="badge-kode">
+                            ${escapeHtml(data || '-')}
+                        </span>
+                    `;
+                }
+            },
 
-    /* EDIT DATA */
-    window.editData = function (id, kode, nama) {
-        document.getElementById('editId').value = id;
-        document.getElementById('editKode').value = kode || '';
-        document.getElementById('editNama').value = nama || '';
-        editNamaText.textContent = nama || '-- Pilih Satuan --';
+            {
+                data: 'nama',
+                name: 'nama',
 
-        editNamaList.querySelectorAll('.custom-option').forEach(function (option) {
-            option.classList.remove('selected');
-            if (option.dataset.value === nama) {
-                option.classList.add('selected');
+                render: function (data) {
+
+                    return `
+                        <span class="badge-nama-satuan">
+                            ${escapeHtml(data || '-')}
+                        </span>
+                    `;
+                }
+            },
+
+            {
+                data: 'aksi',
+                name: 'aksi',
+                searchable: false,
+                orderable: false
             }
-        });
 
-        const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalEdit'));
-        modal.show();
-    };
+        ],
 
-    /* SIMPAN EDIT DATA (Menggunakan SweetAlert2) */
-    document.getElementById('formEdit').addEventListener('submit', function (e) {
-        e.preventDefault();
+        language: {
 
-        if (!editNamaInput.value) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Peringatan!',
-                text: 'Silakan pilih nama satuan terlebih dahulu.'
-            });
-            return;
+            processing: "Memuat data...",
+
+            search: "Cari:",
+
+            lengthMenu:
+                "Tampilkan _MENU_ data",
+
+            info:
+                "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+            infoEmpty:
+                "Tidak ada data",
+
+            infoFiltered:
+                "(difilter dari _MAX_ total data)",
+
+            zeroRecords:
+                "Data satuan tidak ditemukan",
+
+            emptyTable:
+                "Belum ada data satuan obat",
+
+            paginate: {
+                first: "Pertama",
+                last: "Terakhir",
+                next: "Selanjutnya",
+                previous: "Sebelumnya"
+            }
         }
 
-        const id = document.getElementById('editId').value;
-
-        fetch("{{ url('/master-satuan') }}/" + id, {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Accept": "application/json",
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: new URLSearchParams(new FormData(this))
-        })
-        .then(response => response.json())
-        .then(response => {
-            const modalEl = document.getElementById('modalEdit');
-            const modalInstance = bootstrap.Modal.getInstance(modalEl);
-            if(modalInstance) modalInstance.hide();
-
-            Swal.fire({
-                title: 'Berhasil!',
-                text: response.message || 'Data satuan berhasil diperbarui.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                location.reload();
-            });
-        })
-        .catch(error => {
-            console.error(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: 'Data gagal diperbarui.'
-            });
-        });
     });
 
-    /* HAPUS DATA (Menggunakan SweetAlert2) */
-    window.hapusData = function (id) {
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: "Data yang dihapus tidak dapat dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch("{{ url('/master-satuan') }}/" + id, {
-                    method: "DELETE",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        "Accept": "application/json"
+
+    /*
+    |--------------------------------------------------------------------------
+    | ESCAPE HTML
+    |--------------------------------------------------------------------------
+    */
+
+    function escapeHtml(text) {
+
+        return $('<div>')
+            .text(text ?? '')
+            .html();
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ELEMENT DROPDOWN TAMBAH
+    |--------------------------------------------------------------------------
+    */
+
+    const namaButton =
+        document.getElementById('namaButton');
+
+    const namaList =
+        document.getElementById('namaList');
+
+    const namaInput =
+        document.getElementById('nama');
+
+    const namaText =
+        document.getElementById('namaText');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ELEMENT DROPDOWN EDIT
+    |--------------------------------------------------------------------------
+    */
+
+    const editNamaButton =
+        document.getElementById('editNamaButton');
+
+    const editNamaList =
+        document.getElementById('editNamaList');
+
+    const editNamaInput =
+        document.getElementById('editNama');
+
+    const editNamaText =
+        document.getElementById('editNamaText');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DROPDOWN TAMBAH
+    |--------------------------------------------------------------------------
+    */
+
+    namaButton.addEventListener(
+        'click',
+        function (e) {
+
+            e.stopPropagation();
+
+            namaList.classList.toggle('show');
+
+            namaButton.classList.toggle(
+                'active',
+                namaList.classList.contains('show')
+            );
+        }
+    );
+
+
+    namaList
+        .querySelectorAll('.custom-option')
+        .forEach(function (option) {
+
+            option.addEventListener(
+                'click',
+                function (e) {
+
+                    e.stopPropagation();
+
+                    const value =
+                        this.dataset.value;
+
+                    const text =
+                        this.textContent.trim();
+
+
+                    namaInput.value = value;
+
+                    namaText.textContent =
+                        value
+                            ? text
+                            : '-- Pilih Satuan --';
+
+
+                    namaList
+                        .querySelectorAll('.custom-option')
+                        .forEach(function (item) {
+
+                            item.classList.remove(
+                                'selected'
+                            );
+                        });
+
+
+                    if (value) {
+                        this.classList.add(
+                            'selected'
+                        );
                     }
-                })
-                .then(response => response.json())
-                .then(response => {
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: response.message || 'Data berhasil dihapus.',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        location.reload();
-                    });
-                })
-                .catch(error => {
-                    console.error(error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal!',
-                        text: 'Data gagal dihapus.'
-                    });
-                });
-            }
+
+
+                    namaList.classList.remove(
+                        'show'
+                    );
+
+                    namaButton.classList.remove(
+                        'active'
+                    );
+                }
+            );
+
         });
-    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DROPDOWN EDIT
+    |--------------------------------------------------------------------------
+    */
+
+    editNamaButton.addEventListener(
+        'click',
+        function (e) {
+
+            e.stopPropagation();
+
+            editNamaList.classList.toggle(
+                'show'
+            );
+
+            editNamaButton.classList.toggle(
+                'active',
+                editNamaList.classList.contains(
+                    'show'
+                )
+            );
+        }
+    );
+
+
+    editNamaList
+        .querySelectorAll('.custom-option')
+        .forEach(function (option) {
+
+            option.addEventListener(
+                'click',
+                function (e) {
+
+                    e.stopPropagation();
+
+                    const value =
+                        this.dataset.value;
+
+                    const text =
+                        this.textContent.trim();
+
+
+                    editNamaInput.value =
+                        value;
+
+                    editNamaText.textContent =
+                        value
+                            ? text
+                            : '-- Pilih Satuan --';
+
+
+                    editNamaList
+                        .querySelectorAll('.custom-option')
+                        .forEach(function (item) {
+
+                            item.classList.remove(
+                                'selected'
+                            );
+                        });
+
+
+                    if (value) {
+                        this.classList.add(
+                            'selected'
+                        );
+                    }
+
+
+                    editNamaList.classList.remove(
+                        'show'
+                    );
+
+                    editNamaButton.classList.remove(
+                        'active'
+                    );
+                }
+            );
+
+        });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KLIK DI LUAR DROPDOWN
+    |--------------------------------------------------------------------------
+    */
+
+    document.addEventListener(
+        'click',
+        function () {
+
+            namaList.classList.remove('show');
+
+            namaButton.classList.remove(
+                'active'
+            );
+
+
+            editNamaList.classList.remove(
+                'show'
+            );
+
+            editNamaButton.classList.remove(
+                'active'
+            );
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TAMBAH DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $('#formTambah').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            if (!namaInput.value) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan!',
+                    text:
+                        'Silakan pilih nama satuan terlebih dahulu.'
+                });
+
+                return;
+            }
+
+
+            const form = $(this);
+
+            const button =
+                form.find(
+                    'button[type="submit"]'
+                );
+
+
+            button.prop(
+                'disabled',
+                true
+            );
+
+
+            $.ajax({
+
+                url:
+                    "{{ route('master-satuan.store') }}",
+
+                type: "POST",
+
+                data:
+                    form.serialize(),
+
+                success:
+                    function (response) {
+
+                        const modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    document.getElementById(
+                                        'modalTambah'
+                                    )
+                                );
+
+                        modal.hide();
+
+
+                        form[0].reset();
+
+                        resetDropdownTambah();
+
+
+                        table.ajax.reload(
+                            null,
+                            false
+                        );
+
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text:
+                                response.message ||
+                                'Data satuan obat berhasil ditambahkan.',
+                            confirmButtonText:
+                                'OK'
+                        });
+                    },
+
+                error:
+                    function (xhr) {
+
+                        tampilkanError(
+                            xhr,
+                            'Data satuan gagal disimpan.'
+                        );
+                    },
+
+                complete:
+                    function () {
+
+                        button.prop(
+                            'disabled',
+                            false
+                        );
+                    }
+
+            });
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LIHAT DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $('#satuan-table').on(
+        'click',
+        '.btn-satuan-lihat',
+        function () {
+
+            const row =
+                $(this).closest('tr');
+
+
+            const data =
+                table.row(row).data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#lihatKode').text(
+                data.kode || '-'
+            );
+
+            $('#lihatNama').text(
+                data.nama || '-'
+            );
+
+            $('#lihatId').text(
+                data.id || '-'
+            );
+
+
+            const modal =
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById(
+                            'modalLihat'
+                        )
+                    );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $('#satuan-table').on(
+        'click',
+        '.btn-satuan-edit',
+        function () {
+
+            const row =
+                $(this).closest('tr');
+
+
+            const data =
+                table.row(row).data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#editId').val(
+                data.id
+            );
+
+            $('#editKode').val(
+                data.kode || ''
+            );
+
+            $('#editNama').val(
+                data.nama || ''
+            );
+
+
+            editNamaText.textContent =
+                data.nama ||
+                '-- Pilih Satuan --';
+
+
+            editNamaList
+                .querySelectorAll(
+                    '.custom-option'
+                )
+                .forEach(function (option) {
+
+                    option.classList.remove(
+                        'selected'
+                    );
+
+
+                    if (
+                        option.dataset.value ===
+                        (data.nama || '')
+                    ) {
+
+                        option.classList.add(
+                            'selected'
+                        );
+                    }
+
+                });
+
+
+            const modal =
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById(
+                            'modalEdit'
+                        )
+                    );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SIMPAN EDIT
+    |--------------------------------------------------------------------------
+    */
+
+    $('#formEdit').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            if (!editNamaInput.value) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan!',
+                    text:
+                        'Silakan pilih nama satuan terlebih dahulu.'
+                });
+
+                return;
+            }
+
+
+            const id =
+                $('#editId').val();
+
+
+            const form =
+                $(this);
+
+
+            const button =
+                form.find(
+                    'button[type="submit"]'
+                );
+
+
+            button.prop(
+                'disabled',
+                true
+            );
+
+
+            $.ajax({
+
+                url:
+                    "{{ url('/master-satuan') }}/" +
+                    id,
+
+                type:
+                    "POST",
+
+                data:
+                    form.serialize(),
+
+                success:
+                    function (response) {
+
+                        const modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    document.getElementById(
+                                        'modalEdit'
+                                    )
+                                );
+
+
+                        modal.hide();
+
+
+                        table.ajax.reload(
+                            null,
+                            false
+                        );
+
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text:
+                                response.message ||
+                                'Data satuan obat berhasil diperbarui.',
+                            confirmButtonText:
+                                'OK'
+                        });
+
+                    },
+
+                error:
+                    function (xhr) {
+
+                        tampilkanError(
+                            xhr,
+                            'Data satuan gagal diperbarui.'
+                        );
+                    },
+
+                complete:
+                    function () {
+
+                        button.prop(
+                            'disabled',
+                            false
+                        );
+                    }
+
+            });
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | HAPUS DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $('#satuan-table').on(
+        'click',
+        '.btn-satuan-hapus',
+        function () {
+
+            const row =
+                $(this).closest('tr');
+
+
+            const data =
+                table.row(row).data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            Swal.fire({
+
+                title:
+                    'Apakah Anda yakin?',
+
+                text:
+                    'Data satuan "' +
+                    (data.nama || '') +
+                    '" akan dihapus.',
+
+                icon:
+                    'warning',
+
+                showCancelButton:
+                    true,
+
+                confirmButtonColor:
+                    '#ef4444',
+
+                cancelButtonColor:
+                    '#6c757d',
+
+                confirmButtonText:
+                    'Ya, hapus!',
+
+                cancelButtonText:
+                    'Batal'
+
+            }).then(
+                function (result) {
+
+                    if (
+                        !result.isConfirmed
+                    ) {
+                        return;
+                    }
+
+
+                    $.ajax({
+
+                        url:
+                            "{{ url('/master-satuan') }}/" +
+                            data.id,
+
+                        type:
+                            "DELETE",
+
+                        data: {
+                            _token:
+                                "{{ csrf_token() }}"
+                        },
+
+                        success:
+                            function (response) {
+
+                                table.ajax.reload(
+                                    null,
+                                    false
+                                );
+
+
+                                Swal.fire({
+                                    icon:
+                                        'success',
+
+                                    title:
+                                        'Berhasil!',
+
+                                    text:
+                                        response.message ||
+                                        'Data satuan berhasil dihapus.',
+
+                                    confirmButtonText:
+                                        'OK'
+                                });
+
+                            },
+
+                        error:
+                            function (xhr) {
+
+                                tampilkanError(
+                                    xhr,
+                                    'Data satuan gagal dihapus.'
+                                );
+                            }
+
+                    });
+
+                }
+            );
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESET MODAL TAMBAH
+    |--------------------------------------------------------------------------
+    */
+
+    $('#modalTambah').on(
+        'hidden.bs.modal',
+        function () {
+
+            const form =
+                document.getElementById(
+                    'formTambah'
+                );
+
+            form.reset();
+
+            resetDropdownTambah();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTION RESET DROPDOWN
+    |--------------------------------------------------------------------------
+    */
+
+    function resetDropdownTambah() {
+
+        namaInput.value = '';
+
+        namaText.textContent =
+            '-- Pilih Satuan --';
+
+
+        namaList
+            .querySelectorAll(
+                '.custom-option'
+            )
+            .forEach(
+                function (option) {
+
+                    option.classList.remove(
+                        'selected'
+                    );
+                }
+            );
+
+
+        namaList.classList.remove(
+            'show'
+        );
+
+        namaButton.classList.remove(
+            'active'
+        );
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTION ERROR AJAX
+    |--------------------------------------------------------------------------
+    */
+
+    function tampilkanError(
+        xhr,
+        defaultMessage
+    ) {
+
+        let message =
+            defaultMessage;
+
+
+        if (
+            xhr.responseJSON &&
+            xhr.responseJSON.message
+        ) {
+
+            message =
+                xhr.responseJSON.message;
+        }
+
+
+        if (
+            xhr.responseJSON &&
+            xhr.responseJSON.errors
+        ) {
+
+            const errors =
+                Object.values(
+                    xhr.responseJSON.errors
+                ).flat();
+
+
+            if (
+                errors.length > 0
+            ) {
+
+                message =
+                    errors[0];
+            }
+
+        }
+
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: message
+        });
+
+    }
 
 });
 </script>
 
-@endsection
+@endpush

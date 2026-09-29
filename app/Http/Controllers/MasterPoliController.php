@@ -4,24 +4,96 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterPoli;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\Facades\DataTables;
 
 class MasterPoliController extends Controller
 {
     /**
-     * Menampilkan semua data poli
-     * Data terbaru ditampilkan paling atas
+     * =========================================================
+     * HALAMAN MASTER POLI
+     * =========================================================
      */
     public function index()
     {
-        $polis = MasterPoli::orderBy('created_at', 'DESC')->get();
-
-        return view('master-poli.index', compact('polis'));
+        return view('master-poli.index');
     }
 
 
     /**
-     * Menampilkan form tambah
-     * Tidak digunakan karena tambah menggunakan modal
+     * =========================================================
+     * DATA YAJRA DATATABLES
+     * =========================================================
+     */
+    public function data()
+    {
+        $polis = MasterPoli::query()
+            ->select([
+                'id',
+                'kode',
+                'nama',
+            ])
+            ->orderByDesc('id');
+
+
+        return DataTables::of($polis)
+
+            ->addIndexColumn()
+
+            ->addColumn('aksi', function ($poli) {
+
+                return '
+                    <div class="aksi-wrapper">
+
+                        <button
+                            type="button"
+                            class="btn btn-poli-aksi btn-poli-lihat"
+                            title="Lihat"
+                        >
+                            <i class="fas fa-eye me-1"></i>
+                            Lihat
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-poli-aksi btn-poli-edit"
+                            title="Edit"
+                        >
+                            <i class="fas fa-edit me-1"></i>
+                            Edit
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-poli-aksi btn-poli-hapus"
+                            title="Hapus"
+                        >
+                            <i class="fas fa-trash me-1"></i>
+                            Hapus
+                        </button>
+
+                    </div>
+                ';
+            })
+
+            ->rawColumns([
+                'aksi'
+            ])
+
+            ->make(true);
+    }
+
+
+    /**
+     * =========================================================
+     * FORM CREATE
+     * =========================================================
+     *
+     * Tetap disediakan karena Route::resource membuat route
+     * master-poli.create.
+     *
+     * CRUD utama tetap menggunakan modal.
      */
     public function create()
     {
@@ -30,91 +102,252 @@ class MasterPoliController extends Controller
 
 
     /**
-     * Menyimpan data poli baru
+     * =========================================================
+     * SIMPAN DATA
+     * =========================================================
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'kode' => 'required|unique:master_polis,kode',
-            'nama' => 'required',
-        ], [
-            'kode.required' => 'Kode Poli wajib diisi.',
-            'kode.unique' => 'Kode Poli sudah digunakan.',
-            'nama.required' => 'Nama Poli wajib diisi.',
-        ]);
+        try {
 
-        MasterPoli::create([
-            'kode' => $request->kode,
-            'nama' => $request->nama,
-        ]);
+            $validated = $request->validate(
+                [
+                    'kode' => [
+                        'required',
+                        'string',
+                        Rule::unique('master_polis', 'kode'),
+                    ],
 
-        return redirect()
-            ->route('master-poli.index')
-            ->with('success', 'Data poli berhasil ditambahkan.');
+                    'nama' => [
+                        'required',
+                        'string',
+                    ],
+                ],
+                [
+                    'kode.required' =>
+                        'Kode Poli wajib diisi.',
+
+                    'kode.unique' =>
+                        'Kode Poli sudah digunakan.',
+
+                    'nama.required' =>
+                        'Nama Poli wajib diisi.',
+                ]
+            );
+
+
+            $poli = MasterPoli::create([
+                'kode' => $validated['kode'],
+                'nama' => $validated['nama'],
+            ]);
+
+
+            return response()->json([
+                'success' => true,
+                'message' =>
+                    'Data poli berhasil ditambahkan.',
+                'data' => $poli,
+            ], 201);
+
+        } catch (ValidationException $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal.',
+                'errors' => $e->errors(),
+            ], 422);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' =>
+                    'Terjadi kesalahan saat menyimpan data poli.',
+            ], 500);
+        }
     }
 
 
     /**
-     * Menampilkan detail data poli
+     * =========================================================
+     * DETAIL DATA
+     * =========================================================
      */
     public function show($id)
     {
-        $poli = MasterPoli::findOrFail($id);
+        try {
 
-        return view('master-poli.show', compact('poli'));
+            $poli = MasterPoli::findOrFail($id);
+
+
+            return response()->json([
+                'success' => true,
+                'data' => $poli,
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' =>
+                    'Data poli tidak ditemukan.',
+            ], 404);
+        }
     }
 
 
     /**
-     * Menampilkan form edit
-     * Tidak digunakan karena edit menggunakan modal
+     * =========================================================
+     * FORM EDIT
+     * =========================================================
      */
     public function edit($id)
     {
-        $poli = MasterPoli::findOrFail($id);
+        try {
 
-        return view('master-poli.edit', compact('poli'));
+            $poli = MasterPoli::findOrFail($id);
+
+
+            return response()->json([
+                'success' => true,
+                'data' => $poli,
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' =>
+                    'Data poli tidak ditemukan.',
+            ], 404);
+        }
     }
 
 
     /**
-     * Mengupdate data poli
+     * =========================================================
+     * UPDATE DATA
+     * =========================================================
      */
     public function update(Request $request, $id)
     {
-        $poli = MasterPoli::findOrFail($id);
+        try {
 
-        $request->validate([
-            'kode' => 'required|unique:master_polis,kode,' . $poli->id,
-            'nama' => 'required',
-        ], [
-            'kode.required' => 'Kode Poli wajib diisi.',
-            'kode.unique' => 'Kode Poli sudah digunakan.',
-            'nama.required' => 'Nama Poli wajib diisi.',
-        ]);
+            $poli = MasterPoli::findOrFail($id);
 
-        $poli->update([
-            'kode' => $request->kode,
-            'nama' => $request->nama,
-        ]);
 
-        return redirect()
-            ->route('master-poli.index')
-            ->with('success', 'Data poli berhasil diupdate.');
+            $validated = $request->validate(
+                [
+                    'kode' => [
+                        'required',
+                        'string',
+
+                        Rule::unique(
+                            'master_polis',
+                            'kode'
+                        )->ignore($poli->id),
+                    ],
+
+                    'nama' => [
+                        'required',
+                        'string',
+                    ],
+                ],
+                [
+                    'kode.required' =>
+                        'Kode Poli wajib diisi.',
+
+                    'kode.unique' =>
+                        'Kode Poli sudah digunakan.',
+
+                    'nama.required' =>
+                        'Nama Poli wajib diisi.',
+                ]
+            );
+
+
+            $poli->update([
+                'kode' => $validated['kode'],
+                'nama' => $validated['nama'],
+            ]);
+
+
+            return response()->json([
+                'success' => true,
+                'message' =>
+                    'Data poli berhasil diupdate.',
+                'data' => $poli,
+            ]);
+
+        } catch (ValidationException $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal.',
+                'errors' => $e->errors(),
+            ], 422);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' =>
+                    'Terjadi kesalahan saat memperbarui data poli.',
+            ], 500);
+        }
     }
 
 
     /**
-     * Menghapus data poli
+     * =========================================================
+     * HAPUS DATA
+     * =========================================================
      */
     public function destroy($id)
     {
-        $poli = MasterPoli::findOrFail($id);
+        try {
 
-        $poli->delete();
+            $poli = MasterPoli::findOrFail($id);
 
-        return redirect()
-            ->route('master-poli.index')
-            ->with('success', 'Data poli berhasil dihapus.');
+            $poli->delete();
+
+
+            return response()->json([
+                'success' => true,
+                'message' =>
+                    'Data poli berhasil dihapus.',
+            ]);
+
+        } catch (\Illuminate\Database\QueryException $e) {
+
+            /*
+             * Jika poli masih dipakai oleh data lain,
+             * database dapat menolak penghapusan karena
+             * foreign key.
+             */
+            if ($e->getCode() == '23000') {
+
+                return response()->json([
+                    'success' => false,
+                    'message' =>
+                        'Data poli tidak dapat dihapus karena masih digunakan pada data lain.',
+                ], 422);
+            }
+
+
+            return response()->json([
+                'success' => false,
+                'message' =>
+                    'Gagal menghapus data poli.',
+            ], 500);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' =>
+                    'Data poli tidak ditemukan atau gagal dihapus.',
+            ], 404);
+        }
     }
 }

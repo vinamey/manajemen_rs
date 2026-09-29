@@ -4,8 +4,12 @@
 
 @section('content')
 
-<style>
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
+>
 
+<style>
     :root {
         --blue-main: #1877f2;
         --blue-dark: #0f58c6;
@@ -13,11 +17,9 @@
         --blue-soft: #f0f7ff;
     }
 
-
     /* =========================================================
        GENERAL
     ========================================================= */
-
     .master-tindakan {
         padding: 12px 0;
     }
@@ -26,7 +28,6 @@
     /* =========================================================
        HEADER
     ========================================================= */
-
     .page-header-tindakan {
         margin-bottom: 22px;
     }
@@ -73,7 +74,6 @@
     /* =========================================================
        BUTTON TAMBAH
     ========================================================= */
-
     .btn-blue-primary-tindakan {
         background-color: var(--blue-main) !important;
 
@@ -86,7 +86,6 @@
         padding: 9px 15px;
 
         font-size: 13px;
-
         font-weight: 600;
 
         transition: 0.2s ease;
@@ -102,48 +101,31 @@
 
 
     /* =========================================================
-       ALERT
-    ========================================================= */
-
-    .alert-tindakan {
-        border: none;
-
-        border-left: 3px solid var(--blue-main);
-
-        border-radius: 10px;
-
-        background-color: #ffffff;
-
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-
-        padding: 12px 15px;
-
-        margin-bottom: 18px;
-    }
-
-
-    /* =========================================================
        TABLE CARD
     ========================================================= */
-
     .card-table-tindakan {
         border: none !important;
 
         border-radius: 12px !important;
 
-        overflow: hidden;
-
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        box-shadow:
+            0 4px 12px
+            rgba(0, 0, 0, 0.05) !important;
     }
 
-    .table-tindakan {
-        margin-bottom: 0;
+    .card-table-tindakan .table-responsive {
+        overflow-x: auto;
     }
 
 
     /* =========================================================
-       TABLE HEADER
+       TABLE
     ========================================================= */
+    .table-tindakan {
+        width: 100% !important;
+
+        margin-bottom: 0 !important;
+    }
 
     .table-tindakan thead th {
         background-color: var(--blue-main) !important;
@@ -152,30 +134,28 @@
 
         border: none !important;
 
-        font-size: 13px;
+        font-size: 13px !important;
 
-        font-weight: 600;
+        font-weight: 600 !important;
 
-        padding: 14px 16px;
+        padding: 14px 16px !important;
 
         white-space: nowrap;
     }
 
-
-    /* =========================================================
-       TABLE BODY
-    ========================================================= */
-
     .table-tindakan tbody td {
-        padding: 12px 16px;
+        padding: 12px 16px !important;
 
-        font-size: 13px;
+        font-size: 13px !important;
 
         color: #475569;
 
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom:
+            1px solid #f1f5f9 !important;
 
         vertical-align: middle;
+
+        white-space: nowrap;
     }
 
     .table-tindakan tbody tr {
@@ -183,18 +163,18 @@
     }
 
     .table-tindakan tbody tr:hover {
-        background-color: var(--blue-soft) !important;
+        background-color:
+            var(--blue-soft) !important;
     }
 
     .table-tindakan tbody tr:last-child td {
-        border-bottom: none;
+        border-bottom: none !important;
     }
 
 
     /* =========================================================
        TINDAKAN PROFILE
     ========================================================= */
-
     .tindakan-name {
         color: #1e293b;
 
@@ -203,22 +183,17 @@
         margin-bottom: 2px;
     }
 
-    .tindakan-id {
-        color: #94a3b8;
-
-        font-size: 10px;
-    }
-
-
     .avatar-tindakan {
         width: 32px;
         height: 32px;
 
         border-radius: 50%;
 
-        background-color: var(--blue-light-bg);
+        background-color:
+            var(--blue-light-bg);
 
-        color: var(--blue-main);
+        color:
+            var(--blue-main);
 
         display: flex;
         align-items: center;
@@ -233,11 +208,12 @@
     /* =========================================================
        BADGE KODE
     ========================================================= */
-
     .badge-code-tindakan {
-        background-color: #e0f2fe !important;
+        background-color:
+            #e0f2fe !important;
 
-        color: #0284c7 !important;
+        color:
+            #0284c7 !important;
 
         font-size: 11px;
 
@@ -250,13 +226,14 @@
 
 
     /* =========================================================
-       ACTION BUTTON
+       ACTION
     ========================================================= */
-
     .btn-action-view-tindakan {
-        background-color: #e0f2fe !important;
+        background-color:
+            #e0f2fe !important;
 
-        color: #0284c7 !important;
+        color:
+            #0284c7 !important;
 
         border: none !important;
 
@@ -270,16 +247,20 @@
     }
 
     .btn-action-view-tindakan:hover {
-        background-color: #bae6fd !important;
+        background-color:
+            #bae6fd !important;
 
-        color: #0369a1 !important;
+        color:
+            #0369a1 !important;
     }
 
 
     .btn-action-edit-tindakan {
-        background-color: var(--blue-main) !important;
+        background-color:
+            var(--blue-main) !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
 
         border: none !important;
 
@@ -293,16 +274,20 @@
     }
 
     .btn-action-edit-tindakan:hover {
-        background-color: var(--blue-dark) !important;
+        background-color:
+            var(--blue-dark) !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
     }
 
 
     .btn-action-delete-tindakan {
-        background-color: #ef4444 !important;
+        background-color:
+            #ef4444 !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
 
         border: none !important;
 
@@ -316,16 +301,105 @@
     }
 
     .btn-action-delete-tindakan:hover {
-        background-color: #dc2626 !important;
+        background-color:
+            #dc2626 !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
+    }
+
+
+    /* =========================================================
+       DATATABLE
+    ========================================================= */
+    .dataTables_wrapper {
+        padding: 18px;
+    }
+
+    .dataTables_wrapper .row:first-child {
+        margin-bottom: 14px;
+    }
+
+    .dataTables_wrapper .row:last-child {
+        margin-top: 14px;
+    }
+
+    .dataTables_length label,
+    .dataTables_filter label,
+    .dataTables_info {
+        font-size: 11px;
+
+        color: #64748b;
+    }
+
+    .dataTables_length select {
+        font-size: 11px !important;
+
+        border-radius: 7px !important;
+
+        border:
+            1px solid #d7e0ea !important;
+    }
+
+    .dataTables_filter input {
+        font-size: 11px !important;
+
+        border:
+            1px solid #d7e0ea !important;
+
+        border-radius: 7px !important;
+
+        padding: 7px 10px !important;
+
+        margin-left: 7px !important;
+    }
+
+    .dataTables_filter input:focus {
+        border-color:
+            var(--blue-main) !important;
+
+        box-shadow:
+            0 0 0 0.15rem
+            rgba(24, 119, 242, 0.12) !important;
+
+        outline: none !important;
+    }
+
+    .dataTables_paginate .pagination {
+        gap: 3px;
+    }
+
+    .dataTables_paginate .page-link {
+        font-size: 10px;
+
+        border-radius:
+            6px !important;
+
+        color:
+            var(--blue-main);
+
+        border:
+            1px solid #e5e7eb;
+
+        padding: 6px 9px;
+    }
+
+    .dataTables_paginate
+    .page-item.active
+    .page-link {
+        background:
+            var(--blue-main);
+
+        border-color:
+            var(--blue-main);
+
+        color: white;
     }
 
 
     /* =========================================================
        MODAL
     ========================================================= */
-
     .modal-tindakan .modal-dialog {
         max-width: 460px;
     }
@@ -337,16 +411,14 @@
 
         overflow: hidden;
 
-        box-shadow: 0 15px 40px rgba(15, 23, 42, 0.18);
+        box-shadow:
+            0 15px 40px
+            rgba(15, 23, 42, 0.18);
     }
 
-
-    /* =========================================================
-       MODAL HEADER
-    ========================================================= */
-
     .modal-tindakan .modal-header {
-        background-color: var(--blue-main);
+        background-color:
+            var(--blue-main);
 
         color: #ffffff;
 
@@ -361,28 +433,22 @@
         font-weight: 700;
     }
 
-    .modal-tindakan .modal-header .btn-close {
-        filter: brightness(0) invert(1);
-
-        opacity: 0.9;
+    /* X disembunyikan */
+    .modal-tindakan .btn-close {
+        display: none !important;
     }
-
-
-    /* =========================================================
-       MODAL BODY
-    ========================================================= */
 
     .modal-tindakan .modal-body {
         padding: 20px 18px;
 
-        background-color: #ffffff;
+        background-color:
+            #ffffff;
     }
 
 
     /* =========================================================
        FORM
     ========================================================= */
-
     .form-label-tindakan {
         display: block;
 
@@ -398,7 +464,8 @@
     .form-control-tindakan {
         width: 100%;
 
-        border: 1px solid #d7e0ea;
+        border:
+            1px solid #d7e0ea;
 
         border-radius: 8px;
 
@@ -408,15 +475,19 @@
 
         color: #334155;
 
-        background-color: #ffffff;
+        background-color:
+            #ffffff;
 
         transition: 0.2s ease;
     }
 
     .form-control-tindakan:focus {
-        border-color: var(--blue-main);
+        border-color:
+            var(--blue-main);
 
-        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.12);
+        box-shadow:
+            0 0 0 3px
+            rgba(24, 119, 242, 0.12);
 
         outline: none;
     }
@@ -427,22 +498,23 @@
 
 
     /* =========================================================
-       MODAL FOOTER
+       FOOTER
     ========================================================= */
-
     .modal-tindakan .modal-footer {
-        background-color: #f8fafc;
+        background-color:
+            #f8fafc;
 
         border: none;
 
         padding: 12px 18px;
     }
 
-
     .btn-modal-cancel-tindakan {
-        background-color: #f1f5f9 !important;
+        background-color:
+            #f1f5f9 !important;
 
-        color: #64748b !important;
+        color:
+            #64748b !important;
 
         border: none !important;
 
@@ -456,14 +528,16 @@
     }
 
     .btn-modal-cancel-tindakan:hover {
-        background-color: #e2e8f0 !important;
+        background-color:
+            #e2e8f0 !important;
     }
 
-
     .btn-modal-save-tindakan {
-        background-color: var(--blue-main) !important;
+        background-color:
+            var(--blue-main) !important;
 
-        color: #ffffff !important;
+        color:
+            #ffffff !important;
 
         border: none !important;
 
@@ -477,14 +551,14 @@
     }
 
     .btn-modal-save-tindakan:hover {
-        background-color: var(--blue-dark) !important;
+        background-color:
+            var(--blue-dark) !important;
     }
 
 
     /* =========================================================
        DETAIL
     ========================================================= */
-
     .detail-tindakan-table {
         width: 100%;
 
@@ -494,7 +568,8 @@
     .detail-tindakan-table td {
         padding: 9px 5px;
 
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom:
+            1px solid #f1f5f9;
 
         font-size: 12px;
 
@@ -521,26 +596,15 @@
 
 
     /* =========================================================
-       EMPTY DATA
-    ========================================================= */
-
-    .empty-tindakan {
-        padding: 45px 20px !important;
-
-        color: #94a3b8 !important;
-    }
-
-
-    /* =========================================================
        RESPONSIVE
     ========================================================= */
-
     @media (max-width: 768px) {
 
         .page-header-tindakan {
             flex-direction: column;
 
-            align-items: flex-start !important;
+            align-items:
+                flex-start !important;
 
             gap: 15px;
         }
@@ -554,46 +618,38 @@
         }
 
         .modal-tindakan .modal-dialog {
-            max-width: calc(100% - 25px);
+            max-width:
+                calc(100% - 25px);
 
             margin: 12px auto;
         }
     }
-
 </style>
 
 
 <div class="container-fluid master-tindakan">
 
-
     {{-- =====================================================
          HEADER
     ====================================================== --}}
-
-    <div class="d-flex justify-content-between align-items-center page-header-tindakan">
+    <div
+        class="d-flex justify-content-between align-items-center page-header-tindakan"
+    >
 
         <div class="d-flex align-items-center gap-3">
 
             <div class="header-icon-box-tindakan">
-
                 <i class="fas fa-notes-medical"></i>
-
             </div>
-
 
             <div>
 
                 <h3 class="page-title-tindakan">
-
                     Master Tindakan
-
                 </h3>
 
-
                 <p class="page-subtitle-tindakan">
-
                     Data tindakan yang tersedia
-
                 </p>
 
             </div>
@@ -601,81 +657,32 @@
         </div>
 
 
-        {{-- TOMBOL TAMBAH --}}
-
         <button
             type="button"
             class="btn btn-blue-primary-tindakan"
             data-bs-toggle="modal"
             data-bs-target="#modalTambahTindakan"
         >
-
             <i class="fas fa-plus me-1"></i>
-
             Tambah Tindakan
-
         </button>
 
     </div>
 
 
     {{-- =====================================================
-         ALERT SUCCESS
-    ====================================================== --}}
-
-    @if(session('success'))
-
-        <div class="alert alert-success alert-tindakan">
-
-            <i class="fas fa-check-circle me-2"></i>
-
-            {{ session('success') }}
-
-        </div>
-
-    @endif
-
-
-    {{-- =====================================================
-         ALERT ERROR
-    ====================================================== --}}
-
-    @if($errors->any())
-
-        <div class="alert alert-danger alert-tindakan">
-
-            <strong>
-                Terjadi kesalahan:
-            </strong>
-
-            <ul class="mb-0 mt-1">
-
-                @foreach($errors->all() as $error)
-
-                    <li>
-                        {{ $error }}
-                    </li>
-
-                @endforeach
-
-            </ul>
-
-        </div>
-
-    @endif
-
-
-    {{-- =====================================================
          TABLE
     ====================================================== --}}
-
     <div class="card card-table-tindakan">
 
         <div class="card-body p-0">
 
             <div class="table-responsive">
 
-                <table class="table table-tindakan align-middle">
+                <table
+                    id="tableTindakan"
+                    class="table table-tindakan align-middle"
+                >
 
                     <thead>
 
@@ -709,155 +716,7 @@
 
 
                     <tbody>
-
-                        @forelse($tindakans as $tindakan)
-
-                            <tr id="tindakan-{{ $tindakan->id }}">
-
-
-                                {{-- NO --}}
-
-                                <td class="text-center text-muted">
-
-                                    {{ $loop->iteration }}
-
-                                </td>
-
-
-                                {{-- KODE --}}
-
-                                <td>
-
-                                    <span class="badge badge-code-tindakan">
-
-                                        {{ $tindakan->kode }}
-
-                                    </span>
-
-                                </td>
-
-
-                                {{-- NAMA --}}
-
-                                <td>
-
-                                    <div class="d-flex align-items-center gap-2">
-
-                                        <div class="avatar-tindakan">
-
-                                            <i class="fas fa-notes-medical"></i>
-
-                                        </div>
-
-
-                                        <div>
-
-                                            <div class="tindakan-name">
-
-                                                {{ $tindakan->nama }}
-
-                                            </div>
-
-
-                                           
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-
-                                {{-- AKSI --}}
-
-                                <td class="text-center">
-
-                                    <div class="d-flex justify-content-center gap-1">
-
-
-                                        {{-- LIHAT --}}
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-action-view-tindakan"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalLihatTindakan{{ $tindakan->id }}"
-                                        >
-
-                                            <i class="fas fa-eye me-1"></i>
-
-                                            Lihat
-
-                                        </button>
-
-
-                                        {{-- EDIT --}}
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-action-edit-tindakan"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalEditTindakan{{ $tindakan->id }}"
-                                        >
-
-                                            <i class="fas fa-edit me-1"></i>
-
-                                            Edit
-
-                                        </button>
-
-
-                                        {{-- HAPUS --}}
-
-                                        <form
-                                            action="{{ route('master-tindakan.destroy', $tindakan->id) }}"
-                                            method="POST"
-                                            class="d-inline"
-                                            onsubmit="return confirm('Yakin ingin menghapus tindakan {{ $tindakan->nama }}?')"
-                                        >
-
-                                            @csrf
-
-                                            @method('DELETE')
-
-
-                                            <button
-                                                type="submit"
-                                                class="btn btn-sm btn-action-delete-tindakan"
-                                            >
-
-                                                <i class="fas fa-trash me-1"></i>
-
-                                                Hapus
-
-                                            </button>
-
-                                        </form>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td
-                                    colspan="4"
-                                    class="text-center empty-tindakan"
-                                >
-
-                                    <i class="fas fa-notes-medical fa-2x mb-2 d-block"></i>
-
-                                    Belum ada data tindakan.
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
+                        {{-- DATA YAJRA --}}
                     </tbody>
 
                 </table>
@@ -871,16 +730,13 @@
 </div>
 
 
-
 {{-- =========================================================
-     MODAL TAMBAH TINDAKAN
+     MODAL TAMBAH
 ========================================================= --}}
-
 <div
     class="modal fade modal-tindakan"
     id="modalTambahTindakan"
     tabindex="-1"
-    aria-labelledby="modalTambahTindakanLabel"
     aria-hidden="true"
 >
 
@@ -888,51 +744,27 @@
 
         <div class="modal-content">
 
-
-            {{-- HEADER --}}
-
             <div class="modal-header">
 
                 <div class="d-flex align-items-center gap-2">
 
                     <i class="fas fa-notes-medical"></i>
 
-                    <h5
-                        class="modal-title"
-                        id="modalTambahTindakanLabel"
-                    >
-
+                    <h5 class="modal-title">
                         Tambah Tindakan
-
                     </h5>
 
                 </div>
 
-
-                <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
-
             </div>
 
 
-            {{-- FORM --}}
-
-            <form
-                action="{{ route('master-tindakan.store') }}"
-                method="POST"
-            >
+            <form id="formTambahTindakan">
 
                 @csrf
 
 
                 <div class="modal-body">
-
-
-                    {{-- KODE --}}
 
                     <div class="form-group-tindakan">
 
@@ -940,11 +772,8 @@
                             for="tambah_kode"
                             class="form-label-tindakan"
                         >
-
                             Kode Tindakan
-
                         </label>
-
 
                         <input
                             type="text"
@@ -952,14 +781,12 @@
                             name="kode"
                             class="form-control-tindakan"
                             placeholder="Masukkan kode tindakan"
-                            value="{{ old('kode') }}"
+                            maxlength="255"
                             required
                         >
 
                     </div>
 
-
-                    {{-- NAMA --}}
 
                     <div class="form-group-tindakan mb-0">
 
@@ -967,11 +794,8 @@
                             for="tambah_nama"
                             class="form-label-tindakan"
                         >
-
                             Nama Tindakan
-
                         </label>
-
 
                         <input
                             type="text"
@@ -979,7 +803,7 @@
                             name="nama"
                             class="form-control-tindakan"
                             placeholder="Masukkan nama tindakan"
-                            value="{{ old('nama') }}"
+                            maxlength="255"
                             required
                         >
 
@@ -987,8 +811,6 @@
 
                 </div>
 
-
-                {{-- FOOTER --}}
 
                 <div class="modal-footer">
 
@@ -997,9 +819,7 @@
                         class="btn btn-modal-cancel-tindakan"
                         data-bs-dismiss="modal"
                     >
-
                         Batal
-
                     </button>
 
 
@@ -1007,11 +827,8 @@
                         type="submit"
                         class="btn btn-modal-save-tindakan"
                     >
-
                         <i class="fas fa-save me-1"></i>
-
                         Simpan Data
-
                     </button>
 
                 </div>
@@ -1025,119 +842,200 @@
 </div>
 
 
+{{-- =========================================================
+     MODAL LIHAT
+========================================================= --}}
+<div
+    class="modal fade modal-tindakan"
+    id="modalLihatTindakan"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div class="d-flex align-items-center gap-2">
+
+                    <i class="fas fa-notes-medical"></i>
+
+                    <h5 class="modal-title">
+                        Detail Tindakan
+                    </h5>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <table class="detail-tindakan-table">
+
+                    <tr>
+
+                        <td class="detail-tindakan-label">
+                            ID
+                        </td>
+
+                        <td
+                            class="detail-tindakan-value"
+                            id="lihatTindakanId"
+                        >
+                            -
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="detail-tindakan-label">
+                            Kode
+                        </td>
+
+                        <td class="detail-tindakan-value">
+
+                            <span
+                                class="badge badge-code-tindakan"
+                                id="lihatTindakanKode"
+                            >
+                                -
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="detail-tindakan-label">
+                            Nama Tindakan
+                        </td>
+
+                        <td
+                            class="detail-tindakan-value"
+                            id="lihatTindakanNama"
+                        >
+                            -
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-modal-cancel-tindakan"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 {{-- =========================================================
-     MODAL LIHAT & EDIT
+     MODAL EDIT
 ========================================================= --}}
+<div
+    class="modal fade modal-tindakan"
+    id="modalEditTindakan"
+    tabindex="-1"
+    aria-hidden="true"
+>
 
-@foreach($tindakans as $tindakan)
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div class="d-flex align-items-center gap-2">
+
+                    <i class="fas fa-edit"></i>
+
+                    <h5 class="modal-title">
+                        Edit Tindakan
+                    </h5>
+
+                </div>
+
+            </div>
 
 
-    {{-- =====================================================
-         MODAL LIHAT
-    ====================================================== --}}
+            <form id="formEditTindakan">
 
-    <div
-        class="modal fade modal-tindakan"
-        id="modalLihatTindakan{{ $tindakan->id }}"
-        tabindex="-1"
-        aria-labelledby="modalLihatTindakanLabel{{ $tindakan->id }}"
-        aria-hidden="true"
-    >
-
-        <div class="modal-dialog modal-dialog-centered">
-
-            <div class="modal-content">
+                @csrf
+                @method('PUT')
 
 
-                {{-- HEADER --}}
+                <input
+                    type="hidden"
+                    id="edit_tindakan_id"
+                >
 
-                <div class="modal-header">
 
-                    <div class="d-flex align-items-center gap-2">
+                <div class="modal-body">
 
-                        <i class="fas fa-notes-medical"></i>
+                    <div class="form-group-tindakan">
 
-                        <h5
-                            class="modal-title"
-                            id="modalLihatTindakanLabel{{ $tindakan->id }}"
+                        <label
+                            for="edit_kode"
+                            class="form-label-tindakan"
                         >
+                            Kode Tindakan
+                        </label>
 
-                            Detail Tindakan
-
-                        </h5>
+                        <input
+                            type="text"
+                            id="edit_kode"
+                            name="kode"
+                            class="form-control-tindakan"
+                            maxlength="255"
+                            required
+                        >
 
                     </div>
 
 
-                    <button
-                        type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    ></button>
+                    <div class="form-group-tindakan mb-0">
+
+                        <label
+                            for="edit_nama"
+                            class="form-label-tindakan"
+                        >
+                            Nama Tindakan
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit_nama"
+                            name="nama"
+                            class="form-control-tindakan"
+                            maxlength="255"
+                            required
+                        >
+
+                    </div>
 
                 </div>
 
-
-                {{-- BODY --}}
-
-                <div class="modal-body">
-
-                    <table class="detail-tindakan-table">
-
-
-                        <tr>
-
-                            <td class="detail-tindakan-label">
-                                ID
-                            </td>
-
-                            <td class="detail-tindakan-value">
-
-                                {{ $tindakan->id }}
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td class="detail-tindakan-label">
-                                Kode
-                            </td>
-
-                            <td class="detail-tindakan-value">
-
-                                {{ $tindakan->kode }}
-
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td class="detail-tindakan-label">
-                                Nama Tindakan
-                            </td>
-
-                            <td class="detail-tindakan-value">
-
-                                {{ $tindakan->nama }}
-
-                            </td>
-
-                        </tr>
-
-
-                    </table>
-
-                </div>
-
-
-                {{-- FOOTER --}}
 
                 <div class="modal-footer">
 
@@ -1146,174 +1044,778 @@
                         class="btn btn-modal-cancel-tindakan"
                         data-bs-dismiss="modal"
                     >
+                        Batal
+                    </button>
 
-                        Tutup
 
+                    <button
+                        type="submit"
+                        class="btn btn-modal-save-tindakan"
+                    >
+                        <i class="fas fa-save me-1"></i>
+                        Update Data
                     </button>
 
                 </div>
 
-            </div>
+            </form>
 
         </div>
 
     </div>
 
-
-
-    {{-- =====================================================
-         MODAL EDIT
-    ====================================================== --}}
-
-    <div
-        class="modal fade modal-tindakan"
-        id="modalEditTindakan{{ $tindakan->id }}"
-        tabindex="-1"
-        aria-labelledby="modalEditTindakanLabel{{ $tindakan->id }}"
-        aria-hidden="true"
-    >
-
-        <div class="modal-dialog modal-dialog-centered">
-
-            <div class="modal-content">
-
-
-                {{-- HEADER --}}
-
-                <div class="modal-header">
-
-                    <div class="d-flex align-items-center gap-2">
-
-                        <i class="fas fa-edit"></i>
-
-                        <h5
-                            class="modal-title"
-                            id="modalEditTindakanLabel{{ $tindakan->id }}"
-                        >
-
-                            Edit Tindakan
-
-                        </h5>
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    ></button>
-
-                </div>
-
-
-                {{-- FORM EDIT --}}
-
-                <form
-                    action="{{ route('master-tindakan.update', $tindakan->id) }}"
-                    method="POST"
-                >
-
-                    @csrf
-
-                    @method('PUT')
-
-
-                    <div class="modal-body">
-
-
-                        {{-- KODE --}}
-
-                        <div class="form-group-tindakan">
-
-                            <label
-                                for="edit_kode_{{ $tindakan->id }}"
-                                class="form-label-tindakan"
-                            >
-
-                                Kode Tindakan
-
-                            </label>
-
-
-                            <input
-                                type="text"
-                                id="edit_kode_{{ $tindakan->id }}"
-                                name="kode"
-                                class="form-control-tindakan"
-                                value="{{ $tindakan->kode }}"
-                                required
-                            >
-
-                        </div>
-
-
-                        {{-- NAMA --}}
-
-                        <div class="form-group-tindakan mb-0">
-
-                            <label
-                                for="edit_nama_{{ $tindakan->id }}"
-                                class="form-label-tindakan"
-                            >
-
-                                Nama Tindakan
-
-                            </label>
-
-
-                            <input
-                                type="text"
-                                id="edit_nama_{{ $tindakan->id }}"
-                                name="nama"
-                                class="form-control-tindakan"
-                                value="{{ $tindakan->nama }}"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- FOOTER --}}
-
-                    <div class="modal-footer">
-
-                        <button
-                            type="button"
-                            class="btn btn-modal-cancel-tindakan"
-                            data-bs-dismiss="modal"
-                        >
-
-                            Batal
-
-                        </button>
-
-
-                        <button
-                            type="submit"
-                            class="btn btn-modal-save-tindakan"
-                        >
-
-                            <i class="fas fa-save me-1"></i>
-
-                            Update Data
-
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
-
-    </div>
-
-@endforeach
-
+</div>
 
 @endsection
+
+
+@push('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script>
+$(document).ready(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATATABLE
+    |--------------------------------------------------------------------------
+    */
+    const table = $('#tableTindakan').DataTable({
+
+        processing: true,
+
+        serverSide: true,
+
+        ordering: false,
+
+
+        ajax: {
+            url:
+                "{{ route('master-tindakan.data') }}",
+
+            type:
+                "GET"
+        },
+
+
+        pageLength: 10,
+
+
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+
+
+        columns: [
+
+            {
+                data:
+                    'DT_RowIndex',
+
+                name:
+                    'DT_RowIndex',
+
+                searchable:
+                    false,
+
+                orderable:
+                    false,
+
+                className:
+                    'text-center'
+            },
+
+
+            {
+                data:
+                    'kode',
+
+                name:
+                    'kode',
+
+                render:
+                    function (data) {
+
+                        return `
+                            <span class="badge badge-code-tindakan">
+                                ${escapeHtml(data || '-')}
+                            </span>
+                        `;
+
+                    }
+            },
+
+
+            {
+                data:
+                    'nama',
+
+                name:
+                    'nama',
+
+                render:
+                    function (data) {
+
+                        return `
+                            <div class="d-flex align-items-center gap-2">
+
+                                <div class="avatar-tindakan">
+                                    <i class="fas fa-notes-medical"></i>
+                                </div>
+
+                                <div class="tindakan-name">
+                                    ${escapeHtml(data || '-')}
+                                </div>
+
+                            </div>
+                        `;
+
+                    }
+            },
+
+
+            {
+                data:
+                    'aksi',
+
+                name:
+                    'aksi',
+
+                searchable:
+                    false,
+
+                orderable:
+                    false,
+
+                className:
+                    'text-center'
+            }
+
+        ],
+
+
+        language: {
+
+            processing:
+                "Memuat data...",
+
+            search:
+                "Cari:",
+
+            lengthMenu:
+                "Tampilkan _MENU_ data",
+
+            info:
+                "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+            infoEmpty:
+                "Tidak ada data",
+
+            infoFiltered:
+                "(difilter dari _MAX_ total data)",
+
+            zeroRecords:
+                "Data tindakan tidak ditemukan",
+
+            emptyTable:
+                "Belum ada data tindakan",
+
+            paginate: {
+
+                first:
+                    "Pertama",
+
+                last:
+                    "Terakhir",
+
+                next:
+                    "Selanjutnya",
+
+                previous:
+                    "Sebelumnya"
+
+            }
+
+        }
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ESCAPE HTML
+    |--------------------------------------------------------------------------
+    */
+    function escapeHtml(text) {
+
+        return $('<div>')
+            .text(text ?? '')
+            .html();
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TAMBAH
+    |--------------------------------------------------------------------------
+    */
+    $('#formTambahTindakan').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            const form =
+                $(this);
+
+
+            const button =
+                form.find(
+                    'button[type="submit"]'
+                );
+
+
+            button.prop(
+                'disabled',
+                true
+            );
+
+
+            $.ajax({
+
+                url:
+                    "{{ route('master-tindakan.store') }}",
+
+                type:
+                    "POST",
+
+                headers: {
+                    'Accept':
+                        'application/json'
+                },
+
+                data:
+                    form.serialize(),
+
+
+                success:
+                    function (response) {
+
+                        const modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    document.getElementById(
+                                        'modalTambahTindakan'
+                                    )
+                                );
+
+
+                        modal.hide();
+
+
+                        form[0].reset();
+
+
+                        table.ajax.reload(
+                            null,
+                            false
+                        );
+
+
+                        Swal.fire({
+
+                            icon:
+                                'success',
+
+                            title:
+                                'Berhasil!',
+
+                            text:
+                                response.message ||
+                                'Data tindakan berhasil ditambahkan.',
+
+                            confirmButtonText:
+                                'OK'
+
+                        });
+
+                    },
+
+
+                error:
+                    function (xhr) {
+
+                        tampilkanError(
+                            xhr,
+                            'Data tindakan gagal disimpan.'
+                        );
+
+                    },
+
+
+                complete:
+                    function () {
+
+                        button.prop(
+                            'disabled',
+                            false
+                        );
+
+                    }
+
+            });
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LIHAT
+    |--------------------------------------------------------------------------
+    */
+    $('#tableTindakan').on(
+        'click',
+        '.btn-action-view-tindakan',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#lihatTindakanId').text(
+                data.id || '-'
+            );
+
+
+            $('#lihatTindakanKode').text(
+                data.kode || '-'
+            );
+
+
+            $('#lihatTindakanNama').text(
+                data.nama || '-'
+            );
+
+
+            const modal =
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById(
+                            'modalLihatTindakan'
+                        )
+                    );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUKA EDIT
+    |--------------------------------------------------------------------------
+    */
+    $('#tableTindakan').on(
+        'click',
+        '.btn-action-edit-tindakan',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#edit_tindakan_id').val(
+                data.id
+            );
+
+
+            $('#edit_kode').val(
+                data.kode || ''
+            );
+
+
+            $('#edit_nama').val(
+                data.nama || ''
+            );
+
+
+            const modal =
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById(
+                            'modalEditTindakan'
+                        )
+                    );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+    $('#formEditTindakan').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            const id =
+                $('#edit_tindakan_id').val();
+
+
+            const form =
+                $(this);
+
+
+            const button =
+                form.find(
+                    'button[type="submit"]'
+                );
+
+
+            button.prop(
+                'disabled',
+                true
+            );
+
+
+            $.ajax({
+
+                url:
+                    "{{ url('/master-tindakan') }}/" +
+                    id,
+
+                type:
+                    "POST",
+
+                headers: {
+                    'Accept':
+                        'application/json'
+                },
+
+                data:
+                    form.serialize(),
+
+
+                success:
+                    function (response) {
+
+                        const modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    document.getElementById(
+                                        'modalEditTindakan'
+                                    )
+                                );
+
+
+                        modal.hide();
+
+
+                        table.ajax.reload(
+                            null,
+                            false
+                        );
+
+
+                        Swal.fire({
+
+                            icon:
+                                'success',
+
+                            title:
+                                'Berhasil!',
+
+                            text:
+                                response.message ||
+                                'Data tindakan berhasil diperbarui.',
+
+                            confirmButtonText:
+                                'OK'
+
+                        });
+
+                    },
+
+
+                error:
+                    function (xhr) {
+
+                        tampilkanError(
+                            xhr,
+                            'Data tindakan gagal diperbarui.'
+                        );
+
+                    },
+
+
+                complete:
+                    function () {
+
+                        button.prop(
+                            'disabled',
+                            false
+                        );
+
+                    }
+
+            });
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | HAPUS
+    |--------------------------------------------------------------------------
+    */
+    $('#tableTindakan').on(
+        'click',
+        '.btn-action-delete-tindakan',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            Swal.fire({
+
+                title:
+                    'Apakah Anda yakin?',
+
+                text:
+                    'Data tindakan "' +
+                    (data.nama || '') +
+                    '" akan dihapus.',
+
+                icon:
+                    'warning',
+
+                showCancelButton:
+                    true,
+
+                confirmButtonColor:
+                    '#ef4444',
+
+                cancelButtonColor:
+                    '#64748b',
+
+                confirmButtonText:
+                    'Ya, hapus!',
+
+                cancelButtonText:
+                    'Batal'
+
+            }).then(
+                function (result) {
+
+                    if (
+                        !result.isConfirmed
+                    ) {
+                        return;
+                    }
+
+
+                    $.ajax({
+
+                        url:
+                            "{{ url('/master-tindakan') }}/" +
+                            data.id,
+
+                        type:
+                            "DELETE",
+
+                        headers: {
+                            'Accept':
+                                'application/json'
+                        },
+
+                        data: {
+
+                            _token:
+                                "{{ csrf_token() }}"
+
+                        },
+
+
+                        success:
+                            function (response) {
+
+                                table.ajax.reload(
+                                    null,
+                                    false
+                                );
+
+
+                                Swal.fire({
+
+                                    icon:
+                                        'success',
+
+                                    title:
+                                        'Berhasil!',
+
+                                    text:
+                                        response.message ||
+                                        'Data tindakan berhasil dihapus.',
+
+                                    confirmButtonText:
+                                        'OK'
+
+                                });
+
+                            },
+
+
+                        error:
+                            function (xhr) {
+
+                                tampilkanError(
+                                    xhr,
+                                    'Data tindakan gagal dihapus.'
+                                );
+
+                            }
+
+                    });
+
+                }
+            );
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESET FORM TAMBAH
+    |--------------------------------------------------------------------------
+    */
+    $('#modalTambahTindakan').on(
+        'hidden.bs.modal',
+        function () {
+
+            document
+                .getElementById(
+                    'formTambahTindakan'
+                )
+                .reset();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ERROR AJAX
+    |--------------------------------------------------------------------------
+    */
+    function tampilkanError(
+        xhr,
+        defaultMessage
+    ) {
+
+        let message =
+            defaultMessage;
+
+
+        if (
+            xhr.responseJSON &&
+            xhr.responseJSON.message
+        ) {
+
+            message =
+                xhr.responseJSON.message;
+
+        }
+
+
+        if (
+            xhr.responseJSON &&
+            xhr.responseJSON.errors
+        ) {
+
+            const errors =
+                Object.values(
+                    xhr.responseJSON.errors
+                ).flat();
+
+
+            if (errors.length > 0) {
+
+                message =
+                    errors[0];
+
+            }
+
+        }
+
+
+        Swal.fire({
+
+            icon:
+                'error',
+
+            title:
+                'Gagal!',
+
+            text:
+                message
+
+        });
+
+    }
+
+});
+</script>
+
+@endpush
