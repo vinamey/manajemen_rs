@@ -36,45 +36,32 @@ use App\Http\Controllers\PemeriksaanDokterController;
 use App\Http\Controllers\LogStokObatController;
 
 
+// ==================================================
+// LANDING PAGE
+// ==================================================
 
 Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
 
-// ==============================
+// ==================================================
 // LOGIN
-// ==============================
+// ==================================================
 
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-Route::post('/login', [LoginController::class, 'login'])
-    ->name('login.post');
+Route::post(
+    '/login',
+    [LoginController::class, 'login']
+)->name('login.post');
 
 
-// ==============================
-// SUPER ADMIN DASHBOARD
-// ==============================
-
-Route::get(
-    '/superadmin/dashboard',
-    [SuperAdminDashboardController::class, 'index']
-)->name('superadmin.dashboard');
-
-
-// ==============================
-// DASHBOARD UMUM
-// ==============================
-
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
-
-
-// ==============================
+// ==================================================
 // LOGOUT
-// ==============================
+// ==================================================
 
 Route::post('/logout', function () {
 
@@ -89,15 +76,38 @@ Route::post('/logout', function () {
 
 
 // ==================================================
+// SUPER ADMIN DASHBOARD
+// ==================================================
+
+Route::get(
+    '/superadmin/dashboard',
+    [SuperAdminDashboardController::class, 'index']
+)->name('superadmin.dashboard');
+
+
+// ==================================================
+// DASHBOARD UMUM
+// ==================================================
+
+Route::get(
+    '/dashboard',
+    [DashboardController::class, 'index']
+)->name('dashboard');
+
+
+// ==================================================
 // ROLE MANAGEMENT
 // ==================================================
 
-Route::resource('roles', RoleController::class);
+Route::resource(
+    'roles',
+    RoleController::class
+);
 
 
-// ==============================
+// ==================================================
 // ROLE - PERMISSION
-// ==============================
+// ==================================================
 
 Route::get(
     '/roles/{id}/permission',
@@ -114,7 +124,10 @@ Route::post(
 // PERMISSION MANAGEMENT
 // ==================================================
 
-Route::resource('permissions', PermissionController::class);
+Route::resource(
+    'permissions',
+    PermissionController::class
+);
 
 
 // ==================================================
@@ -131,115 +144,261 @@ Route::post(
     [UserController::class, 'resetPassword']
 )->name('users.reset-password.update');
 
-Route::resource('users', UserController::class);
+Route::resource(
+    'users',
+    UserController::class
+);
+
 
 // ==================================================
-// MASTER DATA
+// MASTER ASURANSI
 // ==================================================
 
-// Master Asuransi
+// WAJIB di atas Route::resource
+Route::get(
+    '/master-asuransi/data',
+    [MasterAsuransiController::class, 'data']
+)->name('master-asuransi.data');
+
 Route::resource(
     'master-asuransi',
     MasterAsuransiController::class
 );
 
-// Master Dokter - DataTables
+
+// ==================================================
+// MASTER DOKTER
+// ==================================================
+
+// DataTables
 Route::get(
     '/master-dokter/data',
     [MasterDokterController::class, 'data']
 )->name('master-dokter.data');
 
-// Master Dokter - CRUD
+// CRUD
 Route::resource(
     'master-dokter',
     MasterDokterController::class
 );
 
-// Master Kamar
+
+// ==================================================
+// MASTER KAMAR
+// ==================================================
+
+// DataTables - WAJIB di atas Route::resource
+Route::get(
+    '/master-kamar/data',
+    [MasterKamarController::class, 'data']
+)->name('master-kamar.data');
+
+// CRUD
 Route::resource(
     'master-kamar',
     MasterKamarController::class
 );
+// ==================================================
+// MASTER KATEGORI
+// ==================================================
 
-// Master Kategori
+// DataTables
+// WAJIB berada di atas Route::resource
+Route::get(
+    '/master-kategori/data',
+    [MasterKategoriController::class, 'data']
+)->name('master-kategori.data');
+
+// CRUD
 Route::resource(
     'master-kategori',
     MasterKategoriController::class
 );
 
-// Master Obat
+// ==================================================
+// MASTER KATEGORI
+// ==================================================
+
+Route::resource(
+    'master-kategori',
+    MasterKategoriController::class
+);
 
 
-// Kurangi Stok Obat
-Route::post(
-    '/master-obat/{id}/kurangi-stok',
-    [MasterObatController::class, 'kurangiStok']
-)->name('master-obat.kurangi-stok');
+// ==================================================
+// MASTER PASIEN
+// ==================================================
 
-// Master Pasien - DataTables
+// DataTables
 Route::get(
     '/master-pasien/data',
     [MasterPasienController::class, 'data']
 )->name('master-pasien.data');
 
-// Master Pasien - CRUD
+// CRUD
 Route::resource(
     'master-pasien',
     MasterPasienController::class
 );
-// Master Perawat - DataTables
+
+
+// ==================================================
+// MASTER PERAWAT
+// ==================================================
+
+// DataTables
 Route::get(
     '/master-perawat/data',
     [MasterPerawatController::class, 'data']
 )->name('master-perawat.data');
 
-// Master Perawat - CRUD
+// CRUD
 Route::resource(
     'master-perawat',
     MasterPerawatController::class
 );
 
 
-// Master Poli
+// ==================================================
+// MASTER POLI
+// ==================================================
+
+// Yajra DataTables
+// WAJIB di atas Route::resource
+Route::get(
+    '/master-poli/data',
+    [MasterPoliController::class, 'data']
+)->name('master-poli.data');
+
+
+// CRUD MASTER POLI
 Route::resource(
     'master-poli',
     MasterPoliController::class
 );
 
-// Master Satuan
+
+// ==================================================
+// MASTER SATUAN OBAT
+// ==================================================
+
+// DataTables
+// WAJIB di atas Route::resource
+Route::get(
+    '/master-satuan/data',
+    [MasterSatuanController::class, 'data']
+)->name('master-satuan.data');
+
+// CRUD
 Route::resource(
     'master-satuan',
     MasterSatuanController::class
 );
 
+// ==================================================
+// MASTER SUPPLIER
+// ==================================================
 
+// DataTables
+// WAJIB di atas Route::resource supaya "data"
+// tidak dianggap sebagai ID supplier.
+Route::get(
+    '/master-supplier/data',
+    [MasterSupplierController::class, 'data']
+)->name('master-supplier.data');
+
+// CRUD
 Route::resource(
     'master-supplier',
     MasterSupplierController::class
 );
+// ==================================================
+// MASTER TINDAKAN
+// ==================================================
 
+// WAJIB di atas Route::resource
+Route::get(
+    '/master-tindakan/data',
+    [MasterTindakanController::class, 'data']
+)->name('master-tindakan.data');
 
 Route::resource(
     'master-tindakan',
     MasterTindakanController::class
 );
 
+
+// ==================================================
+// PENDAFTARAN PASIEN
+// ==================================================
+
 Route::resource(
     'pendaftaran',
     PendaftaranPasienController::class
 );
 
-Route::get('/master-dokter/data', [MasterDokterController::class, 'data'])
-    ->name('master-dokter.data');
 
-Route::resource('master-dokter', MasterDokterController::class);
+// ==================================================
+// PEMERIKSAAN DOKTER
+// ==================================================
 
-Route::resource('pemeriksaan-dokter', PemeriksaanDokterController::class);
+Route::resource(
+    'pemeriksaan-dokter',
+    PemeriksaanDokterController::class
+);
 
-Route::middleware(['role:super admin|admin rumah sakit|apoteker'])->group(function () {
-        // Sesuaikan ->name() dengan yang dipanggil di sidebar: 'log-stok-obat.index'
-        Route::get('/log-stok-obat', [LogStokObatController::class, 'index'])->name('log-stok-obat.index');
 
-        Route::resource('master-obat', MasterObatController::class);
-        Route::post('/master-obat/{id}/kurangi-stok', [MasterObatController::class, 'kurangiStok'])->name('master-obat.kurangi-stok');
-    });
+// ==================================================
+// MASTER OBAT & LOG STOK OBAT
+// SUPER ADMIN / ADMIN RS / APOTEKER
+// ==================================================
+
+Route::middleware([
+    'auth',
+    'role:super admin|admin rumah sakit|apoteker'
+])->group(function () {
+
+    // ==================================================
+    // MASTER OBAT - YAJRA DATATABLES
+    // ==================================================
+    //
+    // WAJIB berada SEBELUM Route::resource master-obat
+    // supaya "data" tidak dianggap sebagai ID obat.
+    //
+
+    Route::get(
+        '/master-obat/data',
+        [MasterObatController::class, 'data']
+    )->name('master-obat.data');
+
+
+    // ==================================================
+    // MASTER OBAT - CRUD
+    // ==================================================
+
+    Route::resource(
+        'master-obat',
+        MasterObatController::class
+    );
+
+
+    // ==================================================
+    // KURANGI STOK OBAT
+    // ==================================================
+
+    Route::post(
+        '/master-obat/{id}/kurangi-stok',
+        [MasterObatController::class, 'kurangiStok']
+    )->name('master-obat.kurangi-stok');
+
+
+    // ==================================================
+    // LOG STOK OBAT
+    // ==================================================
+
+    Route::get(
+        '/log-stok-obat',
+        [LogStokObatController::class, 'index']
+    )->name('log-stok-obat.index');
+
+});

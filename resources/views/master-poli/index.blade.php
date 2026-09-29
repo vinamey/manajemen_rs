@@ -4,661 +4,526 @@
 
 @section('content')
 
+{{-- DATATABLE CSS --}}
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
+>
+
 <style>
-
-/* =====================================================
-   GLOBAL
-===================================================== */
-
-.main-wrapper {
-    padding: 20px 28px;
-    background: #f4f6f9;
-    min-height: calc(100vh - 70px);
-    font-family: 'Public Sans', sans-serif, Arial;
-}
-
-.card-container {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-    padding: 24px;
-}
-
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-.header-title-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.header-icon {
-    width: 40px;
-    height: 40px;
-    background: #e8f1fd;
-    color: #1e78f6;
-    border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 18px;
-    flex-shrink: 0;
-}
-
-.header-text h5 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-    color: #1a202c;
-}
-
-.header-text small {
-    display: block;
-    font-size: 11px;
-    color: #8c98a4;
-    margin-top: 3px;
-}
-
-
-/* =====================================================
-   TOMBOL TAMBAH
-===================================================== */
-
-.btn-tambah {
-    background: #1e78f6 !important;
-    border: none !important;
-    color: #ffffff !important;
-
-    font-size: 11px;
-    font-weight: 600;
-
-    padding: 10px 18px;
-    border-radius: 8px;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    cursor: pointer;
-
-    box-shadow: 0 3px 8px rgba(30, 120, 246, 0.3);
-
-    transition: 0.2s;
-}
-
-.btn-tambah:hover {
-    background: #1565c0 !important;
-    color: #ffffff !important;
-}
-
-
-/* =====================================================
-   TABLE
-===================================================== */
-
-.table-container {
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.custom-table {
-    width: 100%;
-    margin: 0;
-    border-collapse: collapse;
-    font-size: 11px;
-}
-
-.custom-table thead th {
-    background: #1e78f6 !important;
-    color: #ffffff !important;
-
-    font-size: 11px;
-    font-weight: 600;
-
-    padding: 12px 14px;
-
-    border: none !important;
-    text-align: left;
-}
-
-.custom-table tbody td {
-    padding: 14px;
-
-    vertical-align: middle;
-
-    border-bottom: 1px solid #f1f3f5;
-
-    color: #2c3e50 !important;
-    background: #ffffff !important;
-
-    font-size: 11px;
-}
-
-.custom-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.custom-table tbody tr:hover td {
-    background: #f8fafc !important;
-}
-
-.text-center {
-    text-align: center !important;
-}
-
-.text-muted-no {
-    color: #6c757d;
-    font-weight: 500;
-}
-
-
-/* =====================================================
-   BADGE KODE
-===================================================== */
-
-.kode-badge {
-    display: inline-block;
-
-    background: #e8f1fd !important;
-    color: #1e78f6 !important;
-
-    padding: 4px 10px;
-
-    border-radius: 6px;
-
-    font-size: 10px !important;
-    font-weight: 600;
-}
-
-
-/* =====================================================
-   BADGE NAMA
-===================================================== */
-
-.nama-badge {
-    display: inline-block !important;
-
-    background-color: #fef0d5 !important;
-    color: #e67e22 !important;
-
-    padding: 5px 12px !important;
-
-    border-radius: 6px !important;
-
-    font-size: 10px !important;
-    font-weight: 600 !important;
-}
-
-
-/* =====================================================
-   AKSI
-===================================================== */
-
-.aksi-column {
-    white-space: nowrap;
-    text-align: center;
-}
-
-.btn-aksi {
-    border: none !important;
-
-    padding: 6px 12px;
-
-    border-radius: 6px;
-
-    font-size: 10px !important;
-    font-weight: 500;
-
-    margin-left: 3px;
-
-    line-height: 1.2;
-
-    text-decoration: none !important;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 4px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.btn-lihat {
-    background: #e3f2fd !important;
-    color: #0288d1 !important;
-}
-
-.btn-lihat:hover {
-    background: #cce8f8 !important;
-    color: #0277bd !important;
-}
-
-.btn-edit {
-    background: #1e78f6 !important;
-    color: #ffffff !important;
-}
-
-.btn-edit:hover {
-    background: #1565c0 !important;
-    color: #ffffff !important;
-}
-
-.btn-hapus {
-    background: #ff4d4f !important;
-    color: #ffffff !important;
-}
-
-.btn-hapus:hover {
-    background: #d9363e !important;
-    color: #ffffff !important;
-}
-
-
-/* =====================================================
-   DATA KOSONG
-===================================================== */
-
-.empty-data {
-    color: #a0aec0 !important;
-
-    font-size: 11px !important;
-
-    padding: 30px !important;
-
-    text-align: center;
-}
-
-
-/* =====================================================
-   MODAL GLOBAL
-===================================================== */
-
-.modal-content {
-    border: none !important;
-
-    border-radius: 10px !important;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 12px 35px rgba(0, 0, 0, 0.18);
-}
-
-
-/* =====================================================
-   UKURAN MODAL
-===================================================== */
-
-#modalTambahPoli .modal-dialog,
-[id^="modalEditPoli"] .modal-dialog,
-[id^="modalLihatPoli"] .modal-dialog {
-
-    max-width: 470px;
-}
-
-
-/* =====================================================
-   HEADER MODAL
-===================================================== */
-
-.modal-header {
-    background: #1877f2 !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    padding: 14px 18px !important;
-}
-
-.modal-header .modal-title {
-
-    margin: 0;
-
-    color: #ffffff !important;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    display: flex;
-    align-items: center;
-}
-
-.modal-header .modal-title i {
-    color: #ffffff !important;
-}
-
-
-/* =====================================================
-   BODY MODAL
-===================================================== */
-
-.modal-body {
-
-    background: #ffffff !important;
-
-    padding: 20px 18px !important;
-}
-
-
-/* =====================================================
-   LABEL
-===================================================== */
-
-.modal-body .form-label {
-
-    display: block;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    color: #526071;
-
-    margin-bottom: 6px;
-}
-
-
-/* =====================================================
-   INPUT
-===================================================== */
-
-.modal-body .form-control {
-
-    width: 100%;
-
-    height: 36px;
-
-    border: 1px solid #d5dde8 !important;
-
-    border-radius: 6px;
-
-    padding: 7px 10px;
-
-    font-size: 10px;
-
-    color: #374151;
-
-    background: #ffffff !important;
-
-    box-shadow: none !important;
-
-    outline: none;
-}
-
-.modal-body .form-control:focus {
-
-    border-color: #1877f2 !important;
-
-    box-shadow:
-        0 0 0 2px rgba(24, 119, 242, 0.10) !important;
-}
-
-
-/* =====================================================
-   READONLY
-===================================================== */
-
-.modal-body .form-control[readonly] {
-
-    background: #f8fafc !important;
-
-    color: #4b5563;
-}
-
-
-/* =====================================================
-   FOOTER MODAL
-===================================================== */
-
-.modal-footer {
-
-    background: #f8fafc !important;
-
-    border-top: 1px solid #eef1f5 !important;
-
-    padding: 12px 18px !important;
-
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 7px;
-}
-
-
-/* =====================================================
-   BUTTON BATAL
-===================================================== */
-
-.btn-batal {
-
-    background: #edf2f7 !important;
-
-    color: #64748b !important;
-
-    border: none !important;
-
-    padding: 7px 14px !important;
-
-    border-radius: 6px !important;
-
-    font-size: 10px !important;
-
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.btn-batal:hover {
-
-    background: #e2e8f0 !important;
-
-    color: #475569 !important;
-}
-
-
-/* =====================================================
-   BUTTON SIMPAN
-===================================================== */
-
-.btn-simpan {
-
-    background: #1877f2 !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    padding: 7px 14px !important;
-
-    border-radius: 6px !important;
-
-    font-size: 10px !important;
-
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.btn-simpan:hover {
-
-    background: #0f58c6 !important;
-
-    color: #ffffff !important;
-}
-
-
-/* =====================================================
-   ICON
-===================================================== */
-
-.modal-header i {
-    font-size: 14px;
-}
-
-
-/* =====================================================
-   BACKDROP
-===================================================== */
-
-.modal-backdrop {
-    background-color: #000 !important;
-}
-
-.modal-backdrop.show {
-    opacity: 0.5 !important;
-}
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 768px) {
-
-    .main-wrapper {
-        padding: 12px;
+    /* =========================================================
+       GLOBAL
+    ========================================================= */
+    .poli-page {
+        padding: 0;
     }
 
-    .card-container {
-        padding: 15px;
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+    .poli-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
     }
 
-    .page-header {
-        align-items: flex-start;
-
-        gap: 15px;
+    .poli-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 14px;
     }
 
-    .header-text h5 {
-        font-size: 16px;
+    .poli-icon {
+        width: 42px;
+        height: 42px;
+
+        background: #e7f3ff;
+        color: #1877f2;
+
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 18px;
     }
 
-    .table-container {
+    .poli-title {
+        margin: 0;
+
+        font-size: 20px;
+        font-weight: 700;
+
+        color: #1f2937;
+    }
+
+    .poli-subtitle {
+        margin: 3px 0 0;
+
+        font-size: 11px;
+
+        color: #8b95a5;
+    }
+
+
+    /* =========================================================
+       BUTTON TAMBAH
+    ========================================================= */
+    .btn-tambah-poli {
+        background: #1877f2;
+        color: white;
+
+        border: none;
+        border-radius: 8px;
+
+        padding: 9px 15px;
+
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .btn-tambah-poli:hover {
+        background: #0f58c6;
+        color: white;
+    }
+
+
+    /* =========================================================
+       CARD
+    ========================================================= */
+    .poli-card {
+        background: white;
+
+        border-radius: 12px;
+        border: none;
+
+        box-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .poli-card .table-responsive {
         overflow-x: auto;
     }
 
-    .custom-table {
-        min-width: 650px;
+
+    /* =========================================================
+       TABLE
+    ========================================================= */
+    .poli-table {
+        width: 100% !important;
+
+        margin-bottom: 0 !important;
+
+        border-collapse: collapse !important;
     }
 
-    #modalTambahPoli .modal-dialog,
-    [id^="modalEditPoli"] .modal-dialog,
-    [id^="modalLihatPoli"] .modal-dialog {
+    .poli-table thead {
+        background: #1877f2;
 
-        max-width: calc(100% - 30px);
-
-        margin: 15px auto;
+        color: white;
     }
-}
 
+    .poli-table thead th {
+        background: #1877f2 !important;
+
+        color: white !important;
+
+        padding: 14px 13px !important;
+
+        font-size: 11px !important;
+        font-weight: 700 !important;
+
+        border: none !important;
+
+        white-space: nowrap;
+    }
+
+    .poli-table tbody td {
+        padding: 13px !important;
+
+        font-size: 11px !important;
+
+        color: #657184;
+
+        vertical-align: middle;
+
+        border-bottom:
+            1px solid #f0f2f5 !important;
+
+        white-space: nowrap;
+    }
+
+    .poli-table tbody tr:last-child td {
+        border-bottom: none !important;
+    }
+
+    .poli-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
+
+    /* =========================================================
+       BADGE KODE
+    ========================================================= */
+    .badge-kode-poli {
+        display: inline-block;
+
+        background: #e0edff;
+        color: #1d72f3;
+
+        border-radius: 6px;
+
+        padding: 6px 12px;
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+    /* =========================================================
+       BADGE NAMA
+    ========================================================= */
+    .badge-nama-poli {
+        display: inline-block;
+
+        background: #ffedd5;
+        color: #ea580c;
+
+        border-radius: 6px;
+
+        padding: 6px 12px;
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+    /* =========================================================
+       AKSI
+    ========================================================= */
+    .aksi-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .btn-poli-aksi {
+        border: none;
+
+        border-radius: 6px;
+
+        padding: 8px 10px;
+
+        font-size: 10px;
+        font-weight: 600;
+
+        min-width: 48px;
+    }
+
+    .btn-poli-lihat {
+        background: #dff1ff;
+        color: #087db5;
+    }
+
+    .btn-poli-lihat:hover {
+        background: #c7e8fc;
+        color: #087db5;
+    }
+
+    .btn-poli-edit {
+        background: #1877f2;
+        color: white;
+    }
+
+    .btn-poli-edit:hover {
+        background: #0f58c6;
+        color: white;
+    }
+
+    .btn-poli-hapus {
+        background: #ef4444;
+        color: white;
+    }
+
+    .btn-poli-hapus:hover {
+        background: #dc2626;
+        color: white;
+    }
+
+
+    /* =========================================================
+       DATATABLE
+    ========================================================= */
+    .dataTables_wrapper {
+        padding: 18px;
+    }
+
+    .dataTables_wrapper .row:first-child {
+        margin-bottom: 14px;
+    }
+
+    .dataTables_wrapper .row:last-child {
+        margin-top: 14px;
+    }
+
+    .dataTables_length label,
+    .dataTables_filter label,
+    .dataTables_info {
+        font-size: 11px;
+
+        color: #657184;
+    }
+
+    .dataTables_length select {
+        font-size: 11px !important;
+
+        border-radius: 7px !important;
+
+        border:
+            1px solid #d9e0e8 !important;
+    }
+
+    .dataTables_filter input {
+        font-size: 11px !important;
+
+        border:
+            1px solid #d9e0e8 !important;
+
+        border-radius: 7px !important;
+
+        padding: 7px 10px !important;
+
+        outline: none !important;
+
+        margin-left: 7px !important;
+    }
+
+    .dataTables_filter input:focus {
+        border-color: #1877f2 !important;
+
+        box-shadow:
+            0 0 0 0.15rem
+            rgba(24, 119, 242, 0.12) !important;
+    }
+
+    .dataTables_paginate .pagination {
+        gap: 3px;
+    }
+
+    .dataTables_paginate .page-link {
+        font-size: 10px;
+
+        border-radius: 6px !important;
+
+        color: #1877f2;
+
+        border: 1px solid #e5e7eb;
+
+        padding: 6px 9px;
+    }
+
+    .dataTables_paginate
+    .page-item.active
+    .page-link {
+        background: #1877f2;
+
+        border-color: #1877f2;
+
+        color: white;
+    }
+
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+    .poli-modal .modal-dialog {
+        max-width: 520px;
+    }
+
+    .poli-modal .modal-content {
+        border: none;
+
+        border-radius: 12px;
+
+        overflow: visible !important;
+    }
+
+    .poli-modal .modal-header {
+        background: #1877f2;
+
+        color: white;
+
+        padding: 15px 20px;
+
+        border-radius:
+            12px 12px 0 0;
+
+        border-bottom: none;
+    }
+
+    .poli-modal .modal-title {
+        font-size: 15px;
+
+        font-weight: 600;
+    }
+
+    .poli-modal .modal-body {
+        padding: 20px;
+    }
+
+    .poli-modal .modal-footer {
+        padding: 14px 20px;
+    }
+
+    .poli-modal .form-label {
+        font-size: 12px;
+
+        font-weight: 600;
+
+        color: #374151;
+    }
+
+    .poli-modal .form-control {
+        font-size: 12px;
+
+        border-radius: 7px;
+
+        padding: 9px 11px;
+    }
+
+    .poli-modal .form-control:focus {
+        border-color: #1877f2;
+
+        box-shadow:
+            0 0 0 0.15rem
+            rgba(24, 119, 242, 0.15);
+    }
+
+    .poli-modal .btn-close {
+        display: none !important;
+    }
+
+
+    /* =========================================================
+       DETAIL
+    ========================================================= */
+    .detail-item {
+        margin-bottom: 16px;
+    }
+
+    .detail-label {
+        margin-bottom: 5px;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        color: #374151;
+    }
+
+    .detail-value {
+        font-size: 13px;
+
+        color: #657184;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 768px) {
+
+        .poli-header {
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 12px;
+        }
+
+        .btn-tambah-poli {
+            width: 100%;
+        }
+    }
 </style>
 
 
-{{-- =====================================================
-     HALAMAN MASTER POLI
-===================================================== --}}
+{{-- =========================================================
+     MASTER POLI
+========================================================= --}}
+<div class="poli-page">
 
-<div class="main-wrapper">
+    {{-- HEADER --}}
+    <div class="poli-header">
 
-    <div class="card-container">
+        <div class="poli-title-wrapper">
 
-        {{-- =================================================
-             HEADER
-        ================================================== --}}
-
-        <div class="page-header">
-
-            <div class="header-title-box">
-
-                <div class="header-icon">
-
-                    <i class="bi bi-hospital"></i>
-
-                </div>
-
-                <div class="header-text">
-
-                    <h5>
-                        Master Poli
-                    </h5>
-
-                    <small>
-                        Data poli yang terdaftar
-                    </small>
-
-                </div>
-
+            <div class="poli-icon">
+                <i class="fas fa-hospital"></i>
             </div>
 
 
-            {{-- TOMBOL TAMBAH --}}
+            <div>
 
-            <button
-                type="button"
-                class="btn-tambah"
-                data-bs-toggle="modal"
-                data-bs-target="#modalTambahPoli"
-            >
+                <h2 class="poli-title">
+                    Master Poli
+                </h2>
 
-                <i class="bi bi-plus-lg"></i>
+                <p class="poli-subtitle">
+                    Data poli yang terdaftar
+                </p>
 
-                + Tambah Poli
-
-            </button>
+            </div>
 
         </div>
 
 
-        {{-- =================================================
-             TABLE
-        ================================================== --}}
+        <button
+            type="button"
+            class="btn btn-tambah-poli"
+            data-bs-toggle="modal"
+            data-bs-target="#modalTambah"
+        >
 
-        <div class="table-container">
+            <i class="fas fa-plus me-1"></i>
 
-            <table class="custom-table">
+            Tambah Poli
+
+        </button>
+
+    </div>
+
+
+    {{-- TABLE --}}
+    <div class="poli-card">
+
+        <div class="table-responsive">
+
+            <table
+                id="poli-table"
+                class="poli-table table align-middle"
+            >
 
                 <thead>
 
                     <tr>
 
-                        <th
-                            class="text-center"
-                            width="60px"
-                        >
+                        <th width="8%">
                             No
                         </th>
 
-                        <th width="22%">
+                        <th width="25%">
                             Kode Poli
                         </th>
 
-                        <th>
+                        <th width="35%">
                             Nama Poli
                         </th>
 
-                        <th
-                            class="text-center"
-                            width="240px"
-                        >
+                        <th width="32%">
                             Aksi
                         </th>
 
@@ -668,141 +533,7 @@
 
 
                 <tbody>
-
-                    @forelse ($polis as $index => $poli)
-
-                        <tr>
-
-                            {{-- NO --}}
-
-                            <td class="text-center text-muted-no">
-
-                                {{ $index + 1 }}
-
-                            </td>
-
-
-                            {{-- KODE --}}
-
-                            <td>
-
-                                <span class="kode-badge">
-
-                                    {{ $poli->kode }}
-
-                                </span>
-
-                            </td>
-
-
-                            {{-- NAMA --}}
-
-                            <td>
-
-                                <span class="nama-badge">
-
-                                    {{ $poli->nama }}
-
-                                </span>
-
-                            </td>
-
-
-                            {{-- AKSI --}}
-
-                            <td class="aksi-column">
-
-                                <div class="d-inline-flex">
-
-                                    {{-- LIHAT --}}
-
-                                    <button
-                                        type="button"
-                                        class="btn-aksi btn-lihat"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalLihatPoli{{ $poli->id }}"
-                                    >
-
-                                        <i class="bi bi-eye"></i>
-
-                                        Lihat
-
-                                    </button>
-
-
-                                    {{-- EDIT --}}
-
-                                    <button
-                                        type="button"
-                                        class="btn-aksi btn-edit"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalEditPoli{{ $poli->id }}"
-                                    >
-
-                                        <i class="bi bi-pencil-square"></i>
-
-                                        Edit
-
-                                    </button>
-
-
-                                    {{-- HAPUS --}}
-
-                                    <form
-                                        action="{{ route('master-poli.destroy', $poli->id) }}"
-                                        method="POST"
-                                        class="d-inline"
-                                        onsubmit="return confirm('Yakin ingin menghapus data poli ini?');"
-                                    >
-
-                                        @csrf
-
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="btn-aksi btn-hapus"
-                                        >
-
-                                            <i class="bi bi-trash"></i>
-
-                                            Hapus
-
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-
-                    @empty
-
-                        <tr>
-
-                            <td
-                                colspan="4"
-                                class="empty-data"
-                            >
-
-                                <i
-                                    class="bi bi-inbox"
-                                    style="font-size: 28px;"
-                                ></i>
-
-                                <div style="margin-top: 8px;">
-                                    Belum ada data poli.
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
+                    {{-- DATA OTOMATIS DARI YAJRA --}}
                 </tbody>
 
             </table>
@@ -814,14 +545,12 @@
 </div>
 
 
-
-{{-- =====================================================
-     MODAL TAMBAH POLI
-===================================================== --}}
-
+{{-- =========================================================
+     MODAL TAMBAH
+========================================================= --}}
 <div
-    class="modal fade"
-    id="modalTambahPoli"
+    class="modal fade poli-modal"
+    id="modalTambah"
     tabindex="-1"
     aria-hidden="true"
 >
@@ -831,13 +560,11 @@
         <div class="modal-content">
 
 
-            {{-- HEADER --}}
-
             <div class="modal-header">
 
                 <h5 class="modal-title">
 
-                    <i class="bi bi-plus-circle me-2"></i>
+                    <i class="fas fa-plus-circle me-2"></i>
 
                     Tambah Poli
 
@@ -846,38 +573,31 @@
             </div>
 
 
-            {{-- FORM --}}
-
-            <form
-                action="{{ route('master-poli.store') }}"
-                method="POST"
-            >
+            <form id="formTambah">
 
                 @csrf
 
-
-                {{-- BODY --}}
 
                 <div class="modal-body">
 
 
                     {{-- KODE POLI --}}
-
                     <div class="mb-3">
 
-                        <label class="form-label">
-
+                        <label
+                            for="kode"
+                            class="form-label"
+                        >
                             Kode Poli
-
                         </label>
+
 
                         <input
                             type="text"
                             name="kode"
+                            id="kode"
                             class="form-control"
-                            placeholder="Contoh: POL004"
-                            value="{{ old('kode') }}"
-                            autocomplete="off"
+                            placeholder="Contoh: POL001"
                             required
                         >
 
@@ -885,52 +605,47 @@
 
 
                     {{-- NAMA POLI --}}
-
                     <div class="mb-3">
 
-                        <label class="form-label">
-
+                        <label
+                            for="nama"
+                            class="form-label"
+                        >
                             Nama Poli
-
                         </label>
+
 
                         <input
                             type="text"
                             name="nama"
+                            id="nama"
                             class="form-control"
-                            placeholder="Contoh: Poli Mata"
-                            value="{{ old('nama') }}"
-                            autocomplete="off"
+                            placeholder="Contoh: Poli Umum"
                             required
                         >
 
                     </div>
 
-
                 </div>
 
-
-                {{-- FOOTER --}}
 
                 <div class="modal-footer">
 
                     <button
                         type="button"
-                        class="btn-batal"
+                        class="btn btn-secondary"
                         data-bs-dismiss="modal"
                     >
-
                         Batal
-
                     </button>
 
 
                     <button
                         type="submit"
-                        class="btn-simpan"
+                        class="btn btn-primary"
                     >
 
-                        <i class="bi bi-save me-1"></i>
+                        <i class="fas fa-save me-1"></i>
 
                         Simpan
 
@@ -947,250 +662,970 @@
 </div>
 
 
+{{-- =========================================================
+     MODAL LIHAT
+========================================================= --}}
+<div
+    class="modal fade poli-modal"
+    id="modalLihat"
+    tabindex="-1"
+    aria-hidden="true"
+>
 
-{{-- =====================================================
-     MODAL LIHAT & EDIT
-===================================================== --}}
+    <div class="modal-dialog modal-dialog-centered">
 
-@foreach ($polis as $poli)
-
-
-    {{-- =================================================
-         MODAL LIHAT
-    ================================================== --}}
-
-    <div
-        class="modal fade"
-        id="modalLihatPoli{{ $poli->id }}"
-        tabindex="-1"
-        aria-hidden="true"
-    >
-
-        <div class="modal-dialog modal-dialog-centered">
-
-            <div class="modal-content">
+        <div class="modal-content">
 
 
-                {{-- HEADER --}}
+            <div class="modal-header">
 
-                <div class="modal-header">
+                <h5 class="modal-title">
 
-                    <h5 class="modal-title">
+                    <i class="fas fa-eye me-2"></i>
 
-                        <i class="bi bi-hospital me-2"></i>
+                    Detail Poli
 
-                        Detail Poli
+                </h5>
 
-                    </h5>
+            </div>
+
+
+            <div class="modal-body">
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Kode Poli
+                    </div>
+
+                    <div class="detail-value">
+
+                        <span
+                            class="badge-kode-poli"
+                            id="lihatKode"
+                        >
+                            -
+                        </span>
+
+                    </div>
 
                 </div>
 
 
-                {{-- BODY --}}
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Nama Poli
+                    </div>
+
+                    <div class="detail-value">
+
+                        <span
+                            class="badge-nama-poli"
+                            id="lihatNama"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        ID
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="lihatId"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- =========================================================
+     MODAL EDIT
+========================================================= --}}
+<div
+    class="modal fade poli-modal"
+    id="modalEdit"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    <i class="fas fa-edit me-2"></i>
+
+                    Edit Poli
+
+                </h5>
+
+            </div>
+
+
+            <form id="formEdit">
+
+                @csrf
+                @method('PUT')
+
+
+                <input
+                    type="hidden"
+                    id="editId"
+                >
+
 
                 <div class="modal-body">
 
 
                     {{-- KODE --}}
-
                     <div class="mb-3">
 
-                        <label class="form-label">
-
+                        <label
+                            for="editKode"
+                            class="form-label"
+                        >
                             Kode Poli
-
                         </label>
+
 
                         <input
                             type="text"
+                            name="kode"
+                            id="editKode"
                             class="form-control"
-                            value="{{ $poli->kode }}"
-                            readonly
+                            required
                         >
 
                     </div>
 
 
                     {{-- NAMA --}}
-
                     <div class="mb-3">
 
-                        <label class="form-label">
-
+                        <label
+                            for="editNama"
+                            class="form-label"
+                        >
                             Nama Poli
-
                         </label>
+
 
                         <input
                             type="text"
+                            name="nama"
+                            id="editNama"
                             class="form-control"
-                            value="{{ $poli->nama }}"
-                            readonly
+                            required
                         >
 
                     </div>
 
-
                 </div>
 
-
-                {{-- FOOTER --}}
 
                 <div class="modal-footer">
 
                     <button
                         type="button"
-                        class="btn-batal"
+                        class="btn btn-secondary"
                         data-bs-dismiss="modal"
                     >
+                        Batal
+                    </button>
 
-                        Tutup
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+
+                        <i class="fas fa-save me-1"></i>
+
+                        Simpan Perubahan
 
                     </button>
 
                 </div>
 
-            </div>
+            </form>
 
         </div>
 
     </div>
 
-
-
-    {{-- =================================================
-         MODAL EDIT
-    ================================================== --}}
-
-    <div
-        class="modal fade"
-        id="modalEditPoli{{ $poli->id }}"
-        tabindex="-1"
-        aria-hidden="true"
-    >
-
-        <div class="modal-dialog modal-dialog-centered">
-
-            <div class="modal-content">
-
-
-                {{-- HEADER --}}
-
-                <div class="modal-header">
-
-                    <h5 class="modal-title">
-
-                        <i class="bi bi-pencil-square me-2"></i>
-
-                        Edit Poli
-
-                    </h5>
-
-                </div>
-
-
-                {{-- FORM --}}
-
-                <form
-                    action="{{ route('master-poli.update', $poli->id) }}"
-                    method="POST"
-                >
-
-                    @csrf
-
-                    @method('PUT')
-
-
-                    {{-- BODY --}}
-
-                    <div class="modal-body">
-
-
-                        {{-- KODE --}}
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-
-                                Kode Poli
-
-                            </label>
-
-                            <input
-                                type="text"
-                                name="kode"
-                                class="form-control"
-                                value="{{ $poli->kode }}"
-                                autocomplete="off"
-                                required
-                            >
-
-                        </div>
-
-
-                        {{-- NAMA --}}
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-
-                                Nama Poli
-
-                            </label>
-
-                            <input
-                                type="text"
-                                name="nama"
-                                class="form-control"
-                                value="{{ $poli->nama }}"
-                                autocomplete="off"
-                                required
-                            >
-
-                        </div>
-
-
-                    </div>
-
-
-                    {{-- FOOTER --}}
-
-                    <div class="modal-footer">
-
-                        <button
-                            type="button"
-                            class="btn-batal"
-                            data-bs-dismiss="modal"
-                        >
-
-                            Batal
-
-                        </button>
-
-
-                        <button
-                            type="submit"
-                            class="btn-simpan"
-                        >
-
-                            <i class="bi bi-check-circle me-1"></i>
-
-                            Simpan Perubahan
-
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-@endforeach
-
+</div>
 
 @endsection
+
+
+@push('scripts')
+
+{{-- SWEETALERT --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- JQUERY --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+{{-- DATATABLE --}}
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script>
+$(document).ready(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATATABLE
+    |--------------------------------------------------------------------------
+    */
+
+    const table = $('#poli-table').DataTable({
+
+        processing: true,
+
+        serverSide: true,
+
+        ordering: false,
+
+
+        ajax: {
+            url:
+                "{{ route('master-poli.data') }}",
+
+            type:
+                "GET"
+        },
+
+
+        pageLength: 10,
+
+
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+
+
+        columns: [
+
+            {
+                data:
+                    'DT_RowIndex',
+
+                name:
+                    'DT_RowIndex',
+
+                searchable:
+                    false,
+
+                orderable:
+                    false
+            },
+
+
+            {
+                data:
+                    'kode',
+
+                name:
+                    'kode',
+
+                render:
+                    function (data) {
+
+                        return `
+                            <span class="badge-kode-poli">
+                                ${escapeHtml(data || '-')}
+                            </span>
+                        `;
+                    }
+            },
+
+
+            {
+                data:
+                    'nama',
+
+                name:
+                    'nama',
+
+                render:
+                    function (data) {
+
+                        return `
+                            <span class="badge-nama-poli">
+                                ${escapeHtml(data || '-')}
+                            </span>
+                        `;
+                    }
+            },
+
+
+            {
+                data:
+                    'aksi',
+
+                name:
+                    'aksi',
+
+                searchable:
+                    false,
+
+                orderable:
+                    false
+            }
+
+        ],
+
+
+        language: {
+
+            processing:
+                "Memuat data...",
+
+            search:
+                "Cari:",
+
+            lengthMenu:
+                "Tampilkan _MENU_ data",
+
+            info:
+                "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+            infoEmpty:
+                "Tidak ada data",
+
+            infoFiltered:
+                "(difilter dari _MAX_ total data)",
+
+            zeroRecords:
+                "Data poli tidak ditemukan",
+
+            emptyTable:
+                "Belum ada data poli",
+
+            paginate: {
+
+                first:
+                    "Pertama",
+
+                last:
+                    "Terakhir",
+
+                next:
+                    "Selanjutnya",
+
+                previous:
+                    "Sebelumnya"
+
+            }
+
+        }
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ESCAPE HTML
+    |--------------------------------------------------------------------------
+    */
+
+    function escapeHtml(text) {
+
+        return $('<div>')
+            .text(text ?? '')
+            .html();
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TAMBAH DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $('#formTambah').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            const form =
+                $(this);
+
+
+            const button =
+                form.find(
+                    'button[type="submit"]'
+                );
+
+
+            button.prop(
+                'disabled',
+                true
+            );
+
+
+            $.ajax({
+
+                url:
+                    "{{ route('master-poli.store') }}",
+
+                type:
+                    "POST",
+
+                data:
+                    form.serialize(),
+
+
+                success:
+                    function (response) {
+
+                        const modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    document.getElementById(
+                                        'modalTambah'
+                                    )
+                                );
+
+
+                        modal.hide();
+
+
+                        form[0].reset();
+
+
+                        table.ajax.reload(
+                            null,
+                            false
+                        );
+
+
+                        Swal.fire({
+
+                            icon:
+                                'success',
+
+                            title:
+                                'Berhasil!',
+
+                            text:
+                                response.message ||
+                                'Data poli berhasil ditambahkan.',
+
+                            confirmButtonText:
+                                'OK'
+
+                        });
+
+                    },
+
+
+                error:
+                    function (xhr) {
+
+                        tampilkanError(
+                            xhr,
+                            'Data poli gagal disimpan.'
+                        );
+                    },
+
+
+                complete:
+                    function () {
+
+                        button.prop(
+                            'disabled',
+                            false
+                        );
+                    }
+
+            });
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LIHAT DATA
+    |--------------------------------------------------------------------------
+    */
+
+    $('#poli-table').on(
+        'click',
+        '.btn-poli-lihat',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#lihatKode').text(
+                data.kode || '-'
+            );
+
+
+            $('#lihatNama').text(
+                data.nama || '-'
+            );
+
+
+            $('#lihatId').text(
+                data.id || '-'
+            );
+
+
+            const modal =
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById(
+                            'modalLihat'
+                        )
+                    );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUKA EDIT
+    |--------------------------------------------------------------------------
+    */
+
+    $('#poli-table').on(
+        'click',
+        '.btn-poli-edit',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#editId').val(
+                data.id
+            );
+
+
+            $('#editKode').val(
+                data.kode || ''
+            );
+
+
+            $('#editNama').val(
+                data.nama || ''
+            );
+
+
+            const modal =
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById(
+                            'modalEdit'
+                        )
+                    );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+
+    $('#formEdit').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            const id =
+                $('#editId').val();
+
+
+            const form =
+                $(this);
+
+
+            const button =
+                form.find(
+                    'button[type="submit"]'
+                );
+
+
+            button.prop(
+                'disabled',
+                true
+            );
+
+
+            $.ajax({
+
+                url:
+                    "{{ url('/master-poli') }}/" +
+                    id,
+
+                type:
+                    "POST",
+
+                data:
+                    form.serialize(),
+
+
+                success:
+                    function (response) {
+
+                        const modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    document.getElementById(
+                                        'modalEdit'
+                                    )
+                                );
+
+
+                        modal.hide();
+
+
+                        table.ajax.reload(
+                            null,
+                            false
+                        );
+
+
+                        Swal.fire({
+
+                            icon:
+                                'success',
+
+                            title:
+                                'Berhasil!',
+
+                            text:
+                                response.message ||
+                                'Data poli berhasil diperbarui.',
+
+                            confirmButtonText:
+                                'OK'
+
+                        });
+
+                    },
+
+
+                error:
+                    function (xhr) {
+
+                        tampilkanError(
+                            xhr,
+                            'Data poli gagal diperbarui.'
+                        );
+                    },
+
+
+                complete:
+                    function () {
+
+                        button.prop(
+                            'disabled',
+                            false
+                        );
+                    }
+
+            });
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | HAPUS
+    |--------------------------------------------------------------------------
+    */
+
+    $('#poli-table').on(
+        'click',
+        '.btn-poli-hapus',
+        function () {
+
+            const data =
+                table
+                    .row(
+                        $(this).closest('tr')
+                    )
+                    .data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            Swal.fire({
+
+                title:
+                    'Apakah Anda yakin?',
+
+                text:
+                    'Data poli "' +
+                    (data.nama || '') +
+                    '" akan dihapus.',
+
+                icon:
+                    'warning',
+
+                showCancelButton:
+                    true,
+
+                confirmButtonColor:
+                    '#ef4444',
+
+                cancelButtonColor:
+                    '#6c757d',
+
+                confirmButtonText:
+                    'Ya, hapus!',
+
+                cancelButtonText:
+                    'Batal'
+
+            }).then(
+                function (result) {
+
+                    if (
+                        !result.isConfirmed
+                    ) {
+
+                        return;
+                    }
+
+
+                    $.ajax({
+
+                        url:
+                            "{{ url('/master-poli') }}/" +
+                            data.id,
+
+                        type:
+                            "DELETE",
+
+                        data: {
+
+                            _token:
+                                "{{ csrf_token() }}"
+
+                        },
+
+
+                        success:
+                            function (response) {
+
+                                table.ajax.reload(
+                                    null,
+                                    false
+                                );
+
+
+                                Swal.fire({
+
+                                    icon:
+                                        'success',
+
+                                    title:
+                                        'Berhasil!',
+
+                                    text:
+                                        response.message ||
+                                        'Data poli berhasil dihapus.',
+
+                                    confirmButtonText:
+                                        'OK'
+
+                                });
+
+                            },
+
+
+                        error:
+                            function (xhr) {
+
+                                tampilkanError(
+                                    xhr,
+                                    'Data poli gagal dihapus.'
+                                );
+
+                            }
+
+                    });
+
+                }
+            );
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESET FORM TAMBAH
+    |--------------------------------------------------------------------------
+    */
+
+    $('#modalTambah').on(
+        'hidden.bs.modal',
+        function () {
+
+            document
+                .getElementById(
+                    'formTambah'
+                )
+                .reset();
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TAMPILKAN ERROR
+    |--------------------------------------------------------------------------
+    */
+
+    function tampilkanError(
+        xhr,
+        defaultMessage
+    ) {
+
+        let message =
+            defaultMessage;
+
+
+        /*
+         * Pesan umum dari Controller
+         */
+        if (
+            xhr.responseJSON &&
+            xhr.responseJSON.message
+        ) {
+
+            message =
+                xhr.responseJSON.message;
+
+        }
+
+
+        /*
+         * Pesan validasi Laravel
+         */
+        if (
+            xhr.responseJSON &&
+            xhr.responseJSON.errors
+        ) {
+
+            const errors =
+                Object.values(
+                    xhr.responseJSON.errors
+                ).flat();
+
+
+            if (
+                errors.length > 0
+            ) {
+
+                message =
+                    errors[0];
+
+            }
+
+        }
+
+
+        Swal.fire({
+
+            icon:
+                'error',
+
+            title:
+                'Gagal!',
+
+            text:
+                message
+
+        });
+
+    }
+
+});
+</script>
+
+@endpush

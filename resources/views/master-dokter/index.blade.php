@@ -574,19 +574,15 @@
 
                     <div class="form-group-dokter mb-0">
                         <label class="form-label-dokter">Poli</label>
-                        <select
-                            name="poli_id"
-                            id="tambah_poli_id"
-                            class="select2-poli form-select-dokter"
-                            required
-                        >
-                            <option value="">-- Pilih Poli --</option>
-                            @foreach($polis as $poli)
-                                <option value="{{ $poli->id }}">
-                                    {{ $poli->nama }}
-                                </option>
-                            @endforeach
-                        </select>
+                       <select name="poli_id" class="form-select" style="font-size: 12px !important;">
+    <option value="">-- Pilih Poli --</option>
+
+    @foreach($polis as $poli)
+        <option value="{{ $poli->id }}">
+            {{ $poli->nama }}
+        </option>
+    @endforeach
+</select>
                     </div>
 
                 </div>
@@ -801,7 +797,7 @@
 
             </form>
 
-        </div> 
+        </div>
     </div>
 </div>
 

@@ -4,11 +4,19 @@
 
 @section('content')
 
-<style>
-    /* =========================================================
-       MASTER KATEGORI
-    ========================================================= */
+{{-- DATATABLE CSS --}}
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
+>
 
+{{-- SELECT2 CSS --}}
+<link
+    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+    rel="stylesheet"
+/>
+
+<style>
     :root {
         --blue-main: #1877f2;
         --blue-dark: #0f58c6;
@@ -17,25 +25,19 @@
         --text-muted: #6b7280;
     }
 
-    /* =========================================================
-       HALAMAN
-    ========================================================= */
-
     .master-kategori-page {
         background: #f4f6fa;
         min-height: calc(100vh - 70px);
         padding: 20px 18px;
     }
 
-    /* =========================================================
-       HEADER
-    ========================================================= */
-
+    /* HEADER */
     .kategori-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 17px;
+        gap: 12px;
     }
 
     .kategori-title-wrapper {
@@ -61,7 +63,6 @@
         font-size: 16px;
         font-weight: 700;
         color: var(--text-dark);
-        line-height: 1.2;
     }
 
     .kategori-subtitle {
@@ -70,10 +71,7 @@
         color: var(--text-muted);
     }
 
-    /* =========================================================
-       BUTTON TAMBAH
-    ========================================================= */
-
+    /* TAMBAH */
     .btn-tambah-kategori {
         background: var(--blue-main);
         border: none;
@@ -82,11 +80,9 @@
         border-radius: 7px;
         font-size: 10px;
         font-weight: 600;
-        text-decoration: none;
         display: inline-flex;
         align-items: center;
         gap: 5px;
-        transition: 0.2s;
         cursor: pointer;
     }
 
@@ -95,15 +91,13 @@
         color: white;
     }
 
-    /* =========================================================
-       CARD TABLE
-    ========================================================= */
-
+    /* CARD */
     .kategori-card {
         background: white;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        padding-bottom: 10px;
     }
 
     .kategori-table-wrapper {
@@ -111,66 +105,49 @@
         overflow-x: auto;
     }
 
+    /* TABLE */
     .kategori-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0;
-        min-width: 650px;
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin: 0 !important;
     }
-
-    /* =========================================================
-       TABLE HEADER
-    ========================================================= */
 
     .kategori-table thead th {
-        background: var(--blue-main);
-        color: white;
-        font-size: 9px;
-        font-weight: 600;
-        padding: 11px 10px;
-        border: none;
+        background: var(--blue-main) !important;
+        color: white !important;
+        font-size: 9px !important;
+        font-weight: 600 !important;
+        padding: 11px 10px !important;
+        border: none !important;
         white-space: nowrap;
-        text-align: left;
     }
-
-    /* =========================================================
-       TABLE BODY
-    ========================================================= */
 
     .kategori-table tbody td {
-        padding: 10px;
-        font-size: 9px;
+        padding: 10px !important;
+        font-size: 9px !important;
         color: #6b7280;
-        border-bottom: 1px solid #edf0f4;
-        vertical-align: middle;
+        border-bottom: 1px solid #edf0f4 !important;
+        vertical-align: middle !important;
         background: white;
-    }
-
-    .kategori-table tbody tr:last-child td {
-        border-bottom: none;
     }
 
     .kategori-table tbody tr:hover td {
         background: #fafcff;
     }
 
-    /* =========================================================
-       NO
-    ========================================================= */
-
-    .nomor-kategori {
-        width: 50px;
-        color: #6b7280 !important;
+    /* HILANGKAN SORTING ARROW */
+    #kategori-table.dataTable thead th::before,
+    #kategori-table.dataTable thead th::after {
+        display: none !important;
+        content: none !important;
     }
 
-    /* =========================================================
-       KODE KATEGORI
-    ========================================================= */
-
-    .kode-kategori {
-        white-space: nowrap;
+    #kategori-table.dataTable thead th {
+        background-image: none !important;
+        cursor: default !important;
     }
 
+    /* BADGE KODE */
     .kode-kategori-badge {
         display: inline-block;
         padding: 5px 9px;
@@ -181,15 +158,7 @@
         font-weight: 600;
     }
 
-    /* =========================================================
-       NAMA KATEGORI
-    ========================================================= */
-
-    .nama-kategori {
-        font-weight: 600;
-        color: #1f2937 !important;
-    }
-
+    /* BADGE NAMA */
     .nama-kategori-badge {
         display: inline-block;
         padding: 5px 9px;
@@ -200,14 +169,12 @@
         font-weight: 600;
     }
 
-    /* =========================================================
-       AKSI
-    ========================================================= */
-
+    /* AKSI */
     .aksi-wrapper {
         display: flex;
         gap: 5px;
         align-items: center;
+        justify-content: center;
         white-space: nowrap;
     }
 
@@ -221,87 +188,81 @@
         justify-content: center;
         gap: 4px;
         cursor: pointer;
-        transition: 0.2s;
-        text-decoration: none;
-        line-height: 1;
+        transition: .2s;
     }
-
-    /* =========================================================
-       LIHAT - BIRU MUDA SEPERTI GAMBAR
-    ========================================================= */
 
     .btn-lihat-kategori {
         background: #e7f3ff;
         color: #1877f2;
     }
 
-    .btn-lihat-kategori:hover {
-        background: #d5eaff;
-        color: #0f58c6;
-    }
-
-    .btn-lihat-kategori i {
-        color: #1877f2;
-    }
-
-    /* =========================================================
-       EDIT - BIRU
-    ========================================================= */
-
     .btn-edit-kategori {
         background: #1877f2;
         color: white;
     }
-
-    .btn-edit-kategori:hover {
-        background: #0f58c6;
-        color: white;
-    }
-
-    /* =========================================================
-       HAPUS - MERAH
-    ========================================================= */
 
     .btn-hapus-kategori {
         background: #ff4b4b;
         color: white;
     }
 
-    .btn-hapus-kategori:hover {
-        background: #dc3030;
-        color: white;
-    }
-
-    /* =========================================================
-       ALERT
-    ========================================================= */
-
-    .alert-success,
-    .alert-danger {
-        margin: 0 0 12px;
-        border-radius: 7px;
+    /* DATATABLE */
+    .dataTables_wrapper {
         font-size: 10px;
-        padding: 8px 11px;
     }
 
-    .alert-danger ul {
-        padding-left: 16px;
+    .dataTables_wrapper .row:first-child {
+        padding: 13px 14px 10px;
+        align-items: center;
     }
 
-    /* =========================================================
-       DATA KOSONG
-    ========================================================= */
-
-    .data-kosong {
-        text-align: center;
-        padding: 30px !important;
-        color: #9ca3af !important;
+    .dataTables_wrapper .row:last-child {
+        padding: 10px 14px 2px;
+        align-items: center;
     }
 
-    /* =========================================================
-       MODAL
-    ========================================================= */
+    .dataTables_wrapper .dataTables_length label,
+    .dataTables_wrapper .dataTables_filter label,
+    .dataTables_wrapper .dataTables_info {
+        font-size: 10px;
+        color: #64748b;
+    }
 
+    .dataTables_wrapper .dataTables_length select {
+        min-width: 60px;
+        height: 31px;
+        border: 1px solid #d4dce6;
+        border-radius: 6px;
+        font-size: 10px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        width: 190px;
+        height: 31px;
+        border: 1px solid #d4dce6;
+        border-radius: 6px;
+        padding: 5px 9px;
+        font-size: 10px;
+        outline: none;
+    }
+
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: var(--blue-main);
+    }
+
+    .dataTables_wrapper .page-link {
+        font-size: 9px;
+        border-radius: 5px !important;
+        padding: 5px 8px;
+        box-shadow: none !important;
+    }
+
+    .dataTables_wrapper .page-item.active .page-link {
+        background: var(--blue-main);
+        border-color: var(--blue-main);
+    }
+
+    /* MODAL */
     .modal-kategori-besar {
         max-width: 560px !important;
     }
@@ -310,12 +271,8 @@
         border: none;
         border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 15px 35px rgba(0,0,0,.18);
     }
-
-    /* =========================================================
-       MODAL HEADER
-    ========================================================= */
 
     .modal-kategori-besar .modal-header {
         background: var(--blue-main);
@@ -330,29 +287,22 @@
         margin: 0;
     }
 
-    .modal-kategori-besar .modal-title i {
-        margin-right: 5px;
-    }
-
-    /* =========================================================
-       MODAL BODY
-    ========================================================= */
-
     .modal-kategori-besar .modal-body {
         padding: 22px 25px;
-        background: white;
     }
 
-    /* =========================================================
-       FORM
-    ========================================================= */
+    .modal-kategori-besar .modal-footer {
+        background: #f8fafc;
+        border: none;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 7px;
+    }
 
+    /* FORM */
     .form-kategori-group {
         margin-bottom: 16px;
-    }
-
-    .form-kategori-group:last-child {
-        margin-bottom: 0;
     }
 
     .form-kategori-label {
@@ -370,123 +320,27 @@
         border-radius: 7px;
         padding: 8px 11px;
         font-size: 10px;
-        color: #374151;
         outline: none;
-        background: white;
-        transition: 0.2s;
     }
 
     .form-kategori-control:focus {
         border-color: var(--blue-main);
-        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.10);
+        box-shadow: 0 0 0 3px rgba(24,119,242,.10);
     }
 
-    .form-kategori-control::placeholder {
-        color: #9ca3af;
-    }
-
-    /* =========================================================
-       SELECT2
-    ========================================================= */
-
-    .select2-container {
-        width: 100% !important;
-    }
-
-    .select2-container--default .select2-selection--single {
-        height: 40px !important;
-        border: 1px solid #d4dce6 !important;
-        border-radius: 7px !important;
-        display: flex !important;
-        align-items: center !important;
-        background: white !important;
-    }
-
-    .select2-container--default
-    .select2-selection--single
-    .select2-selection__rendered {
-        color: #374151 !important;
-        font-size: 10px !important;
-        line-height: 38px !important;
-        padding-left: 11px !important;
-        padding-right: 30px !important;
-    }
-
-    .select2-container--default
-    .select2-selection--single
-    .select2-selection__placeholder {
-        color: #9ca3af !important;
-    }
-
-    .select2-container--default
-    .select2-selection--single
-    .select2-selection__arrow {
-        height: 38px !important;
-        right: 8px !important;
-    }
-
-    .select2-container--default.select2-container--open
-    .select2-selection--single {
-        border-color: var(--blue-main) !important;
-        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.10) !important;
-    }
-
-    .select2-dropdown {
-        border: 1px solid #1877f2 !important;
-        border-radius: 7px !important;
-        overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
-    }
-
-    .select2-search--dropdown {
-        padding: 8px !important;
-        background: white;
-    }
-
-    .select2-search--dropdown .select2-search__field {
-        height: 34px !important;
-        border: 1px solid #d4dce6 !important;
-        border-radius: 6px !important;
-        padding: 5px 8px !important;
-        font-size: 10px !important;
-        outline: none;
-    }
-
-    .select2-search--dropdown .select2-search__field:focus {
-        border-color: #1877f2 !important;
-        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.10);
-    }
-
-    .select2-results__option {
-        font-size: 10px !important;
-        padding: 8px 10px !important;
-    }
-
-    .select2-container--default
-    .select2-results__option--highlighted[aria-selected] {
-        background: #1877f2 !important;
-        color: white !important;
-    }
-
-    .select2-container--default
-    .select2-results__option[aria-selected="true"] {
-        background: #e7f3ff !important;
-        color: #1877f2 !important;
-    }
-
-    /* =========================================================
-       MODAL FOOTER
-    ========================================================= */
-
-    .modal-kategori-besar .modal-footer {
+    /* DETAIL */
+    .detail-kategori-value {
+        width: 100%;
+        min-height: 40px;
+        border: 1px solid #e1e7ef;
+        border-radius: 7px;
+        padding: 9px 11px;
+        font-size: 10px;
         background: #f8fafc;
-        border: none;
-        padding: 12px 20px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 7px;
+        color: #374151;
     }
 
+    /* BUTTON MODAL */
     .btn-batal-kategori {
         background: #f1f5f9;
         border: none;
@@ -494,11 +348,6 @@
         border-radius: 6px;
         padding: 8px 13px;
         font-size: 9px;
-        cursor: pointer;
-    }
-
-    .btn-batal-kategori:hover {
-        background: #e2e8f0;
     }
 
     .btn-simpan-kategori {
@@ -509,68 +358,73 @@
         padding: 8px 13px;
         font-size: 9px;
         font-weight: 600;
-        cursor: pointer;
     }
 
-    .btn-simpan-kategori:hover {
-        background: var(--blue-dark);
+    /* SELECT2 */
+    .select2-container {
+        width: 100% !important;
     }
 
-    /* =========================================================
-       ERROR
-    ========================================================= */
-
-    .error-kategori {
-        display: block;
-        color: #dc3545;
-        font-size: 8px;
-        margin-top: 4px;
+    .select2-container--default .select2-selection--single {
+        height: 40px !important;
+        border: 1px solid #d4dce6 !important;
+        border-radius: 7px !important;
     }
 
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
+        font-size: 10px !important;
+        line-height: 38px !important;
+        padding-left: 11px !important;
+    }
 
-    @media (max-width: 768px) {
+    .select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
+        height: 38px !important;
+    }
 
-        .master-kategori-page {
-            padding: 18px 12px;
-        }
+    .select2-results__option {
+        font-size: 10px !important;
+    }
 
-        .kategori-header {
-            align-items: flex-start;
-            gap: 12px;
-        }
+    .select2-container--default
+    .select2-results__option--highlighted[aria-selected] {
+        background: #1877f2 !important;
+    }
 
-        .kategori-title {
-            font-size: 15px;
-        }
+    /* DELETE MODAL */
+    .delete-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background: #fee2e2;
+        color: #ef4444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        font-size: 22px;
+    }
 
-        .btn-tambah-kategori {
-            white-space: nowrap;
-        }
+    .delete-text {
+        text-align: center;
+        font-size: 11px;
+        color: #374151;
+    }
 
-        .modal-kategori-besar {
-            max-width: calc(100% - 30px) !important;
-            margin: 15px auto;
-        }
+    .btn-konfirmasi-hapus {
+        background: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 13px;
+        font-size: 9px;
+        font-weight: 600;
     }
 </style>
 
-
-{{-- =========================================================
-     SELECT2 CSS
-========================================================= --}}
-
-<link
-    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-    rel="stylesheet"
-/>
-
-
-{{-- =========================================================
-     DATA KATEGORI
-========================================================= --}}
 
 @php
     $daftarKategori = [
@@ -600,10 +454,6 @@
 
 <div class="master-kategori-page">
 
-    {{-- =====================================================
-         HEADER
-    ====================================================== --}}
-
     <div class="kategori-header">
 
         <div class="kategori-title-wrapper">
@@ -613,7 +463,6 @@
             </div>
 
             <div>
-
                 <h2 class="kategori-title">
                     Master Kategori
                 </h2>
@@ -621,13 +470,9 @@
                 <p class="kategori-subtitle">
                     Data kategori yang terdaftar
                 </p>
-
             </div>
 
         </div>
-
-
-        {{-- TOMBOL TAMBAH --}}
 
         <button
             type="button"
@@ -642,63 +487,26 @@
     </div>
 
 
-    {{-- =====================================================
-         SUCCESS
-    ====================================================== --}}
-
-    @if(session('success'))
-
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-
-    @endif
-
-
-    {{-- =====================================================
-         ERROR
-    ====================================================== --}}
-
-    @if($errors->any())
-
-        <div class="alert alert-danger">
-
-            <ul class="mb-0">
-
-                @foreach($errors->all() as $error)
-
-                    <li>
-                        {{ $error }}
-                    </li>
-
-                @endforeach
-
-            </ul>
-
-        </div>
-
-    @endif
-
-
-    {{-- =====================================================
-         TABLE
-    ====================================================== --}}
-
     <div class="kategori-card">
 
         <div class="kategori-table-wrapper">
 
-            <table class="kategori-table">
+            <table
+                id="kategori-table"
+                class="kategori-table table align-middle"
+            >
 
                 <thead>
-
                     <tr>
 
-                        <th width="50">
+                        <th
+                            class="text-center"
+                            style="width:70px;"
+                        >
                             No
                         </th>
 
-                        <th width="180">
+                        <th style="width:180px;">
                             Kode Kategori
                         </th>
 
@@ -706,286 +514,17 @@
                             Nama Kategori
                         </th>
 
-                        <th width="220">
+                        <th
+                            class="text-center"
+                            style="width:220px;"
+                        >
                             Aksi
                         </th>
 
                     </tr>
-
                 </thead>
 
-
-                <tbody>
-
-                    @forelse($kategoris as $kategori)
-
-                        <tr>
-
-                            {{-- NO --}}
-
-                            <td class="nomor-kategori">
-                                {{ $loop->iteration }}
-                            </td>
-
-
-                            {{-- KODE --}}
-
-                            <td class="kode-kategori">
-
-                                <span class="kode-kategori-badge">
-                                    {{ $kategori->kode }}
-                                </span>
-
-                            </td>
-
-
-                            {{-- NAMA --}}
-
-                            <td class="nama-kategori">
-
-                                <span class="nama-kategori-badge">
-                                    {{ $kategori->nama }}
-                                </span>
-
-                            </td>
-
-
-                            {{-- =================================================
-                                 AKSI
-                            ================================================== --}}
-
-                            <td>
-
-                                <div class="aksi-wrapper">
-
-
-                                    {{-- LIHAT --}}
-
-                                    <a
-                                        href="{{ route('master-kategori.show', $kategori->id) }}"
-                                        class="btn-aksi-kategori btn-lihat-kategori"
-                                    >
-
-                                        <i class="fas fa-eye"></i>
-
-                                        Lihat
-
-                                    </a>
-
-
-                                    {{-- EDIT --}}
-
-                                    <button
-                                        type="button"
-                                        class="btn-aksi-kategori btn-edit-kategori"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalEditKategori{{ $kategori->id }}"
-                                    >
-
-                                        <i class="fas fa-edit"></i>
-
-                                        Edit
-
-                                    </button>
-
-
-                                    {{-- HAPUS --}}
-
-                                    <form
-                                        action="{{ route('master-kategori.destroy', $kategori->id) }}"
-                                        method="POST"
-                                        style="display:inline;"
-                                    >
-
-                                        @csrf
-
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="btn-aksi-kategori btn-hapus-kategori"
-                                            onclick="return confirm('Yakin ingin menghapus kategori ini?')"
-                                        >
-
-                                            <i class="fas fa-trash"></i>
-
-                                            Hapus
-
-                                        </button>
-
-                                    </form>
-
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-
-                        {{-- =================================================
-                             MODAL EDIT KATEGORI
-                        ================================================== --}}
-
-                        <div
-                            class="modal fade"
-                            id="modalEditKategori{{ $kategori->id }}"
-                            tabindex="-1"
-                            aria-hidden="true"
-                        >
-
-                            <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
-
-                                <div class="modal-content">
-
-
-                                    {{-- HEADER --}}
-
-                                    <div class="modal-header">
-
-                                        <h5 class="modal-title">
-
-                                            <i class="fas fa-edit"></i>
-
-                                            Edit Kategori
-
-                                        </h5>
-
-                                    </div>
-
-
-                                    {{-- FORM --}}
-
-                                    <form
-                                        action="{{ route('master-kategori.update', $kategori->id) }}"
-                                        method="POST"
-                                    >
-
-                                        @csrf
-
-                                        @method('PUT')
-
-
-                                        {{-- BODY --}}
-
-                                        <div class="modal-body">
-
-
-                                            {{-- KODE --}}
-
-                                            <div class="form-kategori-group">
-
-                                                <label class="form-kategori-label">
-                                                    Kode Kategori
-                                                </label>
-
-                                                <input
-                                                    type="text"
-                                                    name="kode"
-                                                    class="form-kategori-control"
-                                                    value="{{ $kategori->kode }}"
-                                                    placeholder="Masukkan kode kategori"
-                                                    required
-                                                >
-
-                                            </div>
-
-
-                                            {{-- NAMA --}}
-
-                                            <div class="form-kategori-group">
-
-                                                <label class="form-kategori-label">
-                                                    Nama Kategori
-                                                </label>
-
-
-                                                <select
-                                                    name="nama"
-                                                    id="namaKategoriEdit{{ $kategori->id }}"
-                                                    class="form-kategori-select2"
-                                                    required
-                                                >
-
-                                                    <option value="">
-                                                        -- Cari / Pilih Kategori --
-                                                    </option>
-
-
-                                                    @foreach($daftarKategori as $namaKategori)
-
-                                                        <option
-                                                            value="{{ $namaKategori }}"
-                                                            {{ $kategori->nama == $namaKategori ? 'selected' : '' }}
-                                                        >
-
-                                                            {{ $namaKategori }}
-
-                                                        </option>
-
-                                                    @endforeach
-
-                                                </select>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        {{-- FOOTER --}}
-
-                                        <div class="modal-footer">
-
-                                            <button
-                                                type="button"
-                                                class="btn-batal-kategori"
-                                                data-bs-dismiss="modal"
-                                            >
-                                                Batal
-                                            </button>
-
-
-                                            <button
-                                                type="submit"
-                                                class="btn-simpan-kategori"
-                                            >
-
-                                                <i class="fas fa-save"></i>
-
-                                                Simpan Perubahan
-
-                                            </button>
-
-                                        </div>
-
-
-                                    </form>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                    @empty
-
-                        <tr>
-
-                            <td
-                                colspan="4"
-                                class="data-kosong"
-                            >
-
-                                Belum ada data kategori.
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
-                </tbody>
+                <tbody></tbody>
 
             </table>
 
@@ -997,52 +536,37 @@
 
 
 {{-- =========================================================
-     MODAL TAMBAH KATEGORI
+     MODAL TAMBAH
 ========================================================= --}}
-
 <div
     class="modal fade"
     id="modalTambahKategori"
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
 
         <div class="modal-content">
 
-
-            {{-- HEADER --}}
-
             <div class="modal-header">
 
                 <h5 class="modal-title">
-
                     <i class="fas fa-tags"></i>
-
                     Tambah Kategori
-
                 </h5>
 
             </div>
 
 
-            {{-- FORM --}}
-
             <form
+                id="formTambahKategori"
                 action="{{ route('master-kategori.store') }}"
                 method="POST"
             >
 
                 @csrf
 
-
-                {{-- BODY --}}
-
                 <div class="modal-body">
-
-
-                    {{-- KODE --}}
 
                     <div class="form-kategori-group">
 
@@ -1053,31 +577,20 @@
                         <input
                             type="text"
                             name="kode"
+                            id="tambahKode"
                             class="form-kategori-control"
                             placeholder="Masukkan kode kategori"
-                            value="{{ old('kode') }}"
                             required
                         >
 
-                        @error('kode')
-
-                            <span class="error-kategori">
-                                {{ $message }}
-                            </span>
-
-                        @enderror
-
                     </div>
 
-
-                    {{-- NAMA --}}
 
                     <div class="form-kategori-group">
 
                         <label class="form-kategori-label">
                             Nama Kategori
                         </label>
-
 
                         <select
                             name="nama"
@@ -1090,37 +603,20 @@
                                 -- Cari / Pilih Kategori --
                             </option>
 
-
                             @foreach($daftarKategori as $namaKategori)
 
-                                <option
-                                    value="{{ $namaKategori }}"
-                                    {{ old('nama') == $namaKategori ? 'selected' : '' }}
-                                >
-
+                                <option value="{{ $namaKategori }}">
                                     {{ $namaKategori }}
-
                                 </option>
 
                             @endforeach
 
                         </select>
 
-
-                        @error('nama')
-
-                            <span class="error-kategori">
-                                {{ $message }}
-                            </span>
-
-                        @enderror
-
                     </div>
 
                 </div>
 
-
-                {{-- FOOTER --}}
 
                 <div class="modal-footer">
 
@@ -1135,59 +631,334 @@
 
                     <button
                         type="submit"
+                        id="btnSimpanKategori"
                         class="btn-simpan-kategori"
                     >
-
                         <i class="fas fa-save"></i>
-
                         Simpan Data
-
                     </button>
 
                 </div>
-
 
             </form>
 
         </div>
 
     </div>
-
 </div>
 
 
 {{-- =========================================================
-     JQUERY
+     MODAL LIHAT
 ========================================================= --}}
+<div
+    class="modal fade"
+    id="modalLihatKategori"
+    tabindex="-1"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    <i class="fas fa-eye"></i>
+                    Detail Kategori
+                </h5>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="form-kategori-group">
+
+                    <label class="form-kategori-label">
+                        Kode Kategori
+                    </label>
+
+                    <div
+                        id="lihatKode"
+                        class="detail-kategori-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="form-kategori-group">
+
+                    <label class="form-kategori-label">
+                        Nama Kategori
+                    </label>
+
+                    <div
+                        id="lihatNama"
+                        class="detail-kategori-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-batal-kategori"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
 
 {{-- =========================================================
-     SELECT2 JS
+     MODAL EDIT
 ========================================================= --}}
+<div
+    class="modal fade"
+    id="modalEditKategori"
+    tabindex="-1"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
 
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    <i class="fas fa-edit"></i>
+                    Edit Kategori
+                </h5>
+
+            </div>
+
+
+            <form
+                id="formEditKategori"
+                method="POST"
+            >
+
+                @csrf
+                @method('PUT')
+
+
+                <div class="modal-body">
+
+                    <div class="form-kategori-group">
+
+                        <label class="form-kategori-label">
+                            Kode Kategori
+                        </label>
+
+                        <input
+                            type="text"
+                            name="kode"
+                            id="editKode"
+                            class="form-kategori-control"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-kategori-group">
+
+                        <label class="form-kategori-label">
+                            Nama Kategori
+                        </label>
+
+                        <select
+                            name="nama"
+                            id="editNama"
+                            class="form-kategori-select2"
+                            required
+                        >
+
+                            <option value="">
+                                -- Cari / Pilih Kategori --
+                            </option>
+
+                            @foreach($daftarKategori as $namaKategori)
+
+                                <option value="{{ $namaKategori }}">
+                                    {{ $namaKategori }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn-batal-kategori"
+                        data-bs-dismiss="modal"
+                    >
+                        Batal
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        id="btnUpdateKategori"
+                        class="btn-simpan-kategori"
+                    >
+                        <i class="fas fa-save"></i>
+                        Simpan Perubahan
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+{{-- =========================================================
+     MODAL HAPUS
+========================================================= --}}
+<div
+    class="modal fade"
+    id="modalHapusKategori"
+    tabindex="-1"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 rounded-4">
+
+            <div
+                class="modal-header"
+                style="
+                    background:#ef4444;
+                    color:white;
+                    border:none;
+                "
+            >
+
+                <h5
+                    class="modal-title"
+                    style="font-size:14px;"
+                >
+                    <i class="fas fa-trash"></i>
+                    Konfirmasi Hapus
+                </h5>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="delete-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                <p class="delete-text">
+
+                    Apakah kamu yakin ingin menghapus kategori
+
+                    <strong id="hapusNamaKategori">
+                        -
+                    </strong>
+
+                    ?
+
+                </p>
+
+            </div>
+
+
+            <div class="modal-footer border-0">
+
+                <button
+                    type="button"
+                    class="btn-batal-kategori"
+                    data-bs-dismiss="modal"
+                >
+                    Batal
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnProsesHapus"
+                    class="btn-konfirmasi-hapus"
+                >
+                    <i class="fas fa-trash"></i>
+                    Ya, Hapus
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@endsection
+
+
+@push('scripts')
+
+{{-- SWEETALERT --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- JQUERY --}}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+{{-- DATATABLE --}}
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+{{-- SELECT2 --}}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 <script>
+$(document).ready(function () {
 
-document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = @json(csrf_token());
 
 
     /* =========================================================
        SELECT2 TAMBAH
     ========================================================= */
-
     $('#namaKategori').select2({
 
-        placeholder: 'Cari / Pilih Kategori',
+        placeholder:
+            'Cari / Pilih Kategori',
 
         allowClear: true,
 
         width: '100%',
 
-        dropdownParent: $('#modalTambahKategori')
+        dropdownParent:
+            $('#modalTambahKategori')
 
     });
 
@@ -1195,44 +966,759 @@ document.addEventListener('DOMContentLoaded', function () {
     /* =========================================================
        SELECT2 EDIT
     ========================================================= */
+    $('#editNama').select2({
 
-    @foreach($kategoris as $kategori)
+        placeholder:
+            'Cari / Pilih Kategori',
 
-        $('#namaKategoriEdit{{ $kategori->id }}').select2({
+        allowClear: true,
 
-            placeholder: 'Cari / Pilih Kategori',
+        width: '100%',
 
-            allowClear: true,
+        dropdownParent:
+            $('#modalEditKategori')
 
-            width: '100%',
-
-            dropdownParent: $('#modalEditKategori{{ $kategori->id }}')
-
-        });
-
-    @endforeach
+    });
 
 
     /* =========================================================
-       BUKA MODAL TAMBAH JIKA VALIDASI ERROR
+       DATATABLE
     ========================================================= */
+    const table = $('#kategori-table').DataTable({
 
-    @if($errors->any() && old('_form') === 'tambah-kategori')
+        processing: true,
 
-        var modalElement = document.getElementById('modalTambahKategori');
+        serverSide: true,
 
-        if (modalElement) {
+        /*
+        |--------------------------------------------------------------------------
+        | MATIKAN SORTING
+        |--------------------------------------------------------------------------
+        */
+        ordering: false,
 
-            var modal = new bootstrap.Modal(modalElement);
+        ajax:
+            "{{ route('master-kategori.data') }}",
+
+        pageLength: 10,
+
+        lengthMenu: [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+
+
+        columns: [
+
+            {
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                searchable: false,
+                orderable: false,
+                className: 'text-center'
+            },
+
+
+            {
+                data: 'kode',
+                name: 'kode',
+                searchable: true,
+                orderable: false,
+
+                render: function (data) {
+
+                    return `
+                        <span class="kode-kategori-badge">
+                            ${escapeHtml(data ?? '-')}
+                        </span>
+                    `;
+                }
+            },
+
+
+            {
+                data: 'nama',
+                name: 'nama',
+                searchable: true,
+                orderable: false,
+
+                render: function (data) {
+
+                    return `
+                        <span class="nama-kategori-badge">
+                            ${escapeHtml(data ?? '-')}
+                        </span>
+                    `;
+                }
+            },
+
+
+            {
+                data: 'aksi',
+                name: 'aksi',
+                searchable: false,
+                orderable: false,
+                className: 'text-center'
+            }
+
+        ],
+
+
+        language: {
+
+            search: "",
+
+            searchPlaceholder:
+                "Cari kategori...",
+
+            lengthMenu:
+                "Tampilkan _MENU_ data",
+
+            info:
+                "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+            infoEmpty:
+                "Menampilkan 0 sampai 0 dari 0 data",
+
+            emptyTable:
+                "Belum ada data kategori",
+
+            zeroRecords:
+                "Data kategori tidak ditemukan",
+
+            processing:
+                "Memuat data...",
+
+            paginate: {
+
+                first: "Awal",
+
+                last: "Akhir",
+
+                next: "Lanjut",
+
+                previous: "Kembali"
+
+            }
+        }
+
+    });
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return '';
+        }
+
+        return $('<div>')
+            .text(value)
+            .html();
+    }
+
+
+    /* =========================================================
+       LIHAT
+    ========================================================= */
+    $('#kategori-table').on(
+        'click',
+        '.btn-lihat-kategori',
+        function () {
+
+            const data =
+                table.row(
+                    $(this).closest('tr')
+                ).data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#lihatKode').text(
+                data.kode ?? '-'
+            );
+
+
+            $('#lihatNama').text(
+                data.nama ?? '-'
+            );
+
+
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    document.getElementById(
+                        'modalLihatKategori'
+                    )
+                );
+
 
             modal.show();
 
         }
+    );
 
-    @endif
+
+    /* =========================================================
+       EDIT
+    ========================================================= */
+    $('#kategori-table').on(
+        'click',
+        '.btn-edit-kategori',
+        function () {
+
+            const data =
+                table.row(
+                    $(this).closest('tr')
+                ).data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            $('#editKode').val(
+                data.kode ?? ''
+            );
+
+
+            $('#editNama')
+                .val(data.nama ?? '')
+                .trigger('change');
+
+
+            const baseUrl =
+                @json(url('/master-kategori'));
+
+
+            $('#formEditKategori').attr(
+                'action',
+                baseUrl + '/' + data.id
+            );
+
+
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    document.getElementById(
+                        'modalEditKategori'
+                    )
+                );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /* =========================================================
+       TAMBAH
+    ========================================================= */
+    $('#formTambahKategori').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            const form = this;
+
+            const btn =
+                $('#btnSimpanKategori');
+
+
+            btn.prop(
+                'disabled',
+                true
+            );
+
+
+            btn.html(`
+                <i class="fas fa-spinner fa-spin"></i>
+                Menyimpan...
+            `);
+
+
+            $.ajax({
+
+                url: form.action,
+
+                type: 'POST',
+
+                data: $(form).serialize(),
+
+
+                success: function (response) {
+
+                    const modal =
+                        bootstrap.Modal.getInstance(
+                            document.getElementById(
+                                'modalTambahKategori'
+                            )
+                        );
+
+
+                    if (modal) {
+                        modal.hide();
+                    }
+
+
+                    form.reset();
+
+
+                    $('#namaKategori')
+                        .val(null)
+                        .trigger('change');
+
+
+                    table.ajax.reload(
+                        null,
+                        false
+                    );
+
+
+                    Swal.fire({
+
+                        icon: 'success',
+
+                        title: 'Berhasil!',
+
+                        text:
+                            response.message ??
+                            'Data kategori berhasil ditambahkan.',
+
+                        confirmButtonColor:
+                            '#1877f2'
+
+                    });
+
+                },
+
+
+                error: function (xhr) {
+
+                    let message =
+                        'Terjadi kesalahan saat menyimpan data.';
+
+
+                    if (
+                        xhr.responseJSON &&
+                        xhr.responseJSON.errors
+                    ) {
+
+                        message =
+                            Object.values(
+                                xhr.responseJSON.errors
+                            )
+                            .flat()
+                            .join('<br>');
+
+                    } else if (
+                        xhr.responseJSON &&
+                        xhr.responseJSON.message
+                    ) {
+
+                        message =
+                            xhr.responseJSON.message;
+
+                    }
+
+
+                    Swal.fire({
+
+                        icon: 'error',
+
+                        title: 'Gagal',
+
+                        html: message,
+
+                        confirmButtonColor:
+                            '#1877f2'
+
+                    });
+
+                },
+
+
+                complete: function () {
+
+                    btn.prop(
+                        'disabled',
+                        false
+                    );
+
+
+                    btn.html(`
+                        <i class="fas fa-save"></i>
+                        Simpan Data
+                    `);
+
+                }
+
+            });
+
+        }
+    );
+
+
+    /* =========================================================
+       UPDATE
+    ========================================================= */
+    $('#formEditKategori').on(
+        'submit',
+        function (e) {
+
+            e.preventDefault();
+
+
+            const form = this;
+
+            const btn =
+                $('#btnUpdateKategori');
+
+
+            btn.prop(
+                'disabled',
+                true
+            );
+
+
+            btn.html(`
+                <i class="fas fa-spinner fa-spin"></i>
+                Menyimpan...
+            `);
+
+
+            $.ajax({
+
+                url: form.action,
+
+                type: 'POST',
+
+                data: $(form).serialize(),
+
+
+                success: function (response) {
+
+                    const modal =
+                        bootstrap.Modal.getInstance(
+                            document.getElementById(
+                                'modalEditKategori'
+                            )
+                        );
+
+
+                    if (modal) {
+                        modal.hide();
+                    }
+
+
+                    table.ajax.reload(
+                        null,
+                        false
+                    );
+
+
+                    Swal.fire({
+
+                        icon: 'success',
+
+                        title: 'Berhasil!',
+
+                        text:
+                            response.message ??
+                            'Data kategori berhasil diperbarui.',
+
+                        confirmButtonColor:
+                            '#1877f2'
+
+                    });
+
+                },
+
+
+                error: function (xhr) {
+
+                    let message =
+                        'Terjadi kesalahan saat memperbarui data.';
+
+
+                    if (
+                        xhr.responseJSON &&
+                        xhr.responseJSON.errors
+                    ) {
+
+                        message =
+                            Object.values(
+                                xhr.responseJSON.errors
+                            )
+                            .flat()
+                            .join('<br>');
+
+                    } else if (
+                        xhr.responseJSON &&
+                        xhr.responseJSON.message
+                    ) {
+
+                        message =
+                            xhr.responseJSON.message;
+
+                    }
+
+
+                    Swal.fire({
+
+                        icon: 'error',
+
+                        title: 'Gagal',
+
+                        html: message,
+
+                        confirmButtonColor:
+                            '#1877f2'
+
+                    });
+
+                },
+
+
+                complete: function () {
+
+                    btn.prop(
+                        'disabled',
+                        false
+                    );
+
+
+                    btn.html(`
+                        <i class="fas fa-save"></i>
+                        Simpan Perubahan
+                    `);
+
+                }
+
+            });
+
+        }
+    );
+
+
+    /* =========================================================
+       PILIH DATA HAPUS
+    ========================================================= */
+    let deleteTargetUrl = '';
+
+
+    $('#kategori-table').on(
+        'click',
+        '.btn-hapus-kategori',
+        function () {
+
+            const data =
+                table.row(
+                    $(this).closest('tr')
+                ).data();
+
+
+            if (!data) {
+                return;
+            }
+
+
+            deleteTargetUrl =
+                $(this).data('url');
+
+
+            $('#hapusNamaKategori').text(
+                data.nama ?? '-'
+            );
+
+
+            const modal =
+                bootstrap.Modal.getOrCreateInstance(
+                    document.getElementById(
+                        'modalHapusKategori'
+                    )
+                );
+
+
+            modal.show();
+
+        }
+    );
+
+
+    /* =========================================================
+       PROSES HAPUS
+    ========================================================= */
+    $('#btnProsesHapus').on(
+        'click',
+        function () {
+
+            if (!deleteTargetUrl) {
+                return;
+            }
+
+
+            const btn =
+                $(this);
+
+
+            btn.prop(
+                'disabled',
+                true
+            );
+
+
+            btn.html(`
+                <i class="fas fa-spinner fa-spin"></i>
+                Menghapus...
+            `);
+
+
+            $.ajax({
+
+                url: deleteTargetUrl,
+
+                type: 'POST',
+
+                data: {
+
+                    _token:
+                        csrfToken,
+
+                    _method:
+                        'DELETE'
+
+                },
+
+
+                success: function (response) {
+
+                    const modal =
+                        bootstrap.Modal.getInstance(
+                            document.getElementById(
+                                'modalHapusKategori'
+                            )
+                        );
+
+
+                    if (modal) {
+                        modal.hide();
+                    }
+
+
+                    deleteTargetUrl = '';
+
+
+                    table.ajax.reload(
+                        null,
+                        false
+                    );
+
+
+                    Swal.fire({
+
+                        icon: 'success',
+
+                        title: 'Terhapus!',
+
+                        text:
+                            response.message ??
+                            'Data kategori berhasil dihapus.',
+
+                        confirmButtonColor:
+                            '#1877f2'
+
+                    });
+
+                },
+
+
+                error: function (xhr) {
+
+                    let message =
+                        'Terjadi kesalahan saat menghapus data.';
+
+
+                    if (
+                        xhr.responseJSON &&
+                        xhr.responseJSON.message
+                    ) {
+
+                        message =
+                            xhr.responseJSON.message;
+
+                    }
+
+
+                    Swal.fire({
+
+                        icon: 'error',
+
+                        title: 'Gagal Hapus',
+
+                        text: message,
+
+                        confirmButtonColor:
+                            '#1877f2'
+
+                    });
+
+                },
+
+
+                complete: function () {
+
+                    btn.prop(
+                        'disabled',
+                        false
+                    );
+
+
+                    btn.html(`
+                        <i class="fas fa-trash"></i>
+                        Ya, Hapus
+                    `);
+
+                }
+
+            });
+
+        }
+    );
+
+
+    /* =========================================================
+       RESET MODAL TAMBAH
+    ========================================================= */
+    $('#modalTambahKategori').on(
+        'hidden.bs.modal',
+        function () {
+
+            document
+                .getElementById(
+                    'formTambahKategori'
+                )
+                .reset();
+
+
+            $('#namaKategori')
+                .val(null)
+                .trigger('change');
+
+        }
+    );
 
 });
-
 </script>
 
-@endsection
+@endpush
