@@ -150,7 +150,7 @@
                 <a href="#antrian" class="hover:text-brand-600 transition duration-200 py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-500 hover:after:w-full after:transition-all">Live Antrian</a>
                 <a href="#fasilitas" class="hover:text-brand-600 transition duration-200 py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-500 hover:after:w-full after:transition-all">Fasilitas</a>
             </nav>
-        
+
             <!-- Akses Portal -->
             <button onclick="toggleModal('loginModal')" class="bg-brand-50 border border-brand-200 text-brand-700 hover:bg-brand-600 hover:text-white px-5 py-2.5 rounded-2xl font-extrabold text-xs transition duration-300 shadow-sm flex items-center space-x-2 tracking-wider">
                 <i class="fa-solid fa-shield-halved"></i>
@@ -168,9 +168,7 @@
         <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
 
             <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2.5 bg-white border border-brand-200 text-brand-700 text-xs font-bold px-4 py-2 rounded-full shadow-sm">
-                    <i class="fa-solid fa-microchip text-brand-500"></i> Smart Medical AI-Integrated Center
-                </div>
+
 
                 <h1 class="text-4xl sm:text-6xl font-black text-slate-900 leading-[1.15] tracking-tight">
                     Layanan Kesehatan <br>
@@ -178,7 +176,7 @@
                 </h1>
 
                 <p class="text-slate-600 leading-relaxed text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal">
-                    Platform kesehatan terpadu berbasis AI. Pantau nomor antrian poliklinik realtime, rekam medis digital, dan booking dokter spesialis instan.
+                    Platform kesehatan terpadu berbasis pantau nomor antrian poliklinik realtime, rekam medis digital, dan booking dokter spesialis instan.
                 </p>
 
                 <!-- Tombol Aksi Utama -->
