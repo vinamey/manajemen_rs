@@ -1,195 +1,262 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Direktur</title>
+    <title>Dashboard Direktur - SIM RS</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-
-        body{
-            background:#f4f6f9;
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            font-family: Arial, sans-serif;
         }
 
-        .sidebar{
-            width:250px;
-            height:100vh;
-            position:fixed;
-            background:#212529;
-            color:white;
+        /* SIDEBAR STYLES */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #0d6efd;
+            color: white;
+            z-index: 1000;
         }
 
-        .sidebar h3{
-            padding-top:20px;
+        .brand {
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        .sidebar a{
-            display:block;
-            color:white;
-            text-decoration:none;
-            padding:12px 20px;
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 22px;
+            transition: background 0.2s;
         }
 
-        .sidebar a:hover{
-            background:#343a40;
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #0b5ed7;
         }
 
-        .content{
-            margin-left:250px;
-            padding:30px;
+        /* MAIN CONTENT & TOPBAR CONTAINER */
+        .main-wrapper {
+            margin-left: 250px;
         }
 
-        .card{
-            border:none;
-            border-radius:15px;
+        /* TOPBAR / NAVBAR ATAS */
+        .topbar {
+            background: white;
+            height: 65px;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
+        .topbar .title {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-role {
+            font-size: 14px;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-logout:hover {
+            background-color: #bb2d3b;
+            color: white;
+        }
+
+        /* CONTENT AREA */
+        .content {
+            padding: 30px;
+        }
+
+        .card-stat {
+            border: none;
+            border-radius: 15px;
+            padding: 25px;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
+        }
+
+        .card-stat h6 {
+            color: #6c757d;
+        }
+
+        .card-stat h3 {
+            color: #0d6efd;
+            font-weight: bold;
+        }
     </style>
-
 </head>
+
 <body>
 
-<div class="sidebar">
-
-    <h3 class="text-center">
-        SIM Rumah Sakit
-    </h3>
-
-    <hr>
-
-    <a href="#">🏠 Dashboard</a>
-
-    <a href="#">📊 Statistik Rumah Sakit</a>
-
-    <a href="#">📈 Laporan Pasien</a>
-
-    <a href="#">💰 Laporan Keuangan</a>
-
-    <a href="#">🩺 Laporan Dokter</a>
-
-    <a href="#">💊 Laporan Obat</a>
-
-    <a href="#">👤 Profil</a>
-
-    <form action="{{ route('logout') }}" method="POST" class="p-3">
-
-        @csrf
-
-        <button class="btn btn-danger w-100">
-            Logout
-        </button>
-
-    </form>
-
-</div>
-
-
-<div class="content">
-
-    <div class="card shadow">
-
-        <div class="card-body">
-
-            <h2>Selamat Datang, Direktur 👔</h2>
-
-            <hr>
-
-            <table class="table">
-
-                <tr>
-
-                    <th width="200">Nama</th>
-
-                    <td>{{ auth()->user()->name }}</td>
-
-                </tr>
-
-                <tr>
-
-                    <th>Email</th>
-
-                    <td>{{ auth()->user()->email }}</td>
-
-                </tr>
-
-                <tr>
-
-                    <th>Role</th>
-
-                    <td>{{ auth()->user()->getRoleNames()->first() }}</td>
-
-                </tr>
-
-            </table>
-
+    {{-- SIDEBAR --}}
+    <div class="sidebar">
+        <div class="brand">
+            <i class="fas fa-hospital me-2"></i>
+            SIM RS
         </div>
 
+        <a href="{{ route('dashboard') }}" class="active">
+            <i class="fas fa-home me-2"></i>
+            Dashboard
+        </a>
+
+        <a href="{{ route('direktur.laporan') }}">
+            <i class="fas fa-chart-column me-2"></i>
+            Laporan
+        </a>
     </div>
 
-    <br>
+    {{-- MAIN WRAPPER --}}
+    <div class="main-wrapper">
 
-    <div class="row">
+        {{-- TOPBAR ATAS --}}
+        <div class="topbar">
+            <h1 class="title">Dashboard Direktur</h1>
 
-        <div class="col-md-3">
+            <div class="topbar-right">
+                <span class="user-role">
+                    {{ Auth::user()->name ?? 'Direktur' }}
+                </span>
 
-            <div class="card shadow text-center">
-
-                <div class="card-body">
-
-                    <h5>Total Pasien</h5>
-
-                    <h2>1.250</h2>
-
-                </div>
-
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn-logout" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
             </div>
-
         </div>
 
-        <div class="col-md-3">
+        {{-- AREA KONTEN DASHBOARD UTAMA --}}
+        <div class="content">
 
-            <div class="card shadow text-center">
+            <h2 class="fw-bold">
+                Dashboard Direktur
+            </h2>
 
-                <div class="card-body">
+            <p class="text-muted mb-4">
+                Ringkasan informasi sistem manajemen rumah sakit
+            </p>
 
-                    <h5>Total Dokter</h5>
+            <div class="row g-4">
 
-                    <h2>35</h2>
-
+                {{-- PASIEN --}}
+                <div class="col-md-4">
+                    <div class="card-stat">
+                        <h6>
+                            <i class="fas fa-user-injured me-2"></i>
+                            Jumlah Pasien
+                        </h6>
+                        <h3>
+                            {{ $jumlahPasien ?? 0 }}
+                        </h3>
+                    </div>
                 </div>
 
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow text-center">
-
-                <div class="card-body">
-
-                    <h5>Total Obat</h5>
-
-                    <h2>520</h2>
-
+                {{-- DOKTER --}}
+                <div class="col-md-4">
+                    <div class="card-stat">
+                        <h6>
+                            <i class="fas fa-user-doctor me-2"></i>
+                            Jumlah Dokter
+                        </h6>
+                        <h3>
+                            {{ $jumlahDokter ?? 0 }}
+                        </h3>
+                    </div>
                 </div>
 
-            </div>
+                {{-- PERAWAT --}}
+                <div class="col-md-4">
+                    <div class="card-stat">
+                        <h6>
+                            <i class="fas fa-user-nurse me-2"></i>
+                            Jumlah Perawat
+                        </h6>
+                        <h3>
+                            {{ $jumlahPerawat ?? 0 }}
+                        </h3>
+                    </div>
+                </div>
 
-        </div>
+                {{-- PENDAPATAN --}}
+                <div class="col-md-4">
+                    <div class="card-stat">
+                        <h6>
+                            <i class="fas fa-money-bill-wave me-2"></i>
+                            Pendapatan
+                        </h6>
+                        <h3>
+                            Rp {{ number_format($pendapatan ?? 0, 0, ',', '.') }}
+                        </h3>
+                    </div>
+                </div>
 
-        <div class="col-md-3">
+                {{-- OBAT --}}
+                <div class="col-md-4">
+                    <div class="card-stat">
+                        <h6>
+                            <i class="fas fa-pills me-2"></i>
+                            Jumlah Obat
+                        </h6>
+                        <h3>
+                            {{ $jumlahObat ?? 0 }}
+                        </h3>
+                    </div>
+                </div>
 
-            <div class="card shadow text-center">
-
-                <div class="card-body">
-
-                    <h5>Pendapatan</h5>
-
-                    <h2>Rp250 Jt</h2>
-
+                {{-- KAMAR --}}
+                <div class="col-md-4">
+                    <div class="card-stat">
+                        <h6>
+                            <i class="fas fa-bed me-2"></i>
+                            Jumlah Kamar
+                        </h6>
+                        <h3>
+                            {{ $jumlahKamar ?? 0 }}
+                        </h3>
+                    </div>
                 </div>
 
             </div>
@@ -197,60 +264,7 @@
         </div>
 
     </div>
-
-    <br>
-
-    <div class="card shadow">
-
-        <div class="card-header bg-dark text-white">
-
-            Menu Direktur
-
-        </div>
-
-        <div class="card-body">
-
-            <div class="row">
-
-                <div class="col-md-3">
-
-                    <a href="#" class="btn btn-outline-dark w-100 mb-3">
-                        Statistik Rumah Sakit
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a href="#" class="btn btn-outline-primary w-100 mb-3">
-                        Laporan Pasien
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a href="#" class="btn btn-outline-success w-100 mb-3">
-                        Laporan Keuangan
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a href="#" class="btn btn-outline-warning w-100 mb-3">
-                        Laporan Obat
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 </body>
+
 </html>

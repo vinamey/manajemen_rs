@@ -34,6 +34,7 @@ use App\Http\Controllers\MasterTindakanController;
 use App\Http\Controllers\PendaftaranPasienController;
 use App\Http\Controllers\PemeriksaanDokterController;
 use App\Http\Controllers\LogStokObatController;
+use App\Http\Controllers\LaporanController;
 
 
 // ==================================================
@@ -85,15 +86,17 @@ Route::get(
 )->name('superadmin.dashboard');
 
 
-// ==================================================
-// DASHBOARD UMUM
-// ==================================================
 
-Route::get(
-    '/dashboard',
-    [DashboardController::class, 'index']
-)->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard');
 
+
+Route::middleware(['auth'])->group(function () {
+Route::get('/direktur/laporan', [LaporanController::class, 'index'])->name('direktur.laporan');
+Route::get('/laporan/export/excel/{type}', [LaporanController::class, 'exportExcel'])->name('laporan.export.excel');
+Route::get('/laporan/export/pdf/{type}', [LaporanController::class, 'exportPdf'])->name('laporan.export.pdf');
+});
 
 // ==================================================
 // ROLE MANAGEMENT
@@ -202,8 +205,6 @@ Route::resource(
 // MASTER KATEGORI
 // ==================================================
 
-// DataTables
-// WAJIB berada di atas Route::resource
 Route::get(
     '/master-kategori/data',
     [MasterKategoriController::class, 'data']
