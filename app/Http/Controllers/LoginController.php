@@ -93,11 +93,11 @@ if ($user->hasRole('dokter')) {
         // ==========================
         // DIREKTUR
         // ==========================
-        if ($user->hasRole('Direktur')) {
-            return redirect()
-                ->route('direktur.dashboard')
-                ->with('success', 'Selamat datang Direktur!');
-        }
+        if (strtolower($user->getRoleNames()->first() ?? '') === 'direktur') {
+         return redirect()
+        ->route('dashboard')
+        ->with('success', 'Selamat datang Direktur!');
+}
 
         // ==========================
         // ROLE TIDAK DIKENALI
