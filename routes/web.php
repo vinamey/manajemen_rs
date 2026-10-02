@@ -209,6 +209,12 @@ Route::middleware([
 
 });
 
+Route::get('/superadmin/laporan', function () {
+    return view('superadmin.dashboard', [
+        'halaman' => 'laporan'
+    ]);
+})->name('superadmin.laporan');
+
 
 // ==================================================
 // ROLE MANAGEMENT
