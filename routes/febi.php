@@ -121,10 +121,11 @@ Route::middleware('auth')->group(function () {
     // Dashboard Admin Rumah Sakit
     // =======================
 
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
+   Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})
+->middleware('admin.rs')
+->name('admin.dashboard');
 
     // =======================
     // Dashboard Dokter

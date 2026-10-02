@@ -35,7 +35,7 @@ use App\Http\Controllers\PendaftaranPasienController;
 use App\Http\Controllers\PemeriksaanDokterController;
 use App\Http\Controllers\LogStokObatController;
 use App\Http\Controllers\LaporanController;
-
+use App\Http\Controllers\ApotekerDashboardController;
 
 // ==================================================
 // LANDING PAGE
@@ -91,6 +91,24 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard');
 
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})
+->middleware('admin.rs')
+->name('admin.dashboard');
+
+Route::get(
+    '/apoteker/dashboard',
+    [ApotekerDashboardController::class, 'index']
+)
+->middleware('auth')
+->name('apoteker.dashboard');
+Route::get('/kasir/dashboard', function () {
+    return view('kasir.dashboard');
+})
+->middleware('auth')
+->name('kasir.dashboard');
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/direktur/laporan', [LaporanController::class, 'index'])->name('direktur.laporan');
@@ -216,14 +234,6 @@ Route::resource(
     MasterKategoriController::class
 );
 
-// ==================================================
-// MASTER KATEGORI
-// ==================================================
-
-Route::resource(
-    'master-kategori',
-    MasterKategoriController::class
-);
 
 
 // ==================================================
