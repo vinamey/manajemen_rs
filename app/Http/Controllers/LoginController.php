@@ -49,9 +49,9 @@ class LoginController extends Controller
         // ==========================
         // ADMIN RUMAH SAKIT
         // ==========================
-        if ($user->hasRole('Admin Rumah Sakit')) {
+     if ($user->hasRole('admin rumah sakit')) {
     return redirect()
-        ->route('superadmin.dashboard')
+        ->route('admin.dashboard')
         ->with('success', 'Selamat datang Admin Rumah Sakit!');
 }
         // ==========================
@@ -75,11 +75,11 @@ if ($user->hasRole('dokter')) {
         // ==========================
         // APOTEKER
         // ==========================
-        if ($user->hasRole('Apoteker')) {
-            return redirect()
-                ->route('apoteker.dashboard')
-                ->with('success', 'Selamat datang Apoteker!');
-        }
+       if ($user->hasRole('apoteker')) {
+    return redirect()
+        ->route('apoteker.dashboard')
+        ->with('success', 'Selamat datang Apoteker!');
+}
 
         // ==========================
         // KASIR
