@@ -11,61 +11,76 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $superAdmin = Role::where('name', 'Super Admin')->first();
-        $admin = Role::where('name', 'Admin Rumah Sakit')->first();
-        $dokter = Role::where('name', 'dokter')->first();
-        $perawat = Role::where('name', 'Perawat')->first();
-        $apoteker = Role::where('name', 'Apoteker')->first();
-        $kasir = Role::where('name', 'Kasir')->first();
-        $direktur = Role::where('name', 'Direktur')->first();
+        $accounts = [
+            [
+                'name' => 'Super Admin',
+                'email' => 'superadmin@gmail.com',
+                'password' => '12345',
+                'role' => 'Super Admin',
+            ],
+            [
+                'name' => 'Admin Rumah Sakit',
+                'email' => 'admin@gmail.com',
+                'password' => '12345',
+                'role' => 'Admin Rumah Sakit',
+            ],
+            [
+                'name' => 'Dokter',
+                'email' => 'dokter@gmail.com',
+                'password' => '12345',
+                'role' => 'dokter',
+            ],
+            [
+                'name' => 'Perawat',
+                'email' => 'perawat@gmail.com',
+                'password' => '12345',
+                'role' => 'Perawat',
+            ],
+            [
+                'name' => 'Apoteker',
+                'email' => 'apoteker@gmail.com',
+                'password' => '12345',
+                'role' => 'Apoteker',
+            ],
+            [
+                'name' => 'Kasir',
+                'email' => 'kasir@gmail.com',
+                'password' => '12345',
+                'role' => 'Kasir',
+            ],
+            [
+                'name' => 'Direktur',
+                'email' => 'direktur@gmail.com',
+                'password' => '12345',
+                'role' => 'Direktur',
+            ],
+        ];
 
-        $user = User::create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@gmail.com',
-            'password' => Hash::make('12345'),
-        ]);
-        $user->assignRole($superAdmin);
+        foreach ($accounts as $account) {
 
-        $user = User::create([
-            'name' => 'Admin Rumah Sakit',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('12345'),
-        ]);
-        $user->assignRole($admin);
+            $role = Role::where('name', $account['role'])->first();
 
-        $user = User::create([
-            'name' => 'Dokter',
-            'email' => 'dokter@gmail.com',
-            'password' => Hash::make('12345'),
-        ]);
-        $user->assignRole($dokter);
+            if (!$role) {
+                $this->command->warn(
+                    "Role '{$account['role']}' tidak ditemukan. Akun {$account['email']} dilewati."
+                );
 
-        $user = User::create([
-            'name' => 'Perawat',
-            'email' => 'perawat@gmail.com',
-            'password' => Hash::make('12345'),
-        ]);
-        $user->assignRole($perawat);
+                continue;
+            }
 
-        $user = User::create([
-            'name' => 'Apoteker',
-            'email' => 'apoteker@gmail.com',
-            'password' => Hash::make('12345'),
-        ]);
-        $user->assignRole($apoteker);
+            $user = User::updateOrCreate(
+                [
+                    'email' => $account['email'],
+                ],
+                [
+                    'name' => $account['name'],
+                    'password' => Hash::make($account['password']),
+                ]
+            );
 
-        $user = User::create([
-            'name' => 'Kasir',
-            'email' => 'kasir@gmail.com',
-            'password' => Hash::make('12345'),
-        ]);
-        $user->assignRole($kasir);
+            $user->syncRoles([$role]);
+        }
 
-        $user = User::create([
-            'name' => 'Direktur',
-            'email' => 'direktur@gmail.com',
-            'password' => Hash::make('12345'),
-        ]);
-        $user->assignRole($direktur);
+        $this->command->info('User berhasil dibuat/diperbarui tanpa duplikat.');
     }
 }

@@ -49,7 +49,7 @@ class LoginController extends Controller
         // ==========================
         // ADMIN RUMAH SAKIT
         // ==========================
-     if ($user->hasRole('admin rumah sakit')) {
+     if ($user->hasRole('Admin Rumah Sakit')) {
     return redirect()
         ->route('admin.dashboard')
         ->with('success', 'Selamat datang Admin Rumah Sakit!');
@@ -75,7 +75,7 @@ if ($user->hasRole('dokter')) {
         // ==========================
         // APOTEKER
         // ==========================
-       if ($user->hasRole('apoteker')) {
+     if ($user->hasRole('Apoteker')) {
     return redirect()
         ->route('apoteker.dashboard')
         ->with('success', 'Selamat datang Apoteker!');

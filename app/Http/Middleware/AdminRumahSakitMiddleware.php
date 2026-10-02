@@ -19,7 +19,7 @@ class AdminRumahSakitMiddleware
         }
 
         // Pastikan user memiliki role Admin Rumah Sakit
-        if (!auth()->user()->hasRole('admin rumah sakit')) {
+       if (!auth()->user()->hasRole('Admin Rumah Sakit')) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
