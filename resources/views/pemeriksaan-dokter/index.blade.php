@@ -5,545 +5,397 @@
 @section('content')
 
 <style>
-    /* =========================
-       JUDUL
-    ========================= */
-    .page-title {
-        font-size: 28px;
+
+    :root {
+        --blue-main: #1877f2;
+        --blue-dark: #0f58c6;
+        --blue-light: #e7f3ff;
+        --blue-soft: #f4f8ff;
+        --text-dark: #1f2937;
+        --text-muted: #6b7280;
+    }
+
+    body {
+        background: #f4f6fa;
+    }
+
+    .page-header {
+        background: linear-gradient(
+            135deg,
+            #1877f2,
+            #0f58c6
+        );
+        color: white;
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(24, 119, 242, 0.18);
+    }
+
+    .page-header h3 {
+        margin: 0;
         font-weight: 700;
-        color: #212529;
-        margin-bottom: 4px;
     }
 
-    .page-subtitle {
-        color: #6c757d;
-        font-size: 14px;
-        margin-bottom: 22px;
+    .page-header p {
+        margin: 5px 0 0;
+        opacity: .85;
     }
 
-    /* =========================
-       CARD UTAMA
-    ========================= */
-    .main-card {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    .card-main {
+        border: none;
+        border-radius: 18px;
+        background: white;
+        box-shadow: 0 5px 20px rgba(0,0,0,.06);
         overflow: hidden;
     }
 
-    /* =========================
-       HEADER CARD
-    ========================= */
     .card-header-custom {
-        background: #0d6efd;
-        color: white;
-        padding: 14px 16px;
+        padding: 20px;
+        border-bottom: 1px solid #e5e7eb;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    .card-title-custom {
+    .card-header-custom h5 {
         margin: 0;
-        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .btn-blue {
+        background: var(--blue-main);
+        border: none;
+        color: white;
+        padding: 10px 17px;
+        border-radius: 9px;
         font-weight: 600;
     }
 
-    .btn-tambah {
-        background: #198754;
+    .btn-blue:hover {
+        background: var(--blue-dark);
         color: white;
+    }
+
+    .table thead th {
+        background: var(--blue-light);
+        color: var(--blue-dark);
+        font-weight: 700;
         border: none;
-        border-radius: 6px;
-        padding: 9px 15px;
-        font-size: 14px;
-        font-weight: 500;
+        white-space: nowrap;
     }
 
-    .btn-tambah:hover {
-        background: #157347;
+    .table tbody td {
+        vertical-align: middle;
+        color: #374151;
+    }
+
+    .badge-blue {
+        background: var(--blue-light);
+        color: var(--blue-dark);
+        padding: 6px 10px;
+        border-radius: 7px;
+        font-weight: 600;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 15px 45px rgba(0,0,0,.18);
+    }
+
+    .modal-header-blue {
+        background: linear-gradient(
+            135deg,
+            #1877f2,
+            #0f58c6
+        );
         color: white;
+        padding: 18px 22px;
     }
 
-    /* =========================
-       FILTER
-    ========================= */
-    .filter-area {
-        padding: 18px 15px;
-        border-bottom: 1px solid #e9ecef;
+    .modal-header-blue h5 {
+        margin: 0;
+        font-weight: 700;
     }
 
-    .filter-label {
-        font-size: 13px;
-        color: #495057;
-        margin-bottom: 5px;
+    .form-label {
+        font-weight: 600;
+        color: #374151;
     }
 
     .form-control,
     .form-select {
-        border-radius: 6px;
-        font-size: 14px;
-        min-height: 38px;
+        border-radius: 9px;
+        border: 1px solid #dbe2ea;
+        padding: 10px 12px;
     }
 
-    /* =========================
-       TABLE
-    ========================= */
-    .table-wrapper {
-        overflow-x: auto;
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--blue-main);
+        box-shadow: 0 0 0 .2rem rgba(24,119,242,.12);
     }
 
-    .table {
-        margin-bottom: 0;
-        vertical-align: middle;
-    }
-
-    .table thead th {
-        background-color: #0d6efd !important;
-        color: white !important;
-        font-size: 13px;
-        font-weight: 600;
-        padding: 13px 10px;
-        white-space: nowrap;
-        border: none;
-    }
-
-    .table tbody td {
-        font-size: 13px;
-        padding: 12px 10px;
-        border-color: #e9ecef;
-    }
-
-    .table tbody tr:hover {
-        background-color: #f8fbff;
-    }
-
-    /* =========================
-       BADGE
-    ========================= */
-    .badge-antrian {
-        background: #e7f1ff;
-        color: #0d6efd;
-        padding: 5px 8px;
-        border-radius: 5px;
-        font-weight: 600;
-    }
-
-    .badge-dokter {
-        background: #eef7ff;
-        color: #1769aa;
-        padding: 5px 8px;
-        border-radius: 5px;
-    }
-
-    .badge-poli {
-        background: #e9f7ef;
-        color: #198754;
-        padding: 5px 8px;
-        border-radius: 5px;
-    }
-
-    .badge-resep {
-        background: #fff3cd;
-        color: #856404;
-        padding: 5px 8px;
-        border-radius: 5px;
-    }
-
-    /* =========================
-       ACTION
-    ========================= */
-    .action-wrapper {
-        display: flex;
-        justify-content: center;
-        gap: 5px;
-    }
-
-    .btn-action {
-        width: 34px;
-        height: 34px;
-        border: none;
-        border-radius: 5px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .btn-show {
-        background: #0dcaf0;
-        color: white;
-    }
-
-    .btn-edit {
-        background: #ffc107;
-        color: #212529;
-    }
-
-    .btn-delete {
-        background: #dc3545;
-        color: white;
-    }
-
-    /* =========================
-       MODAL
-    ========================= */
-    .modal-content {
-        border: none;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0,0,0,.25);
-    }
-
-    .modal-header-custom {
-        background: #0d6efd;
-        color: white;
-        padding: 15px 18px;
-    }
-
-    .modal-title {
-        font-size: 17px;
-        font-weight: 600;
-    }
-
-    .modal-body {
-        padding: 22px;
-    }
-
-    .modal-footer {
-        background: #f8f9fa;
-        border-top: 1px solid #e9ecef;
-        padding: 13px 18px;
-    }
-
-    .form-label {
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 6px;
-    }
-
-    textarea.form-control {
-        min-height: 100px;
-        resize: vertical;
-    }
-
-    /* =========================
-       RESEP
-    ========================= */
     .resep-box {
-        margin-top: 20px;
-        border: 1px solid #cfe2ff;
-        border-radius: 8px;
+        background: var(--blue-soft);
+        border: 1px solid #dbeafe;
+        border-radius: 13px;
+        padding: 15px;
+    }
+
+    .table-resep {
+        background: white;
+        border-radius: 10px;
         overflow: hidden;
     }
 
-    .resep-header {
-        background: #f0f7ff;
-        padding: 12px 14px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .table-resep thead th {
+        background: var(--blue-light);
+        font-size: 13px;
     }
 
-    .resep-title {
-        color: #0d6efd;
-        font-weight: 600;
-        font-size: 15px;
+    .empty-resep {
+        text-align: center;
+        color: #9ca3af;
+        padding: 25px;
     }
 
-    .btn-tambah-obat {
-        background: #0d6efd;
+    .btn-add-obat {
+        background: var(--blue-main);
         color: white;
         border: none;
-        border-radius: 5px;
-        padding: 7px 11px;
-        font-size: 12px;
+        border-radius: 8px;
+        padding: 9px 15px;
+        font-weight: 600;
     }
 
-    .resep-table th {
-        background: #f8f9fa !important;
-        color: #495057 !important;
-        font-size: 12px !important;
-        border-bottom: 1px solid #dee2e6 !important;
-    }
-
-    .resep-table td {
-        font-size: 12px;
-    }
-
-    .resep-kosong {
-        text-align: center;
-        padding: 30px 15px;
-        color: #6c757d;
-    }
-
-    .resep-kosong i {
-        font-size: 32px;
-        color: #adb5bd;
-        margin-bottom: 8px;
-    }
-
-    /* =========================
-       MODAL TAMBAH OBAT
-    ========================= */
-    .obat-modal .modal-header {
-        background: #0d6efd;
+    .btn-add-obat:hover {
+        background: var(--blue-dark);
         color: white;
     }
 
-    .obat-info {
-        background: #f8f9fa;
-        border-radius: 6px;
-        padding: 10px;
-        font-size: 12px;
-        color: #6c757d;
-        margin-top: 7px;
-    }
 </style>
 
 
-<div class="container-fluid">
+{{-- ========================================================= --}}
+{{-- HEADER --}}
+{{-- ========================================================= --}}
 
-    {{-- JUDUL --}}
-    <h1 class="page-title">
-        Pemeriksaan Dokter
-    </h1>
+<div class="page-header">
 
-    <div class="page-subtitle">
-        Kelola hasil pemeriksaan pasien
+    <h3>
+        <i class="fa-solid fa-stethoscope me-2"></i>
+        Dashboard Pemeriksaan Dokter
+    </h3>
+
+    <p>
+        Kelola pemeriksaan pasien dan resep obat dokter.
+    </p>
+
+</div>
+
+
+{{-- ========================================================= --}}
+{{-- NOTIFIKASI --}}
+{{-- ========================================================= --}}
+
+@if(session('success'))
+
+    <div class="alert alert-success">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        {{ session('success') }}
+    </div>
+
+@endif
+
+
+@if($errors->any())
+
+    <div class="alert alert-danger">
+
+        <strong>Terjadi kesalahan:</strong>
+
+        <ul class="mb-0 mt-2">
+
+            @foreach($errors->all() as $error)
+
+                <li>{{ $error }}</li>
+
+            @endforeach
+
+        </ul>
+
+    </div>
+
+@endif
+
+
+{{-- ========================================================= --}}
+{{-- CARD TABLE --}}
+{{-- ========================================================= --}}
+
+<div class="card-main">
+
+    <div class="card-header-custom">
+
+        <h5>
+            <i class="fa-solid fa-notes-medical me-2 text-primary"></i>
+            Data Pemeriksaan Dokter
+        </h5>
+
+        <button
+            type="button"
+            class="btn-blue"
+            data-bs-toggle="modal"
+            data-bs-target="#modalTambahPemeriksaan"
+        >
+
+            <i class="fa-solid fa-plus me-1"></i>
+
+            Tambah Pemeriksaan
+
+        </button>
+
     </div>
 
 
-    {{-- ALERT --}}
-    @if (session('success'))
+    <div class="table-responsive">
 
-        <div class="alert alert-success alert-dismissible fade show">
+        <table class="table table-hover mb-0">
 
-            <i class="fa-solid fa-circle-check me-2"></i>
+            <thead>
 
-            {{ session('success') }}
+                <tr>
 
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert">
-            </button>
+                    <th width="60">No</th>
+
+                    <th>Pasien</th>
+
+                    <th>Dokter</th>
+
+                    <th>Keluhan</th>
+
+                    <th>Tanggal</th>
+
+                    <th width="100">Aksi</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                @forelse($pemeriksaans as $pemeriksaan)
+
+                    <tr>
+
+                        <td>
+                            {{ $pemeriksaans->firstItem() + $loop->index }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+
+                                {{ $pemeriksaan->pendaftaran->pasien->nama ?? '-' }}
+
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ $pemeriksaan->dokter->nama ?? '-' }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ $pemeriksaan->keluhan ?? '-' }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="badge-blue">
+
+                                {{ $pemeriksaan->created_at
+                                    ? $pemeriksaan->created_at->format('d/m/Y')
+                                    : '-'
+                                }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="{{ route('pemeriksaan-dokter.show', $pemeriksaan->id) }}"
+                                class="btn btn-sm btn-primary"
+                            >
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="text-center py-5 text-muted"
+                        >
+
+                            <i
+                                class="fa-solid fa-file-medical fa-2x mb-2"
+                            ></i>
+
+                            <br>
+
+                            Belum ada data pemeriksaan.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {{-- PAGINATION --}}
+
+    @if($pemeriksaans->hasPages())
+
+        <div class="p-3">
+
+            {{ $pemeriksaans->links() }}
 
         </div>
 
     @endif
 
-
-    {{-- CARD --}}
-    <div class="main-card">
-
-        {{-- HEADER --}}
-        <div class="card-header-custom">
-
-            <h5 class="card-title-custom">
-                Pemeriksaan Dokter
-            </h5>
-
-            <button
-                type="button"
-                class="btn btn-tambah"
-                data-bs-toggle="modal"
-                data-bs-target="#modalTambahPemeriksaan"
-            >
-                <i class="fa-solid fa-plus me-1"></i>
-                Tambah Pemeriksaan
-            </button>
-
-        </div>
-
-
-        {{-- TABLE --}}
-        <div class="table-wrapper">
-
-            <table class="table">
-
-                <thead>
-
-                    <tr>
-
-                        <th class="text-center">No</th>
-
-                        <th>No. Antrian</th>
-
-                        <th>Nama Pasien</th>
-
-                        <th>Dokter</th>
-
-                        <th>Poli</th>
-
-                        <th>Keluhan</th>
-
-                        <th class="text-center">Resep</th>
-
-                        <th class="text-center">Aksi</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    @forelse ($pemeriksaans as $index => $pemeriksaan)
-
-                        <tr>
-
-                            <td class="text-center">
-                                {{ $index + 1 }}
-                            </td>
-
-
-                            <td>
-
-                                @if ($pemeriksaan->pendaftaran)
-
-                                    <span class="badge-antrian">
-                                        {{ $pemeriksaan->pendaftaran->nomor_antrian }}
-                                    </span>
-
-                                @else
-                                    -
-                                @endif
-
-                            </td>
-
-
-                            <td>
-
-                                {{ $pemeriksaan->pendaftaran->pasien->nama ?? '-' }}
-
-                            </td>
-
-
-                            <td>
-
-                                @if ($pemeriksaan->dokter)
-
-                                    <span class="badge-dokter">
-                                        <i class="fa-solid fa-user-doctor me-1"></i>
-                                        {{ $pemeriksaan->dokter->nama }}
-                                    </span>
-
-                                @else
-                                    -
-                                @endif
-
-                            </td>
-
-
-                            <td>
-
-                                @if ($pemeriksaan->pendaftaran->poli ?? null)
-
-                                    <span class="badge-poli">
-                                        {{ $pemeriksaan->pendaftaran->poli->nama }}
-                                    </span>
-
-                                @else
-                                    -
-                                @endif
-
-                            </td>
-
-
-                            <td>
-
-                                {{ \Illuminate\Support\Str::limit($pemeriksaan->keluhan, 45) }}
-
-                            </td>
-
-
-                            <td class="text-center">
-
-                                @if ($pemeriksaan->resep_obat)
-
-                                    <span class="badge-resep">
-                                        <i class="fa-solid fa-pills me-1"></i>
-                                        {{ $pemeriksaan->resep_obat }}
-                                    </span>
-
-                                @else
-                                    -
-                                @endif
-
-                            </td>
-
-
-                            <td>
-
-                                <div class="action-wrapper">
-
-                                    <a
-                                        href="{{ route('pemeriksaan-dokter.show', $pemeriksaan->id) }}"
-                                        class="btn-action btn-show"
-                                        title="Lihat"
-                                    >
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-
-                                    <a
-                                        href="{{ route('pemeriksaan-dokter.edit', $pemeriksaan->id) }}"
-                                        class="btn-action btn-edit"
-                                        title="Edit"
-                                    >
-                                        <i class="fa-solid fa-pen"></i>
-                                    </a>
-
-                                    <form
-                                        action="{{ route('pemeriksaan-dokter.destroy', $pemeriksaan->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus pemeriksaan ini?')"
-                                    >
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="btn-action btn-delete"
-                                            title="Hapus"
-                                        >
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    @empty
-
-                        <tr>
-
-                            <td
-                                colspan="8"
-                                class="text-center py-5 text-muted"
-                            >
-
-                                <i class="fa-solid fa-stethoscope fs-2 d-block mb-2"></i>
-
-                                Belum ada data pemeriksaan dokter.
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
 </div>
+
 
 
 {{-- ========================================================= --}}
@@ -557,17 +409,16 @@
     aria-hidden="true"
 >
 
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
 
         <div class="modal-content">
 
 
-            {{-- HEADER MODAL --}}
-            <div class="modal-header modal-header-custom">
+            <div class="modal-header modal-header-blue">
 
-                <h5 class="modal-title">
+                <h5>
 
-                    <i class="fa-solid fa-stethoscope me-2"></i>
+                    <i class="fa-solid fa-file-medical me-2"></i>
 
                     Tambah Pemeriksaan Dokter
 
@@ -577,15 +428,16 @@
                     type="button"
                     class="btn-close btn-close-white"
                     data-bs-dismiss="modal"
+                    aria-label="Close"
                 ></button>
 
             </div>
 
 
-            {{-- FORM --}}
             <form
                 action="{{ route('pemeriksaan-dokter.store') }}"
                 method="POST"
+                id="formPemeriksaan"
             >
 
                 @csrf
@@ -593,71 +445,49 @@
 
                 <div class="modal-body">
 
-                    {{-- PASIEN + DOKTER --}}
+                    {{-- ================================================= --}}
+                    {{-- DATA PEMERIKSAAN --}}
+                    {{-- ================================================= --}}
+
                     <div class="row g-3">
 
 
                         {{-- PASIEN --}}
+
                         <div class="col-md-6">
 
                             <label class="form-label">
-                                Pasien / No. Antrian
-                                <span class="text-danger">*</span>
+
+                                Pasien
+
                             </label>
 
                             <select
                                 name="pendaftaran_id"
+                                id="pendaftaran_id"
                                 class="form-select"
                                 required
                             >
 
                                 <option value="">
+
                                     -- Pilih Pasien --
+
                                 </option>
 
-                                @foreach ($pendaftarans ?? [] as $pendaftaran)
 
-                                    <option value="{{ $pendaftaran->id }}">
+                                @foreach($pendaftarans as $pendaftaran)
 
-                                        {{ $pendaftaran->nomor_antrian }}
-                                        -
-                                        {{ $pendaftaran->pasien->nama ?? 'Pasien' }}
+                                    <option
+                                        value="{{ $pendaftaran->id }}"
+                                    >
 
-                                    </option>
+                                        {{ $pendaftaran->pasien->nama ?? 'Pasien tidak ditemukan' }}
 
-                                @endforeach
+                                        @if($pendaftaran->nomor_antrian)
 
-                            </select>
+                                            - Antrian {{ $pendaftaran->nomor_antrian }}
 
-                        </div>
-
-
-                        {{-- DOKTER --}}
-                        <div class="col-md-6">
-
-                            <label class="form-label">
-                                Dokter
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <select
-                                name="dokter_id"
-                                class="form-select"
-                                required
-                            >
-
-                                <option value="">
-                                    -- Pilih Dokter --
-                                </option>
-
-                                @foreach ($dokters ?? [] as $dokter)
-
-                                    <option value="{{ $dokter->id }}">
-
-                                        {{ $dokter->nama }}
-
-                                        @if ($dokter->spesialis)
-                                            - {{ $dokter->spesialis }}
                                         @endif
 
                                     </option>
@@ -669,115 +499,177 @@
                         </div>
 
 
-                        {{-- KELUHAN --}}
-                        <div class="col-12">
+                        {{-- DOKTER --}}
+
+                        <div class="col-md-6">
 
                             <label class="form-label">
-                                Keluhan Pasien
-                                <span class="text-danger">*</span>
+
+                                Dokter
+
                             </label>
 
-                            <textarea
-                                name="keluhan"
-                                class="form-control"
-                                placeholder="Masukkan keluhan pasien..."
+                            <select
+                                name="dokter_id"
+                                id="dokter_id"
+                                class="form-select"
                                 required
-                            ></textarea>
+                            >
+
+                                <option value="">
+
+                                    -- Pilih Dokter --
+
+                                </option>
+
+
+                                @foreach($dokters as $dokter)
+
+                                    <option
+                                        value="{{ $dokter->id }}"
+                                    >
+
+                                        {{ $dokter->nama }}
+
+                                    </option>
+
+                                @endforeach
+
+                            </select>
 
                         </div>
 
 
-                        {{-- RESEP --}}
+                        {{-- KELUHAN --}}
+
                         <div class="col-12">
 
-                            <div class="resep-box">
+                            <label class="form-label">
 
-                                {{-- HEADER RESEP --}}
-                                <div class="resep-header">
+                                Keluhan
 
-                                    <div class="resep-title">
+                            </label>
 
-                                        <i class="fa-solid fa-pills me-2"></i>
+                            <textarea
+                                name="keluhan"
+                                id="keluhan"
+                                class="form-control"
+                                rows="3"
+                                placeholder="Masukkan keluhan pasien..."
+                            ></textarea>
 
-                                        Resep Obat
+                        </div>
 
-                                    </div>
-
-                                    <button
-                                        type="button"
-                                        class="btn-tambah-obat"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalTambahObat"
-                                    >
-
-                                        <i class="fa-solid fa-plus me-1"></i>
-
-                                        Tambah Obat
-
-                                    </button>
-
-                                </div>
+                    </div>
 
 
-                                {{-- TABLE RESEP --}}
-                                <div class="table-responsive">
+                    <hr class="my-4">
 
-                                    <table class="table resep-table mb-0">
 
-                                        <thead>
+                    {{-- ================================================= --}}
+                    {{-- RESEP OBAT --}}
+                    {{-- ================================================= --}}
 
-                                            <tr>
+                    <div class="resep-box">
 
-                                                <th>No</th>
 
-                                                <th>Nama Obat</th>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
 
-                                                <th>Jumlah</th>
+                            <div>
 
-                                                <th>Dosis</th>
+                                <h5 class="mb-1">
 
-                                                <th>Frekuensi</th>
+                                    <i class="fa-solid fa-pills text-primary me-2"></i>
 
-                                                <th>Aturan Pakai</th>
+                                    Resep Obat
 
-                                                <th>Lama</th>
+                                </h5>
 
-                                                <th>Aksi</th>
+                                <small class="text-muted">
 
-                                            </tr>
+                                    Tambahkan obat yang diresepkan dokter.
 
-                                        </thead>
-
-                                        <tbody id="resepTableBody">
-
-                                            <tr id="resepKosong">
-
-                                                <td
-                                                    colspan="8"
-                                                    class="resep-kosong"
-                                                >
-
-                                                    <i class="fa-solid fa-pills d-block"></i>
-
-                                                    Belum ada obat yang ditambahkan.
-
-                                                    <br>
-
-                                                    Klik tombol
-                                                    <b>Tambah Obat</b>
-                                                    untuk membuat resep.
-
-                                                </td>
-
-                                            </tr>
-
-                                        </tbody>
-
-                                    </table>
-
-                                </div>
+                                </small>
 
                             </div>
+
+
+                            <button
+                                type="button"
+                                class="btn-add-obat"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalTambahObat"
+                            >
+
+                                <i class="fa-solid fa-plus me-1"></i>
+
+                                Tambah Obat
+
+                            </button>
+
+                        </div>
+
+
+                        {{-- HIDDEN JSON --}}
+
+                        <input
+                            type="hidden"
+                            name="resep_obat"
+                            id="resep_obat"
+                        >
+
+
+                        <div class="table-responsive table-resep">
+
+                            <table class="table table-bordered mb-0">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th width="50">No</th>
+
+                                        <th>Obat</th>
+
+                                        <th>Jumlah</th>
+
+                                        <th>Dosis</th>
+
+                                        <th>Frekuensi</th>
+
+                                        <th>Aturan Pakai</th>
+
+                                        <th>Lama</th>
+
+                                        <th width="70">Aksi</th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="resepTableBody">
+
+                                    <tr id="resepKosong">
+
+                                        <td
+                                            colspan="8"
+                                            class="empty-resep"
+                                        >
+
+                                            <i class="fa-solid fa-pills fa-2x mb-2"></i>
+
+                                            <br>
+
+                                            Belum ada obat yang ditambahkan.
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
 
                         </div>
 
@@ -786,7 +678,6 @@
                 </div>
 
 
-                {{-- FOOTER --}}
                 <div class="modal-footer">
 
                     <button
@@ -794,16 +685,21 @@
                         class="btn btn-secondary"
                         data-bs-dismiss="modal"
                     >
-                        <i class="fa-solid fa-xmark me-1"></i>
+
                         Batal
+
                     </button>
+
 
                     <button
                         type="submit"
                         class="btn btn-primary"
                     >
-                        <i class="fa-solid fa-floppy-disk me-1"></i>
+
+                        <i class="fa-solid fa-save me-1"></i>
+
                         Simpan Pemeriksaan
+
                     </button>
 
                 </div>
@@ -817,29 +713,30 @@
 </div>
 
 
+
 {{-- ========================================================= --}}
 {{-- MODAL TAMBAH OBAT --}}
 {{-- ========================================================= --}}
 
 <div
-    class="modal fade obat-modal"
+    class="modal fade"
     id="modalTambahObat"
     tabindex="-1"
     aria-hidden="true"
 >
 
-    <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
 
         <div class="modal-content">
 
 
-            <div class="modal-header">
+            <div class="modal-header modal-header-blue">
 
-                <h5 class="modal-title">
+                <h5>
 
                     <i class="fa-solid fa-pills me-2"></i>
 
-                    Tambah Obat
+                    Tambah Obat Resep
 
                 </h5>
 
@@ -847,6 +744,7 @@
                     type="button"
                     class="btn-close btn-close-white"
                     data-bs-dismiss="modal"
+                    aria-label="Close"
                 ></button>
 
             </div>
@@ -854,177 +752,154 @@
 
             <div class="modal-body">
 
-                {{-- OBAT --}}
-                <div class="mb-3">
+                <div class="row g-3">
 
-                    <label class="form-label">
-                        Obat <span class="text-danger">*</span>
-                    </label>
 
-                    <select
-                        id="obat_id"
-                        class="form-select"
-                    >
+                    {{-- OBAT --}}
 
-                        <option value="">
-                            -- Pilih Obat --
-                        </option>
+                    <div class="col-12">
 
-                        @foreach ($obats ?? [] as $obat)
+                        <label class="form-label">
 
-                            <option
-                                value="{{ $obat->id }}"
-                                data-satuan="{{ $obat->satuan }}"
-                            >
+                            Obat
 
-                                {{ $obat->nama_obat }}
+                        </label>
 
-                                @if ($obat->kategori)
-                                    - {{ $obat->kategori }}
-                                @endif
+                        <select
+                            id="obat_id"
+                            class="form-select"
+                        >
+
+                            <option value="">
+
+                                -- Pilih Obat --
 
                             </option>
 
-                        @endforeach
 
-                    </select>
+                            @foreach($obats ?? [] as $obat)
 
-                </div>
+                                <option
+                                    value="{{ $obat->id }}"
+                                >
 
+                                    {{ $obat->nama }}
 
-                {{-- JUMLAH --}}
-                <div class="mb-3">
+                                    @if($obat->kategori)
 
-                    <label class="form-label">
-                        Jumlah <span class="text-danger">*</span>
-                    </label>
+                                        - {{ $obat->kategori->nama }}
 
-                    <input
-                        type="number"
-                        id="jumlah_obat"
-                        class="form-control"
-                        min="1"
-                        placeholder="Contoh: 10"
-                    >
+                                    @endif
 
-                </div>
+                                </option>
 
+                            @endforeach
 
-                {{-- DOSIS --}}
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Dosis <span class="text-danger">*</span>
-                    </label>
-
-                    <input
-                        type="text"
-                        id="dosis_obat"
-                        class="form-control"
-                        placeholder="Contoh: 500 mg"
-                    >
-
-                </div>
-
-
-                {{-- FREKUENSI --}}
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Frekuensi <span class="text-danger">*</span>
-                    </label>
-
-                    <div class="input-group">
-
-                        <input
-                            type="number"
-                            id="frekuensi_obat"
-                            class="form-control"
-                            min="1"
-                            placeholder="Contoh: 3"
-                        >
-
-                        <span class="input-group-text">
-                            kali sehari
-                        </span>
+                        </select>
 
                     </div>
 
-                </div>
+
+                    {{-- JUMLAH --}}
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Jumlah Obat
+
+                        </label>
+
+                        <input
+                            type="number"
+                            id="jumlah_obat"
+                            class="form-control"
+                            min="1"
+                            placeholder="Contoh: 10"
+                        >
+
+                    </div>
 
 
-                {{-- ATURAN PAKAI --}}
-                <div class="mb-3">
+                    {{-- DOSIS --}}
 
-                    <label class="form-label">
-                        Aturan Pakai
-                    </label>
+                    <div class="col-md-6">
 
-                    <select
-                        id="aturan_pakai"
-                        class="form-select"
-                    >
+                        <label class="form-label">
 
-                        <option value="">
-                            -- Pilih Aturan --
-                        </option>
+                            Dosis
 
-                        <option value="Sebelum makan">
-                            Sebelum makan
-                        </option>
+                        </label>
 
-                        <option value="Sesudah makan">
-                            Sesudah makan
-                        </option>
+                        <input
+                            type="text"
+                            id="dosis_obat"
+                            class="form-control"
+                            placeholder="Contoh: 500 mg"
+                        >
 
-                        <option value="Saat makan">
-                            Saat makan
-                        </option>
-
-                        <option value="Sebelum tidur">
-                            Sebelum tidur
-                        </option>
-
-                        <option value="Jika diperlukan">
-                            Jika diperlukan
-                        </option>
-
-                    </select>
-
-                </div>
+                    </div>
 
 
-                {{-- LAMA --}}
-                <div class="mb-2">
+                    {{-- FREKUENSI --}}
 
-                    <label class="form-label">
-                        Lama Penggunaan
-                    </label>
+                    <div class="col-md-6">
 
-                    <div class="input-group">
+                        <label class="form-label">
+
+                            Frekuensi
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="frekuensi_obat"
+                            class="form-control"
+                            placeholder="Contoh: 3"
+                        >
+
+                    </div>
+
+
+                    {{-- LAMA --}}
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Lama Pemakaian
+
+                        </label>
 
                         <input
                             type="number"
                             id="lama_obat"
                             class="form-control"
                             min="1"
-                            placeholder="Contoh: 3"
+                            placeholder="Contoh: 5"
                         >
-
-                        <span class="input-group-text">
-                            hari
-                        </span>
 
                     </div>
 
-                </div>
 
+                    {{-- ATURAN PAKAI --}}
 
-                <div class="obat-info">
+                    <div class="col-12">
 
-                    <i class="fa-solid fa-circle-info me-1"></i>
+                        <label class="form-label">
 
-                    Obat diambil dari data <b>Master Obat</b>.
+                            Aturan Pakai
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="aturan_pakai"
+                            class="form-control"
+                            placeholder="Contoh: Sesudah makan"
+                        >
+
+                    </div>
 
                 </div>
 
@@ -1038,16 +913,22 @@
                     class="btn btn-secondary"
                     data-bs-dismiss="modal"
                 >
+
                     Batal
+
                 </button>
+
 
                 <button
                     type="button"
                     class="btn btn-primary"
                     onclick="tambahkanObat()"
                 >
+
                     <i class="fa-solid fa-plus me-1"></i>
-                    Tambah Obat
+
+                    Tambahkan Obat
+
                 </button>
 
             </div>
@@ -1059,111 +940,250 @@
 </div>
 
 
+
+{{-- ========================================================= --}}
+{{-- JAVASCRIPT --}}
+{{-- ========================================================= --}}
+
 <script>
-    let nomorObat = 0;
+
+let daftarObat = [];
 
 
-    function tambahkanObat()
+/*
+|--------------------------------------------------------------------------
+| Tambahkan obat ke daftar
+|--------------------------------------------------------------------------
+*/
+
+function tambahkanObat()
+{
+
+    const selectObat =
+        document.getElementById('obat_id');
+
+    const jumlah =
+        document.getElementById('jumlah_obat').value;
+
+    const dosis =
+        document.getElementById('dosis_obat').value;
+
+    const frekuensi =
+        document.getElementById('frekuensi_obat').value;
+
+    const aturan =
+        document.getElementById('aturan_pakai').value;
+
+    const lama =
+        document.getElementById('lama_obat').value;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Validasi
+    |--------------------------------------------------------------------------
+    */
+
+    if (!selectObat.value) {
+
+        alert('Silakan pilih obat terlebih dahulu.');
+
+        return;
+    }
+
+
+    if (!jumlah) {
+
+        alert('Silakan isi jumlah obat.');
+
+        return;
+    }
+
+
+    if (!dosis) {
+
+        alert('Silakan isi dosis obat.');
+
+        return;
+    }
+
+
+    if (!frekuensi) {
+
+        alert('Silakan isi frekuensi obat.');
+
+        return;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ambil nama obat
+    |--------------------------------------------------------------------------
+    */
+
+    const namaObat =
+        selectObat.options[
+            selectObat.selectedIndex
+        ].text;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Masukkan ke array
+    |--------------------------------------------------------------------------
+    */
+
+    daftarObat.push({
+
+        obat_id: selectObat.value,
+
+        nama_obat: namaObat,
+
+        jumlah: jumlah,
+
+        dosis: dosis,
+
+        frekuensi: frekuensi,
+
+        aturan_pakai: aturan,
+
+        lama: lama
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tampilkan tabel
+    |--------------------------------------------------------------------------
+    */
+
+    tampilkanObat();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reset form obat
+    |--------------------------------------------------------------------------
+    */
+
+    document.getElementById('obat_id').value = '';
+
+    document.getElementById('jumlah_obat').value = '';
+
+    document.getElementById('dosis_obat').value = '';
+
+    document.getElementById('frekuensi_obat').value = '';
+
+    document.getElementById('aturan_pakai').value = '';
+
+    document.getElementById('lama_obat').value = '';
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tutup modal obat
+    |--------------------------------------------------------------------------
+    */
+
+    const modalObat =
+        bootstrap.Modal.getInstance(
+            document.getElementById('modalTambahObat')
+        );
+
+    if (modalObat) {
+
+        modalObat.hide();
+
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Tampilkan daftar obat
+|--------------------------------------------------------------------------
+*/
+
+function tampilkanObat()
+{
+
+    const tbody =
+        document.getElementById('resepTableBody');
+
+
+    tbody.innerHTML = '';
+
+
+    if (daftarObat.length === 0) {
+
+        tbody.innerHTML = `
+
+            <tr id="resepKosong">
+
+                <td
+                    colspan="8"
+                    class="empty-resep"
+                >
+
+                    <i class="fa-solid fa-pills fa-2x mb-2"></i>
+
+                    <br>
+
+                    Belum ada obat yang ditambahkan.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+
+    daftarObat.forEach(function(obat, index)
     {
-        const selectObat = document.getElementById('obat_id');
-
-        const jumlah = document.getElementById('jumlah_obat').value;
-
-        const dosis = document.getElementById('dosis_obat').value;
-
-        const frekuensi = document.getElementById('frekuensi_obat').value;
-
-        const aturan = document.getElementById('aturan_pakai').value;
-
-        const lama = document.getElementById('lama_obat').value;
-
-
-        if (!selectObat.value) {
-            alert('Silakan pilih obat terlebih dahulu.');
-            return;
-        }
-
-
-        if (!jumlah) {
-            alert('Silakan isi jumlah obat.');
-            return;
-        }
-
-
-        if (!dosis) {
-            alert('Silakan isi dosis obat.');
-            return;
-        }
-
-
-        if (!frekuensi) {
-            alert('Silakan isi frekuensi obat.');
-            return;
-        }
-
-
-        const namaObat =
-            selectObat.options[
-                selectObat.selectedIndex
-            ].text;
-
-
-        nomorObat++;
-
-
-        const tbody =
-            document.getElementById('resepTableBody');
-
-
-        const kosong =
-            document.getElementById('resepKosong');
-
-
-        if (kosong) {
-            kosong.remove();
-        }
-
 
         const row =
             document.createElement('tr');
 
 
-        row.setAttribute(
-            'id',
-            'obat-row-' + nomorObat
-        );
-
-
         row.innerHTML = `
 
             <td>
-                ${nomorObat}
+                ${index + 1}
             </td>
 
             <td>
                 <strong>
-                    ${namaObat}
+                    ${obat.nama_obat}
                 </strong>
             </td>
 
             <td>
-                ${jumlah}
+                ${obat.jumlah}
             </td>
 
             <td>
-                ${dosis}
+                ${obat.dosis}
             </td>
 
             <td>
-                ${frekuensi} x sehari
+                ${obat.frekuensi} x sehari
             </td>
 
             <td>
-                ${aturan || '-'}
+                ${obat.aturan_pakai || '-'}
             </td>
 
             <td>
-                ${lama ? lama + ' hari' : '-'}
+                ${obat.lama
+                    ? obat.lama + ' hari'
+                    : '-'
+                }
             </td>
 
             <td>
@@ -1171,9 +1191,11 @@
                 <button
                     type="button"
                     class="btn btn-sm btn-danger"
-                    onclick="hapusObat(${nomorObat})"
+                    onclick="hapusObat(${index})"
                 >
+
                     <i class="fa-solid fa-trash"></i>
+
                 </button>
 
             </td>
@@ -1183,94 +1205,71 @@
 
         tbody.appendChild(row);
 
-
-        // RESET FORM
-        selectObat.value = '';
-
-        document.getElementById('jumlah_obat').value = '';
-
-        document.getElementById('dosis_obat').value = '';
-
-        document.getElementById('frekuensi_obat').value = '';
-
-        document.getElementById('aturan_pakai').value = '';
-
-        document.getElementById('lama_obat').value = '';
+    });
 
 
-        // TUTUP MODAL OBAT
-        const modalObat =
-            bootstrap.Modal.getInstance(
-                document.getElementById('modalTambahObat')
-            );
+    /*
+    |--------------------------------------------------------------------------
+    | Simpan array ke hidden input
+    |--------------------------------------------------------------------------
+    */
 
-        if (modalObat) {
-            modalObat.hide();
-        }
+    document.getElementById('resep_obat').value =
+        JSON.stringify(daftarObat);
 
-
-        // BUKA KEMBALI MODAL PEMERIKSAAN
-        setTimeout(function () {
-
-            const modalPemeriksaan =
-                bootstrap.Modal.getOrCreateInstance(
-                    document.getElementById(
-                        'modalTambahPemeriksaan'
-                    )
-                );
-
-            modalPemeriksaan.show();
-
-        }, 300);
-    }
+}
 
 
-    function hapusObat(nomor)
+/*
+|--------------------------------------------------------------------------
+| Hapus obat
+|--------------------------------------------------------------------------
+*/
+
+function hapusObat(index)
+{
+
+    daftarObat.splice(index, 1);
+
+    tampilkanObat();
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Sebelum submit
+|--------------------------------------------------------------------------
+*/
+
+document.getElementById('formPemeriksaan')
+    .addEventListener('submit', function()
     {
-        const row =
-            document.getElementById(
-                'obat-row-' + nomor
-            );
 
-        if (row) {
-            row.remove();
+        document.getElementById('resep_obat').value =
+            JSON.stringify(daftarObat);
+
+    });
+
+
+/*
+|--------------------------------------------------------------------------
+| Saat modal pemeriksaan dibuka lagi
+|--------------------------------------------------------------------------
+*/
+
+document
+    .getElementById('modalTambahPemeriksaan')
+    .addEventListener(
+        'shown.bs.modal',
+        function()
+        {
+
+            tampilkanObat();
+
         }
+    );
 
-
-        const tbody =
-            document.getElementById(
-                'resepTableBody'
-            );
-
-
-        if (tbody.children.length === 0) {
-
-            tbody.innerHTML = `
-
-                <tr id="resepKosong">
-
-                    <td
-                        colspan="8"
-                        class="resep-kosong"
-                    >
-
-                        <i class="fa-solid fa-pills d-block"></i>
-
-                        Belum ada obat yang ditambahkan.
-
-                        <br>
-
-                        Klik tombol
-                        <b>Tambah Obat</b>
-                        untuk membuat resep.
-
-                    </td>
-
-                </tr>
-
-            `;
-        }
-    }
 </script>
 
 @endsection

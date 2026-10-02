@@ -5,190 +5,298 @@ namespace App\Http\Controllers;
 use App\Models\PemeriksaanDokter;
 use App\Models\PendaftaranPasien;
 use App\Models\MasterDokter;
-use Illuminate\Http\Request;
 use App\Models\MasterObat;
 use App\Models\ResepObat;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PemeriksaanDokterController extends Controller
 {
     /**
-     * Menampilkan daftar pemeriksaan dokter
+     * Menampilkan halaman pemeriksaan dokter
      */
-   public function index()
-{
-    $pemeriksaans = PemeriksaanDokter::with([
-        'pendaftaran.pasien',
-        'pendaftaran.poli',
-        'pendaftaran.kamar',
-        'dokter',
-        'obat',
-    ])
-    ->latest()
-    ->get();
+    public function index()
+    {
+        $pemeriksaans = PemeriksaanDokter::with([
+            'pendaftaran.pasien',
+            'dokter',
+            'obat'
+        ])
+        ->latest()
+        ->paginate(10);
 
-    $pendaftarans = PendaftaranPasien::with([
-        'pasien',
-        'dokter',
-        'poli',
-    ])
-    ->latest()
-    ->get();
+        $pendaftarans = PendaftaranPasien::with('pasien')
+            ->latest()
+            ->get();
 
-    $dokters = MasterDokter::orderBy('nama')->get();
+        $dokters = MasterDokter::orderBy('nama', 'ASC')->get();
 
-    $obats = MasterObat::orderBy('nama')->get();
+        $obats = MasterObat::with('kategori')
+            ->orderBy('nama', 'ASC')
+            ->get();
 
-    return view('pemeriksaan-dokter.index', compact(
-        'pemeriksaans',
-        'pendaftarans',
-        'dokters',
-        'obats'
-    ));
-}
-    /**
-     * Menampilkan form pemeriksaan dokter
-     */
-    public function create()
-{
-    $pendaftarans = PendaftaranPasien::with([
-        'pasien',
-        'dokter',
-        'poli'
-    ])->latest()->get();
-
-    $dokters = MasterDokter::all();
-
-    $obats = MasterObat::orderBy('nama')->get();
-
-    return view(
-        'pemeriksaan-dokter.create',
-        compact(
+       return view('pemeriksaan-dokter.index', compact(
+            'pemeriksaans',
             'pendaftarans',
             'dokters',
             'obats'
-        )
-    );
-}
+        ));
+    }
 
     /**
-     * Menyimpan pemeriksaan dokter
+     * Menyimpan pemeriksaan + resep obat
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'pendaftaran_id' => 'required|exists:pendaftaran_pasiens,id',
-        'dokter_id' => 'required|exists:master_dokters,id',
-        'keluhan' => 'required|string',
-        'resep_obat' => 'required|exists:master_obats,id',
-    ]);
-
-    // Simpan pemeriksaan dokter
-    $pemeriksaan = PemeriksaanDokter::create([
-        'pendaftaran_id' => $request->pendaftaran_id,
-        'dokter_id' => $request->dokter_id,
-        'keluhan' => $request->keluhan,
-        'resep_obat' => $request->resep_obat,
-    ]);
-
-    // Buat data resep berdasarkan pemeriksaan
-    ResepObat::create([
-        'pemeriksaan_id' => $pemeriksaan->id,
-    ]);
-
-    // Ubah status pendaftaran menjadi selesai
-    $pendaftaran = PendaftaranPasien::findOrFail(
-        $request->pendaftaran_id
-    );
-
-    $pendaftaran->update([
-        'status' => 'selesai',
-    ]);
-
-    return redirect()
-        ->route('pemeriksaan-dokter.index')
-        ->with(
-            'success',
-            'Pemeriksaan dokter dan resep obat berhasil disimpan. Status pasien menjadi selesai.'
-        );
-}
-    /**
-     * Menampilkan detail pemeriksaan dokter
-     */
-    public function show(PemeriksaanDokter $pemeriksaanDokter)
     {
-        $pemeriksaanDokter->load([
-            'pendaftaran.pasien',
-            'pendaftaran.poli',
-            'pendaftaran.kamar',
-            'dokter'
+        $request->validate([
+            'pendaftaran_id' => 'required|exists:pendaftaran_pasiens,id',
+            'dokter_id'      => 'required|exists:master_dokters,id',
+            'keluhan'        => 'nullable|string',
+            'resep_obat'     => 'nullable|string',
         ]);
 
+        DB::transaction(function () use ($request) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | 1. Simpan pemeriksaan dokter
+            |--------------------------------------------------------------------------
+            */
+
+            $pemeriksaan = PemeriksaanDokter::create([
+                'pendaftaran_id' => $request->pendaftaran_id,
+                'dokter_id'      => $request->dokter_id,
+                'keluhan'        => $request->keluhan,
+            ]);
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 2. Kalau ada resep obat
+            |--------------------------------------------------------------------------
+            */
+
+            if ($request->filled('resep_obat')) {
+
+                $obatList = json_decode(
+                    $request->resep_obat,
+                    true
+                );
+
+                if (is_array($obatList) && count($obatList) > 0) {
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Buat header resep
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $resep = ResepObat::create([
+                        'pemeriksaan_id' => $pemeriksaan->id,
+                    ]);
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Simpan obat ke pivot
+                    |--------------------------------------------------------------------------
+                    */
+
+                    foreach ($obatList as $obat) {
+
+                        if (
+                            empty($obat['obat_id']) ||
+                            empty($obat['jumlah'])
+                        ) {
+                            continue;
+                        }
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Dosis + frekuensi + lama disimpan
+                        | ke kolom aturan_pakai karena tabel pivot yang
+                        | sudah ada tidak mempunyai kolom tersebut.
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $aturanPakai = '';
+
+                        if (!empty($obat['dosis'])) {
+                            $aturanPakai .= 'Dosis: ' . $obat['dosis'];
+                        }
+
+                        if (!empty($obat['frekuensi'])) {
+
+                            if ($aturanPakai !== '') {
+                                $aturanPakai .= ' | ';
+                            }
+
+                            $aturanPakai .= 'Frekuensi: ' . $obat['frekuensi'];
+                        }
+
+                        if (!empty($obat['aturan_pakai'])) {
+
+                            if ($aturanPakai !== '') {
+                                $aturanPakai .= ' | ';
+                            }
+
+                            $aturanPakai .= 'Aturan: ' . $obat['aturan_pakai'];
+                        }
+
+                        if (!empty($obat['lama'])) {
+
+                            if ($aturanPakai !== '') {
+                                $aturanPakai .= ' | ';
+                            }
+
+                            $aturanPakai .= 'Lama: ' . $obat['lama'] . ' hari';
+                        }
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Simpan ke pivot
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $resep->obat()->attach(
+                            $obat['obat_id'],
+                            [
+                                'satuan_obat_id' => null,
+                                'nilai'          => $obat['jumlah'],
+                                'aturan_pakai'   => $aturanPakai,
+                            ]
+                        );
+                    }
+                }
+            }
+        });
+
+        return redirect()
+            ->route('pemeriksaan-dokter.index')
+            ->with(
+                'success',
+                'Pemeriksaan dan resep obat berhasil disimpan.'
+            );
+    }
+
+    /**
+     * Menampilkan detail pemeriksaan
+     */
+    public function show($id)
+    {
+        $pemeriksaan = PemeriksaanDokter::with([
+            'pendaftaran.pasien',
+            'dokter',
+            'obat',
+        ])->findOrFail($id);
+
         return view(
-            'pemeriksaan-dokter.show',
-            compact('pemeriksaanDokter')
+            'pemeriksaan_dokter.show',
+            compact('pemeriksaan')
         );
     }
 
     /**
-     * Menampilkan form edit pemeriksaan
+     * Form edit
      */
-    public function edit(PemeriksaanDokter $pemeriksaanDokter)
+    public function edit($id)
     {
-        $pendaftarans = PendaftaranPasien::with([
-            'pasien',
-            'dokter',
-            'poli'
-        ])
-        ->latest()
-        ->get();
+        $pemeriksaan = PemeriksaanDokter::findOrFail($id);
 
-        $dokters = MasterDokter::all();
+        $pendaftarans = PendaftaranPasien::with('pasien')
+            ->latest()
+            ->get();
+
+        $dokters = MasterDokter::orderBy('nama', 'ASC')->get();
+
+        $obats = MasterObat::with('kategori')
+            ->orderBy('nama', 'ASC')
+            ->get();
 
         return view(
-            'pemeriksaan-dokter.edit',
+            'pemeriksaan_dokter.edit',
             compact(
-                'pemeriksaanDokter',
+                'pemeriksaan',
                 'pendaftarans',
-                'dokters'
+                'dokters',
+                'obats'
             )
         );
     }
 
     /**
-     * Memperbarui pemeriksaan dokter
+     * Update pemeriksaan
      */
-    public function update(
-        Request $request,
-        PemeriksaanDokter $pemeriksaanDokter
-    ) {
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'pendaftaran_id' => 'required|exists:pendaftaran_pasiens,id',
-            'dokter_id' => 'required|exists:master_dokters,id',
-            'keluhan' => 'required|string',
-            'resep_obat' => 'required|integer',
+            'dokter_id'      => 'required|exists:master_dokters,id',
+            'keluhan'        => 'nullable|string',
         ]);
 
-        $pemeriksaanDokter->update([
+        $pemeriksaan = PemeriksaanDokter::findOrFail($id);
+
+        $pemeriksaan->update([
             'pendaftaran_id' => $request->pendaftaran_id,
-            'dokter_id' => $request->dokter_id,
-            'keluhan' => $request->keluhan,
-            'resep_obat' => $request->resep_obat,
+            'dokter_id'      => $request->dokter_id,
+            'keluhan'        => $request->keluhan,
         ]);
 
         return redirect()
             ->route('pemeriksaan-dokter.index')
-            ->with('success', 'Pemeriksaan dokter berhasil diperbarui!');
+            ->with(
+                'success',
+                'Data pemeriksaan berhasil diperbarui.'
+            );
     }
 
     /**
-     * Menghapus pemeriksaan dokter
+     * Hapus pemeriksaan
      */
-    public function destroy(PemeriksaanDokter $pemeriksaanDokter)
+    public function destroy($id)
     {
-        $pemeriksaanDokter->delete();
+        $pemeriksaan = PemeriksaanDokter::findOrFail($id);
+
+        DB::transaction(function () use ($pemeriksaan) {
+
+            /*
+            | Hapus resep terlebih dahulu
+            */
+
+            $resep = ResepObat::where(
+                'pemeriksaan_id',
+                $pemeriksaan->id
+            )->first();
+
+            if ($resep) {
+
+                /*
+                | Hapus data pivot
+                */
+
+                $resep->obat()->detach();
+
+                /*
+                | Hapus header resep
+                */
+
+                $resep->delete();
+            }
+
+            /*
+            | Hapus pemeriksaan
+            */
+
+            $pemeriksaan->delete();
+        });
 
         return redirect()
             ->route('pemeriksaan-dokter.index')
-            ->with('success', 'Pemeriksaan dokter berhasil dihapus!');
+            ->with(
+                'success',
+                'Data pemeriksaan berhasil dihapus.'
+            );
     }
 }
