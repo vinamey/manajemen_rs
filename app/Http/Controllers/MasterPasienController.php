@@ -14,6 +14,7 @@ class MasterPasienController extends Controller
         return view('master-pasien.index');
     }
 
+
     public function data()
     {
         $pasiens = MasterPasien::query()
@@ -23,11 +24,10 @@ class MasterPasienController extends Controller
 
             ->addIndexColumn()
 
-            /*
-            |--------------------------------------------------------------------------
-            | DATA ASLI UNTUK MODAL
-            |--------------------------------------------------------------------------
-            */
+
+            /* =====================================================
+               DATA ASLI UNTUK MODAL
+            ====================================================== */
 
             ->addColumn('jenis_kelamin_raw', function ($pasien) {
                 return $pasien->jenis_kelamin;
@@ -45,11 +45,10 @@ class MasterPasienController extends Controller
                 return $pasien->status_asuransi;
             })
 
-            /*
-            |--------------------------------------------------------------------------
-            | JENIS KELAMIN
-            |--------------------------------------------------------------------------
-            */
+
+            /* =====================================================
+               JENIS KELAMIN
+            ====================================================== */
 
             ->editColumn('jenis_kelamin', function ($pasien) {
 
@@ -73,11 +72,10 @@ class MasterPasienController extends Controller
                 ';
             })
 
-            /*
-            |--------------------------------------------------------------------------
-            | TANGGAL LAHIR
-            |--------------------------------------------------------------------------
-            */
+
+            /* =====================================================
+               TANGGAL LAHIR
+            ====================================================== */
 
             ->editColumn('tanggal_lahir', function ($pasien) {
 
@@ -90,21 +88,21 @@ class MasterPasienController extends Controller
                 )->format('d-m-Y');
             })
 
-            /*
-            |--------------------------------------------------------------------------
-            | ALAMAT
-            |--------------------------------------------------------------------------
-            */
+
+            /* =====================================================
+               ALAMAT
+            ====================================================== */
 
             ->editColumn('alamat', function ($pasien) {
+
                 return $pasien->alamat ?: '-';
+
             })
 
-            /*
-            |--------------------------------------------------------------------------
-            | GOLONGAN DARAH
-            |--------------------------------------------------------------------------
-            */
+
+            /* =====================================================
+               GOLONGAN DARAH
+            ====================================================== */
 
             ->editColumn('golongan_darah', function ($pasien) {
 
@@ -120,11 +118,10 @@ class MasterPasienController extends Controller
                 ';
             })
 
-            /*
-            |--------------------------------------------------------------------------
-            | STATUS ASURANSI
-            |--------------------------------------------------------------------------
-            */
+
+            /* =====================================================
+               STATUS ASURANSI
+            ====================================================== */
 
             ->editColumn('status_asuransi', function ($pasien) {
 
@@ -148,22 +145,22 @@ class MasterPasienController extends Controller
                 ';
             })
 
-            /*
-            |--------------------------------------------------------------------------
-            | AKSI
-            |--------------------------------------------------------------------------
-            */
+
+            /* =====================================================
+               AKSI
+            ====================================================== */
 
             ->addColumn('aksi', function ($pasien) {
 
-                $deleteUrl = route(
-                    'master-pasien.destroy',
-                    $pasien->id
-                );
+                /*
+                -----------------------------------------------------
+                TOMBOL LIHAT
+                Semua role yang boleh membuka Master Pasien
+                tetap bisa melihat detail.
+                -----------------------------------------------------
+                */
 
-                $csrf = csrf_token();
-
-                return '
+                $aksi = '
                     <div class="action-buttons">
 
                         <button
@@ -173,7 +170,45 @@ class MasterPasienController extends Controller
                         >
                             <i class="fas fa-eye"></i>
                         </button>
+                ';
 
+
+                /*
+                -----------------------------------------------------
+                EDIT & HAPUS
+                Hanya Super Admin dan Admin Rumah Sakit.
+                -----------------------------------------------------
+                */
+
+                if (
+                    auth()->user()->hasAnyRole([
+                        'super admin',
+                        'admin rumah sakit'
+                    ])
+                ) {
+
+                    /*
+                    URL DELETE
+                    */
+
+                    $deleteUrl = route(
+                        'master-pasien.destroy',
+                        $pasien->id
+                    );
+
+
+                    /*
+                    CSRF
+                    */
+
+                    $csrf = csrf_token();
+
+
+                    /*
+                    TAMBAHKAN TOMBOL EDIT
+                    */
+
+                    $aksi .= '
                         <button
                             type="button"
                             class="btn-action btn-edit"
@@ -181,7 +216,14 @@ class MasterPasienController extends Controller
                         >
                             <i class="fas fa-edit"></i>
                         </button>
+                    ';
 
+
+                    /*
+                    TAMBAHKAN FORM HAPUS
+                    */
+
+                    $aksi .= '
                         <form
                             action="' . $deleteUrl . '"
                             method="POST"
@@ -210,10 +252,28 @@ class MasterPasienController extends Controller
                             </button>
 
                         </form>
+                    ';
+                }
 
+
+                /*
+                -----------------------------------------------------
+                TUTUP DIV AKSI
+                -----------------------------------------------------
+                */
+
+                $aksi .= '
                     </div>
                 ';
+
+
+                return $aksi;
             })
+
+
+            /* =====================================================
+               RAW HTML
+            ====================================================== */
 
             ->rawColumns([
                 'jenis_kelamin',
@@ -222,13 +282,24 @@ class MasterPasienController extends Controller
                 'aksi'
             ])
 
+
             ->make(true);
     }
+
+
+    /* =========================================================
+       CREATE
+    ========================================================= */
 
     public function create()
     {
         return view('master-pasien.create');
     }
+
+
+    /* =========================================================
+       STORE
+    ========================================================= */
 
     public function store(Request $request)
     {
@@ -241,7 +312,9 @@ class MasterPasienController extends Controller
             'golongan_darah' => 'required|in:A,B,AB,O',
         ]);
 
+
         MasterPasien::create($validated);
+
 
         return redirect()
             ->route('master-pasien.index')
@@ -251,9 +324,15 @@ class MasterPasienController extends Controller
             );
     }
 
+
+    /* =========================================================
+       SHOW
+    ========================================================= */
+
     public function show(string $id)
     {
         $pasien = MasterPasien::findOrFail($id);
+
 
         return view(
             'master-pasien.show',
@@ -261,9 +340,15 @@ class MasterPasienController extends Controller
         );
     }
 
+
+    /* =========================================================
+       EDIT
+    ========================================================= */
+
     public function edit(string $id)
     {
         $pasien = MasterPasien::findOrFail($id);
+
 
         return view(
             'master-pasien.edit',
@@ -271,9 +356,15 @@ class MasterPasienController extends Controller
         );
     }
 
+
+    /* =========================================================
+       UPDATE
+    ========================================================= */
+
     public function update(Request $request, string $id)
     {
         $pasien = MasterPasien::findOrFail($id);
+
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
@@ -284,7 +375,9 @@ class MasterPasienController extends Controller
             'golongan_darah' => 'required|in:A,B,AB,O',
         ]);
 
+
         $pasien->update($validated);
+
 
         return redirect()
             ->route('master-pasien.index')
@@ -294,11 +387,18 @@ class MasterPasienController extends Controller
             );
     }
 
+
+    /* =========================================================
+       DESTROY
+    ========================================================= */
+
     public function destroy(string $id)
     {
         $pasien = MasterPasien::findOrFail($id);
 
+
         $pasien->delete();
+
 
         return redirect()
             ->route('master-pasien.index')

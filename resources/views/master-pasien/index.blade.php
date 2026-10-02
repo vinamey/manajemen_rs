@@ -530,15 +530,21 @@
 
         </div>
 
-        <button type="button"
-                class="btn-tambah-pasien"
-                data-bs-toggle="modal"
-                data-bs-target="#modalTambahPasien">
 
-            <i class="fas fa-plus"></i>
-            Tambah Pasien
+        {{-- TOMBOL TAMBAH HANYA UNTUK SUPER ADMIN & ADMIN RS --}}
+        @if(auth()->user()->hasAnyRole(['super admin', 'admin rumah sakit']))
 
-        </button>
+            <button type="button"
+                    class="btn-tambah-pasien"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalTambahPasien">
+
+                <i class="fas fa-plus"></i>
+                Tambah Pasien
+
+            </button>
+
+        @endif
 
     </div>
 
@@ -622,8 +628,11 @@
 
 {{-- =========================================================
      MODAL TAMBAH PASIEN
-     TANPA TANDA X
+     HANYA UNTUK SUPER ADMIN & ADMIN RS
 ========================================================= --}}
+
+@if(auth()->user()->hasAnyRole(['super admin', 'admin rumah sakit']))
+
 <div class="modal fade"
      id="modalTambahPasien"
      tabindex="-1"
@@ -820,11 +829,15 @@
 
 </div>
 
+@endif
+
 
 {{-- =========================================================
      MODAL LIHAT PASIEN
+     BISA DIGUNAKAN DOKTER
      TANPA TANDA X
 ========================================================= --}}
+
 <div class="modal fade"
      id="modalLihatPasien"
      tabindex="-1"
@@ -951,8 +964,11 @@
 
 {{-- =========================================================
      MODAL EDIT PASIEN
-     TANPA TANDA X
+     HANYA UNTUK SUPER ADMIN & ADMIN RS
 ========================================================= --}}
+
+@if(auth()->user()->hasAnyRole(['super admin', 'admin rumah sakit']))
+
 <div class="modal fade"
      id="modalEditPasien"
      tabindex="-1"
@@ -1146,189 +1162,264 @@
 
 </div>
 
+@endif
+
 
 {{-- =========================================================
      JAVASCRIPT
 ========================================================= --}}
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
+
 <script>
+
 $(document).ready(function () {
+
 
     /* =====================================================
        YAJRA DATATABLE
     ====================================================== */
+
     const table = $('#pasien-table').DataTable({
 
         processing: false,
+
         serverSide: true,
 
         ajax: "{{ route('master-pasien.data') }}",
 
         columns: [
+
             {
                 data: 'DT_RowIndex',
                 name: 'DT_RowIndex',
                 orderable: false,
                 searchable: false
             },
+
             {
                 data: 'nama',
                 name: 'nama'
             },
+
             {
                 data: 'jenis_kelamin',
                 name: 'jenis_kelamin'
             },
+
             {
                 data: 'tanggal_lahir',
                 name: 'tanggal_lahir'
             },
+
             {
                 data: 'alamat',
                 name: 'alamat'
             },
+
             {
                 data: 'golongan_darah',
                 name: 'golongan_darah'
             },
+
             {
                 data: 'status_asuransi',
                 name: 'status_asuransi'
             },
+
             {
                 data: 'aksi',
                 name: 'aksi',
                 orderable: false,
                 searchable: false
             }
+
         ],
 
-        order: [[1, 'asc']],
+
+        order: [
+            [1, 'asc']
+        ],
+
 
         pageLength: 10,
+
 
         lengthMenu: [
             [10, 25, 50, 100],
             [10, 25, 50, 100]
         ],
 
+
         language: {
+
             search: "Cari:",
+
             lengthMenu: "Tampilkan _MENU_ data",
+
             info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
             infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+
             infoFiltered: "(disaring dari _MAX_ total data)",
+
             zeroRecords: "Data pasien tidak ditemukan",
+
             emptyTable: "Belum ada data pasien",
 
             paginate: {
+
                 first: "Pertama",
+
                 previous: "Sebelumnya",
+
                 next: "Berikutnya",
+
                 last: "Terakhir"
+
             }
+
         },
 
+
         columnDefs: [
+
             {
                 targets: [0, 7],
                 className: 'text-center'
             }
+
         ]
+
     });
+
 
 
     /* =====================================================
        MODAL LIHAT
     ====================================================== */
+
     $('#pasien-table').on('click', '.btn-view', function () {
+
 
         const row = table.row(
             $(this).closest('tr')
         ).data();
 
+
         if (!row) {
             return;
         }
+
+
+        /* NAMA */
 
         $('#lihatNama').text(
             row.nama || '-'
         );
 
 
+
         /* JENIS KELAMIN ASLI */
+
         let jenisKelamin = row.jenis_kelamin_raw;
+
 
         if (
             jenisKelamin === 'laki-laki' ||
             jenisKelamin === 'laki_laki'
         ) {
+
             jenisKelamin = 'Laki-laki';
 
         } else if (
             jenisKelamin === 'perempuan'
         ) {
+
             jenisKelamin = 'Perempuan';
 
         } else {
+
             jenisKelamin = '-';
+
         }
+
 
         $('#lihatJenisKelamin').text(
             jenisKelamin
         );
 
 
+
         /* TANGGAL */
+
         let tanggal = row.tanggal_lahir;
 
+
         if (!tanggal) {
+
             tanggal = '-';
+
         }
+
 
         $('#lihatTanggalLahir').text(
             tanggal
         );
 
 
+
         /* ALAMAT */
+
         $('#lihatAlamat').text(
             row.alamat || '-'
         );
 
 
+
         /* GOLONGAN DARAH ASLI */
+
         $('#lihatGolonganDarah').text(
             row.golongan_darah_raw || '-'
         );
 
 
+
         /* STATUS ASURANSI ASLI */
+
         let statusAsuransi =
             row.status_asuransi_raw;
+
 
         if (
             statusAsuransi === '01' ||
             statusAsuransi === '1' ||
             statusAsuransi === 1
         ) {
+
             statusAsuransi =
                 'Memiliki Asuransi';
 
         } else {
+
             statusAsuransi =
                 'Tidak Memiliki Asuransi';
+
         }
+
 
         $('#lihatStatusAsuransi').text(
             statusAsuransi
         );
 
+
+
+        /* TAMPILKAN MODAL */
 
         const modalLihat =
             new bootstrap.Modal(
@@ -1337,103 +1428,148 @@ $(document).ready(function () {
                 )
             );
 
+
         modalLihat.show();
 
     });
 
 
-    /* =====================================================
-       MODAL EDIT
-    ====================================================== */
+
+    /*
+    ======================================================
+    MODAL EDIT
+    HANYA AKAN DIBUAT UNTUK SUPER ADMIN / ADMIN RS
+    ======================================================
+    */
+
+    @if(auth()->user()->hasAnyRole(['super admin', 'admin rumah sakit']))
+
+
     $('#pasien-table').on('click', '.btn-edit', function () {
+
 
         const row = table.row(
             $(this).closest('tr')
         ).data();
+
 
         if (!row) {
             return;
         }
 
 
+
         /* ID */
+
         const id = row.id;
 
 
+
         /* NAMA */
+
         $('#editNama').val(
             row.nama || ''
         );
 
 
+
         /* JENIS KELAMIN */
+
         let jenisKelamin =
             row.jenis_kelamin_raw || '';
 
-        if (jenisKelamin === 'laki_laki') {
+
+        if (
+            jenisKelamin === 'laki_laki'
+        ) {
+
             jenisKelamin = 'laki-laki';
+
         }
+
 
         $('#editJenisKelamin').val(
             jenisKelamin
         );
 
 
+
         /* TANGGAL LAHIR */
+
         $('#editTanggalLahir').val(
             row.tanggal_lahir_raw || ''
         );
 
 
+
         /* ALAMAT */
+
         $('#editAlamat').val(
             row.alamat || ''
         );
 
 
+
         /* GOLONGAN DARAH */
+
         $('#editGolonganDarah').val(
             row.golongan_darah_raw || ''
         );
 
 
+
         /* STATUS ASURANSI */
+
         let statusAsuransi =
             row.status_asuransi_raw;
+
 
         if (
             statusAsuransi === 1 ||
             statusAsuransi === '1'
         ) {
+
             statusAsuransi = '01';
+
         }
+
 
         if (
             statusAsuransi === 0 ||
-            statusAsuransi === 0
+            statusAsuransi === '0'
         ) {
+
             statusAsuransi = '0';
+
         }
+
 
         $('#editStatusAsuransi').val(
             String(statusAsuransi ?? '')
         );
 
 
+
         /* UPDATE URL */
+
         let updateUrl =
             "{{ route('master-pasien.update', ':id') }}";
+
 
         updateUrl = updateUrl.replace(
             ':id',
             id
         );
 
+
         $('#formEditPasien').attr(
             'action',
             updateUrl
         );
 
+
+
+        /* TAMPILKAN MODAL EDIT */
 
         const modalEdit =
             new bootstrap.Modal(
@@ -1442,11 +1578,18 @@ $(document).ready(function () {
                 )
             );
 
+
         modalEdit.show();
 
     });
 
+
+    @endif
+
+
 });
+
 </script>
+
 
 @endsection
