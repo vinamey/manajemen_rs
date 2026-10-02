@@ -900,17 +900,13 @@
 
             <li class="nav-item">
 
-                <a
-                    href="#"
-                    class="nav-link"
-                >
-
-                    <i class="fa-solid fa-chart-column me-2"></i>
-
-                    Laporan
-
-                </a>
-
+              <a
+    href="{{ route('superadmin.laporan') }}"
+    class="nav-link"
+>
+    <i class="fa-solid fa-chart-column me-2"></i>
+    Laporan
+</a>
             </li>
 
 
