@@ -36,6 +36,9 @@ use App\Http\Controllers\PemeriksaanDokterController;
 use App\Http\Controllers\LogStokObatController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ApotekerDashboardController;
+use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\KasirResepController;
+
 
 // ==================================================
 // LANDING PAGE
@@ -86,11 +89,21 @@ Route::get(
 )->name('superadmin.dashboard');
 
 
+// ==================================================
+// DASHBOARD UMUM
+// ==================================================
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware('auth')
-    ->name('dashboard');
+Route::get(
+    '/dashboard',
+    [DashboardController::class, 'index']
+)
+->middleware('auth')
+->name('dashboard');
 
+
+// ==================================================
+// ADMIN DASHBOARD
+// ==================================================
 
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
@@ -98,23 +111,77 @@ Route::get('/admin/dashboard', function () {
 ->middleware('admin.rs')
 ->name('admin.dashboard');
 
+
+// ==================================================
+// APOTEKER DASHBOARD
+// ==================================================
+
 Route::get(
     '/apoteker/dashboard',
     [ApotekerDashboardController::class, 'index']
 )
 ->middleware('auth')
 ->name('apoteker.dashboard');
+
+
+// ==================================================
+// KASIR DASHBOARD
+// ==================================================
+
 Route::get('/kasir/dashboard', function () {
     return view('kasir.dashboard');
 })
 ->middleware('auth')
 ->name('kasir.dashboard');
 
+
+// ==================================================
+// KASIR - RESEP DARI DOKTER
+// ==================================================
+
+Route::get(
+    '/kasir/resep',
+    [KasirResepController::class, 'index']
+)
+->middleware('auth')
+->name('kasir.resep');
+
+
+// ==================================================
+// KASIR - PEMBAYARAN OBAT
+// ==================================================
+
+Route::get(
+    '/kasir/pembayaran',
+    [PembayaranController::class, 'index']
+)
+->middleware('auth')
+->name('kasir.pembayaran');
+
+
+// ==================================================
+// DIREKTUR - LAPORAN
+// ==================================================
+
 Route::middleware(['auth'])->group(function () {
-Route::get('/direktur/laporan', [LaporanController::class, 'index'])->name('direktur.laporan');
-Route::get('/laporan/export/excel/{type}', [LaporanController::class, 'exportExcel'])->name('laporan.export.excel');
-Route::get('/laporan/export/pdf/{type}', [LaporanController::class, 'exportPdf'])->name('laporan.export.pdf');
+
+    Route::get(
+        '/direktur/laporan',
+        [LaporanController::class, 'index']
+    )->name('direktur.laporan');
+
+    Route::get(
+        '/laporan/export/excel/{type}',
+        [LaporanController::class, 'exportExcel']
+    )->name('laporan.export.excel');
+
+    Route::get(
+        '/laporan/export/pdf/{type}',
+        [LaporanController::class, 'exportPdf']
+    )->name('laporan.export.pdf');
+
 });
+
 
 // ==================================================
 // ROLE MANAGEMENT
@@ -219,6 +286,8 @@ Route::resource(
     'master-kamar',
     MasterKamarController::class
 );
+
+
 // ==================================================
 // MASTER KATEGORI
 // ==================================================
@@ -233,7 +302,6 @@ Route::resource(
     'master-kategori',
     MasterKategoriController::class
 );
-
 
 
 // ==================================================
@@ -306,6 +374,7 @@ Route::resource(
     MasterSatuanController::class
 );
 
+
 // ==================================================
 // MASTER SUPPLIER
 // ==================================================
@@ -323,6 +392,8 @@ Route::resource(
     'master-supplier',
     MasterSupplierController::class
 );
+
+
 // ==================================================
 // MASTER TINDAKAN
 // ==================================================
@@ -372,10 +443,9 @@ Route::middleware([
     // ==================================================
     // MASTER OBAT - YAJRA DATATABLES
     // ==================================================
-    //
+
     // WAJIB berada SEBELUM Route::resource master-obat
     // supaya "data" tidak dianggap sebagai ID obat.
-    //
 
     Route::get(
         '/master-obat/data',
