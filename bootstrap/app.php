@@ -21,11 +21,14 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         // Alias Middleware Spatie
-        $middleware->alias([
-            'role' => RoleMiddleware::class,
-            'permission' => PermissionMiddleware::class,
-            'role_or_permission' => RoleOrPermissionMiddleware::class,
-        ]);
+       $middleware->alias([
+    'role' => RoleMiddleware::class,
+    'permission' => PermissionMiddleware::class,
+    'role_or_permission' => RoleOrPermissionMiddleware::class,
+
+    // Middleware Admin Rumah Sakit
+    'admin.rs' => \App\Http\Middleware\AdminRumahSakitMiddleware::class,
+]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
