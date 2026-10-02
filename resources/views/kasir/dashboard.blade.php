@@ -1,244 +1,438 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Dashboard Kasir</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
     <style>
-
-        body{
-            background:#f4f6f9;
+        :root {
+            --blue-main: #1877f2;
+            --blue-dark: #0f58c6;
+            --blue-light: #e7f3ff;
+            --background: #f4f6fa;
         }
 
-        .sidebar{
-            width:250px;
-            height:100vh;
-            position:fixed;
-            background:#dc3545;
-            color:white;
+        body {
+            margin: 0;
+            background: var(--background);
+            font-family: Arial, sans-serif;
         }
 
-        .sidebar h3{
-            padding-top:20px;
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--blue-main);
+            color: white;
+            z-index: 1000;
         }
 
-        .sidebar a{
-            display:block;
-            color:white;
-            text-decoration:none;
-            padding:12px 20px;
+        .logo {
+            height: 65px;
+            display: flex;
+            align-items: center;
+            padding-left: 25px;
+            font-size: 20px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,.15);
         }
 
-        .sidebar a:hover{
-            background:#bb2d3b;
+        .logo i {
+            margin-right: 10px;
         }
 
-        .content{
-            margin-left:250px;
-            padding:30px;
+        .menu {
+            padding: 20px 12px;
         }
 
-        .card{
-            border:none;
-            border-radius:15px;
+        .menu-title {
+            font-size: 12px;
+            opacity: .7;
+            padding: 0 13px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+            padding: 12px 14px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255,255,255,.16);
+        }
+
+        .menu a i {
+            width: 18px;
+            text-align: center;
+        }
+
+        .logout-area {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            padding: 0 15px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: white;
+            color: #dc3545;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* CONTENT */
+        .content {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 65px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+        }
+
+        .topbar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-info {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .page {
+            padding: 28px;
+        }
+
+        .page-title {
+            color: var(--blue-main);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* WELCOME */
+        .welcome-card {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #e5e7eb;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .welcome-card h4 {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .welcome-card p {
+            color: #6b7280;
+            margin-bottom: 0;
+        }
+
+        /* STAT CARD */
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--blue-light);
+            color: var(--blue-main);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        /* PAYMENT CARD */
+        .payment-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+        }
+
+        .payment-card h5 {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .payment-card p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .btn-payment {
+            background: var(--blue-main);
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 9px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-payment:hover {
+            background: var(--blue-dark);
+            color: white;
+        }
     </style>
-
 </head>
+
 <body>
 
-<div class="sidebar">
+    {{-- SIDEBAR --}}
+    <div class="sidebar">
 
-    <h3 class="text-center">
-        SIM Rumah Sakit
-    </h3>
+        <div class="logo">
+            <i class="fa-solid fa-hospital"></i>
+            SIM RS
+        </div>
 
-    <hr>
+        <div class="menu">
 
-    <a href="#">🏠 Dashboard</a>
+            <div class="menu-title">
+                Menu Kasir
+            </div>
 
-    <a href="#">💳 Pembayaran Pasien</a>
+            <a
+                href="{{ route('kasir.dashboard') }}"
+                class="active"
+            >
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
 
-    <a href="#">📄 Tagihan Pasien</a>
+            <a href="{{ route('kasir.pembayaran') }}">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>Pembayaran Obat</span>
+            </a>
 
-    <a href="#">🧾 Riwayat Transaksi</a>
+        </div>
 
-    <a href="#">📊 Laporan Pembayaran</a>
+        {{-- LOGOUT --}}
+        <div class="logout-area">
 
-    <a href="#">👤 Profil</a>
+            <form
+                action="{{ route('logout') }}"
+                method="POST"
+            >
+                @csrf
 
-    <form action="{{ route('logout') }}" method="POST" class="p-3">
+                <button
+                    type="submit"
+                    class="logout-btn"
+                >
+                    <i class="fa-solid fa-right-from-bracket me-2"></i>
+                    Logout
+                </button>
 
-        @csrf
-
-        <button class="btn btn-light text-danger w-100">
-            Logout
-        </button>
-
-    </form>
-
-</div>
-
-<div class="content">
-
-    <div class="card shadow">
-
-        <div class="card-body">
-
-            <h2>Selamat Datang, Kasir 💰</h2>
-
-            <hr>
-
-            <table class="table">
-
-                <tr>
-                    <th width="200">Nama</th>
-                    <td>{{ auth()->user()->name }}</td>
-                </tr>
-
-                <tr>
-                    <th>Email</th>
-                    <td>{{ auth()->user()->email }}</td>
-                </tr>
-
-                <tr>
-                    <th>Role</th>
-                    <td>{{ auth()->user()->getRoleNames()->first() }}</td>
-                </tr>
-
-            </table>
+            </form>
 
         </div>
 
     </div>
 
-    <br>
 
-    <div class="row">
+    {{-- CONTENT --}}
+    <div class="content">
 
-        <div class="col-md-3">
+        {{-- TOPBAR --}}
+        <div class="topbar">
 
-            <div class="card shadow text-center">
+            <div class="topbar-title">
+                Dashboard Kasir
+            </div>
 
-                <div class="card-body">
+            <div class="user-info">
+                <i class="fa-solid fa-user me-2"></i>
+                {{ auth()->user()->name }}
+            </div>
 
-                    <h5>Pembayaran Hari Ini</h5>
+        </div>
 
-                    <h2>18</h2>
+
+        {{-- PAGE --}}
+        <div class="page">
+
+            <h3 class="page-title">
+                Dashboard Kasir
+            </h3>
+
+            <div class="page-subtitle">
+                Kelola pembayaran obat pasien
+            </div>
+
+
+            {{-- WELCOME --}}
+            <div class="welcome-card">
+
+                <h4>
+                    Selamat Datang, {{ auth()->user()->name }}!
+                </h4>
+
+                <p>
+                    Silakan gunakan menu Pembayaran Obat untuk memproses pembayaran pasien.
+                </p>
+
+            </div>
+
+
+            {{-- STAT --}}
+            <div class="row g-4">
+
+                <div class="col-md-4">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+
+                        <div class="stat-title">
+                            Pembayaran Hari Ini
+                        </div>
+
+                        <div class="stat-value">
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+
+                        <div class="stat-title">
+                            Resep Menunggu Pembayaran
+                        </div>
+
+                        <div class="stat-value">
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-money-bill"></i>
+                        </div>
+
+                        <div class="stat-title">
+                            Total Pendapatan
+                        </div>
+
+                        <div class="stat-value">
+                            Rp0
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
 
-        <div class="col-md-3">
+            {{-- PAYMENT MENU --}}
+            <div class="payment-card">
 
-            <div class="card shadow text-center">
+                <h5>
+                    <i class="fa-solid fa-money-bill-wave text-primary me-2"></i>
+                    Pembayaran Obat
+                </h5>
 
-                <div class="card-body">
+                <p>
+                    Lihat resep pasien dan proses pembayaran obat.
+                </p>
 
-                    <h5>Total Tagihan</h5>
-
-                    <h2>42</h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow text-center">
-
-                <div class="card-body">
-
-                    <h5>Total Pendapatan</h5>
-
-                    <h2>Rp18 Jt</h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow text-center">
-
-                <div class="card-body">
-
-                    <h5>Transaksi Selesai</h5>
-
-                    <h2>120</h2>
-
-                </div>
+                <a
+                    href="{{ route('kasir.pembayaran') }}"
+                    class="btn-payment"
+                >
+                    <i class="fa-solid fa-credit-card me-2"></i>
+                    Buka Pembayaran
+                </a>
 
             </div>
 
         </div>
 
     </div>
-
-    <br>
-
-    <div class="card shadow">
-
-        <div class="card-header bg-danger text-white">
-
-            Menu Kasir
-
-        </div>
-
-        <div class="card-body">
-
-            <div class="row">
-
-                <div class="col-md-3">
-
-                    <a href="#" class="btn btn-outline-danger w-100 mb-3">
-                        Pembayaran Pasien
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a href="#" class="btn btn-outline-primary w-100 mb-3">
-                        Tagihan Pasien
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a href="#" class="btn btn-outline-success w-100 mb-3">
-                        Riwayat Transaksi
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a href="#" class="btn btn-outline-warning w-100 mb-3">
-                        Laporan Pembayaran
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 </body>
 </html>

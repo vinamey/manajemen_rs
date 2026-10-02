@@ -80,14 +80,14 @@ if ($user->hasRole('dokter')) {
         ->route('apoteker.dashboard')
         ->with('success', 'Selamat datang Apoteker!');
 }
-        // ==========================
-        // KASIR
-        // ==========================
-        if ($user->hasRole('Kasir')) {
-            return redirect()
-                ->route('kasir.dashboard')
-                ->with('success', 'Selamat datang Kasir!');
-        }
+     // ==========================
+// KASIR
+// ==========================
+if ($user->hasRole('kasir')) {
+    return redirect()
+        ->route('kasir.dashboard')
+        ->with('success', 'Selamat datang Kasir!');
+}
 
         // ==========================
         // DIREKTUR
