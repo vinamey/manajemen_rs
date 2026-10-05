@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ResepObat;
 
 // ==============================
 // CONTROLLERS
@@ -36,6 +37,8 @@ use App\Http\Controllers\PemeriksaanDokterController;
 use App\Http\Controllers\LogStokObatController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ApotekerDashboardController;
+use App\Http\Controllers\ApotekerController;
+use App\Http\Controllers\KasirController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\KasirResepController;
 
@@ -126,6 +129,7 @@ Route::get('/admin/dashboard', function () {
 
 // ==================================================
 // APOTEKER DASHBOARD
+// APOTEKER + ADMIN RUMAH SAKIT
 // ==================================================
 
 Route::get(
@@ -134,24 +138,27 @@ Route::get(
 )
 ->middleware([
     'auth',
-    'role:apoteker|Apoteker'
+    'role:apoteker|Apoteker|admin rumah sakit'
 ])
 ->name('apoteker.dashboard');
-
-
 // ==================================================
 // KASIR DASHBOARD
 // ==================================================
 
 Route::get('/kasir/dashboard', function () {
-    return view('kasir.dashboard');
+
+    $jumlahResepMenunggu = ResepObat::count();
+
+    return view('kasir.dashboard', compact(
+        'jumlahResepMenunggu'
+    ));
+
 })
 ->middleware([
     'auth',
-    'role:kasir'
+    'role:kasir|admin rumah sakit'
 ])
 ->name('kasir.dashboard');
-
 
 // ==================================================
 // KASIR - RESEP DARI DOKTER
@@ -163,10 +170,9 @@ Route::get(
 )
 ->middleware([
     'auth',
-    'role:kasir'
+    'role:kasir|apoteker|admin rumah sakit'
 ])
 ->name('kasir.resep');
-
 
 // ==================================================
 // KASIR - PEMBAYARAN OBAT
@@ -419,6 +425,36 @@ Route::middleware([
 
 
 // ==================================================
+// MASTER PASIEN
+// CRUD HANYA UNTUK SUPER ADMIN & ADMIN RUMAH SAKIT
+// ==================================================
+
+Route::middleware([
+    'auth',
+    'role:super admin|admin rumah sakit'
+])->group(function () {
+
+    // Tambah pasien
+    Route::post(
+        '/master-pasien',
+        [MasterPasienController::class, 'store']
+    )->name('master-pasien.store');
+
+    // Edit pasien
+    Route::put(
+        '/master-pasien/{master_pasien}',
+        [MasterPasienController::class, 'update']
+    )->name('master-pasien.update');
+
+    // Hapus pasien
+    Route::delete(
+        '/master-pasien/{master_pasien}',
+        [MasterPasienController::class, 'destroy']
+    )->name('master-pasien.destroy');
+
+});
+
+// ==================================================
 // MASTER PERAWAT
 // SUPER ADMIN / ADMIN RS
 // ==================================================
@@ -499,7 +535,7 @@ Route::middleware([
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit'
+    'role:super admin|admin rumah sakit|apoteker'
 ])->group(function () {
 
     Route::get(
@@ -557,13 +593,13 @@ Route::middleware([
 
 
 // ==================================================
-// PEMERIKSAAN DOKTER
-// DOKTER BISA MENGELOLA
+// PEMERIKSAAN DOKTER / RESEP DOKTER
+// SUPER ADMIN / ADMIN RS / DOKTER / APOTEKER
 // ==================================================
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit|dokter'
+    'role:super admin|admin rumah sakit|dokter|apoteker'
 ])->group(function () {
 
     Route::resource(
@@ -625,3 +661,40 @@ Route::middleware([
     )->name('log-stok-obat.index');
 
 });
+
+// ==================================================
+// MASTER APOTEKER
+// SUPER ADMIN / ADMIN RUMAH SAKIT
+// ==================================================
+
+Route::middleware([
+    'auth',
+    'role:super admin|admin rumah sakit'
+])->group(function () {
+
+    Route::resource(
+        'master-apoteker',
+        ApotekerController::class
+    );
+
+});
+
+
+// ==================================================
+// MASTER KASIR
+// SUPER ADMIN / ADMIN RUMAH SAKIT
+// ==================================================
+
+Route::middleware([
+    'auth',
+    'role:super admin|admin rumah sakit'
+])->group(function () {
+
+    Route::resource(
+        'kasir',
+        KasirController::class
+    );
+
+});
+
+

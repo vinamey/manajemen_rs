@@ -117,8 +117,26 @@
 
     .obat-table-wrapper {
         width: 100%;
-        overflow-x: auto;
+        overflow-x: hidden;
     }
+
+    .dataTables_wrapper {
+    width: 100%;
+    overflow-x: hidden !important;
+}
+
+.dataTables_scroll {
+    overflow-x: hidden !important;
+}
+
+.dataTables_scrollBody {
+    overflow-x: hidden !important;
+}
+
+#obat-table {
+    width: 100% !important;
+    table-layout: auto !important;
+}
 
     /* =====================================================
        TABLE
@@ -664,7 +682,7 @@
 
                         <th
                             class="aksi-header"
-                            style="width: 220px;"
+                                
                         >
                             Aksi
                         </th>
