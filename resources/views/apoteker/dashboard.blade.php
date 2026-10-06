@@ -541,7 +541,7 @@
     <!-- RESEP DOKTER -->
 
     <a
-        href="{{ route('pemeriksaan-dokter.index') }}"
+        href="{{ route('kasir.resep') }}"
     >
 
         <span class="menu-icon">
@@ -1006,7 +1006,7 @@
                 <div class="col-md-6 col-xl-4">
 
                     <a
-                        href="{{ route('pemeriksaan-dokter.index') }}"
+                        href="{{ route('kasir.resep') }}"
                         class="menu-button"
                     >
 

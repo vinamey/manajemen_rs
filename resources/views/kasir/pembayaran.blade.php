@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard Kasir</title>
+    <title>Pembayaran Obat - Kasir</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -35,9 +35,7 @@
             font-family: Arial, sans-serif;
         }
 
-        /* =========================
-           SIDEBAR
-        ========================= */
+        /* SIDEBAR */
 
         .sidebar {
             width: 200px;
@@ -98,9 +96,7 @@
             text-align: center;
         }
 
-        /* =========================
-           LOGOUT
-        ========================= */
+        /* LOGOUT */
 
         .logout-area {
             position: absolute;
@@ -120,13 +116,7 @@
             font-size: 13px;
         }
 
-        .logout-btn:hover {
-            background: #f8f9fa;
-        }
-
-        /* =========================
-           CONTENT
-        ========================= */
+        /* CONTENT */
 
         .content {
             margin-left: 200px;
@@ -137,11 +127,9 @@
             height: 68px;
             background: white;
             border-bottom: 1px solid #e5e7eb;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             padding: 0 22px;
         }
 
@@ -173,183 +161,193 @@
             margin-bottom: 25px;
         }
 
-        /* =========================
-           WELCOME CARD
-        ========================= */
+        /* HEADER */
 
-        .welcome-card {
-            background: white;
-            border-radius: 13px;
-            border: 1px solid #e5e7eb;
-            padding: 22px;
+        .page-header {
+            background: linear-gradient(
+                135deg,
+                #1877f2,
+                #0f58c6
+            );
+
+            color: white;
+            border-radius: 14px;
+            padding: 20px 22px;
             margin-bottom: 20px;
         }
 
-        .welcome-card h4 {
+        .page-header h4 {
+            margin: 0;
             font-weight: 700;
-            margin-bottom: 7px;
-            font-size: 20px;
         }
 
-        .welcome-card p {
-            color: #6b7280;
-            margin-bottom: 0;
+        .page-header p {
+            margin: 5px 0 0;
             font-size: 13px;
+            opacity: .9;
         }
 
-        /* =========================
-           STAT CARD
-        ========================= */
-
-        .stat-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 13px;
-            padding: 16px;
-            height: 100%;
-        }
-
-        .stat-icon {
-            width: 38px;
-            height: 38px;
-            background: var(--blue-light);
-            color: var(--blue-main);
-            border-radius: 8px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 16px;
-            margin-bottom: 13px;
-        }
-
-        .stat-title {
-            color: #6b7280;
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-size: 21px;
-            font-weight: 700;
-            color: #1f2937;
-        }
-
-        /* =========================
-           PAYMENT CARD
-        ========================= */
+        /* PAYMENT CARD */
 
         .payment-card {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 13px;
-            padding: 22px;
-            margin-top: 20px;
+            border-radius: 14px;
+            overflow: hidden;
         }
 
-        .payment-card h5 {
+        .payment-card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .payment-card-header h5 {
+            margin: 0;
             font-weight: 700;
-            margin-bottom: 6px;
-            font-size: 17px;
+            color: #1f2937;
         }
 
-        .payment-card p {
-            color: #6b7280;
+        /* TABLE */
+
+        .payment-table {
+            margin: 0;
+        }
+
+        .payment-table thead th {
+            background: #f4f8ff;
+            color: #31557f;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 13px 15px;
+            white-space: nowrap;
+            border-bottom: 1px solid #dce8f8;
+        }
+
+        .payment-table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            font-size: 13px;
+            color: #374151;
+        }
+
+        .payment-table tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .patient-name {
+            font-weight: 700;
+            color: #1877f2;
+        }
+
+        .doctor-name {
+            font-weight: 600;
+        }
+
+        .medicine-badge {
+            display: inline-block;
+            background: #e7f3ff;
+            color: #0f58c6;
+            padding: 5px 9px;
+            border-radius: 7px;
             font-size: 12px;
-            margin-bottom: 15px;
+            font-weight: 600;
+            margin: 2px;
         }
 
-        .btn-payment {
-            background: var(--blue-main);
+        .quantity-badge {
+            background: #eefbf3;
+            color: #16834b;
+            padding: 5px 9px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .btn-process {
+            background: #1877f2;
             color: white;
             border: none;
-            padding: 10px 17px;
-            border-radius: 8px;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 12px;
             font-weight: 600;
-            font-size: 13px;
             text-decoration: none;
-            display: inline-block;
         }
 
-        .btn-payment:hover {
-            background: var(--blue-dark);
+        .btn-process:hover {
+            background: #0f58c6;
             color: white;
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #6b7280;
+        }
+
+        .empty-state i {
+            font-size: 42px;
+            color: #b8c8dc;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h6 {
+            font-weight: 700;
+            color: #4b5563;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .pagination-wrapper {
+            padding: 15px 20px;
+            border-top: 1px solid #edf0f4;
+        }
     </style>
 
 </head>
 
 <body>
 
-
-    {{-- =====================================================
-         SIDEBAR
-    ====================================================== --}}
+    {{-- SIDEBAR --}}
 
     <div class="sidebar">
 
-        {{-- LOGO --}}
         <div class="logo">
-
             <i class="fa-solid fa-hospital"></i>
-
             SIM RS
-
         </div>
 
-
-        {{-- MENU --}}
         <div class="menu">
 
             <div class="menu-title">
                 Menu Kasir
             </div>
 
+            <a href="{{ route('kasir.dashboard') }}">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
 
-            {{-- DASHBOARD --}}
+            <a href="{{ route('kasir.resep') }}">
+                <i class="fa-solid fa-file-prescription"></i>
+                <span>Resep dari Dokter</span>
+            </a>
+
             <a
-                href="{{ route('kasir.dashboard') }}"
+                href="{{ route('kasir.pembayaran') }}"
                 class="active"
             >
-
-                <i class="fa-solid fa-house"></i>
-
-                <span>
-                    Dashboard
-                </span>
-
-            </a>
-
-
-            {{-- RESEP DARI DOKTER --}}
-            <a href="{{ route('kasir.resep') }}">
-
-                <i class="fa-solid fa-file-prescription"></i>
-
-                <span>
-                    Resep dari Dokter
-                </span>
-
-            </a>
-
-
-            {{-- PEMBAYARAN OBAT --}}
-            <a href="{{ route('kasir.pembayaran') }}">
-
                 <i class="fa-solid fa-money-bill-wave"></i>
-
-                <span>
-                    Pembayaran Obat
-                </span>
-
+                <span>Pembayaran Obat</span>
             </a>
 
         </div>
 
-
         {{-- LOGOUT --}}
+
         <div class="logout-area">
 
             <form
@@ -377,20 +375,17 @@
     </div>
 
 
-    {{-- =====================================================
-         CONTENT
-    ====================================================== --}}
+    {{-- CONTENT --}}
 
     <div class="content">
 
-
         {{-- TOPBAR --}}
+
         <div class="topbar">
 
             <div class="topbar-title">
-                Dashboard Kasir
+                Pembayaran Obat
             </div>
-
 
             <div class="user-info">
 
@@ -403,153 +398,251 @@
         </div>
 
 
-        {{-- PAGE --}}
         <div class="page">
 
-
-            {{-- TITLE --}}
             <h3 class="page-title">
-                Dashboard Kasir
+                Pembayaran Obat
             </h3>
 
             <div class="page-subtitle">
-                Kelola pembayaran obat pasien
+                Proses pembayaran obat pasien berdasarkan resep dokter.
             </div>
 
 
-            {{-- WELCOME --}}
-            <div class="welcome-card">
+            {{-- HEADER --}}
+
+            <div class="page-header">
 
                 <h4>
-                    Selamat Datang, {{ auth()->user()->name }}!
+                    <i class="fa-solid fa-money-bill-wave me-2"></i>
+                    Pembayaran Obat Pasien
                 </h4>
 
                 <p>
-                    Silakan gunakan menu Kasir untuk melihat resep dokter
-                    dan memproses pembayaran obat pasien.
+                    Pilih resep pasien yang akan diproses untuk pembayaran.
                 </p>
 
             </div>
 
 
-            {{-- =================================================
-                 STATISTIK
-            ================================================== --}}
-
-            <div class="row g-3">
-
-
-                {{-- PEMBAYARAN HARI INI --}}
-                <div class="col-md-4">
-
-                    <div class="stat-card">
-
-                        <div class="stat-icon">
-
-                            <i class="fa-solid fa-receipt"></i>
-
-                        </div>
-
-                        <div class="stat-title">
-                            Pembayaran Hari Ini
-                        </div>
-
-                        <div class="stat-value">
-                            0
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {{-- RESEP MENUNGGU PEMBAYARAN --}}
-                <div class="col-md-4">
-
-                    <div class="stat-card">
-
-                        <div class="stat-icon">
-
-                            <i class="fa-solid fa-file-prescription"></i>
-
-                        </div>
-
-                        <div class="stat-title">
-                            Resep Menunggu Pembayaran
-                        </div>
-
-                        <div class="stat-value">
-                            0
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {{-- TOTAL PENDAPATAN --}}
-                <div class="col-md-4">
-
-                    <div class="stat-card">
-
-                        <div class="stat-icon">
-
-                            <i class="fa-solid fa-money-bill"></i>
-
-                        </div>
-
-                        <div class="stat-title">
-                            Total Pendapatan
-                        </div>
-
-                        <div class="stat-value">
-                            Rp0
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            {{-- =================================================
-                 PEMBAYARAN OBAT
-            ================================================== --}}
+            {{-- DATA RESEP --}}
 
             <div class="payment-card">
 
-                <h5>
+                <div class="payment-card-header">
 
-                    <i class="fa-solid fa-money-bill-wave text-primary me-2"></i>
+                    <h5>
+                        <i class="fa-solid fa-receipt text-primary me-2"></i>
+                        Daftar Resep untuk Pembayaran
+                    </h5>
 
-                    Pembayaran Obat
-
-                </h5>
-
-                <p>
-                    Lihat resep yang perlu diproses dan lakukan pembayaran obat pasien.
-                </p>
+                </div>
 
 
-                <a
-                    href="{{ route('kasir.pembayaran') }}"
-                    class="btn-payment"
-                >
+                <div class="table-responsive">
 
-                    <i class="fa-solid fa-credit-card me-2"></i>
+                    <table class="table payment-table mb-0">
 
-                    Buka Pembayaran
+                        <thead>
 
-                </a>
+                            <tr>
+
+                                <th width="60">
+                                    No
+                                </th>
+
+                                <th>
+                                    Pasien
+                                </th>
+
+                                <th>
+                                    Dokter
+                                </th>
+
+                                <th>
+                                    Obat
+                                </th>
+
+                                <th>
+                                    Jumlah
+                                </th>
+
+                                <th>
+                                    Aturan Pakai
+                                </th>
+
+                                <th width="130">
+                                    Aksi
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @forelse($resepObats as $index => $resep)
+
+                                <tr>
+
+                                    <td>
+                                        {{ $resepObats->firstItem() + $index }}
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="patient-name">
+
+                                            {{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? '-' }}
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="doctor-name">
+
+                                            <i class="fa-solid fa-user-doctor text-primary me-1"></i>
+
+                                            {{ $resep->pemeriksaan?->dokter?->nama ?? '-' }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @forelse($resep->obat as $obat)
+
+                                            <span class="medicine-badge">
+
+                                                {{ $obat->nama }}
+
+                                            </span>
+
+                                        @empty
+
+                                            <span class="text-muted">
+                                                Tidak ada obat
+                                            </span>
+
+                                        @endforelse
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @forelse($resep->obat as $obat)
+
+                                            <span class="quantity-badge">
+
+                                                {{ $obat->pivot->nilai ?? '-' }}
+
+                                            </span>
+
+                                        @empty
+
+                                            -
+
+                                        @endforelse
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @forelse($resep->obat as $obat)
+
+                                            <div class="mb-1">
+
+                                                {{ $obat->pivot->aturan_pakai ?? '-' }}
+
+                                            </div>
+
+                                        @empty
+
+                                            -
+
+                                        @endforelse
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            type="button"
+                                            class="btn-process"
+                                            disabled
+                                            title="Fitur pembayaran akan diaktifkan setelah data harga dan transaksi tersedia"
+                                        >
+
+                                            <i class="fa-solid fa-credit-card me-1"></i>
+
+                                            Proses Bayar
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            @empty
+
+                                <tr>
+
+                                    <td colspan="7">
+
+                                        <div class="empty-state">
+
+                                            <i class="fa-solid fa-file-invoice-dollar d-block"></i>
+
+                                            <h6>
+                                                Belum Ada Resep
+                                            </h6>
+
+                                            <p>
+                                                Belum ada resep obat yang dapat diproses untuk pembayaran.
+                                            </p>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                {{-- PAGINATION --}}
+
+                @if($resepObats->hasPages())
+
+                    <div class="pagination-wrapper">
+
+                        {{ $resepObats->links() }}
+
+                    </div>
+
+                @endif
 
             </div>
-
 
         </div>
 
     </div>
-
 
 </body>
 
