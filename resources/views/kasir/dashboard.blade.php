@@ -205,13 +205,15 @@
         }
 
         /* PAYMENT CARD */
-        .payment-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 25px;
-        }
+     .payment-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 45px;
+    margin-top: 25px;
+    width: fit-content;
+    min-width: 400px;
+}
 
         .payment-card h5 {
             font-weight: 700;
@@ -238,6 +240,13 @@
             background: var(--blue-dark);
             color: white;
         }
+
+        .btn-payment:disabled {
+    background: #9ca3af;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
     </style>
 </head>
 
@@ -251,27 +260,31 @@
             SIM RS
         </div>
 
-        <div class="menu">
+       <div class="menu">
 
-            <div class="menu-title">
-                Menu Kasir
-            </div>
+    <div class="menu-title">
+        Menu Kasir
+    </div>
 
-            <a
-                href="{{ route('kasir.dashboard') }}"
-                class="active"
-            >
-                <i class="fa-solid fa-house"></i>
-                <span>Dashboard</span>
-            </a>
+    <a
+        href="{{ route('kasir.dashboard') }}"
+        class="active"
+    >
+        <i class="fa-solid fa-house"></i>
+        <span>Dashboard</span>
+    </a>
 
-            <a href="{{ route('kasir.pembayaran') }}">
-                <i class="fa-solid fa-money-bill-wave"></i>
-                <span>Pembayaran Obat</span>
-            </a>
+    <a href="{{ route('kasir.resep') }}">
+        <i class="fa-solid fa-file-prescription"></i>
+        <span>Resep dari Dokter</span>
+    </a>
 
-        </div>
+    <a href="{{ route('kasir.pembayaran') }}">
+        <i class="fa-solid fa-money-bill-wave"></i>
+        <span>Pembayaran Obat</span>
+    </a>
 
+</div>
         {{-- LOGOUT --}}
         <div class="logout-area">
 
@@ -373,12 +386,12 @@
                         </div>
 
                         <div class="stat-title">
-                            Resep Menunggu Pembayaran
-                        </div>
+    Resep Menunggu Pembayaran
+</div>
 
-                        <div class="stat-value">
-                            0
-                        </div>
+<div class="stat-value">
+    {{ $jumlahResepMenunggu }}
+</div>
 
                     </div>
 
@@ -408,25 +421,24 @@
             </div>
 
 
-            {{-- PAYMENT MENU --}}
-            <div class="payment-card">
+{{-- PAYMENT MENU --}}
+<div class="payment-card">
 
-                <h5>
-                    <i class="fa-solid fa-money-bill-wave text-primary me-2"></i>
-                    Pembayaran Obat
-                </h5>
+    <h5>
+        <i class="fa-solid fa-money-bill-wave text-primary me-2"></i>
+        Pembayaran Obat
+    </h5>
 
-                <p>
-                    Lihat resep pasien dan proses pembayaran obat.
-                </p>
+    <p>
+        Lihat resep pasien dan proses pembayaran obat.
+    </p>
 
-                <a
-                    href="{{ route('kasir.pembayaran') }}"
-                    class="btn-payment"
-                >
-                    <i class="fa-solid fa-credit-card me-2"></i>
-                    Buka Pembayaran
-                </a>
+
+    <div class="stat-value">
+                            0
+                        </div>
+</div>
+
 
             </div>
 

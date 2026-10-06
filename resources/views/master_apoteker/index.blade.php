@@ -331,7 +331,7 @@
         </a>
 
 
-        <a href="{{ route('master-dokters.index') }}">
+        <a href="{{ route('master-dokter.index') }}">
 
             <i class="bi bi-person-badge-fill me-2"></i>
 
