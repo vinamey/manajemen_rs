@@ -881,30 +881,462 @@
 
                     </div>
 
+{{-- =========================================================
+     ATURAN PAKAI
+========================================================= --}}
 
-                    {{-- ATURAN PAKAI --}}
+<div class="col-12">
 
-                    <div class="col-12">
+    <label class="form-label">
+        Aturan Pakai
+    </label>
 
-                        <label class="form-label">
+    <div class="aturan-pakai-wrapper">
 
-                            Aturan Pakai
+        {{-- INPUT PENCARIAN --}}
+        <div class="aturan-pakai-input-wrapper">
 
-                        </label>
+            <input
+                type="text"
+                id="aturan_pakai"
+                class="form-control"
+                placeholder="Ketik untuk mencari aturan pakai..."
+                autocomplete="off"
+            >
 
-                        <input
-                            type="text"
-                            id="aturan_pakai"
-                            class="form-control"
-                            placeholder="Contoh: Sesudah makan"
-                        >
+            <span class="aturan-pakai-arrow" id="aturanPakaiArrow">
+                ▾
+            </span>
 
-                    </div>
+        </div>
 
-                </div>
+        {{-- DROPDOWN --}}
+        <div
+            id="aturanPakaiDropdown"
+            class="aturan-pakai-dropdown"
+        >
 
+            <div
+                class="aturan-pakai-option"
+                data-value="Sebelum makan"
+            >
+                Sebelum makan
             </div>
 
+            <div
+                class="aturan-pakai-option"
+                data-value="Sesudah makan"
+            >
+                Sesudah makan
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Saat makan"
+            >
+                Saat makan
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Sebelum tidur"
+            >
+                Sebelum tidur
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Sesudah bangun tidur"
+            >
+                Sesudah bangun tidur
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Pagi hari"
+            >
+                Pagi hari
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Siang hari"
+            >
+                Siang hari
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Sore hari"
+            >
+                Sore hari
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Malam hari"
+            >
+                Malam hari
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Sebelum makan & sebelum tidur"
+            >
+                Sebelum makan & sebelum tidur
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Sesudah makan & sebelum tidur"
+            >
+                Sesudah makan & sebelum tidur
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Saat diperlukan"
+            >
+                Saat diperlukan
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Sesuai petunjuk dokter"
+            >
+                Sesuai petunjuk dokter
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Dengan air putih"
+            >
+                Dengan air putih
+            </div>
+
+            <div
+                class="aturan-pakai-option"
+                data-value="Dikonsumsi bersama makanan"
+            >
+                Dikonsumsi bersama makanan
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- =========================================================
+     CSS ATURAN PAKAI
+========================================================= --}}
+
+<style>
+
+    .aturan-pakai-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .aturan-pakai-input-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    #aturan_pakai {
+        width: 100%;
+        padding-right: 42px;
+        cursor: text;
+        background: #fff;
+    }
+
+    .aturan-pakai-arrow {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #64748b;
+        pointer-events: none;
+        transition: transform 0.2s ease;
+    }
+
+    .aturan-pakai-wrapper.active .aturan-pakai-arrow {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    /* DROPDOWN SELALU MUNCUL KE BAWAH */
+    .aturan-pakai-dropdown {
+        display: none;
+
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 0;
+        right: 0;
+
+        background: #ffffff;
+        border: 1px solid #d8dee8;
+        border-radius: 8px;
+
+        max-height: 220px;
+        overflow-y: auto;
+
+        z-index: 99999;
+
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .aturan-pakai-wrapper.active .aturan-pakai-dropdown {
+        display: block;
+    }
+
+    .aturan-pakai-option {
+        padding: 11px 14px;
+        font-size: 14px;
+        color: #374151;
+        cursor: pointer;
+        background: #fff;
+
+        transition:
+            background 0.15s ease,
+            color 0.15s ease;
+    }
+
+    .aturan-pakai-option:hover {
+        background: #eef5ff;
+        color: #1769e0;
+    }
+
+    .aturan-pakai-option.selected {
+        background: #e8f1ff;
+        color: #1769e0;
+        font-weight: 600;
+    }
+
+    .aturan-pakai-no-result {
+        padding: 12px 14px;
+        color: #94a3b8;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* Scrollbar dropdown */
+    .aturan-pakai-dropdown::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .aturan-pakai-dropdown::-webkit-scrollbar-track {
+        background: #f8fafc;
+        border-radius: 10px;
+    }
+
+    .aturan-pakai-dropdown::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+    }
+
+</style>
+
+
+{{-- =========================================================
+     JAVASCRIPT ATURAN PAKAI
+========================================================= --}}
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const wrapper = document.querySelector('.aturan-pakai-wrapper');
+
+    const input = document.getElementById('aturan_pakai');
+
+    const dropdown = document.getElementById('aturanPakaiDropdown');
+
+    if (!wrapper || !input || !dropdown) {
+        return;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUKA DROPDOWN SAAT INPUT DIKLIK
+    |--------------------------------------------------------------------------
+    */
+
+    input.addEventListener('click', function () {
+
+        wrapper.classList.add('active');
+
+        filterAturanPakai(input.value);
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SAAT MENGETIK → FILTER OTOMATIS
+    |--------------------------------------------------------------------------
+    */
+
+    input.addEventListener('input', function () {
+
+        wrapper.classList.add('active');
+
+        filterAturanPakai(this.value);
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PILIH ATURAN PAKAI
+    |--------------------------------------------------------------------------
+    */
+
+    dropdown.addEventListener('click', function (event) {
+
+        const option = event.target.closest('.aturan-pakai-option');
+
+        if (!option) {
+            return;
+        }
+
+        const value = option.getAttribute('data-value');
+
+        input.value = value;
+
+        wrapper.classList.remove('active');
+
+        /*
+        | Trigger event agar JavaScript lain yang
+        | membaca #aturan_pakai tetap mengetahui perubahan
+        */
+
+        input.dispatchEvent(new Event('change', {
+            bubbles: true
+        }));
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | FILTER PENCARIAN
+    |--------------------------------------------------------------------------
+    */
+
+    function filterAturanPakai(keyword) {
+
+        const options = dropdown.querySelectorAll(
+            '.aturan-pakai-option'
+        );
+
+        const search = keyword
+            .toLowerCase()
+            .trim();
+
+        let jumlahDitemukan = 0;
+
+        options.forEach(function (option) {
+
+            const text = option
+                .getAttribute('data-value')
+                .toLowerCase();
+
+            if (text.includes(search)) {
+
+                option.style.display = 'block';
+
+                jumlahDitemukan++;
+
+            } else {
+
+                option.style.display = 'none';
+
+            }
+
+        });
+
+
+        /*
+        | Kalau tidak ada hasil pencarian
+        */
+
+        let noResult = dropdown.querySelector(
+            '.aturan-pakai-no-result'
+        );
+
+
+        if (jumlahDitemukan === 0) {
+
+            if (!noResult) {
+
+                noResult = document.createElement('div');
+
+                noResult.className =
+                    'aturan-pakai-no-result';
+
+                noResult.textContent =
+                    'Aturan pakai tidak ditemukan';
+
+                dropdown.appendChild(noResult);
+
+            }
+
+            noResult.style.display = 'block';
+
+        } else {
+
+            if (noResult) {
+
+                noResult.style.display = 'none';
+
+            }
+
+        }
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KLIK DI LUAR DROPDOWN → TUTUP
+    |--------------------------------------------------------------------------
+    */
+
+    document.addEventListener('click', function (event) {
+
+        if (!wrapper.contains(event.target)) {
+
+            wrapper.classList.remove('active');
+
+        }
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ESC → TUTUP DROPDOWN
+    |--------------------------------------------------------------------------
+    */
+
+    input.addEventListener('keydown', function (event) {
+
+        if (event.key === 'Escape') {
+
+            wrapper.classList.remove('active');
+
+            input.blur();
+
+        }
+
+    });
+
+});
+
+</script>
 
             <div class="modal-footer">
 
