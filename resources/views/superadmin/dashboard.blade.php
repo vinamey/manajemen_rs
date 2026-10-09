@@ -56,10 +56,11 @@
         font-size: 20px;
     }
 
+    /* Varian Warna Kartu Stat Upper Grid */
     .card-user { background: #2474ed; }
+    .card-pasien { background: #6f42c1; } /* Warna Purple untuk Pasien */
     .card-dokter { background: #20a36a; }
     .card-perawat { background: #21a6c7; }
-    .card-pendaftaran { background: #e85d75; }
     .card-obat { background: #e5a92d; }
     .card-kamar { background: #64748b; }
 
@@ -141,9 +142,13 @@
 </style>
 
 @php
+    $totalPasien = \App\Models\MasterPasien::count();
     $totalPerawat = \App\Models\MasterPerawat::count();
     $totalObat = \App\Models\StokObat::count();
     $totalKamar = \App\Models\MasterKamar::count();
+
+    // TOTAL PENDAFTARAN HARIAN (Reset jadi 0 saat berganti tanggal hari ini)
+    $totalPendaftaran = \App\Models\PendaftaranPasien::whereDate('tanggal_pendaftaran', today())->count();
 
     $halaman = $halaman ?? 'dashboard';
 @endphp
@@ -151,10 +156,6 @@
 <div class="container-fluid px-0">
 
     @if($halaman === 'laporan')
-
-        {{-- =========================
-             LAPORAN SUPER ADMIN
-        ========================== --}}
 
         <div class="mb-4">
             <h3 class="dashboard-title">Laporan</h3>
@@ -218,7 +219,7 @@
     @else
 
         {{-- =========================
-             DASHBOARD SUPER ADMIN
+            DASHBOARD SUPER ADMIN
         ========================== --}}
 
         <div class="mb-4">
@@ -234,6 +235,17 @@
                         <div class="stat-title">Jumlah User</div>
                         <h2 class="stat-number">{{ $totalUser }}</h2>
                         <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- PASIEN --}}
+            <div class="col-xl-4 col-md-6">
+                <div class="card stat-card card-pasien text-white">
+                    <div class="card-body">
+                        <div class="stat-title">Jumlah Pasien</div>
+                        <h2 class="stat-number">{{ $totalPasien }}</h2>
+                        <div class="stat-icon"><i class="fas fa-user-injured"></i></div>
                     </div>
                 </div>
             </div>
@@ -256,17 +268,6 @@
                         <div class="stat-title">Jumlah Perawat</div>
                         <h2 class="stat-number">{{ $totalPerawat }}</h2>
                         <div class="stat-icon"><i class="fas fa-user-nurse"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- PENDAFTARAN --}}
-            <div class="col-xl-4 col-md-6">
-                <div class="card stat-card card-pendaftaran text-white">
-                    <div class="card-body">
-                        <div class="stat-title">Pendaftaran</div>
-                        <h2 class="stat-number">{{ $totalPendaftaran }}</h2>
-                        <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
                     </div>
                 </div>
             </div>
@@ -302,11 +303,10 @@
                 <div class="card secondary-card border-start border-primary border-4">
                     <div class="card-body">
                         <div class="secondary-title">
-                            <i class="fas fa-clipboard-list text-primary me-2"></i>
                             Pendaftaran Pasien
                         </div>
                         <h3 class="secondary-number">{{ $totalPendaftaran }}</h3>
-                        <small class="text-muted">Total pendaftaran pasien</small>
+                        <small class="text-muted">Total pendaftaran pasien hari ini</small>
                     </div>
                 </div>
             </div>

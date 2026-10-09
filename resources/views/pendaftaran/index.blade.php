@@ -4,9 +4,6 @@
 
 @section('content')
 
-{{-- ======================================== --}}
-{{-- STATISTIK PENDAFTARAN --}}
-{{-- ======================================== --}}
 
 <div class="row mb-4">
 
@@ -331,8 +328,6 @@
                 <thead class="table-primary">
 
                     <tr>
-
-                        <th>No</th>
                         <th>No Antrian</th>
                         <th>Nama Pasien</th>
                         <th>Dokter</th>
@@ -352,14 +347,6 @@
                     @forelse($pendaftarans as $pendaftaran)
 
                     <tr>
-
-                        {{-- NOMOR --}}
-                        <td>
-
-                            {{ $loop->iteration }}
-
-                        </td>
-
 
                         {{-- NOMOR ANTRIAN --}}
                         <td>

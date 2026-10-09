@@ -7,6 +7,9 @@ use App\Models\MasterPasien;
 use App\Models\MasterPerawat;
 use App\Models\MasterObat;
 use App\Models\MasterKamar;
+use App\Models\PendaftaranPasien; // 1. Tambahkan Import Model PendaftaranPasien
+use App\Models\User;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -14,27 +17,41 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
+        $totalUser        = User::count();
+        $totalPasien      = MasterPasien::count();
+        $totalDokter      = MasterDokter::count();
+        $totalPerawat     = MasterPerawat::count();
+        $totalObat        = MasterObat::count();
+        $totalKamar       = MasterKamar::count();
+
+        
+        $totalPendaftaran = PendaftaranPasien::whereDate('tanggal_pendaftaran', Carbon::today())->count();
+
         if (strtolower($user->getRoleNames()->first() ?? '') === 'direktur') {
-
-            $jumlahPasien = MasterPasien::count();
-            $jumlahDokter = MasterDokter::count();
-            $jumlahPerawat = MasterPerawat::count();
-            $jumlahObat = MasterObat::count();
-            $jumlahKamar = MasterKamar::count();
-
             $pendapatan = 0;
 
             return view('direktur.dashboard', compact(
-                'jumlahPasien',
-                'jumlahDokter',
-                'jumlahPerawat',
-                'jumlahObat',
-                'jumlahKamar',
+                'totalUser',
+                'totalPasien',
+                'totalDokter',
+                'totalPerawat',
+                'totalObat',
+                'totalKamar',
+                'totalPendaftaran', 
                 'pendapatan'
             ));
         }
 
-        return view('dashboard');
+       
+        return view('dashboard', compact(
+            'totalUser',
+            'totalPasien',
+            'totalDokter',
+            'totalPerawat',
+            'totalObat',
+            'totalKamar',
+            'totalPendaftaran'
+        ));
     }
 
     public function laporan()
