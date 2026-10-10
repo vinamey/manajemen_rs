@@ -15,7 +15,8 @@ class PemeriksaanDokter extends Model
         'pendaftaran_id',
         'dokter_id',
         'keluhan',
-        
+        'resep_obat',
+
     ];
 
     public function pendaftaran()

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use App\Models\PemeriksaanDokter;
 
 class PendaftaranPasien extends Model
 {
@@ -23,7 +24,6 @@ class PendaftaranPasien extends Model
         'status',
     ];
 
-   
     protected static function booted()
     {
         static::creating(function ($pendaftaran) {
@@ -31,16 +31,21 @@ class PendaftaranPasien extends Model
                 $pendaftaran->tanggal_pendaftaran = Carbon::today()->toDateString();
             }
 
-            $totalHariIni = static::whereDate('tanggal_pendaftaran', $pendaftaran->tanggal_pendaftaran)->count();
-            
+            $totalHariIni = static::whereDate(
+                'tanggal_pendaftaran',
+                $pendaftaran->tanggal_pendaftaran
+            )->count();
+
             $pendaftaran->nomor_antrian = $totalHariIni + 1;
         });
     }
 
-
     public function scopeHariIni($query)
     {
-        return $query->whereDate('tanggal_pendaftaran', Carbon::today());
+        return $query->whereDate(
+            'tanggal_pendaftaran',
+            Carbon::today()
+        );
     }
 
     public function scopeCariPasien($query, $keyword)
@@ -51,7 +56,6 @@ class PendaftaranPasien extends Model
               ->orWhere('no_rm', 'like', "%{$keyword}%");
         });
     }
-
 
     public function pasien()
     {
@@ -71,5 +75,10 @@ class PendaftaranPasien extends Model
     public function kamar()
     {
         return $this->belongsTo(MasterKamar::class, 'kamar_id');
+    }
+
+    public function pemeriksaan()
+    {
+        return $this->hasMany(PemeriksaanDokter::class, 'pendaftaran_id');
     }
 }
