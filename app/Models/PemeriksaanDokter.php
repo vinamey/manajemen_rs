@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PendaftaranPasien;
 use App\Models\MasterDokter;
-use App\Models\MasterObat;
+use App\Models\ResepObat;
 
 class PemeriksaanDokter extends Model
 {
@@ -16,6 +16,7 @@ class PemeriksaanDokter extends Model
         'dokter_id',
         'keluhan',
         'resep_obat',
+
     ];
 
     public function pendaftaran()
@@ -34,11 +35,11 @@ class PemeriksaanDokter extends Model
         );
     }
 
-    public function obat()
+    public function resep()
     {
-        return $this->belongsTo(
-            MasterObat::class,
-            'resep_obat'
+        return $this->hasOne(
+            ResepObat::class,
+            'pemeriksaan_id'
         );
     }
 }
