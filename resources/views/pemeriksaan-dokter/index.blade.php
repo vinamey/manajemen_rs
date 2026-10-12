@@ -327,6 +327,61 @@
             gap: 4px;
         }
     }
+
+
+/* Modal tambah pemeriksaan */
+#modalPemeriksaan .modal-dialog {
+    max-width: 900px;
+    width: calc(100% - 32px);
+    margin: 1.75rem auto;
+}
+
+#modalPemeriksaan .modal-content {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+#modalPemeriksaan .modal-body {
+    padding: 24px;
+}
+
+#modalPemeriksaan .form-control,
+#modalPemeriksaan .form-select {
+    width: 100%;
+    min-height: 42px;
+    border-radius: 8px;
+}
+
+#modalPemeriksaan textarea.form-control {
+    min-height: 100px;
+}
+
+@media (max-width: 576px) {
+    #modalPemeriksaan .modal-body {
+        padding: 16px;
+    }
+}
+
+
+#modalTambahPemeriksaan .modal-footer {
+    display: flex !important;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #dee2e6;
+    background: #fff;
+    position: relative;
+    z-index: 5;
+}
+
+#modalTambahPemeriksaan .modal-footer button {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+
 </style>
 
 {{-- HEADER --}}
@@ -491,11 +546,14 @@
 >
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
+
+            {{-- HEADER --}}
             <div class="modal-header modal-header-blue">
-                <h5>
+                <h5 class="mb-0">
                     <i class="fa-solid fa-file-medical me-2"></i>
                     Tambah Pemeriksaan Dokter
                 </h5>
+
                 <button
                     type="button"
                     class="btn-close btn-close-white"
@@ -504,6 +562,7 @@
                 ></button>
             </div>
 
+            {{-- FORM --}}
             <form
                 action="{{ route('pemeriksaan-dokter.store') }}"
                 method="POST"
@@ -513,8 +572,10 @@
 
                 <div class="modal-body">
                     <div class="row g-3">
+
+                        {{-- PILIH PASIEN DARI PENDAFTARAN --}}
                         <div class="col-md-6">
-                            <label class="form-label" for="pendaftaran_id">
+                            <label for="pendaftaran_id" class="form-label">
                                 Pasien
                             </label>
 
@@ -524,42 +585,69 @@
                                 class="form-select"
                                 required
                             >
-                                <option value="">-- Pilih Pasien --</option>
+                                <option value="">
+                                    -- Pilih Pasien dari Pendaftaran --
+                                </option>
+
                                 @foreach($pendaftarans as $pendaftaran)
-                                    <option value="{{ $pendaftaran->id }}">
-                                        {{ $pendaftaran->pasien->nama ?? 'Pasien tidak ditemukan' }}
+                                    <option
+                                        value="{{ $pendaftaran->id }}"
+                                        data-dokter="{{ $pendaftaran->dokter?->nama ?? '' }}"
+                                        data-poli="{{ $pendaftaran->poli?->nama ?? '' }}"
+                                        data-keluhan="{{ $pendaftaran->keluhan ?? '' }}"
+                                    >
+                                        {{ $pendaftaran->pasien?->nama_pasien
+                                            ?? $pendaftaran->pasien?->nama
+                                            ?? 'Pasien tidak ditemukan' }}
                                         @if($pendaftaran->nomor_antrian)
                                             - Antrian {{ $pendaftaran->nomor_antrian }}
                                         @endif
                                     </option>
                                 @endforeach
                             </select>
+
+                            <small class="text-muted">
+                                Pilih pasien yang sudah terdaftar.
+                                Data dokter dan poli akan terisi otomatis.
+                            </small>
                         </div>
 
+                        {{-- DOKTER OTOMATIS --}}
                         <div class="col-md-6">
-                            <label class="form-label" for="dokter_id">
+                            <label for="dokter_nama" class="form-label">
                                 Dokter
                             </label>
 
-                            <select
-                                name="dokter_id"
-                                id="dokter_id"
-                                class="form-select"
-                                required
+                            <input
+                                type="text"
+                                id="dokter_nama"
+                                class="form-control"
+                                placeholder="Dokter terisi otomatis"
+                                readonly
                             >
-                                <option value="">-- Pilih Dokter --</option>
-                                @foreach($dokters as $dokter)
-                                    <option value="{{ $dokter->id }}">
-                                        {{ $dokter->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
                         </div>
 
+                        {{-- POLI OTOMATIS --}}
+                        <div class="col-md-6">
+                            <label for="poli_nama" class="form-label">
+                                Poli
+                            </label>
+
+                            <input
+                                type="text"
+                                id="poli_nama"
+                                class="form-control"
+                                placeholder="Poli terisi otomatis"
+                                readonly
+                            >
+                        </div>
+
+                        {{-- KELUHAN --}}
                         <div class="col-12">
-                            <label class="form-label" for="keluhan">
+                            <label for="keluhan" class="form-label">
                                 Keluhan
                             </label>
+
                             <textarea
                                 name="keluhan"
                                 id="keluhan"
@@ -569,6 +657,7 @@
                                 required
                             ></textarea>
                         </div>
+
                     </div>
 
                     <hr class="my-4">
@@ -618,6 +707,7 @@
                                         <th width="70">Aksi</th>
                                     </tr>
                                 </thead>
+
                                 <tbody id="resepTableBody">
                                     <tr>
                                         <td colspan="8" class="empty-resep">
@@ -632,6 +722,7 @@
                     </div>
                 </div>
 
+                {{-- FOOTER --}}
                 <div class="modal-footer">
                     <button
                         type="button"
@@ -1063,7 +1154,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     tampilkanObat();
     filterAturanPakai('');
+
+    // Mengisi dokter dan poli otomatis dari pendaftaran pasien
+    const pasienSelect = document.getElementById('pendaftaran_id');
+    const dokterInput = document.getElementById('dokter_nama');
+    const poliInput = document.getElementById('poli_nama');
+
+    function isiDataPendaftaran() {
+        if (!pasienSelect || !dokterInput || !poliInput) {
+            return;
+        }
+
+        const option = pasienSelect.options[pasienSelect.selectedIndex];
+
+        dokterInput.value = option?.dataset.dokter || '';
+        poliInput.value = option?.dataset.poli || '';
+    }
+
+    if (pasienSelect) {
+        pasienSelect.addEventListener('change', isiDataPendaftaran);
+        isiDataPendaftaran();
+    }
 });
 </script>
 
 @endsection
+
