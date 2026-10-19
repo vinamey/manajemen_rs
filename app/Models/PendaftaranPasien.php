@@ -23,20 +23,6 @@ class PendaftaranPasien extends Model
         'status',
     ];
 
-   
-    protected static function booted()
-    {
-        static::creating(function ($pendaftaran) {
-            if (empty($pendaftaran->tanggal_pendaftaran)) {
-                $pendaftaran->tanggal_pendaftaran = Carbon::today()->toDateString();
-            }
-
-            $totalHariIni = static::whereDate('tanggal_pendaftaran', $pendaftaran->tanggal_pendaftaran)->count();
-            
-            $pendaftaran->nomor_antrian = $totalHariIni + 1;
-        });
-    }
-
 
     public function scopeHariIni($query)
     {

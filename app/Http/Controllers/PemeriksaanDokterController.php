@@ -64,10 +64,10 @@ class PemeriksaanDokterController extends Controller
             */
 
             $pemeriksaan = PemeriksaanDokter::create([
-                'pendaftaran_id' => $request->pendaftaran_id,
-                'dokter_id'      => $request->dokter_id,
-                'keluhan'        => $request->keluhan,
-            ]);
+                 'pendaftaran_id' => $request->pendaftaran_id,
+                 'dokter_id'      => $request->dokter_id,
+                 'keluhan'        => $request->keluhan,
+                 ]);
 
 
             /*
