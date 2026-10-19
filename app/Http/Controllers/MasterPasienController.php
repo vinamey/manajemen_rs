@@ -9,10 +9,20 @@ use Carbon\Carbon;
 
 class MasterPasienController extends Controller
 {
-    public function index()
-    {
-        return view('master-pasien.index');
-    }
+   // HALAMAN MASTER PASIEN SUPER ADMIN
+public function index()
+{
+    return view('master-pasien.index');
+}
+
+// HALAMAN DATA PASIEN KHUSUS DOKTER
+public function indexDokter()
+{
+    $pasien = MasterPasien::orderBy('id', 'desc')
+        ->paginate(10);
+
+    return view('dokter.data-pasien', compact('pasien'));
+}
 
 
     public function data()

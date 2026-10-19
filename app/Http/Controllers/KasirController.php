@@ -7,12 +7,22 @@ use Illuminate\Http\Request;
 
 class KasirController extends Controller
 {
-    public function index()
-    {
-        $kasirs = Kasir::latest()->paginate(10);
+   public function index()
+{
+    $resepObats = \App\Models\ResepObat::with([
+        'pemeriksaan.pendaftaran.pasien',
+        'pemeriksaan.dokter',
+        'obat'
+    ])->latest()->paginate(10);
 
-        return view('kasir.index', compact('kasirs'));
+    if (auth()->user()->hasRole('apoteker')) {
+        return view('kasir.resep', compact('resepObats'))
+            ->with('roleResep', 'apoteker');
     }
+
+    return view('kasir.resep', compact('resepObats'))
+        ->with('roleResep', 'kasir');
+}
 
     public function create()
     {
