@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
-     * Menampilkan halaman login
+     * Menampilkan halaman login.
      */
     public function showLogin()
     {
@@ -16,7 +16,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Proses login
+     * Proses login berdasarkan role pengguna.
      */
     public function login(Request $request)
     {
@@ -37,71 +37,66 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
-        // ==========================
         // SUPER ADMIN
-        // ==========================
-       if ($user->hasRole('super admin')) {
+        if ($user->hasRole('super admin')) {
             return redirect()
                 ->route('superadmin.dashboard')
                 ->with('success', 'Selamat datang Super Admin!');
         }
 
-        // ==========================
         // ADMIN RUMAH SAKIT
-        // ==========================
-    if ($user->hasAnyRole(['admin rumah sakit', 'Admin Rumah Sakit'])) {
-    return redirect()
-        ->route('admin.dashboard')
-        ->with('success', 'Selamat datang Admin Rumah Sakit!');
-}
-        // ==========================
-// DOKTER
-// ==========================
-if ($user->hasRole('dokter')) {
-    return redirect()
-        ->route('master-dokter.index')
-        ->with('success', 'Selamat datang Dokter!');
-}
+        if ($user->hasAnyRole([
+            'admin rumah sakit',
+            'Admin Rumah Sakit'
+        ])) {
+            return redirect()
+                ->route('admin.dashboard')
+                ->with('success', 'Selamat datang Admin Rumah Sakit!');
+        }
 
-        // ==========================
+        // DOKTER
+        if ($user->hasRole('dokter')) {
+            return redirect()
+                ->route('dokter.dashboard')
+                ->with('success', 'Selamat datang Dokter!');
+        }
+
         // PERAWAT
-        // ==========================
         if ($user->hasRole('perawat')) {
-    return redirect()
-        ->route('master-perawat.index')
-        ->with('success', 'Selamat datang Perawat!');
-}
+            return redirect()
+                ->route('master-perawat.index')
+                ->with('success', 'Selamat datang Perawat!');
+        }
 
-        // ==========================
         // APOTEKER
-        // ==========================
-     if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
-    return redirect()
-        ->route('apoteker.dashboard')
-        ->with('success', 'Selamat datang Apoteker!');
-}
-     // ==========================
-// KASIR
-// ==========================
-if ($user->hasRole('kasir')) {
-    return redirect()
-        ->route('kasir.dashboard')
-        ->with('success', 'Selamat datang Kasir!');
-}
+        if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
+            return redirect()
+                ->route('apoteker.dashboard')
+                ->with('success', 'Selamat datang Apoteker!');
+        }
 
-        // ==========================
+        // KASIR
+        if ($user->hasRole('kasir')) {
+            return redirect()
+                ->route('kasir.dashboard')
+                ->with('success', 'Selamat datang Kasir!');
+        }
+
         // DIREKTUR
-        // ==========================
-        if (strtolower($user->getRoleNames()->first() ?? '') === 'direktur') {
-         return redirect()
-        ->route('dashboard')
-        ->with('success', 'Selamat datang Direktur!');
-}
+        if (
+            strtolower($user->getRoleNames()->first() ?? '')
+            === 'direktur'
+        ) {
+            return redirect()
+                ->route('dashboard')
+                ->with('success', 'Selamat datang Direktur!');
+        }
 
-        // ==========================
         // ROLE TIDAK DIKENALI
-        // ==========================
         Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()
             ->route('login')
@@ -111,7 +106,7 @@ if ($user->hasRole('kasir')) {
     }
 
     /**
-     * Logout
+     * Logout pengguna.
      */
     public function logout(Request $request)
     {
@@ -120,7 +115,8 @@ if ($user->hasRole('kasir')) {
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login')
+        return redirect()
+            ->route('login')
             ->with('success', 'Berhasil logout.');
     }
 }

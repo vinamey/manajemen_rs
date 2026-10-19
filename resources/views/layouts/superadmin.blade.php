@@ -950,14 +950,17 @@
                      JUDUL HALAMAN
                 ================================================== --}}
 
-                <span class="navbar-brand">
 
-                    @yield(
-                        'page-title',
-                        'Dashboard Super Admin'
-                    )
 
-                </span>
+<span class="navbar-brand">
+    @if (request()->routeIs('superadmin.laporan'))
+        Dashboard Laporan
+    @elseif (request()->routeIs('hasil-pemeriksaan.*'))
+        Dashboard Hasil Pemeriksaan
+    @else
+        @yield('page-title', 'Dashboard Super Admin')
+    @endif
+</span>
 
 
                 {{-- =================================================
