@@ -93,9 +93,10 @@ Route::get(
 )
 ->middleware([
     'auth',
-    'role:super admin'
+    'role:super admin|admin rumah sakit'
 ])
 ->name('superadmin.dashboard');
+
 
 
 // ==================================================
@@ -127,6 +128,52 @@ Route::get('/admin/dashboard', function () {
 ])
 ->name('admin.dashboard');
 
+/*
+|--------------------------------------------------------------------------
+| DASHBOARD DOKTER
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/dokter/dashboard', function () {
+    return view('dokter.dashboard');
+})
+    ->middleware([
+        'auth',
+        'role:dokter'
+    ])
+    ->name('dokter.dashboard');
+
+    // ==================================================
+// FITUR KHUSUS DOKTER
+// ==================================================
+
+Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->name('dokter.')->group(function () {
+
+    // Halaman Data Pasien
+    Route::get('/data-pasien', [
+        MasterPasienController::class,
+        'indexDokter'
+    ])->name('pasien.index');
+
+    // Data pasien untuk tabel
+    Route::get('/data-pasien/data', [
+        MasterPasienController::class,
+        'data'
+    ])->name('pasien.data');
+
+    // Halaman Pemeriksaan dan Resep
+    Route::get('/pemeriksaan', [
+        PemeriksaanDokterController::class,
+        'indexDokter'
+    ])->name('pemeriksaan.index');
+
+    // Simpan pemeriksaan dan resep
+    Route::post('/pemeriksaan', [
+        PemeriksaanDokterController::class,
+        'store'
+    ])->name('pemeriksaan.store');
+
+});
 
 // ==================================================
 // APOTEKER DASHBOARD
@@ -188,6 +235,17 @@ Route::get(
     'role:kasir'
 ])
 ->name('kasir.pembayaran');
+
+
+Route::post(
+    '/kasir/pembayaran/{id}/proses',
+    [PembayaranController::class, 'proses']
+)
+->middleware([
+    'auth',
+    'role:kasir'
+])
+->name('kasir.pembayaran.proses');
 
 
 // ==================================================
@@ -331,7 +389,7 @@ Route::middleware([
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit|dokter'
+    'role:super admin|admin rumah sakit'
 ])->group(function () {
 
     Route::get(
@@ -662,6 +720,9 @@ Route::middleware([
     )->name('log-stok-obat.index');
 
 });
+
+
+
 
 // ==================================================
 // MASTER APOTEKER
