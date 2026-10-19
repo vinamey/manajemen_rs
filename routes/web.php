@@ -41,6 +41,7 @@ use App\Http\Controllers\ApotekerController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\KasirResepController;
+use App\Http\Controllers\HasilPemeriksaanController;
 
 
 // ==================================================
@@ -695,6 +696,13 @@ Route::middleware([
         KasirController::class
     );
 
+});
+
+Route::middleware(['auth', 'role:super admin'])->group(function () {
+    Route::resource(
+        'hasil-pemeriksaan',
+        HasilPemeriksaanController::class
+    );
 });
 
 

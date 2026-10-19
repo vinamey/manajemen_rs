@@ -894,20 +894,33 @@
             </li>
 
 
-            {{-- =================================================
-                 LAPORAN
-            ================================================== --}}
+{{-- HASIL PEMERIKSAAN --}}
 
-            <li class="nav-item">
+<li class="nav-item">
+    <a
+        href="{{ route('hasil-pemeriksaan.index') }}"
+        class="nav-link {{ request()->routeIs('hasil-pemeriksaan.*') ? 'active' : '' }}"
+    >
+        <i class="fa-solid fa-file-medical me-2"></i>
+        Hasil Pemeriksaan
+    </a>
+</li>
 
-              <a
-    href="{{ route('superadmin.laporan') }}"
-    class="nav-link"
->
-    <i class="fa-solid fa-chart-column me-2"></i>
-    Laporan
-</a>
-            </li>
+
+
+           {{-- =================================================
+            LAPORAN
+   ================================================== --}}
+
+<li class="nav-item">
+    <a
+        href="{{ route('superadmin.laporan') }}"
+        class="nav-link {{ request()->routeIs('superadmin.laporan') ? 'active' : '' }}"
+    >
+        <i class="fa-solid fa-chart-column me-2"></i>
+        Laporan
+    </a>
+</li>
 
 
         </ul>
