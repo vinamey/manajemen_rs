@@ -47,11 +47,7 @@ class PendaftaranPasienController extends Controller
         } elseif ($request->filled('tanggal')) {
 
             $query->whereDate('tanggal_pendaftaran', $request->tanggal);
-        } else {
-
-            $query->whereDate('tanggal_pendaftaran', today());
-        }
-
+       }
 
         if ($request->filled('poli_id')) {
             $query->where('poli_id', $request->poli_id);
