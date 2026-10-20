@@ -447,7 +447,7 @@
             💊
         </div>
 
-        SIM Rumah Sakit
+        SIM RS
 
     </div>
 
