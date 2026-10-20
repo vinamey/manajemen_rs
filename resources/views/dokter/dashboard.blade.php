@@ -505,10 +505,10 @@
             <span>Data Pasien</span>
         </a>
 
-        <a href="{{ route('dokter.pemeriksaan.index') }}"
+        <a href="{{ route('dokter.resep.index') }}"
            class="menu-link">
             <i class="fa-solid fa-prescription"></i>
-            <span>Pemeriksaan &amp; Resep</span>
+            <span>Resep Obat</span>
         </a>
 
         {{-- INFORMASI SIDEBAR --}}

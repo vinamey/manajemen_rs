@@ -1,6 +1,8 @@
 
 @php
-    $isApoteker = auth()->user()->hasRole('apoteker');
+    $user = auth()->user();
+    $isApoteker = $user->hasRole('apoteker');
+    $isDokter = $user->hasRole('dokter');
 @endphp
 
 <!DOCTYPE html>
@@ -9,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Resep dari Dokter</title>
+    <title>Resep dari Dokter | SIM RS</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -20,6 +22,7 @@
             --blue-dark: #0f58c6;
             --blue-light: #e7f3ff;
             --background: #f4f6fa;
+            --border: #e5eaf2;
         }
 
         * {
@@ -33,6 +36,7 @@
             color: #1f2937;
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -80,6 +84,7 @@
             margin-bottom: 5px;
             border-radius: 8px;
             font-size: 14px;
+            transition: .2s;
         }
 
         .menu a:hover,
@@ -106,6 +111,7 @@
             font-weight: 600;
         }
 
+        /* KONTEN */
         .content {
             margin-left: 250px;
             min-height: 100vh;
@@ -114,7 +120,7 @@
         .topbar {
             min-height: 65px;
             background: white;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -139,10 +145,10 @@
         .page-header {
             background: linear-gradient(135deg, #1877f2, #0f58c6);
             color: white;
-            border-radius: 16px;
+            border-radius: 14px;
             padding: 22px 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(24,119,242,.18);
+            margin-bottom: 24px;
+            box-shadow: 0 5px 15px rgba(24,119,242,.15);
         }
 
         .page-header h4 {
@@ -151,65 +157,85 @@
         }
 
         .page-header p {
-            margin: 5px 0 0;
+            margin: 6px 0 0;
             opacity: .9;
-            font-size: 14px;
+            font-size: 13px;
         }
 
+        /* KARTU TABEL */
         .recipe-card {
             background: white;
-            border-radius: 16px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 15px rgba(0,0,0,.05);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,.04);
             overflow: hidden;
         }
 
         .recipe-card-header {
             padding: 18px 20px;
             border-bottom: 1px solid #edf0f4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
         }
 
         .recipe-card-header h5 {
             margin: 0;
+            font-size: 16px;
             font-weight: 700;
             color: #1f2937;
         }
 
+        .table-responsive {
+            width: 100%;
+        }
+
+        /* TABEL RESEP */
         .recipe-table {
+            width: 100%;
+            min-width: 1150px;
             margin: 0;
-            min-width: 1050px;
+            border-collapse: separate;
+            border-spacing: 0;
         }
 
         .recipe-table thead th {
-            background: #f4f8ff;
-            color: #31557f;
-            font-size: 13px;
+            background: var(--blue-main);
+            color: white;
+            font-size: 12px;
             font-weight: 700;
-            border-bottom: 1px solid #dce8f8;
             padding: 14px 12px;
             white-space: nowrap;
+            border-right: 1px solid rgba(255,255,255,.2);
+            border-bottom: 1px solid var(--blue-dark);
+        }
+
+        .recipe-table thead th:last-child {
+            border-right: none;
         }
 
         .recipe-table tbody td {
-            padding: 15px 12px;
+            padding: 14px 12px;
             vertical-align: middle;
             font-size: 13px;
             color: #374151;
-            border-bottom: 1px solid #edf0f4;
+            background: white;
+            border-bottom: 1px solid #e9edf4;
         }
 
-        .recipe-table tbody tr:hover {
-            background: #f8fbff;
+        .recipe-table tbody tr:hover td {
+            background: #f4f8ff;
         }
 
         .patient-name {
             font-weight: 700;
-            color: var(--blue-main);
+            color: var(--blue-dark);
+            min-width: 120px;
         }
 
         .doctor-name {
             font-weight: 600;
-            color: #374151;
             white-space: nowrap;
         }
 
@@ -217,40 +243,58 @@
             display: inline-block;
             background: var(--blue-light);
             color: var(--blue-dark);
-            padding: 6px 10px;
-            border-radius: 8px;
+            padding: 7px 10px;
+            border-radius: 7px;
             font-size: 12px;
             font-weight: 600;
+            white-space: nowrap;
         }
 
         .quantity-badge {
             display: inline-block;
-            background: #eefbf3;
+            background: #eaf9f0;
             color: #16834b;
-            padding: 5px 9px;
+            padding: 6px 10px;
             border-radius: 7px;
             font-size: 12px;
             font-weight: 700;
         }
 
-        .aturan-pakai {
-            min-width: 120px;
-            max-width: 200px;
+        /* SETIAP ATURAN DITAMPILKAN TERPISAH */
+        .instruction-cell {
+            min-width: 130px;
+        }
+
+        .instruction-value {
+            display: inline-block;
+            background: #edf5ff;
+            color: #1859a9;
+            padding: 7px 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            line-height: 1.5;
             white-space: normal;
             overflow-wrap: anywhere;
+        }
+
+        .aturan-pakai {
+            min-width: 150px;
+            max-width: 220px;
             line-height: 1.6;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         .empty-state {
             text-align: center;
-            padding: 55px 20px;
+            padding: 50px 20px;
             color: #6b7280;
         }
 
         .empty-state i {
-            font-size: 42px;
+            font-size: 40px;
             color: #b8c8dc;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .empty-state h6 {
@@ -264,10 +308,25 @@
         }
 
         .pagination-wrapper {
-            padding: 15px 20px;
+            padding: 16px 20px;
             border-top: 1px solid #edf0f4;
         }
 
+        .pagination {
+            margin-bottom: 0;
+        }
+
+        .pagination .page-link {
+            color: var(--blue-main);
+        }
+
+        .pagination .active .page-link {
+            background: var(--blue-main);
+            border-color: var(--blue-main);
+            color: white;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .sidebar {
                 width: 200px;
@@ -285,6 +344,62 @@
                 padding: 15px;
                 flex-wrap: wrap;
             }
+
+            .page-header {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 65px;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 0;
+                font-size: 0;
+            }
+
+            .logo i {
+                font-size: 22px;
+                margin: 0 !important;
+            }
+
+            .menu {
+                padding: 15px 7px;
+            }
+
+            .menu-title,
+            .menu a span {
+                display: none;
+            }
+
+            .menu a {
+                justify-content: center;
+                padding: 13px 5px;
+            }
+
+            .menu a i {
+                font-size: 17px;
+            }
+
+            .content {
+                margin-left: 65px;
+            }
+
+            .logout-area {
+                padding: 8px;
+            }
+
+            .logout-btn {
+                font-size: 0;
+            }
+
+            .logout-btn i {
+                font-size: 16px;
+                margin: 0 !important;
+            }
         }
     </style>
 </head>
@@ -292,18 +407,33 @@
 <body>
 
     {{-- SIDEBAR --}}
-    <div class="sidebar">
+    <aside class="sidebar">
         <div class="logo">
             <i class="fa-solid fa-hospital me-2"></i>
             SIM RS
         </div>
 
-        <div class="menu">
+        <nav class="menu">
             <div class="menu-title">
-                Menu {{ $isApoteker ? 'Apoteker' : 'Kasir' }}
+                Menu {{ $isDokter ? 'Dokter' : ($isApoteker ? 'Apoteker' : 'Kasir') }}
             </div>
 
-            @if($isApoteker)
+            @if($isDokter)
+                <a href="{{ route('dokter.dashboard') }}">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="{{ route('dokter.pasien.index') }}">
+                    <i class="fa-solid fa-hospital-user"></i>
+                    <span>Data Pasien</span>
+                </a>
+
+                <a href="{{ route('dokter.resep.index') }}" class="active">
+                    <i class="fa-solid fa-file-prescription"></i>
+                    <span>Resep Obat</span>
+                </a>
+            @elseif($isApoteker)
                 <a href="{{ route('apoteker.dashboard') }}">
                     <i class="fa-solid fa-house"></i>
                     <span>Dashboard</span>
@@ -329,7 +459,7 @@
                     <span>Pembayaran Obat</span>
                 </a>
             @endif
-        </div>
+        </nav>
 
         <div class="logout-area">
             <form action="{{ route('logout') }}" method="POST">
@@ -340,44 +470,47 @@
                 </button>
             </form>
         </div>
-    </div>
+    </aside>
 
     {{-- KONTEN UTAMA --}}
-    <div class="content">
-        <div class="topbar">
+    <main class="content">
+        <header class="topbar">
             <div class="topbar-title">Resep dari Dokter</div>
 
             <div class="user-info">
                 <i class="fa-solid fa-user me-2"></i>
-                {{ auth()->user()->name }}
+                {{ $user->name }}
             </div>
-        </div>
+        </header>
 
         <div class="page">
-            <div class="page-header">
+
+            <section class="page-header">
                 <h4>
                     <i class="fa-solid fa-file-prescription me-2"></i>
                     Resep dari Dokter
                 </h4>
-                <p>Daftar resep obat yang diberikan oleh dokter kepada pasien.</p>
-            </div>
+                <p>
+                    Daftar resep obat yang diberikan dokter kepada pasien.
+                </p>
+            </section>
 
-            <div class="recipe-card">
+            <section class="recipe-card">
                 <div class="recipe-card-header">
                     <h5>
                         <i class="fa-solid fa-prescription-bottle-medical text-primary me-2"></i>
-                        Daftar Resep
+                        Daftar Resep Obat
                     </h5>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table recipe-table mb-0">
+                    <table class="table recipe-table">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th>No.</th>
                                 <th>Pasien</th>
                                 <th>Dokter</th>
-                                <th>Obat</th>
+                                <th>Nama Obat</th>
                                 <th>Jumlah</th>
                                 <th>Dosis</th>
                                 <th>Frekuensi</th>
@@ -388,18 +521,28 @@
 
                         <tbody>
                             @forelse($resepObats as $index => $resep)
-                                @forelse($resep->obat as $obat)
-                                    @php
-                                        $teks = $obat->pivot->aturan_pakai ?? '';
 
-                                        preg_match('/Dosis:\s*(.*?)(?=\s*\|\s*Frekuensi:|$)/i', $teks, $dosis);
-                                        preg_match('/Frekuensi:\s*(.*?)(?=\s*\|\s*Aturan:|$)/i', $teks, $frekuensi);
-                                        preg_match('/Aturan:\s*(.*?)(?=\s*\|\s*Lama:|$)/i', $teks, $aturan);
-                                        preg_match('/Lama:\s*(.*)/i', $teks, $lama);
-                                    @endphp
+                                @forelse($resep->obat as $obat)
+
+
+@php
+    $teks = $obat->pivot->aturan_pakai ?? '';
+
+    $dosis = [];
+    $frekuensi = [];
+    $aturan = [];
+    $lama = [];
+
+    preg_match('/Dosis:\s*(.*?)(?=\s*\|\s*Frekuensi:|$)/i', $teks, $dosis);
+    preg_match('/Frekuensi:\s*(.*?)(?=\s*\|\s*Aturan:|$)/i', $teks, $frekuensi);
+    preg_match('/Aturan:\s*(.*?)(?=\s*\|\s*Lama:|$)/i', $teks, $aturan);
+    preg_match('/Lama:\s*(.*)/i', $teks, $lama);
+@endphp
 
                                     <tr>
-                                        <td>{{ $resepObats->firstItem() + $index }}</td>
+                                        <td>
+                                            {{ $resepObats->firstItem() + $index }}
+                                        </td>
 
                                         <td>
                                             <div class="patient-name">
@@ -416,7 +559,7 @@
 
                                         <td>
                                             <span class="medicine-badge">
-                                                {{ $obat->nama }}
+                                                {{ $obat->nama ?? '-' }}
                                             </span>
                                         </td>
 
@@ -426,30 +569,59 @@
                                             </span>
                                         </td>
 
-                                        <td>{{ trim($dosis[1] ?? '-') }}</td>
-                                        <td>{{ trim($frekuensi[1] ?? '-') }}</td>
-                                        <td>
+                                        <td class="instruction-cell">
+                                            <span class="instruction-value">
+                                                {{ trim($dosis[1] ?? '-') }}
+                                            </span>
+                                        </td>
+
+                                        <td class="instruction-cell">
+                                            <span class="instruction-value">
+                                                {{ trim($frekuensi[1] ?? '-') }}
+                                            </span>
+                                        </td>
+
+                                        <td class="instruction-cell">
                                             <div class="aturan-pakai">
-                                                {{ trim($aturan [1] ?? '-') }}
+                                                <span class="instruction-value">
+                                                    {{ trim($aturan[1] ?? '-') }}
+                                                </span>
                                             </div>
                                         </td>
-                                        <td>{{ trim($lama[1] ?? '-') }}</td>
+
+                                        <td class="instruction-cell">
+                                            <span class="instruction-value">
+                                                {{ trim($lama[1] ?? '-') }}
+                                            </span>
+                                        </td>
                                     </tr>
+
                                 @empty
                                     <tr>
-                                        <td>{{ $resepObats->firstItem() + $index }}</td>
-                                        <td>{{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? '-' }}</td>
-                                        <td>{{ $resep->pemeriksaan?->dokter?->nama ?? '-' }}</td>
-                                        <td colspan="6" class="text-muted">Belum ada obat</td>
+                                        <td>
+                                            {{ $resepObats->firstItem() + $index }}
+                                        </td>
+                                        <td>
+                                            {{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? '-' }}
+                                        </td>
+                                        <td>
+                                            {{ $resep->pemeriksaan?->dokter?->nama ?? '-' }}
+                                        </td>
+                                        <td colspan="6" class="text-muted">
+                                            Belum ada obat pada resep ini.
+                                        </td>
                                     </tr>
                                 @endforelse
+
                             @empty
                                 <tr>
                                     <td colspan="9">
                                         <div class="empty-state">
                                             <i class="fa-solid fa-file-prescription d-block"></i>
                                             <h6>Belum Ada Resep</h6>
-                                            <p>Belum ada resep obat dari dokter yang tersedia.</p>
+                                            <p>
+                                                Belum ada resep obat dari dokter yang tersedia.
+                                            </p>
                                         </div>
                                     </td>
                                 </tr>
@@ -463,9 +635,10 @@
                         {{ $resepObats->links() }}
                     </div>
                 @endif
-            </div>
+            </section>
+
         </div>
-    </div>
+    </main>
 
 </body>
 </html>
