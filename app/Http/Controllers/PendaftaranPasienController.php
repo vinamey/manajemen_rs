@@ -107,19 +107,23 @@ class PendaftaranPasienController extends Controller
 
     public function create()
     {
-        $pasiens = MasterPasien::all();
+         $pasiens = MasterPasien::orderBy('nama')->get();
 
         $dokters = MasterDokter::with('poli')
             ->orderBy('nama')
             ->get();
 
-        $kamars = MasterKamar::all();
+         $polis = MasterPoli::orderBy('nama')->get();
+
+
+        $kamars = MasterKamar::orderBy('nama')->get();
 
         return view(
             'pendaftaran.create',
             compact(
                 'pasiens',
                 'dokters',
+                'polis',
                 'kamars'
             )
         );
