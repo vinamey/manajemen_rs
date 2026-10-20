@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class PemeriksaanDokterController extends Controller
 {
+    /**
+     * Halaman Pemeriksaan Dokter untuk Super Admin.
+     */
     public function index()
     {
         $pemeriksaans = PemeriksaanDokter::with([
@@ -25,10 +28,10 @@ class PemeriksaanDokterController extends Controller
             'dokter',
             'poli',
         ])
-        ->whereDoesntHave('pemeriksaan')
-        ->whereNotNull('dokter_id')
-        ->latest()
-        ->get();
+            ->whereDoesntHave('pemeriksaan')
+            ->whereNotNull('dokter_id')
+            ->latest()
+            ->get();
 
         $dokters = MasterDokter::orderBy('nama', 'ASC')->get();
 
@@ -44,6 +47,46 @@ class PemeriksaanDokterController extends Controller
         ));
     }
 
+    /**
+     * Halaman Pemeriksaan Dokter khusus akun Dokter.
+     */
+    public function indexDokter()
+{
+    $reseps = \App\Models\ResepObat::with([
+        'pemeriksaan.pendaftaran.pasien',
+        'pemeriksaan.dokter',
+        'obat',
+    ])
+    ->latest()
+    ->paginate(10);
+
+    $pendaftarans = \App\Models\PendaftaranPasien::with([
+        'pasien',
+        'dokter',
+        'poli',
+    ])
+    ->whereDoesntHave('pemeriksaan')
+    ->whereNotNull('dokter_id')
+    ->latest()
+    ->get();
+
+    $dokters = \App\Models\MasterDokter::orderBy('nama', 'ASC')->get();
+
+    $obats = \App\Models\MasterObat::with('kategori')
+        ->orderBy('nama', 'ASC')
+        ->get();
+
+    return view('dokter.resep-obat', compact(
+        'reseps',
+        'pendaftarans',
+        'dokters',
+        'obats'
+    ));
+}
+
+    /**
+     * Menyimpan pemeriksaan dan resep obat.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -61,52 +104,88 @@ class PemeriksaanDokterController extends Controller
             ],
         ]);
 
-        // Ambil data pendaftaran beserta dokter yang terdaftar.
-        $pendaftaran = PendaftaranPasien::with(['pasien', 'dokter', 'poli'])
-            ->findOrFail($validated['pendaftaran_id']);
+        $pendaftaran = PendaftaranPasien::with([
+            'pasien',
+            'dokter',
+            'poli',
+        ])->findOrFail($validated['pendaftaran_id']);
 
-        // Dokter otomatis mengikuti data pendaftaran.
         if (!$pendaftaran->dokter_id) {
             return back()
                 ->withInput()
                 ->withErrors([
-                    'pendaftaran_id' => 'Pendaftaran ini belum memiliki dokter.',
+                    'pendaftaran_id' =>
+                        'Pendaftaran ini belum memiliki dokter.',
                 ]);
         }
 
-        $obatList = json_decode($request->input('resep_obat', '[]'), true);
+        // Dokter hanya boleh memeriksa pasien yang ditugaskan kepadanya.
+        if (
+            auth()->user()->hasRole('dokter') &&
+            (int) $pendaftaran->dokter_id !==
+                (int) auth()->user()->dokter_id
+        ) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'pendaftaran_id' =>
+                        'Pasien ini tidak ditugaskan kepada akun dokter Anda.',
+                ]);
+        }
+
+        $obatList = json_decode(
+            $request->input('resep_obat', '[]'),
+            true
+        );
 
         if (!is_array($obatList)) {
             return back()
                 ->withInput()
                 ->withErrors([
-                    'resep_obat' => 'Format daftar resep obat tidak valid.',
+                    'resep_obat' =>
+                        'Format daftar resep obat tidak valid.',
                 ]);
         }
 
-        DB::transaction(function () use ($validated, $pendaftaran, $obatList) {
+        // Validasi obat agar ID yang tidak tersedia tidak disimpan.
+        $obatValid = [];
+
+        foreach ($obatList as $obat) {
+            if (
+                !is_array($obat) ||
+                empty($obat['obat_id']) ||
+                !isset($obat['jumlah']) ||
+                !is_numeric($obat['jumlah']) ||
+                (int) $obat['jumlah'] < 1
+            ) {
+                continue;
+            }
+
+            $obatModel = MasterObat::find((int) $obat['obat_id']);
+
+            if (!$obatModel) {
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        'resep_obat' =>
+                            'Salah satu obat tidak ditemukan. Periksa kembali resep.',
+                    ]);
+            }
+
+            $obatValid[] = $obat;
+        }
+
+        DB::transaction(function () use (
+            $validated,
+            $pendaftaran,
+            $obatValid
+        ) {
             $pemeriksaan = PemeriksaanDokter::create([
                 'pendaftaran_id' => $pendaftaran->id,
-                'dokter_id'      => $pendaftaran->dokter_id,
-                'keluhan'        => $validated['keluhan'],
-                'resep_obat'     => 0,
+                'dokter_id' => $pendaftaran->dokter_id,
+                'keluhan' => $validated['keluhan'],
+                'resep_obat' => 0,
             ]);
-
-            $obatValid = [];
-
-            foreach ($obatList as $obat) {
-                if (
-                    !is_array($obat) ||
-                    empty($obat['obat_id']) ||
-                    !isset($obat['jumlah']) ||
-                    !is_numeric($obat['jumlah']) ||
-                    (int) $obat['jumlah'] < 1
-                ) {
-                    continue;
-                }
-
-                $obatValid[] = $obat;
-            }
 
             if (count($obatValid) === 0) {
                 return;
@@ -139,18 +218,34 @@ class PemeriksaanDokterController extends Controller
                     (int) $obat['obat_id'],
                     [
                         'satuan_obat_id' => null,
-                        'nilai'          => (int) $obat['jumlah'],
-                        'aturan_pakai'   => implode(' | ', $aturan) ?: '-',
+                        'nilai' => (int) $obat['jumlah'],
+                        'aturan_pakai' => implode(' | ', $aturan) ?: '-',
                     ]
                 );
             }
         });
 
+        // Arahkan pengguna ke halaman sesuai perannya.
+        if (auth()->user()->hasRole('dokter')) {
+            return redirect()
+                ->route('dokter.resep.index')
+                ->with(
+                    'success',
+                    'Pemeriksaan dan resep obat berhasil disimpan.'
+                );
+        }
+
         return redirect()
             ->route('pemeriksaan-dokter.index')
-            ->with('success', 'Pemeriksaan dan resep obat berhasil disimpan.');
+            ->with(
+                'success',
+                'Pemeriksaan dan resep obat berhasil disimpan.'
+            );
     }
 
+    /**
+     * Detail pemeriksaan untuk halaman lama.
+     */
     public function show($id)
     {
         $pemeriksaan = PemeriksaanDokter::with([
@@ -159,9 +254,15 @@ class PemeriksaanDokterController extends Controller
             'resep.obat',
         ])->findOrFail($id);
 
-        return view('pemeriksaan-dokter.show', compact('pemeriksaan'));
+        return view(
+            'pemeriksaan-dokter.show',
+            compact('pemeriksaan')
+        );
     }
 
+    /**
+     * Form edit pemeriksaan untuk halaman lama.
+     */
     public function edit($id)
     {
         $pemeriksaan = PemeriksaanDokter::with([
@@ -189,20 +290,25 @@ class PemeriksaanDokterController extends Controller
         ));
     }
 
+    /**
+     * Memperbarui pemeriksaan untuk halaman lama.
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
-            'pendaftaran_id' => 'required|exists:pendaftaran_pasiens,id',
-            'dokter_id'      => 'required|exists:master_dokters,id',
-            'keluhan'        => 'required|string',
+            'pendaftaran_id' =>
+                'required|exists:pendaftaran_pasiens,id',
+            'dokter_id' =>
+                'required|exists:master_dokters,id',
+            'keluhan' => 'required|string',
         ]);
 
         $pemeriksaan = PemeriksaanDokter::findOrFail($id);
 
         $pemeriksaan->update([
             'pendaftaran_id' => $request->pendaftaran_id,
-            'dokter_id'      => $request->dokter_id,
-            'keluhan'        => $request->keluhan,
+            'dokter_id' => $request->dokter_id,
+            'keluhan' => $request->keluhan,
         ]);
 
         return redirect()
@@ -210,6 +316,9 @@ class PemeriksaanDokterController extends Controller
             ->with('success', 'Data pemeriksaan berhasil diperbarui.');
     }
 
+    /**
+     * Menghapus pemeriksaan dan resep terkait.
+     */
     public function destroy($id)
     {
         $pemeriksaan = PemeriksaanDokter::findOrFail($id);
@@ -232,4 +341,28 @@ class PemeriksaanDokterController extends Controller
             ->route('pemeriksaan-dokter.index')
             ->with('success', 'Data pemeriksaan berhasil dihapus.');
     }
+
+
+    /**
+     * Menampilkan daftar resep obat khusus dokter.
+     */
+
+/**
+ * Menampilkan daftar resep obat khusus dokter.
+ */
+public function resepDokter()
+{
+    $resepObats = \App\Models\ResepObat::with([
+        'pemeriksaan.pendaftaran.pasien',
+        'pemeriksaan.dokter',
+        'obat',
+    ])
+    ->latest()
+    ->paginate(10);
+
+    return view('dokter.resep-obat', compact('resepObats'));
 }
+
+
+}
+

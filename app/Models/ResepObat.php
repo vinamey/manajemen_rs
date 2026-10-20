@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PemeriksaanDokter;
-use App\Models\MasterObat;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ResepObat extends Model
 {
@@ -14,10 +16,7 @@ class ResepObat extends Model
         'pemeriksaan_id',
     ];
 
-    /**
-     * Relasi ke pemeriksaan dokter
-     */
-    public function pemeriksaan()
+    public function pemeriksaan(): BelongsTo
     {
         return $this->belongsTo(
             PemeriksaanDokter::class,
@@ -25,10 +24,23 @@ class ResepObat extends Model
         );
     }
 
-    /**
-     * Relasi ke obat-obat dalam resep
-     */
-    public function obat()
+    public function pembayaran(): HasOne
+    {
+        return $this->hasOne(
+            Pembayaran::class,
+            'resep_id'
+        );
+    }
+
+    public function detailResep(): HasMany
+    {
+        return $this->hasMany(
+            PivotResepObat::class,
+            'resep_obat_id'
+        );
+    }
+
+    public function obat(): BelongsToMany
     {
         return $this->belongsToMany(
             MasterObat::class,
@@ -38,7 +50,7 @@ class ResepObat extends Model
         )->withPivot([
             'satuan_obat_id',
             'nilai',
-            'aturan_pakai',
+            'aturan_pakai'
         ]);
     }
 }
