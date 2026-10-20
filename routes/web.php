@@ -143,37 +143,46 @@ Route::get('/dokter/dashboard', function () {
     ])
     ->name('dokter.dashboard');
 
-    // ==================================================
+   
+// ==================================================
 // FITUR KHUSUS DOKTER
 // ==================================================
 
-Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->name('dokter.')->group(function () {
+Route::middleware(['auth', 'role:dokter'])
+    ->prefix('dokter')
+    ->name('dokter.')
+    ->group(function () {
 
-    // Halaman Data Pasien
-    Route::get('/data-pasien', [
-        MasterPasienController::class,
-        'indexDokter'
-    ])->name('pasien.index');
+        // Halaman Data Pasien
+        Route::get('/data-pasien', [
+            MasterPasienController::class,
+            'indexDokter'
+        ])->name('pasien.index');
 
-    // Data pasien untuk tabel
-    Route::get('/data-pasien/data', [
-        MasterPasienController::class,
-        'data'
-    ])->name('pasien.data');
+        // Data pasien untuk tabel
+        Route::get('/data-pasien/data', [
+            MasterPasienController::class,
+            'data'
+        ])->name('pasien.data');
 
-    // Halaman Pemeriksaan dan Resep
-    Route::get('/pemeriksaan', [
-        PemeriksaanDokterController::class,
-        'indexDokter'
-    ])->name('pemeriksaan.index');
+        // Halaman Resep Obat
+        Route::get('/resep-obat', [
+            PemeriksaanDokterController::class,
+            'resepDokter'
+        ])->name('resep.index');
 
-    // Simpan pemeriksaan dan resep
-    Route::post('/pemeriksaan', [
-        PemeriksaanDokterController::class,
-        'store'
-    ])->name('pemeriksaan.store');
+        // Simpan pemeriksaan dan resep
+        Route::post('/pemeriksaan', [
+            PemeriksaanDokterController::class,
+            'store'
+        ])->name('pemeriksaan.store');
 
-});
+        // Alihkan alamat lama ke halaman Resep Obat
+        Route::get('/pemeriksaan', function () {
+            return redirect()->route('dokter.resep.index');
+        })->name('pemeriksaan.index');
+    });
+
 
 // ==================================================
 // APOTEKER DASHBOARD
@@ -246,6 +255,18 @@ Route::post(
     'role:kasir'
 ])
 ->name('kasir.pembayaran.proses');
+
+
+
+Route::delete(
+    '/kasir/pembayaran/{id}/hapus',
+    [PembayaranController::class, 'destroy']
+)
+->middleware([
+    'auth',
+    'role:kasir'
+])
+->name('kasir.pembayaran.hapus');
 
 
 // ==================================================

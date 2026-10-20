@@ -12,13 +12,12 @@ class Pembayaran extends Model
     protected $fillable = [
         'resep_id',
         'total_pembayaran',
+        'metode_pembayaran',
+        'status',
     ];
 
     public function resep()
     {
-        return $this->belongsTo(
-            ResepObat::class,
-            'resep_id'
-        );
+        return $this->belongsTo(ResepObat::class, 'resep_id');
     }
 }
