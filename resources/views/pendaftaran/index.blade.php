@@ -79,40 +79,7 @@
     </div>
 
 
-    {{-- DIPERIKSA --}}
-    <div class="col-md-3 mb-3">
 
-        <div class="card shadow-sm border-info">
-
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center">
-
-                    <div>
-
-                        <small class="text-muted">
-                            Sedang Diperiksa
-                        </small>
-
-                        <h3 class="mb-0 mt-2 text-info">
-
-                            {{ $totalDiperiksa }}
-
-                        </h3>
-
-                    </div>
-
-                    <div class="fs-1">
-                        🩺
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
 
 
     {{-- SELESAI --}}
@@ -262,12 +229,12 @@
 
                 </option>
 
-                <option value="diperiksa"
+                <!-- <option value="diperiksa"
                     {{ request('status') == 'diperiksa' ? 'selected' : '' }}>
 
                     Diperiksa
 
-                </option>
+                </option> -->
 
                 <option value="selesai"
                     {{ request('status') == 'selesai' ? 'selected' : '' }}>
