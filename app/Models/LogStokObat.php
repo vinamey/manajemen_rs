@@ -11,9 +11,6 @@ class LogStokObat extends Model
 
     protected $table = 'log_stok_obats';
 
-    public $timestamps = true;
-
-    // Kolom yang dapat diisi
     protected $fillable = [
         'obat_id',
         'nilai',
@@ -23,15 +20,19 @@ class LogStokObat extends Model
         'pembelian_obat_id',
     ];
 
-    // Relasi ke Model StokObat
     public function stokObat()
     {
-        return $this->belongsTo(StokObat::class, 'log_stok_obat_id');
+        return $this->belongsTo(
+            StokObat::class,
+            'stok_obat_id'
+        );
     }
 
-    // Relasi ke Model MasterObat (sesuai nama model master obat kamu)
     public function obat()
     {
-        return $this->belongsTo(MasterObat::class, 'obat_id');
+        return $this->belongsTo(
+            MasterObat::class,
+            'obat_id'
+        );
     }
 }
