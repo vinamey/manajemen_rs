@@ -61,12 +61,14 @@ class LoginController extends Controller
                 ->with('success', 'Selamat datang Dokter!');
         }
 
-        // PERAWAT
-        if ($user->hasRole('perawat')) {
-            return redirect()
-                ->route('master-perawat.index')
-                ->with('success', 'Selamat datang Perawat!');
-        }
+       
+// PERAWAT
+if ($user->hasRole('perawat')) {
+    return redirect()
+        ->route('perawat.dashboard')
+        ->with('success', 'Selamat datang Perawat!');
+}
+
 
         // APOTEKER
         if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
