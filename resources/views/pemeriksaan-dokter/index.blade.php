@@ -328,57 +328,73 @@
     }
 
 
-/* Modal tambah pemeriksaan */
-#modalPemeriksaan .modal-dialog {
-    max-width: 900px;
-    width: calc(100% - 32px);
-    margin: 1.75rem auto;
+/* =========================================================
+   SCROLL MODAL TAMBAH PEMERIKSAAN
+   ========================================================= */
+
+#modalTambahPemeriksaan .modal-dialog {
+    max-height: 95vh;
 }
 
-#modalPemeriksaan .modal-content {
-    border: none;
-    border-radius: 16px;
-    overflow: hidden;
+#modalTambahPemeriksaan .modal-content {
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
 }
 
-#modalPemeriksaan .modal-body {
-    padding: 24px;
-}
-
-#modalPemeriksaan .form-control,
-#modalPemeriksaan .form-select {
-    width: 100%;
-    min-height: 42px;
-    border-radius: 8px;
-}
-
-#modalPemeriksaan textarea.form-control {
-    min-height: 100px;
-}
-
-@media (max-width: 576px) {
-    #modalPemeriksaan .modal-body {
-        padding: 16px;
-    }
+#modalTambahPemeriksaan .modal-body {
+    overflow-y: auto;
+    max-height: calc(95vh - 130px);
 }
 
 
-#modalTambahPemeriksaan .modal-footer {
-    display: flex !important;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 16px 20px;
-    border-top: 1px solid #dee2e6;
-    background: #fff;
-    position: relative;
-    z-index: 5;
+/* =========================================================
+   SCROLL MODAL TAMBAH OBAT
+   ========================================================= */
+
+#modalTambahObat .modal-dialog {
+    max-height: 95vh;
 }
 
-#modalTambahPemeriksaan .modal-footer button {
-    display: inline-block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+#modalTambahObat .modal-content {
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
 }
+
+#modalTambahObat .modal-body {
+    overflow-y: auto;
+    max-height: calc(95vh - 130px);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+#modalTambahPemeriksaan .modal-body::-webkit-scrollbar,
+#modalTambahObat .modal-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+#modalTambahPemeriksaan .modal-body::-webkit-scrollbar-track,
+#modalTambahObat .modal-body::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+#modalTambahPemeriksaan .modal-body::-webkit-scrollbar-thumb,
+#modalTambahObat .modal-body::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 10px;
+}
+
+#modalTambahPemeriksaan .modal-body::-webkit-scrollbar-thumb:hover,
+#modalTambahObat .modal-body::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+
 
 
 </style>
@@ -663,62 +679,198 @@
 
                     {{-- RESEP OBAT --}}
                     <div class="resep-box">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                            <div>
-                                <h5 class="mb-1">
-                                    <i class="fa-solid fa-pills text-primary me-2"></i>
-                                    Resep Obat
-                                </h5>
-                                <small class="text-muted">
-                                    Tambahkan obat yang diresepkan dokter.
-                                </small>
+
+                        <div class="mb-3">
+                            <h5 class="mb-1">
+                                <i class="fa-solid fa-pills text-primary me-2"></i>
+                                Resep Obat
+                            </h5>
+
+                            <small class="text-muted">
+                                Isi obat yang diresepkan dokter.
+                            </small>
+                        </div>
+
+
+                    {{-- OBAT --}}
+                    <div class="row g-3">
+
+                        {{-- NAMA OBAT --}}
+                        <div class="col-12">
+
+                            <label for="obat_id" class="form-label">
+                                Obat
+                            </label>
+
+                            <select
+                                name="obat_id"
+                                id="obat_id"
+                                class="form-select"
+                            >
+                                <option value="">
+                                    -- Pilih Obat --
+                                </option>
+
+                                @foreach($obats ?? [] as $obat)
+
+                                    <option value="{{ $obat->id }}">
+                                        {{ $obat->nama }}
+
+                                        @if($obat->kategori)
+                                            - {{ $obat->kategori->nama }}
+                                        @endif
+                                    </option>
+
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
+
+                        {{-- JUMLAH --}}
+                        <div class="col-md-6">
+
+                            <label for="jumlah_obat" class="form-label">
+                                Jumlah Obat
+                            </label>
+
+                            <input
+                                type="number"
+                                name="jumlah_obat"
+                                id="jumlah_obat"
+                                class="form-control"
+                                min="1"
+                                step="1"
+                                placeholder="Contoh: 10"
+                            >
+
+                        </div>
+
+
+                        {{-- DOSIS --}}
+                        <div class="col-md-6">
+
+                            <label for="dosis_obat" class="form-label">
+                                Dosis
+                            </label>
+
+                            <input
+                                type="text"
+                                name="dosis_obat"
+                                id="dosis_obat"
+                                class="form-control"
+                                placeholder="Contoh: 500 mg"
+                            >
+
+                        </div>
+
+
+                        {{-- FREKUENSI --}}
+                        <div class="col-md-6">
+
+                            <label for="frekuensi_obat" class="form-label">
+                                Frekuensi
+                            </label>
+
+                            <input
+                                type="text"
+                                name="frekuensi_obat"
+                                id="frekuensi_obat"
+                                class="form-control"
+                                placeholder="Contoh: 3 kali sehari"
+                            >
+
+                        </div>
+
+
+                        {{-- LAMA --}}
+                        <div class="col-md-6">
+
+                            <label for="lama_obat" class="form-label">
+                                Lama Pemakaian (hari)
+                            </label>
+
+                            <input
+                                type="number"
+                                name="lama_obat"
+                                id="lama_obat"
+                                class="form-control"
+                                min="1"
+                                step="1"
+                                placeholder="Contoh: 5"
+                            >
+
+                        </div>
+
+
+                        {{-- ATURAN PAKAI --}}
+                        <div class="col-12">
+
+                            <label for="aturan_pakai" class="form-label">
+                                Aturan Pakai
+                            </label>
+
+                            <div class="aturan-pakai-wrapper">
+
+                                <div class="aturan-pakai-input-wrapper">
+
+                                    <input
+                                        type="text"
+                                        name="aturan_pakai"
+                                        id="aturan_pakai"
+                                        class="form-control"
+                                        placeholder="Ketik untuk mencari aturan pakai..."
+                                        autocomplete="off"
+                                    >
+
+                                    <span class="aturan-pakai-arrow">
+                                        ▾
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    id="aturanPakaiDropdown"
+                                    class="aturan-pakai-dropdown"
+                                >
+
+                                    @foreach([
+                                        'Sebelum makan',
+                                        'Sesudah makan',
+                                        'Saat makan',
+                                        'Sebelum tidur',
+                                        'Sesudah bangun tidur',
+                                        'Pagi hari',
+                                        'Siang hari',
+                                        'Sore hari',
+                                        'Malam hari',
+                                        'Sebelum makan & sebelum tidur',
+                                        'Sesudah makan & sebelum tidur',
+                                        'Saat diperlukan',
+                                        'Sesuai petunjuk dokter',
+                                        'Dengan air putih',
+                                        'Dikonsumsi bersama makanan'
+                                    ] as $aturan)
+
+                                        <div
+                                            class="aturan-pakai-option"
+                                            data-value="{{ $aturan }}"
+                                        >
+                                            {{ $aturan }}
+                                        </div>
+
+                                    @endforeach
+
+                                </div>
+
                             </div>
 
-                            <button
-                                type="button"
-                                class="btn-add-obat"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalTambahObat"
-                            >
-                                <i class="fa-solid fa-plus me-1"></i>
-                                Tambah Obat
-                            </button>
                         </div>
 
-                        <input
-                            type="hidden"
-                            name="resep_obat"
-                            id="resep_obat"
-                            value="[]"
-                        >
-
-                        <div class="table-responsive table-resep">
-                            <table class="table table-bordered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th width="50">No</th>
-                                        <th>Obat</th>
-                                        <th>Jumlah</th>
-                                        <th>Dosis</th>
-                                        <th>Frekuensi</th>
-                                        <th>Aturan Pakai</th>
-                                        <th>Lama</th>
-                                        <th width="70">Aksi</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="resepTableBody">
-                                    <tr>
-                                        <td colspan="8" class="empty-resep">
-                                            <i class="fa-solid fa-pills fa-2x mb-2"></i>
-                                            <br>
-                                            Belum ada obat yang ditambahkan.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
+
                 </div>
 
                 {{-- FOOTER --}}
@@ -732,178 +884,16 @@
                     </button>
 
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-save me-1"></i>
-                        Simpan Pemeriksaan
-                    </button>
+                    <i class="fa-solid fa-save me-1"></i>
+                    Tambah Pemeriksaan & Obat
+                </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-{{-- MODAL TAMBAH OBAT --}}
-<div
-    class="modal fade"
-    id="modalTambahObat"
-    tabindex="-1"
-    aria-hidden="true"
->
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header modal-header-blue">
-                <h5>
-                    <i class="fa-solid fa-pills me-2"></i>
-                    Tambah Obat Resep
-                </h5>
-                <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal"
-                    aria-label="Tutup"
-                ></button>
-            </div>
-
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-12">
-                        <label class="form-label" for="obat_id">Obat</label>
-                        <select id="obat_id" class="form-select">
-                            <option value="">-- Pilih Obat --</option>
-                            @foreach($obats ?? [] as $obat)
-                                <option value="{{ $obat->id }}">
-                                    {{ $obat->nama }}
-                                    @if($obat->kategori)
-                                        - {{ $obat->kategori->nama }}
-                                    @endif
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label" for="jumlah_obat">
-                            Jumlah Obat
-                        </label>
-                        <input
-                            type="number"
-                            id="jumlah_obat"
-                            class="form-control"
-                            min="1"
-                            step="1"
-                            placeholder="Contoh: 10"
-                        >
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label" for="dosis_obat">Dosis</label>
-                        <input
-                            type="text"
-                            id="dosis_obat"
-                            class="form-control"
-                            placeholder="Contoh: 500 mg"
-                        >
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label" for="frekuensi_obat">
-                            Frekuensi
-                        </label>
-                        <input
-                            type="text"
-                            id="frekuensi_obat"
-                            class="form-control"
-                            placeholder="Contoh: 3"
-                        >
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label" for="lama_obat">
-                            Lama Pemakaian (hari)
-                        </label>
-                        <input
-                            type="number"
-                            id="lama_obat"
-                            class="form-control"
-                            min="1"
-                            step="1"
-                            placeholder="Contoh: 5"
-                        >
-                    </div>
-
-                    {{-- ATURAN PAKAI --}}
-                    <div class="col-12">
-                        <label class="form-label" for="aturan_pakai">
-                            Aturan Pakai
-                        </label>
-
-                        <div class="aturan-pakai-wrapper">
-                            <div class="aturan-pakai-input-wrapper">
-                                <input
-                                    type="text"
-                                    id="aturan_pakai"
-                                    class="form-control"
-                                    placeholder="Ketik untuk mencari aturan pakai..."
-                                    autocomplete="off"
-                                >
-                                <span class="aturan-pakai-arrow">▾</span>
-                            </div>
-
-                            <div
-                                id="aturanPakaiDropdown"
-                                class="aturan-pakai-dropdown"
-                            >
-                                @foreach([
-                                    'Sebelum makan',
-                                    'Sesudah makan',
-                                    'Saat makan',
-                                    'Sebelum tidur',
-                                    'Sesudah bangun tidur',
-                                    'Pagi hari',
-                                    'Siang hari',
-                                    'Sore hari',
-                                    'Malam hari',
-                                    'Sebelum makan & sebelum tidur',
-                                    'Sesudah makan & sebelum tidur',
-                                    'Saat diperlukan',
-                                    'Sesuai petunjuk dokter',
-                                    'Dengan air putih',
-                                    'Dikonsumsi bersama makanan'
-                                ] as $aturan)
-                                    <div
-                                        class="aturan-pakai-option"
-                                        data-value="{{ $aturan }}"
-                                    >
-                                        {{ $aturan }}
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Batal
-                </button>
-
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    id="btnTambahkanObat"
-                >
-                    <i class="fa-solid fa-plus me-1"></i>
-                    Tambahkan Obat
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
+            
 {{-- JAVASCRIPT --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
