@@ -232,4 +232,37 @@ class MasterDokterController extends Controller
             ->route('master-dokter.index')
             ->with('success', 'Data dokter berhasil dihapus.');
     }
+
+
+
+
+    // HALAMAN DATA DOKTER KHUSUS ADMIN RS
+    public function indexAdmin()
+    {
+        return view('admin.data-dokter');
+    }
+
+    // DATA DOKTER UNTUK DATATABLES ADMIN RS
+
+public function dataAdmin()
+{
+    $dokters = MasterDokter::with('poli')
+        ->select('master_dokters.*')
+        ->orderBy('id', 'desc');
+
+    return DataTables::of($dokters)
+        ->addIndexColumn()
+
+        ->addColumn('poli_nama', function ($dokter) {
+            return $dokter->poli
+                ? $dokter->poli->nama
+                : '-';
+        })
+
+        ->addColumn('spesialis', function ($dokter) {
+            return $dokter->spesialis ?: '-';
+        })
+
+        ->make(true);
+}
 }
