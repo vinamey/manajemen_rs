@@ -40,7 +40,6 @@
             z-index: 1000;
         }
 
-        /* LOGO */
         .sidebar .logo {
             padding: 20px 10px;
             text-align: center;
@@ -61,7 +60,6 @@
             opacity: 0.2;
         }
 
-        /* MENU */
         .sidebar .nav {
             padding-top: 8px;
             padding-bottom: 20px;
@@ -182,6 +180,8 @@
         .navbar {
             min-height: 65px;
             padding: 0 24px;
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .navbar-brand {
@@ -268,69 +268,43 @@
 
         <hr>
 
-        {{-- ==================================================
-             SIDEBAR ADMIN RUMAH SAKIT
-             HANYA 5 MENU DATA
-        ================================================== --}}
-
+        {{-- SIDEBAR ADMIN RUMAH SAKIT --}}
         @if (auth()->user()?->hasRole('admin rumah sakit'))
 
             <ul class="nav flex-column">
 
-                {{-- DASHBOARD ADMIN RS --}}
                 <li class="nav-item">
                     <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
                         <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
                         Dashboard Apoteker
                     </a>
                 </li>
-                {{-- DATA DOKTER --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('admin.dokter.index') }}"
-                        class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('admin.dokter.index') }}" class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-user-doctor me-2"></i>
                         Data Dokter
                     </a>
                 </li>
-
-                {{-- DATA PERAWAT --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('admin.perawat.index') }}"
-                        class="nav-link {{ request()->routeIs('admin.perawat.*') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('admin.perawat.index') }}" class="nav-link {{ request()->routeIs('admin.perawat.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-user-nurse me-2"></i>
                         Data Perawat
                     </a>
                 </li>
-
-                {{-- DATA PASIEN --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('admin.pasien.index') }}"
-                        class="nav-link {{ request()->routeIs('admin.pasien.*') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('admin.pasien.index') }}" class="nav-link {{ request()->routeIs('admin.pasien.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-hospital-user me-2"></i>
                         Data Pasien
                     </a>
                 </li>
-
-                {{-- DATA APOTEKER --}}
                 <li class="nav-item">
                     <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
                         <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
                         Dashboard Apoteker
                     </a>
                 </li>
-                
-                {{-- DATA KASIR --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('kasir.index') }}"
-                        class="nav-link {{ request()->routeIs('kasir.*') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('kasir.index') }}" class="nav-link {{ request()->routeIs('kasir.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-cash-register me-2"></i>
                         Data Kasir
                     </a>
@@ -340,43 +314,32 @@
 
         @else
 
-            {{-- ==================================================
-                 SIDEBAR SUPER ADMIN
-                 MENU LAMA DIPERTAHANKAN
-            ================================================== --}}
-
+            {{-- SIDEBAR SUPER ADMIN --}}
             <ul class="nav flex-column">
 
-                {{-- DASHBOARD SUPER ADMIN --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('superadmin.dashboard') }}"
-                        class="nav-link {{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('superadmin.dashboard') }}" class="nav-link {{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}">
                         <i class="fa fa-home me-2"></i>
                         Dashboard
                     </a>
                 </li>
 
-                {{-- ROLE MANAGEMENT --}}
                 <li class="nav-item">
-                    <a href="{{ route('roles.index') }}" class="nav-link">
+                    <a href="{{ route('roles.index') }}" class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-user-shield me-2"></i>
                         Role Management
                     </a>
                 </li>
 
-                {{-- PERMISSION MANAGEMENT --}}
                 <li class="nav-item">
-                    <a href="{{ route('permissions.index') }}" class="nav-link">
+                    <a href="{{ route('permissions.index') }}" class="nav-link {{ request()->routeIs('permissions.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-key me-2"></i>
                         Permission Management
                     </a>
                 </li>
 
-                {{-- USER MANAGEMENT --}}
                 <li class="nav-item">
-                    <a href="{{ route('users.index') }}" class="nav-link">
+                    <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-users me-2"></i>
                         User Management
                     </a>
@@ -409,212 +372,116 @@
                 @endphp
 
                 <li class="nav-item">
-
-                    {{-- =================================================
-                         TOMBOL MASTER DATA
-                    ================================================== --}}
-
-                    <a
-                        class="nav-link master-toggle {{ $masterAktif ? 'master-active' : '' }}"
-                        data-bs-toggle="collapse"
-                        href="#masterDataMenu"
-                        role="button"
-                        aria-expanded="{{ $masterAktif ? 'true' : 'false' }}"
-                        aria-controls="masterDataMenu"
-                    >
+                    <a class="nav-link master-toggle {{ $masterAktif ? 'master-active' : '' }}" data-bs-toggle="collapse" href="#masterDataMenu" role="button" aria-expanded="{{ $masterAktif ? 'true' : 'false' }}" aria-controls="masterDataMenu">
                         <span class="master-toggle-left">
                             <i class="fa-solid fa-database me-2"></i>
                             Master Data
                         </span>
-
                         <i class="fa-solid fa-chevron-down master-arrow"></i>
                     </a>
 
-                    {{-- =================================================
-                         SUB MENU MASTER DATA
-                    ================================================== --}}
-                    <div
-                        class="collapse {{ $masterAktif ? 'show' : '' }}"
-                        id="masterDataMenu"
-                    >
+                    <div class="collapse {{ $masterAktif ? 'show' : '' }}" id="masterDataMenu">
                         <ul class="master-menu">
-
-                            {{-- MASTER PASIEN --}}
                             <li>
-                                <a
-                                    href="{{ route('master-pasien.index') }}"
-                                    class="master-item {{ request()->routeIs('master-pasien.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-pasien.index') }}" class="master-item {{ request()->routeIs('master-pasien.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-hospital-user"></i>
                                     <span>Master Pasien</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER DOKTER --}}
                             <li>
-                                <a
-                                    href="{{ route('master-dokter.index') }}"
-                                    class="master-item {{ request()->routeIs('master-dokter.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-dokter.index') }}" class="master-item {{ request()->routeIs('master-dokter.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-user-doctor"></i>
                                     <span>Master Dokter</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER PERAWAT --}}
                             <li>
-                                <a
-                                    href="{{ route('master-perawat.index') }}"
-                                    class="master-item {{ request()->routeIs('master-perawat.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-perawat.index') }}" class="master-item {{ request()->routeIs('master-perawat.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-user-nurse"></i>
                                     <span>Master Perawat</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER OBAT --}}
                             <li>
-                                <a
-                                    href="{{ route('master-obat.index') }}"
-                                    class="master-item {{ request()->routeIs('master-obat.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-obat.index') }}" class="master-item {{ request()->routeIs('master-obat.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-pills"></i>
                                     <span>Master Obat</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER SUPPLIER --}}
                             <li>
-                                <a
-                                    href="{{ route('master-supplier.index') }}"
-                                    class="master-item {{ request()->routeIs('master-supplier.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-supplier.index') }}" class="master-item {{ request()->routeIs('master-supplier.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-truck"></i>
                                     <span>Master Supplier</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER KATEGORI --}}
                             <li>
-                                <a
-                                    href="{{ route('master-kategori.index') }}"
-                                    class="master-item {{ request()->routeIs('master-kategori.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-kategori.index') }}" class="master-item {{ request()->routeIs('master-kategori.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-tags"></i>
                                     <span>Master Kategori</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER SATUAN --}}
                             <li>
-                                <a
-                                    href="{{ route('master-satuan.index') }}"
-                                    class="master-item {{ request()->routeIs('master-satuan.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-satuan.index') }}" class="master-item {{ request()->routeIs('master-satuan.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-box"></i>
                                     <span>Master Satuan Obat</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER POLI --}}
                             <li>
-                                <a
-                                    href="{{ route('master-poli.index') }}"
-                                    class="master-item {{ request()->routeIs('master-poli.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-poli.index') }}" class="master-item {{ request()->routeIs('master-poli.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-hospital"></i>
                                     <span>Master Poli</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER KAMAR --}}
                             <li>
-                                <a
-                                    href="{{ route('master-kamar.index') }}"
-                                    class="master-item {{ request()->routeIs('master-kamar.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-kamar.index') }}" class="master-item {{ request()->routeIs('master-kamar.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-bed"></i>
                                     <span>Master Kamar</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER ASURANSI --}}
                             <li>
-                                <a
-                                    href="{{ route('master-asuransi.index') }}"
-                                    class="master-item {{ request()->routeIs('master-asuransi.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-asuransi.index') }}" class="master-item {{ request()->routeIs('master-asuransi.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-shield-heart"></i>
                                     <span>Master Asuransi</span>
                                 </a>
                             </li>
-
-                            {{-- MASTER TINDAKAN --}}
                             <li>
-                                <a
-                                    href="{{ route('master-tindakan.index') }}"
-                                    class="master-item {{ request()->routeIs('master-tindakan.*') ? 'active' : '' }}"
-                                >
+                                <a href="{{ route('master-tindakan.index') }}" class="master-item {{ request()->routeIs('master-tindakan.*') ? 'active' : '' }}">
                                     <i class="fa-solid fa-stethoscope"></i>
                                     <span>Master Tindakan</span>
                                 </a>
                             </li>
-
                         </ul>
                     </div>
-
                 </li>
 
-                {{-- STOK OBAT --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('log-stok-obat.index') }}"
-                        class="nav-link {{ request()->routeIs('log-stok-obat.*') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('log-stok-obat.index') }}" class="nav-link {{ request()->routeIs('log-stok-obat.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-boxes-stacked me-2"></i>
                         Stok Obat
                     </a>
                 </li>
 
-                {{-- PENDAFTARAN PASIEN --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('pendaftaran.index') }}"
-                        class="nav-link {{ request()->routeIs('pendaftaran.*') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('pendaftaran.index') }}" class="nav-link {{ request()->routeIs('pendaftaran.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-clipboard-user me-2"></i>
                         Pendaftaran Pasien
                     </a>
                 </li>
 
-                {{-- PEMERIKSAAN DOKTER --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('pemeriksaan-dokter.index') }}"
-                        class="nav-link {{ request()->routeIs('pemeriksaan-dokter.*') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('pemeriksaan-dokter.index') }}" class="nav-link {{ request()->routeIs('pemeriksaan-dokter.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-stethoscope me-2"></i>
                         Pemeriksaan Dokter
                     </a>
                 </li>
 
-                {{-- HASIL PEMERIKSAAN --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('hasil-pemeriksaan.index') }}"
-                        class="nav-link {{ request()->routeIs('hasil-pemeriksaan.*') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('hasil-pemeriksaan.index') }}" class="nav-link {{ request()->routeIs('hasil-pemeriksaan.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-file-medical me-2"></i>
                         Hasil Pemeriksaan
                     </a>
                 </li>
 
-                {{-- LAPORAN --}}
                 <li class="nav-item">
-                    <a
-                        href="{{ route('superadmin.laporan') }}"
-                        class="nav-link {{ request()->routeIs('superadmin.laporan') ? 'active' : '' }}"
-                    >
+                    <a href="{{ route('superadmin.laporan') }}" class="nav-link {{ request()->routeIs('superadmin.laporan') ? 'active' : '' }}">
                         <i class="fa-solid fa-chart-column me-2"></i>
                         Laporan
                     </a>
@@ -626,7 +493,41 @@
 
     </div>
 
+    {{-- AREA KONTEN UTAMA --}}
+    <div class="content">
+
+        {{-- NAVBAR ATAS --}}
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid p-0">
+                <span class="navbar-brand">
+                    SIM RS - Hospital Management System
+                </span>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="user-name">
+                        <i class="fa-solid fa-circle-user me-1"></i>
+                        {{ auth()->user()->name ?? 'User' }}
+                    </span>
+                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        {{-- WADAH ISI HALAMAN --}}
+        <div class="page-container">
+            @yield('content')
+        </div>
+
+    </div>
+
 </div>
+
+{{-- JS BOOTSTRAP --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
