@@ -499,10 +499,10 @@
         {{-- NAVBAR ATAS --}}
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid p-0">
-                <span class="navbar-brand">
-                    SIM RS - Hospital Management System
+               <span class="navbar-brand">
+                @yield('navbar-title', 'SIM RS - Hospital Management System')
                 </span>
-                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3">
                     <span class="user-name">
                         <i class="fa-solid fa-circle-user me-1"></i>
                         {{ auth()->user()->name ?? 'User' }}
