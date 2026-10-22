@@ -1,5 +1,7 @@
 @extends('layouts.superadmin')
 
+@section('navbar-title', 'Dashboard hasil pemeriksaan')
+
 @section('content')
 <style>
     .hasil-page {

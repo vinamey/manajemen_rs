@@ -1,6 +1,6 @@
 @extends('layouts.superadmin')
 
-@section('page-title', 'Dashboard Master Poli')
+@section('navbar-title', 'Dashboard Master Poli')
 
 @section('content')
 

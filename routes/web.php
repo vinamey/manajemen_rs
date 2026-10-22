@@ -146,6 +146,8 @@ Route::get('/data-pasien/{id}', [
     'showAdmin'
 ])->whereNumber('id')->name('pasien.show');
 
+
+
         // ==============================
         // DATA PERAWAT ADMIN RS
         // ==============================
@@ -176,21 +178,49 @@ Route::get('/data-pasien/{id}', [
         ])->whereNumber('id')->name('perawat.destroy');
 
 
-        // ==============================
-        // DATA DOKTER ADMIN RS
-        // ==============================
+       // ==============================
+// DATA DOKTER ADMIN RS
+// ==============================
 
-        Route::get('/data-dokter', [
-            MasterDokterController::class,
-            'indexAdmin'
-        ])->name('dokter.index');
+Route::get('/data-dokter', [
+    MasterDokterController::class,
+    'indexAdmin'
+])->name('dokter.index');
 
-        Route::get('/data-dokter/data', [
-            MasterDokterController::class,
-            'dataAdmin'
-        ])->name('dokter.data');
+Route::get('/data-dokter/data', [
+    MasterDokterController::class,
+    'dataAdmin'
+])->name('dokter.data');
+
+// TAMBAH DOKTER
+Route::post('/data-dokter', [
+    MasterDokterController::class,
+    'storeAdmin'
+])->name('dokter.store');
+
+// EDIT DOKTER
+Route::put('/data-dokter/{id}', [
+    MasterDokterController::class,
+    'updateAdmin'
+])->whereNumber('id')->name('dokter.update');
+
+// HAPUS DOKTER
+Route::delete('/data-dokter/{id}', [
+    MasterDokterController::class,
+    'destroyAdmin'
+])->whereNumber('id')->name('dokter.destroy');
 
     });
+    Route::post('/data-dokter', [MasterDokterController::class, 'storeAdmin'])
+    ->name('dokter.store');
+
+Route::put('/data-dokter/{id}', [MasterDokterController::class, 'updateAdmin'])
+    ->whereNumber('id')
+    ->name('dokter.update');
+
+Route::delete('/data-dokter/{id}', [MasterDokterController::class, 'destroyAdmin'])
+    ->whereNumber('id')
+    ->name('dokter.destroy');
 
 
 // ==================================================

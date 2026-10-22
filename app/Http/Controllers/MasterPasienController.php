@@ -293,7 +293,6 @@ class MasterPasienController extends Controller
             })
             ->make(true);
     }
-
     // NORMALISASI JENIS KELAMIN
     private function normalisasiJenisKelamin($jk)
     {
@@ -306,6 +305,11 @@ class MasterPasienController extends Controller
         return 'perempuan';
     }
 
+    // ==========================================
+    // SIMPAN DATA MASTER PASIEN
+    // ==========================================
+
+    // ==========================================
     // FORMAT STATUS ASURANSI
     private function formatStatusAsuransi($status)
     {

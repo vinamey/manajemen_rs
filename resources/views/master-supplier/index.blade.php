@@ -1,6 +1,6 @@
     @extends('layouts.superadmin')
 
-    @section('page-title', 'Dashboard Master Supplier')
+    @section('navbar-title', 'Dashboard Master Supplier')
 
     @section('content')
 
@@ -660,7 +660,7 @@
 
                             <th
                                 class="aksi-header"
-                                
+
                             >
                                 Aksi
                             </th>
