@@ -1,6 +1,6 @@
 @extends('layouts.superadmin')
 
-@section('page-title', 'Dashboard Pendaftaran Pasien')
+@section('navbar-title', 'Dashboard Pendaftaran Pasien')
 
 @section('content')
 
