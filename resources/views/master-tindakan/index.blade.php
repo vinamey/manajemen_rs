@@ -1,6 +1,6 @@
 @extends('layouts.superadmin')
 
-@section('page-title', 'Dashboard Master Tindakan')
+@section('navbar-title', 'Dashboard Master Tindakan')
 
 @section('content')
 
