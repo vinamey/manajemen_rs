@@ -273,14 +273,13 @@ class MasterPerawatController extends Controller
      * Halaman perawat Admin RS
      */
     public function indexAdmin()
-    {
-        return view('admin.data-perawat');
-    }
+{
+    return view('admin.data-perawat');
+}
 
     /**
      * DataTables Admin RS
      */
-
 public function dataAdmin()
 {
     $perawats = MasterPerawat::query()
@@ -288,64 +287,49 @@ public function dataAdmin()
 
     return DataTables::of($perawats)
         ->addIndexColumn()
+
+        // Data asli untuk modal detail
         ->addColumn('jenis_kelamin_raw', function ($perawat) {
             return $perawat->jenis_kelamin;
         })
+
         ->addColumn('tanggal_lahir_raw', function ($perawat) {
             return $perawat->tanggal_lahir
                 ? Carbon::parse($perawat->tanggal_lahir)->format('Y-m-d')
                 : '';
         })
+
         ->addColumn('alamat_raw', function ($perawat) {
             return $perawat->alamat;
         })
+
+        // Format jenis kelamin di tabel
         ->editColumn('jenis_kelamin', function ($perawat) {
-            return strtolower($perawat->jenis_kelamin) === 'laki-laki'
-                || strtolower($perawat->jenis_kelamin) === 'laki_laki'
-                ? '<span class="badge-gender"><i class="fas fa-mars"></i> Laki-laki</span>'
-                : '<span class="badge-gender"><i class="fas fa-venus"></i> Perempuan</span>';
+            $gender = strtolower($perawat->jenis_kelamin ?? '');
+
+            if ($gender === 'laki-laki' || $gender === 'laki_laki') {
+                return 'Laki-laki';
+            }
+
+            if ($gender === 'perempuan') {
+                return 'Perempuan';
+            }
+
+            return '-';
         })
+
+        // Format tanggal lahir di tabel
         ->editColumn('tanggal_lahir', function ($perawat) {
             return $perawat->tanggal_lahir
                 ? Carbon::parse($perawat->tanggal_lahir)->format('d-m-Y')
                 : '-';
         })
+
+        // Alamat
         ->editColumn('alamat', function ($perawat) {
-            return $perawat->alamat ? e($perawat->alamat) : '-';
+            return $perawat->alamat ?: '-';
         })
-        ->addColumn('aksi', function ($perawat) {
-            $deleteUrl = route('admin.perawat.destroy', $perawat->id);
 
-            return '
-                <div class="action-buttons">
-                    <button type="button"
-                        class="btn-action btn-view"
-                        title="Lihat">
-                        <i class="fas fa-eye"></i>
-                    </button>
-
-                    <button type="button"
-                        class="btn-action btn-edit"
-                        title="Edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
-
-                    <form action="' . $deleteUrl . '"
-                        method="POST"
-                        class="d-inline"
-                        onsubmit="return confirm(\'Yakin ingin menghapus data perawat ini?\');">
-                        ' . csrf_field() . '
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit"
-                            class="btn-action btn-delete"
-                            title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
-                </div>
-            ';
-        })
-        ->rawColumns(['jenis_kelamin', 'aksi'])
         ->make(true);
 }
 

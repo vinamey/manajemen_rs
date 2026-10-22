@@ -238,9 +238,11 @@ class MasterDokterController extends Controller
 
     // HALAMAN DATA DOKTER KHUSUS ADMIN RS
     public function indexAdmin()
-    {
-        return view('admin.data-dokter');
-    }
+{
+    $polis = MasterPoli::orderBy('nama', 'asc')->get();
+
+    return view('admin.data-dokter', compact('polis'));
+}
 
     // DATA DOKTER UNTUK DATATABLES ADMIN RS
 
@@ -265,4 +267,63 @@ public function dataAdmin()
 
         ->make(true);
 }
+
+    // ==============================
+    // TAMBAH DOKTER ADMIN RS
+    // ==============================
+    public function storeAdmin(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan,laki_laki',
+            'tanggal_lahir' => 'required|date',
+            'spesialis' => 'nullable|string|max:255',
+            'alamat' => 'nullable|string',
+            'poli_id' => 'required|exists:master_polis,id',
+        ]);
+
+        MasterDokter::create($validated);
+
+        return redirect()
+            ->route('admin.dokter.index')
+            ->with('success', 'Data dokter berhasil ditambahkan.');
+    }
+
+    // ==============================
+    // EDIT DOKTER ADMIN RS
+    // ==============================
+    public function updateAdmin(Request $request, string $id)
+    {
+        $dokter = MasterDokter::findOrFail($id);
+
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan,laki_laki',
+            'tanggal_lahir' => 'required|date',
+            'spesialis' => 'nullable|string|max:255',
+            'alamat' => 'nullable|string',
+            'poli_id' => 'required|exists:master_polis,id',
+        ]);
+
+        $dokter->update($validated);
+
+        return redirect()
+            ->route('admin.dokter.index')
+            ->with('success', 'Data dokter berhasil diperbarui.');
+    }
+
+    // ==============================
+    // HAPUS DOKTER ADMIN RS
+    // ==============================
+    public function destroyAdmin(string $id)
+    {
+        $dokter = MasterDokter::findOrFail($id);
+
+        $dokter->delete();
+
+        return redirect()
+            ->route('admin.dokter.index')
+            ->with('success', 'Data dokter berhasil dihapus.');
+    }
+
 }
