@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -72,47 +73,40 @@ Route::post(
 // ==================================================
 
 Route::post('/logout', function () {
-
     Auth::logout();
 
     request()->session()->invalidate();
     request()->session()->regenerateToken();
 
     return redirect()->route('landing');
-
-})->name('logout');
+})->middleware('auth')->name('logout');
 
 
 // ==================================================
 // SUPER ADMIN DASHBOARD
+// SUPER ADMIN / ADMIN RUMAH SAKIT
 // ==================================================
 
 Route::get(
     '/superadmin/dashboard',
     [SuperAdminDashboardController::class, 'index']
-)
-->middleware([
+)->middleware([
     'auth',
     'role:super admin|admin rumah sakit'
-])
-->name('superadmin.dashboard');
-
+])->name('superadmin.dashboard');
 
 
 // ==================================================
-// DASHBOARD UMUM
-// KHUSUS DIREKTUR
+// DASHBOARD DIREKTUR
 // ==================================================
 
 Route::get(
     '/dashboard',
     [DashboardController::class, 'index']
-)
-->middleware([
+)->middleware([
     'auth',
     'role:direktur'
-])
-->name('dashboard');
+])->name('dashboard');
 
 
 // ==================================================
@@ -121,101 +115,203 @@ Route::get(
 
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
-})
-->middleware([
+})->middleware([
     'auth',
     'admin.rs'
-])
-->name('admin.dashboard');
+])->name('admin.dashboard');
 
-/*
-|--------------------------------------------------------------------------
-| DASHBOARD DOKTER
-|--------------------------------------------------------------------------
-*/
 
-Route::get('/dokter/dashboard', function () {
-    return view('dokter.dashboard');
-})
-    ->middleware([
-        'auth',
-        'role:dokter'
-    ])
-    ->name('dokter.dashboard');
 
-   
-// ==================================================
-// FITUR KHUSUS DOKTER
+ // ==================================================
+// DATA PASIEN DAN PERAWAT KHUSUS ADMIN RUMAH SAKIT
 // ==================================================
 
-Route::middleware(['auth', 'role:dokter'])
-    ->prefix('dokter')
-    ->name('dokter.')
+Route::middleware(['auth', 'admin.rs'])
+    ->prefix('admin')
+    ->name('admin.')
     ->group(function () {
+// DATA PASIEN ADMIN RS
+Route::get('/data-pasien/data', [
+    MasterPasienController::class,
+    'dataAdmin'
+])->name('pasien.data');
 
-        // Halaman Data Pasien
-        Route::get('/data-pasien', [
-            MasterPasienController::class,
-            'indexDokter'
-        ])->name('pasien.index');
+Route::get('/data-pasien', [
+    MasterPasienController::class,
+    'indexAdmin'
+])->name('pasien.index');
 
-        // Data pasien untuk tabel
-        Route::get('/data-pasien/data', [
-            MasterPasienController::class,
-            'data'
-        ])->name('pasien.data');
+Route::get('/data-pasien/{id}', [
+    MasterPasienController::class,
+    'showAdmin'
+])->whereNumber('id')->name('pasien.show');
 
-        // Halaman Resep Obat
-        Route::get('/resep-obat', [
-            PemeriksaanDokterController::class,
-            'resepDokter'
-        ])->name('resep.index');
+        // ==============================
+        // DATA PERAWAT ADMIN RS
+        // ==============================
 
-        // Simpan pemeriksaan dan resep
-        Route::post('/pemeriksaan', [
-            PemeriksaanDokterController::class,
-            'store'
-        ])->name('pemeriksaan.store');
+        Route::get('/data-perawat', [
+            MasterPerawatController::class,
+            'indexAdmin'
+        ])->name('perawat.index');
 
-        // Alihkan alamat lama ke halaman Resep Obat
-        Route::get('/pemeriksaan', function () {
-            return redirect()->route('dokter.resep.index');
-        })->name('pemeriksaan.index');
+        Route::get('/data-perawat/data', [
+            MasterPerawatController::class,
+            'dataAdmin'
+        ])->name('perawat.data');
+
+        Route::post('/data-perawat', [
+            MasterPerawatController::class,
+            'storeAdmin'
+        ])->name('perawat.store');
+
+        Route::put('/data-perawat/{id}', [
+            MasterPerawatController::class,
+            'updateAdmin'
+        ])->whereNumber('id')->name('perawat.update');
+
+        Route::delete('/data-perawat/{id}', [
+            MasterPerawatController::class,
+            'destroyAdmin'
+        ])->whereNumber('id')->name('perawat.destroy');
+
+
+        // ==============================
+        // DATA DOKTER ADMIN RS
+        // ==============================
+
+        Route::get('/data-dokter', [
+            MasterDokterController::class,
+            'indexAdmin'
+        ])->name('dokter.index');
+
+        Route::get('/data-dokter/data', [
+            MasterDokterController::class,
+            'dataAdmin'
+        ])->name('dokter.data');
+
     });
 
 
 // ==================================================
+// DASHBOARD DOKTER
+// ==================================================
+
+Route::get('/dokter/dashboard', function () {
+    return view('dokter.dashboard');
+})->middleware([
+    'auth',
+    'role:dokter'
+])->name('dokter.dashboard');
+
+
+// ==================================================
+// FITUR KHUSUS DOKTER
+// ==================================================
+
+Route::middleware([
+    'auth',
+    'role:dokter'
+])->prefix('dokter')->name('dokter.')->group(function () {
+
+    Route::get('/data-pasien', [
+        MasterPasienController::class,
+        'indexDokter'
+    ])->name('pasien.index');
+
+    Route::get('/data-pasien/data', [
+        MasterPasienController::class,
+        'data'
+    ])->name('pasien.data');
+
+    Route::get('/resep-obat', [
+        PemeriksaanDokterController::class,
+        'resepDokter'
+    ])->name('resep.index');
+
+    Route::post('/pemeriksaan', [
+        PemeriksaanDokterController::class,
+        'store'
+    ])->name('pemeriksaan.store');
+
+    Route::get('/pemeriksaan', function () {
+        return redirect()->route('dokter.resep.index');
+    })->name('pemeriksaan.index');
+});
+
+
+// ==================================================
+// DASHBOARD PERAWAT
+// KHUSUS PERAWAT
+// ==================================================
+
+Route::get('/perawat/dashboard', function () {
+    return view('perawat.dashboard');
+})->middleware([
+    'auth',
+    'role:perawat'
+])->name('perawat.dashboard');
+
+
+
+/*
+|--------------------------------------------------------------------------
+| FITUR KHUSUS PERAWAT
+| Hanya melihat data pasien
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware([
+    'auth',
+    'role:perawat'
+])->prefix('perawat')->name('perawat.')->group(function () {
+
+    Route::get('/data-pasien', [
+        MasterPasienController::class,
+        'indexPerawat'
+    ])->name('pasien.index');
+
+    Route::get('/data-pasien/data', [
+        MasterPasienController::class,
+        'dataPerawat'
+    ])->name('pasien.data');
+
+    Route::get('/data-pasien/{master_pasien}', [
+        MasterPasienController::class,
+        'showPerawat'
+    ])->whereNumber('master_pasien')
+      ->name('pasien.show');
+});
+
+
+// ==================================================
 // APOTEKER DASHBOARD
-// APOTEKER + ADMIN RUMAH SAKIT
 // ==================================================
 
 Route::get(
     '/apoteker/dashboard',
     [ApotekerDashboardController::class, 'index']
-)
-->middleware([
+)->middleware([
     'auth',
     'role:apoteker|Apoteker|admin rumah sakit'
-])
-->name('apoteker.dashboard');
+])->name('apoteker.dashboard');
+
+
 // ==================================================
 // KASIR DASHBOARD
 // ==================================================
 
 Route::get('/kasir/dashboard', function () {
-
     $jumlahResepMenunggu = ResepObat::count();
 
     return view('kasir.dashboard', compact(
         'jumlahResepMenunggu'
     ));
-
-})
-->middleware([
+})->middleware([
     'auth',
     'role:kasir|admin rumah sakit'
-])
-->name('kasir.dashboard');
+])->name('kasir.dashboard');
+
 
 // ==================================================
 // KASIR - RESEP DARI DOKTER
@@ -224,49 +320,36 @@ Route::get('/kasir/dashboard', function () {
 Route::get(
     '/kasir/resep',
     [KasirResepController::class, 'index']
-)
-->middleware([
+)->middleware([
     'auth',
     'role:kasir|apoteker|admin rumah sakit'
-])
-->name('kasir.resep');
+])->name('kasir.resep');
+
 
 // ==================================================
 // KASIR - PEMBAYARAN OBAT
 // ==================================================
 
-Route::get(
-    '/kasir/pembayaran',
-    [PembayaranController::class, 'index']
-)
-->middleware([
+Route::middleware([
     'auth',
     'role:kasir'
-])
-->name('kasir.pembayaran');
+])->group(function () {
 
+    Route::get(
+        '/kasir/pembayaran',
+        [PembayaranController::class, 'index']
+    )->name('kasir.pembayaran');
 
-Route::post(
-    '/kasir/pembayaran/{id}/proses',
-    [PembayaranController::class, 'proses']
-)
-->middleware([
-    'auth',
-    'role:kasir'
-])
-->name('kasir.pembayaran.proses');
+    Route::post(
+        '/kasir/pembayaran/{id}/proses',
+        [PembayaranController::class, 'proses']
+    )->name('kasir.pembayaran.proses');
 
-
-
-Route::delete(
-    '/kasir/pembayaran/{id}/hapus',
-    [PembayaranController::class, 'destroy']
-)
-->middleware([
-    'auth',
-    'role:kasir'
-])
-->name('kasir.pembayaran.hapus');
+    Route::delete(
+        '/kasir/pembayaran/{id}/hapus',
+        [PembayaranController::class, 'destroy']
+    )->name('kasir.pembayaran.hapus');
+});
 
 
 // ==================================================
@@ -292,14 +375,21 @@ Route::middleware([
         '/laporan/export/pdf/{type}',
         [LaporanController::class, 'exportPdf']
     )->name('laporan.export.pdf');
-
 });
+
+
+// ==================================================
+// LAPORAN SUPER ADMIN
+// ==================================================
 
 Route::get('/superadmin/laporan', function () {
     return view('superadmin.dashboard', [
         'halaman' => 'laporan'
     ]);
-})->name('superadmin.laporan');
+})->middleware([
+    'auth',
+    'role:super admin|admin rumah sakit'
+])->name('superadmin.laporan');
 
 
 // ==================================================
@@ -312,14 +402,7 @@ Route::middleware([
     'role:super admin'
 ])->group(function () {
 
-    Route::resource(
-        'roles',
-        RoleController::class
-    );
-
-    // ==================================================
-    // ROLE - PERMISSION
-    // ==================================================
+    Route::resource('roles', RoleController::class);
 
     Route::get(
         '/roles/{id}/permission',
@@ -330,7 +413,6 @@ Route::middleware([
         '/roles/{id}/permission',
         [RoleController::class, 'givePermissionStore']
     )->name('roles.permission.store');
-
 });
 
 
@@ -343,12 +425,7 @@ Route::middleware([
     'auth',
     'role:super admin'
 ])->group(function () {
-
-    Route::resource(
-        'permissions',
-        PermissionController::class
-    );
-
+    Route::resource('permissions', PermissionController::class);
 });
 
 
@@ -372,17 +449,12 @@ Route::middleware([
         [UserController::class, 'resetPassword']
     )->name('users.reset-password.update');
 
-    Route::resource(
-        'users',
-        UserController::class
-    );
-
+    Route::resource('users', UserController::class);
 });
 
 
 // ==================================================
 // MASTER ASURANSI
-// SUPER ADMIN / ADMIN RS
 // ==================================================
 
 Route::middleware([
@@ -395,17 +467,12 @@ Route::middleware([
         [MasterAsuransiController::class, 'data']
     )->name('master-asuransi.data');
 
-    Route::resource(
-        'master-asuransi',
-        MasterAsuransiController::class
-    );
-
+    Route::resource('master-asuransi', MasterAsuransiController::class);
 });
 
 
 // ==================================================
 // MASTER DOKTER
-// DOKTER + SUPER ADMIN + ADMIN RS
 // ==================================================
 
 Route::middleware([
@@ -418,17 +485,12 @@ Route::middleware([
         [MasterDokterController::class, 'data']
     )->name('master-dokter.data');
 
-    Route::resource(
-        'master-dokter',
-        MasterDokterController::class
-    );
-
+    Route::resource('master-dokter', MasterDokterController::class);
 });
 
 
 // ==================================================
 // MASTER KAMAR
-// SUPER ADMIN / ADMIN RS
 // ==================================================
 
 Route::middleware([
@@ -441,17 +503,12 @@ Route::middleware([
         [MasterKamarController::class, 'data']
     )->name('master-kamar.data');
 
-    Route::resource(
-        'master-kamar',
-        MasterKamarController::class
-    );
-
+    Route::resource('master-kamar', MasterKamarController::class);
 });
 
 
 // ==================================================
 // MASTER KATEGORI
-// SUPER ADMIN / ADMIN RS
 // ==================================================
 
 Route::middleware([
@@ -464,49 +521,14 @@ Route::middleware([
         [MasterKategoriController::class, 'data']
     )->name('master-kategori.data');
 
-    Route::resource(
-        'master-kategori',
-        MasterKategoriController::class
-    );
-
+    Route::resource('master-kategori', MasterKategoriController::class);
 });
 
 
 // ==================================================
 // MASTER PASIEN
-// DOKTER HANYA BISA MELIHAT
-// PERAWAT JUGA BISA MELIHAT
-// ==================================================
-
-Route::middleware([
-    'auth',
-    'role:super admin|admin rumah sakit|dokter|perawat'
-])->group(function () {
-
-    // DataTables
-    Route::get(
-        '/master-pasien/data',
-        [MasterPasienController::class, 'data']
-    )->name('master-pasien.data');
-
-    // Hanya melihat daftar
-    Route::get(
-        '/master-pasien',
-        [MasterPasienController::class, 'index']
-    )->name('master-pasien.index');
-
-    // Detail pasien
-    Route::get(
-        '/master-pasien/{master_pasien}',
-        [MasterPasienController::class, 'show']
-    )->name('master-pasien.show');
-
-});
-
-
-// ==================================================
-// MASTER PASIEN
-// CRUD HANYA UNTUK SUPER ADMIN & ADMIN RUMAH SAKIT
+// HANYA SUPER ADMIN DAN ADMIN RS
+// UNTUK HALAMAN MASTER PASIEN UTAMA
 // ==================================================
 
 Route::middleware([
@@ -514,39 +536,47 @@ Route::middleware([
     'role:super admin|admin rumah sakit'
 ])->group(function () {
 
-    // Tambah pasien
+    Route::get(
+        '/master-pasien/data',
+        [MasterPasienController::class, 'data']
+    )->name('master-pasien.data');
+
+    Route::get(
+        '/master-pasien',
+        [MasterPasienController::class, 'index']
+    )->name('master-pasien.index');
+
+    Route::get(
+        '/master-pasien/{master_pasien}',
+        [MasterPasienController::class, 'show']
+    )->name('master-pasien.show');
+
     Route::post(
         '/master-pasien',
         [MasterPasienController::class, 'store']
     )->name('master-pasien.store');
 
-    // Edit pasien
     Route::put(
         '/master-pasien/{master_pasien}',
         [MasterPasienController::class, 'update']
     )->name('master-pasien.update');
 
-    // Hapus pasien
     Route::delete(
         '/master-pasien/{master_pasien}',
         [MasterPasienController::class, 'destroy']
     )->name('master-pasien.destroy');
-
 });
 
-// ==================================================
-// MASTER PERAWAT
-// SUPER ADMIN / ADMIN RS
-// ==================================================
 
-// ==================================================
+
+ // ==================================================
 // MASTER PERAWAT
-// SUPER ADMIN / ADMIN RS / PERAWAT
+// KHUSUS SUPER ADMIN
 // ==================================================
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit|perawat'
+    'role:super admin'
 ])->group(function () {
 
     Route::get(
@@ -554,17 +584,13 @@ Route::middleware([
         [MasterPerawatController::class, 'data']
     )->name('master-perawat.data');
 
-    Route::resource(
-        'master-perawat',
-        MasterPerawatController::class
-    );
-
+    Route::resource('master-perawat', MasterPerawatController::class);
 });
+
 
 
 // ==================================================
 // MASTER POLI
-// SUPER ADMIN / ADMIN RS
 // ==================================================
 
 Route::middleware([
@@ -577,17 +603,12 @@ Route::middleware([
         [MasterPoliController::class, 'data']
     )->name('master-poli.data');
 
-    Route::resource(
-        'master-poli',
-        MasterPoliController::class
-    );
-
+    Route::resource('master-poli', MasterPoliController::class);
 });
 
 
 // ==================================================
 // MASTER SATUAN OBAT
-// SUPER ADMIN / ADMIN RS
 // ==================================================
 
 Route::middleware([
@@ -600,17 +621,12 @@ Route::middleware([
         [MasterSatuanController::class, 'data']
     )->name('master-satuan.data');
 
-    Route::resource(
-        'master-satuan',
-        MasterSatuanController::class
-    );
-
+    Route::resource('master-satuan', MasterSatuanController::class);
 });
 
 
 // ==================================================
 // MASTER SUPPLIER
-// SUPER ADMIN / ADMIN RS
 // ==================================================
 
 Route::middleware([
@@ -623,17 +639,12 @@ Route::middleware([
         [MasterSupplierController::class, 'data']
     )->name('master-supplier.data');
 
-    Route::resource(
-        'master-supplier',
-        MasterSupplierController::class
-    );
-
+    Route::resource('master-supplier', MasterSupplierController::class);
 });
 
 
 // ==================================================
 // MASTER TINDAKAN
-// SUPER ADMIN / ADMIN RS
 // ==================================================
 
 Route::middleware([
@@ -646,47 +657,32 @@ Route::middleware([
         [MasterTindakanController::class, 'data']
     )->name('master-tindakan.data');
 
-    Route::resource(
-        'master-tindakan',
-        MasterTindakanController::class
-    );
-
+    Route::resource('master-tindakan', MasterTindakanController::class);
 });
 
 
 // ==================================================
 // PENDAFTARAN PASIEN
-// SUPER ADMIN / ADMIN RS / PERAWAT
+// SUPER ADMIN DAN ADMIN RS
 // ==================================================
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit|perawat'
+    'role:super admin|admin rumah sakit'
 ])->group(function () {
-
-    Route::resource(
-        'pendaftaran',
-        PendaftaranPasienController::class
-    );
-
+    Route::resource('pendaftaran', PendaftaranPasienController::class);
 });
 
 
 // ==================================================
 // PEMERIKSAAN DOKTER / RESEP DOKTER
-// SUPER ADMIN / ADMIN RS / DOKTER / APOTEKER
 // ==================================================
 
 Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit|dokter|apoteker'
 ])->group(function () {
-
-    Route::resource(
-        'pemeriksaan-dokter',
-        PemeriksaanDokterController::class
-    );
-
+    Route::resource('pemeriksaan-dokter', PemeriksaanDokterController::class);
 });
 
 Route::middleware([
@@ -706,8 +702,7 @@ Route::middleware([
 
 
 // ==================================================
-// MASTER OBAT & LOG STOK OBAT
-// SUPER ADMIN / ADMIN RS / APOTEKER
+// MASTER OBAT DAN LOG STOK OBAT
 // ==================================================
 
 Route::middleware([
@@ -715,91 +710,56 @@ Route::middleware([
     'role:super admin|admin rumah sakit|apoteker'
 ])->group(function () {
 
-    // ==================================================
-    // MASTER OBAT - DATA
-    // ==================================================
-
-    // WAJIB sebelum Route::resource
     Route::get(
         '/master-obat/data',
         [MasterObatController::class, 'data']
     )->name('master-obat.data');
 
-
-    // ==================================================
-    // MASTER OBAT - CRUD
-    // ==================================================
-
-    Route::resource(
-        'master-obat',
-        MasterObatController::class
-    );
-
-
-    // ==================================================
-    // KURANGI STOK OBAT
-    // ==================================================
+    Route::resource('master-obat', MasterObatController::class);
 
     Route::post(
         '/master-obat/{id}/kurangi-stok',
         [MasterObatController::class, 'kurangiStok']
     )->name('master-obat.kurangi-stok');
 
-
-    // ==================================================
-    // LOG STOK OBAT
-    // ==================================================
-
     Route::get(
         '/log-stok-obat',
         [LogStokObatController::class, 'index']
     )->name('log-stok-obat.index');
-
 });
-
-
 
 
 // ==================================================
 // MASTER APOTEKER
-// SUPER ADMIN / ADMIN RUMAH SAKIT
 // ==================================================
 
 Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit'
 ])->group(function () {
-
-    Route::resource(
-        'master-apoteker',
-        ApotekerController::class
-    );
-
+    Route::resource('master-apoteker', ApotekerController::class);
 });
 
 
 // ==================================================
 // MASTER KASIR
-// SUPER ADMIN / ADMIN RUMAH SAKIT
 // ==================================================
 
 Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit'
 ])->group(function () {
-
-    Route::resource(
-        'kasir',
-        KasirController::class
-    );
-
-});
-
-Route::middleware(['auth', 'role:super admin'])->group(function () {
-    Route::resource(
-        'hasil-pemeriksaan',
-        HasilPemeriksaanController::class
-    );
+    Route::resource('kasir', KasirController::class);
 });
 
 
+// ==================================================
+// HASIL PEMERIKSAAN
+// ==================================================
+
+Route::middleware([
+    'auth',
+    'role:super admin'
+])->group(function () {
+    Route::resource('hasil-pemeriksaan', HasilPemeriksaanController::class);
+});

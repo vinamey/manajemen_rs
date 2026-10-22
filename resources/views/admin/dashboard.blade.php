@@ -148,7 +148,7 @@
                 Menambahkan dan mengelola data pasien.
             </p>
 
-            <a href="{{ route('master-pasien.index') }}"
+            <a href="{{ route('admin.pasien.index') }}"
                class="btn-kelola">
                 <i class="fa-solid fa-arrow-right"></i>
                 Kelola Data
@@ -168,7 +168,7 @@
                 Menambahkan dan mengelola data dokter.
             </p>
 
-            <a href="{{ route('master-dokter.index') }}"
+            <a href="{{ route('admin.dokter.index') }}"
                class="btn-kelola">
                 <i class="fa-solid fa-arrow-right"></i>
                 Kelola Data
@@ -188,7 +188,7 @@
                 Menambahkan dan mengelola data perawat.
             </p>
 
-            <a href="{{ route('master-perawat.index') }}"
+            <a href="{{ route('admin.perawat.index') }}"
                class="btn-kelola">
                 <i class="fa-solid fa-arrow-right"></i>
                 Kelola Data
