@@ -1013,58 +1013,60 @@
                                 -- Pilih Dokter --
                             </option>
 
-                            @foreach($dokters as $dokter)
+                           @foreach($dokters as $dokter)
 
-                                <option value="{{ $dokter->id }}">
-                                    {{ $dokter->nama }}
-                                </option>
+                            <option
+                                value="{{ $dokter->id }}"
+                                data-poli-id="{{ $dokter->poli_id }}"
+                                data-poli-nama="{{ $dokter->poli ? $dokter->poli->nama : '' }}"
+                            >
+                                {{ $dokter->nama }}
+                            </option>
 
-                            @endforeach
+                        @endforeach
 
                         </select>
 
                     </div>
 
 
-                    <!-- POLI -->
+                    {{-- POLI OTOMATIS DARI DOKTER --}}
                     <div class="mb-3">
 
-                        <label for="poli_id"
-                               class="form-label"
-                               style="
+                        <label for="poli_display"
+                            class="form-label"
+                            style="
                                     font-size: 11px;
                                     color: #52627a;
                                     margin-bottom: 5px;
-                               ">
+                            ">
 
                             Poli
 
                         </label>
 
-                        <select name="poli_id"
-                                id="poli_id"
-                                class="form-select"
-                                required
-                                style="
-                                    height: 34px;
-                                    font-size: 11px;
-                                    border-radius: 6px;
-                                    border: 1px solid #cbd5e1;
-                                ">
+                        {{-- Yang dilihat user --}}
+                        <input
+                            type="text"
+                            id="poli_display"
+                            class="form-control"
+                            placeholder="Poli akan otomatis mengikuti dokter"
+                            readonly
+                            style="
+                                height: 34px;
+                                font-size: 11px;
+                                border-radius: 6px;
+                                border: 1px solid #cbd5e1;
+                                background: #f8fafc;
+                            "
+                        >
 
-                            <option value="">
-                                -- Pilih Poli --
-                            </option>
-
-                            @foreach($polis as $poli)
-
-                                <option value="{{ $poli->id }}">
-                                    {{ $poli->nama }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
+                        {{-- Yang dikirim ke Laravel --}}
+                        <input
+                            type="hidden"
+                            name="poli_id"
+                            id="poli_id"
+                        >
 
                     </div>
 
@@ -1191,4 +1193,62 @@
     </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const dokterSelect = document.getElementById('dokter_id');
+    const poliDisplay = document.getElementById('poli_display');
+    const poliId = document.getElementById('poli_id');
+
+    if (!dokterSelect || !poliDisplay || !poliId) {
+        console.error('Elemen dokter atau poli tidak ditemukan.');
+        return;
+    }
+
+    function updatePoli() {
+
+        const selectedOption =
+            dokterSelect.options[dokterSelect.selectedIndex];
+
+        // Belum memilih dokter
+        if (!selectedOption || selectedOption.value === '') {
+
+            poliDisplay.value = '';
+            poliDisplay.placeholder =
+                'Poli akan otomatis mengikuti dokter';
+
+            poliId.value = '';
+
+            return;
+        }
+
+        // Ambil data poli dari dokter
+        const idPoli = selectedOption.getAttribute('data-poli-id');
+        const namaPoli = selectedOption.getAttribute('data-poli-nama');
+
+        // Simpan ID poli
+        poliId.value = idPoli || '';
+
+        // Tampilkan nama poli
+        if (namaPoli && namaPoli.trim() !== '') {
+
+            poliDisplay.value = namaPoli;
+
+        } else {
+
+            poliDisplay.value =
+                'Dokter belum memiliki poli';
+
+        }
+    }
+
+    // Saat dokter dipilih
+    dokterSelect.addEventListener('change', updatePoli);
+
+    // Saat halaman dibuka
+    updatePoli();
+
+});
+</script>
 @endsection
