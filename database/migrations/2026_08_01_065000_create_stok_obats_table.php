@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign('obat_id')->references('id')->on('master_obats')->onDelete('set null');
             $table->foreignId('satuan_obat_id')->nullable();
             $table->foreign('satuan_obat_id')->references('id')->on('master_satuan_obats')->onDelete('set null');
+            $table->integer('harga_jual')->default(0);
+            $table->integer('stok_tersedia')->default(0);
             $table->timestamps();
         });
     }

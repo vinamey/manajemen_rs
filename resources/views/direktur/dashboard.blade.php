@@ -161,7 +161,8 @@
 
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
-                    <button type="submit" class="btn-logout" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+                    <button type="submit" class="btn-logout"
+                        onclick="return confirm('Apakah Anda yakin ingin keluar?')">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </form>
@@ -181,59 +182,59 @@
 
             <div class="row g-4">
 
-               <div class="row g-4">
+                <div class="row g-4">
 
-    {{-- PASIEN --}}
-    <div class="col-md-4">
-        <div class="card-stat">
-            <h6><i class="fas fa-user-injured me-2"></i> Jumlah Pasien</h6>
-            <h3>{{ $totalPasien ?? 0 }}</h3>
-        </div>
-    </div>
+                    {{-- PASIEN --}}
+                    <div class="col-md-4">
+                        <div class="card-stat">
+                            <h6><i class="fas fa-user-injured me-2"></i> Jumlah Pasien</h6>
+                            <h3>{{ $totalPasien ?? 0 }}</h3>
+                        </div>
+                    </div>
 
-    {{-- DOKTER --}}
-    <div class="col-md-4">
-        <div class="card-stat">
-            <h6><i class="fas fa-user-doctor me-2"></i> Jumlah Dokter</h6>
-            <h3>{{ $totalDokter ?? 0 }}</h3>
-        </div>
-    </div>
+                    {{-- DOKTER --}}
+                    <div class="col-md-4">
+                        <div class="card-stat">
+                            <h6><i class="fas fa-user-doctor me-2"></i> Jumlah Dokter</h6>
+                            <h3>{{ $totalDokter ?? 0 }}</h3>
+                        </div>
+                    </div>
 
-    {{-- PERAWAT --}}
-    <div class="col-md-4">
-        <div class="card-stat">
-            <h6><i class="fas fa-user-nurse me-2"></i> Jumlah Perawat</h6>
-            <h3>{{ $totalPerawat ?? 0 }}</h3>
-        </div>
-    </div>
+                    {{-- PERAWAT --}}
+                    <div class="col-md-4">
+                        <div class="card-stat">
+                            <h6><i class="fas fa-user-nurse me-2"></i> Jumlah Perawat</h6>
+                            <h3>{{ $totalPerawat ?? 0 }}</h3>
+                        </div>
+                    </div>
 
-    {{-- PENDAPATAN --}}
-    <div class="col-md-4">
-        <div class="card-stat">
-            <h6><i class="fas fa-money-bill-wave me-2"></i> Pendapatan</h6>
-            <h3>Rp {{ number_format($pendapatan ?? 0, 0, ',', '.') }}</h3>
-        </div>
-    </div>
+                    {{-- PENDAPATAN --}}
+                    <div class="col-md-4">
+                        <div class="card-stat">
+                            <h6><i class="fas fa-money-bill-wave me-2"></i> Pendapatan</h6>
+                            <h3>Rp {{ number_format($pendapatan ?? 0, 0, ',', '.') }}</h3>
+                        </div>
+                    </div>
 
-    {{-- OBAT --}}
-    <div class="col-md-4">
-        <div class="card-stat">
-            <h6><i class="fas fa-pills me-2"></i> Jumlah Obat</h6>
-            <h3>{{ $totalObat ?? 0 }}</h3>
-        </div>
-    </div>
+                    {{-- OBAT --}}
+                    <div class="col-md-4">
+                        <div class="card-stat">
+                            <h6><i class="fas fa-pills me-2"></i> Jumlah Obat</h6>
+                            <h3>{{ $totalObat ?? 0 }}</h3>
+                        </div>
+                    </div>
 
-    {{-- KAMAR --}}
-    <div class="col-md-4">
-        <div class="card-stat">
-            <h6><i class="fas fa-bed me-2"></i> Jumlah Kamar</h6>
-            <h3>{{ $totalKamar ?? 0 }}</h3>
-        </div>
-    </div>
+                    {{-- KAMAR --}}
+                    <div class="col-md-4">
+                        <div class="card-stat">
+                            <h6><i class="fas fa-bed me-2"></i> Jumlah Kamar</h6>
+                            <h3>{{ $totalKamar ?? 0 }}</h3>
+                        </div>
+                    </div>
 
-        </div>
+                </div>
 
-    </div>
+            </div>
 
 </body>
 

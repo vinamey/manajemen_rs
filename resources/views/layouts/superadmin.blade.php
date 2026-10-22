@@ -847,13 +847,6 @@
 
             </li>
 
-            <li class="nav-item">
-              <a href="{{ route('log-stok-obat.index') }}" class="nav-link">
-                <i class="fa-solid fa-boxes-stacked me-2"></i>
-                Stok Obat</a>
-            </li>
-
-
             {{-- =================================================
                  PENDAFTARAN PASIEN
             ================================================== --}}

@@ -496,14 +496,14 @@
     <!-- PEMBELIAN OBAT -->
 
     <a
-        href="{{ route('master-obat.index') }}"
+        href="{{ route('log-stok-obat.index') }}"
     >
 
         <span class="menu-icon">
             🛒
         </span>
 
-        Pembelian Obat
+        Log Stok Obat
 
     </a>
 
