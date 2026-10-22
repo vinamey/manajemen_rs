@@ -316,13 +316,7 @@
                     <tr>
 
                         {{-- NOMOR ANTRIAN --}}
-                        <td>
-
-                            <strong>
-                                {{ $pendaftaran->nomor_antrian }}
-                            </strong>
-
-                        </td>
+                        <td>{{ $pendaftaran->nomor_antrian }}</td> 
 
 
                         {{-- PASIEN --}}
@@ -628,15 +622,6 @@
                                                     {{ $pendaftaran->status == 'menunggu' ? 'selected' : '' }}>
 
                                                     Menunggu
-
-                                                </option>
-
-
-                                                <option value="diperiksa"
-
-                                                    {{ $pendaftaran->status == 'diperiksa' ? 'selected' : '' }}>
-
-                                                    Diperiksa
 
                                                 </option>
 

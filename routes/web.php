@@ -685,6 +685,21 @@ Route::middleware([
     Route::resource('pemeriksaan-dokter', PemeriksaanDokterController::class);
 });
 
+Route::middleware([
+    'auth',
+    'role:super admin|admin rumah sakit|apoteker'
+])->prefix('apoteker')->name('apoteker.')->group(function () {
+    Route::get(
+        '/log-stok-obat',
+        [LogStokObatController::class, 'index']
+    )->name('log-stok-obat.index');
+
+    Route::post(
+        '/log-stok-obat',
+        [LogStokObatController::class, 'store']
+    )->name('log-stok-obat.store');
+});
+
 
 // ==================================================
 // MASTER OBAT DAN LOG STOK OBAT

@@ -141,27 +141,18 @@ public function store(Request $request)
         'tanggal_pendaftaran' => 'required|date',
     ]);
 
-    $existingAntrians = PendaftaranPasien::whereDate(
-        'tanggal_pendaftaran',
-        $request->tanggal_pendaftaran
-    )->pluck('nomor_antrian');
+    // Ambil nomor antrian terakhir berdasarkan tanggal pendaftaran
+    $latestAntrian = PendaftaranPasien::whereDate('tanggal_pendaftaran', $request->tanggal_pendaftaran)
+        ->latest('id')
+        ->first();
 
     $maxNumber = 0;
 
-    foreach ($existingAntrians as $antrian) {
-        $number = (int) preg_replace('/[^0-9]/', '', $antrian);
-
-        if ($number > $maxNumber) {
-            $maxNumber = $number;
-        }
+    if ($latestAntrian && $latestAntrian->nomor_antrian) {
+        $maxNumber = (int) preg_replace('/[^0-9]/', '', $latestAntrian->nomor_antrian);
     }
 
-    $nomorAntrian = 'A-' . str_pad(
-        $maxNumber + 1,
-        3,
-        '0',
-        STR_PAD_LEFT
-    );
+    $nomorAntrian = 'A-' . str_pad($maxNumber + 1, 3, '0', STR_PAD_LEFT);
 
     PendaftaranPasien::create([
         'pasien_id' => $request->pasien_id,
@@ -169,7 +160,7 @@ public function store(Request $request)
         'poli_id' => $request->poli_id,
         'kamar_id' => $request->kamar_id,
         'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
-        'nomor_antrian' => $nomorAntrian,
+        'nomor_antrian' => $nomorAntrian, // Memastikan string A-00x masuk ke database
         'status' => 'menunggu',
     ]);
 
