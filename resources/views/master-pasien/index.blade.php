@@ -1170,426 +1170,155 @@
 ========================================================= --}}
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
-
 <script>
-
-$(document).ready(function () {
-
-
-    /* =====================================================
-       YAJRA DATATABLE
-    ====================================================== */
-
+$(function () {
     const table = $('#pasien-table').DataTable({
-
-        processing: false,
-
+        processing: true,
         serverSide: true,
-
-        ajax: "{{ route('master-pasien.data') }}",
-
-        columns: [
-
-            {
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                orderable: false,
-                searchable: false
-            },
-
-            {
-                data: 'nama',
-                name: 'nama'
-            },
-
-            {
-                data: 'jenis_kelamin',
-                name: 'jenis_kelamin'
-            },
-
-            {
-                data: 'tanggal_lahir',
-                name: 'tanggal_lahir'
-            },
-
-            {
-                data: 'alamat',
-                name: 'alamat'
-            },
-
-            {
-                data: 'golongan_darah',
-                name: 'golongan_darah'
-            },
-
-            {
-                data: 'status_asuransi',
-                name: 'status_asuransi'
-            },
-
-            {
-                data: 'aksi',
-                name: 'aksi',
-                orderable: false,
-                searchable: false
+        ajax: {
+            url: @json(route('master-pasien.data')),
+            type: 'GET',
+            error: function (xhr) {
+                console.error('Gagal memuat pasien:', xhr.responseText);
             }
-
-        ],
-
-
-        order: [
-            [1, 'asc']
-        ],
-
-
-        pageLength: 10,
-
-
-        lengthMenu: [
-            [10, 25, 50, 100],
-            [10, 25, 50, 100]
-        ],
-
-
-        language: {
-
-            search: "Cari:",
-
-            lengthMenu: "Tampilkan _MENU_ data",
-
-            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-
-            infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
-
-            infoFiltered: "(disaring dari _MAX_ total data)",
-
-            zeroRecords: "Data pasien tidak ditemukan",
-
-            emptyTable: "Belum ada data pasien",
-
-            paginate: {
-
-                first: "Pertama",
-
-                previous: "Sebelumnya",
-
-                next: "Berikutnya",
-
-                last: "Terakhir"
-
-            }
-
         },
-
-
-        columnDefs: [
-
-            {
-                targets: [0, 7],
-                className: 'text-center'
+        columns: [
+            { data: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'nama', name: 'nama' },
+            { data: 'jenis_kelamin', name: 'jenis_kelamin' },
+            { data: 'tanggal_lahir', name: 'tanggal_lahir' },
+            { data: 'alamat', name: 'alamat' },
+            { data: 'golongan_darah', name: 'golongan_darah' },
+            { data: 'status_asuransi', name: 'status_asuransi' },
+            { data: 'aksi', orderable: false, searchable: false }
+        ],
+        order: [[1, 'asc']],
+        pageLength: 10,
+        language: {
+            search: 'Cari:',
+            lengthMenu: 'Tampilkan _MENU_ data',
+            info: 'Menampilkan _START_ sampai _END_ dari _TOTAL_ data',
+            infoEmpty: 'Belum ada data pasien',
+            infoFiltered: '(disaring dari _MAX_ total data)',
+            zeroRecords: 'Data pasien tidak ditemukan',
+            emptyTable: 'Belum ada data pasien',
+            paginate: {
+                first: 'Pertama',
+                previous: 'Sebelumnya',
+                next: 'Berikutnya',
+                last: 'Terakhir'
             }
-
-        ]
-
+        }
     });
 
+    function bukaModal(id) {
+        const elemen = document.getElementById(id);
 
-
-    /* =====================================================
-       MODAL LIHAT
-    ====================================================== */
-
-    $('#pasien-table').on('click', '.btn-view', function () {
-
-
-        const row = table.row(
-            $(this).closest('tr')
-        ).data();
-
-
-        if (!row) {
+        if (!elemen || !window.bootstrap) {
+            alert('Modal tidak dapat dibuka. Periksa Bootstrap JavaScript pada layouts.superadmin.');
             return;
         }
 
+        bootstrap.Modal.getOrCreateInstance(elemen).show();
+    }
 
-        /* NAMA */
+    function teks(value) {
+        return value == null || value === '' ? '-' : String(value);
+    }
 
-        $('#lihatNama').text(
-            row.nama || '-'
-        );
+    // LIHAT PASIEN
+    $('#pasien-table').on('click', '.btn-view', function () {
+        const row = table.row($(this).closest('tr')).data();
+        if (!row) return;
 
+        $('#lihatNama').text(teks(row.nama));
 
+        let jk = String(row.jenis_kelamin_raw ?? row.jenis_kelamin ?? '');
+        if (['L', 'l', 'laki_laki'].includes(jk)) jk = 'laki-laki';
+        if (['P', 'p'].includes(jk)) jk = 'perempuan';
 
-        /* JENIS KELAMIN ASLI */
-
-        let jenisKelamin = row.jenis_kelamin_raw;
-
-
-        if (
-            jenisKelamin === 'laki-laki' ||
-            jenisKelamin === 'laki_laki'
-        ) {
-
-            jenisKelamin = 'Laki-laki';
-
-        } else if (
-            jenisKelamin === 'perempuan'
-        ) {
-
-            jenisKelamin = 'Perempuan';
-
-        } else {
-
-            jenisKelamin = '-';
-
-        }
-
-
-        $('#lihatJenisKelamin').text(
-            jenisKelamin
-        );
-
-
-
-        /* TANGGAL */
-
-        let tanggal = row.tanggal_lahir;
-
-
-        if (!tanggal) {
-
-            tanggal = '-';
-
-        }
-
-
-        $('#lihatTanggalLahir').text(
-            tanggal
-        );
-
-
-
-        /* ALAMAT */
-
-        $('#lihatAlamat').text(
-            row.alamat || '-'
-        );
-
-
-
-        /* GOLONGAN DARAH ASLI */
-
+        $('#lihatJenisKelamin').text(teks(jk));
+        $('#lihatTanggalLahir').text(teks(row.tanggal_lahir));
+        $('#lihatAlamat').text(teks(row.alamat));
         $('#lihatGolonganDarah').text(
-            row.golongan_darah_raw || '-'
+            teks(row.golongan_darah_raw ?? row.golongan_darah)
         );
 
-
-
-        /* STATUS ASURANSI ASLI */
-
-        let statusAsuransi =
-            row.status_asuransi_raw;
-
-
-        if (
-            statusAsuransi === '01' ||
-            statusAsuransi === '1' ||
-            statusAsuransi === 1
-        ) {
-
-            statusAsuransi =
-                'Memiliki Asuransi';
-
-        } else {
-
-            statusAsuransi =
-                'Tidak Memiliki Asuransi';
-
-        }
-
+        const status = String(
+            row.status_asuransi_raw ?? row.status_asuransi ?? ''
+        );
 
         $('#lihatStatusAsuransi').text(
-            statusAsuransi
+            ['01', '1'].includes(status)
+                ? 'Memiliki Asuransi'
+                : 'Tidak Memiliki Asuransi'
         );
 
-
-
-        /* TAMPILKAN MODAL */
-
-        const modalLihat =
-            new bootstrap.Modal(
-                document.getElementById(
-                    'modalLihatPasien'
-                )
-            );
-
-
-        modalLihat.show();
-
+        bukaModal('modalLihatPasien');
     });
 
-
-
-    /*
-    ======================================================
-    MODAL EDIT
-    HANYA AKAN DIBUAT UNTUK SUPER ADMIN / ADMIN RS
-    ======================================================
-    */
-
-    @if(auth()->user()->hasAnyRole(['super admin', 'admin rumah sakit']))
-
-
+    // EDIT PASIEN
     $('#pasien-table').on('click', '.btn-edit', function () {
-
-
-        const row = table.row(
-            $(this).closest('tr')
-        ).data();
-
-
-        if (!row) {
+        const row = table.row($(this).closest('tr')).data();
+        if (!row || !row.id) {
+            alert('ID pasien tidak ditemukan.');
             return;
         }
 
+        $('#editNama').val(row.nama ?? '');
 
+        let jk = String(row.jenis_kelamin_raw ?? row.jenis_kelamin ?? '');
+        jk = jk.toLowerCase();
 
-        /* ID */
+        if (jk === 'l' || jk === 'laki_laki') jk = 'laki-laki';
+        if (jk === 'p') jk = 'perempuan';
 
-        const id = row.id;
-
-
-
-        /* NAMA */
-
-        $('#editNama').val(
-            row.nama || ''
-        );
-
-
-
-        /* JENIS KELAMIN */
-
-        let jenisKelamin =
-            row.jenis_kelamin_raw || '';
-
-
-        if (
-            jenisKelamin === 'laki_laki'
-        ) {
-
-            jenisKelamin = 'laki-laki';
-
-        }
-
-
-        $('#editJenisKelamin').val(
-            jenisKelamin
-        );
-
-
-
-        /* TANGGAL LAHIR */
-
+        $('#editJenisKelamin').val(jk);
         $('#editTanggalLahir').val(
-            row.tanggal_lahir_raw || ''
+            row.tanggal_lahir_raw ?? ''
         );
-
-
-
-        /* ALAMAT */
-
-        $('#editAlamat').val(
-            row.alamat || ''
-        );
-
-
-
-        /* GOLONGAN DARAH */
-
+        $('#editAlamat').val(row.alamat ?? '');
         $('#editGolonganDarah').val(
-            row.golongan_darah_raw || ''
+            row.golongan_darah_raw ?? row.golongan_darah ?? ''
         );
 
-
-
-        /* STATUS ASURANSI */
-
-        let statusAsuransi =
-            row.status_asuransi_raw;
-
-
-        if (
-            statusAsuransi === 1 ||
-            statusAsuransi === '1'
-        ) {
-
-            statusAsuransi = '01';
-
-        }
-
-
-        if (
-            statusAsuransi === 0 ||
-            statusAsuransi === '0'
-        ) {
-
-            statusAsuransi = '0';
-
-        }
-
-
-        $('#editStatusAsuransi').val(
-            String(statusAsuransi ?? '')
+        let status = String(
+            row.status_asuransi_raw ?? ''
         );
 
+        if (status === '1') status = '01';
+        $('#editStatusAsuransi').val(status);
 
+        const url = @json(url('/master-pasien')) + '/' +
+            encodeURIComponent(row.id);
 
-        /* UPDATE URL */
-
-        let updateUrl =
-            "{{ route('master-pasien.update', ':id') }}";
-
-
-        updateUrl = updateUrl.replace(
-            ':id',
-            id
-        );
-
-
-        $('#formEditPasien').attr(
-            'action',
-            updateUrl
-        );
-
-
-
-        /* TAMPILKAN MODAL EDIT */
-
-        const modalEdit =
-            new bootstrap.Modal(
-                document.getElementById(
-                    'modalEditPasien'
-                )
-            );
-
-
-        modalEdit.show();
-
+        $('#formEditPasien').attr('action', url);
+        bukaModal('modalEditPasien');
     });
 
+    // HAPUS PASIEN
+    $('#pasien-table').on('click', '.btn-delete', function (e) {
+        const form = $(this).closest('form');
 
+        if (!form.length) {
+            e.preventDefault();
+            alert('Form hapus tidak ditemukan. Periksa kode aksi pada controller.');
+            return;
+        }
+
+        if (!confirm('Yakin ingin menghapus data pasien ini?')) {
+            e.preventDefault();
+        }
+    });
+
+    // TAMPILKAN ERROR VALIDASI JIKA ADA
+    @if ($errors->any())
+        alert(@json($errors->first()));
     @endif
-
-
 });
-
 </script>
-
 
 @endsection

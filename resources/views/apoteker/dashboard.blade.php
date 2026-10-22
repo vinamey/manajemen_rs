@@ -510,17 +510,9 @@
 
     <!-- UPDATE STOK OBAT -->
 
-    <a
-        href="{{ route('log-stok-obat.index') }}"
-    >
-
-        <span class="menu-icon">
-            📦
-        </span>
-
-        Update Stok Obat
-
-    </a>
+  <a href="{{ route('apoteker.update-stok-obat.index') }}">
+    Update Stok Obat
+</a>
 
 
     <!-- SUPPLIER OBAT -->
