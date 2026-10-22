@@ -22,17 +22,11 @@ class LogStokObat extends Model
 
     public function stokObat()
     {
-        return $this->belongsTo(
-            StokObat::class,
-            'stok_obat_id'
-        );
+        return $this->belongsTo(StokObat::class, 'stok_obat_id');
     }
 
     public function obat()
     {
-        return $this->belongsTo(
-            MasterObat::class,
-            'obat_id'
-        );
+        return $this->belongsTo(MasterObat::class, 'obat_id');
     }
 }

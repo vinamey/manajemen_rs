@@ -12,6 +12,8 @@ class StokObat extends Model
     protected $fillable = [
         'obat_id',
         'satuan_obat_id',
+        'harga_jual',
+        'stok_tersedia',
     ];
 
     public function obat(): BelongsTo

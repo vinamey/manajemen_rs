@@ -278,12 +278,12 @@
             <ul class="nav flex-column">
 
                 {{-- DASHBOARD ADMIN RS --}}
-            <li class="nav-item">
-    <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
-        <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
-        Dashboard Apoteker
-    </a>
-</li>
+                <li class="nav-item">
+                    <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
+                        <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
+                        Dashboard Apoteker
+                    </a>
+                </li>
                 {{-- DATA DOKTER --}}
                 <li class="nav-item">
                     <a
@@ -319,11 +319,12 @@
 
                 {{-- DATA APOTEKER --}}
                 <li class="nav-item">
-    <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
-        <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
-        Dashboard Apoteker
-    </a>
-</li>
+                    <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
+                        <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
+                        Dashboard Apoteker
+                    </a>
+                </li>
+                
                 {{-- DATA KASIR --}}
                 <li class="nav-item">
                     <a
@@ -409,6 +410,10 @@
 
                 <li class="nav-item">
 
+                    {{-- =================================================
+                         TOMBOL MASTER DATA
+                    ================================================== --}}
+
                     <a
                         class="nav-link master-toggle {{ $masterAktif ? 'master-active' : '' }}"
                         data-bs-toggle="collapse"
@@ -425,6 +430,9 @@
                         <i class="fa-solid fa-chevron-down master-arrow"></i>
                     </a>
 
+                    {{-- =================================================
+                         SUB MENU MASTER DATA
+                    ================================================== --}}
                     <div
                         class="collapse {{ $masterAktif ? 'show' : '' }}"
                         id="masterDataMenu"
@@ -554,6 +562,7 @@
 
                         </ul>
                     </div>
+
                 </li>
 
                 {{-- STOK OBAT --}}
@@ -617,62 +626,7 @@
 
     </div>
 
-    {{-- CONTENT --}}
-    <div class="content">
-
-        {{-- NAVBAR --}}
-        <nav class="navbar navbar-light bg-white shadow-sm">
-            <div class="container-fluid">
-
-                {{-- JUDUL HALAMAN --}}
-                <span class="navbar-brand">
-                    @if (request()->routeIs('superadmin.laporan'))
-                        Dashboard Laporan
-                    @elseif (request()->routeIs('hasil-pemeriksaan.*'))
-                        Dashboard Hasil Pemeriksaan
-                    @else
-                        @yield('page-title', 'Dashboard Super Admin')
-                    @endif
-                </span>
-
-                {{-- USER DAN LOGOUT --}}
-                <div class="d-flex align-items-center">
-                    <span class="me-2 user-name">
-                        {{ Auth::user()?->name }}
-                    </span>
-
-                    <form
-                        action="{{ route('logout') }}"
-                        method="POST"
-                        style="display:inline"
-                    >
-                        @csrf
-
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="fa-solid fa-right-from-bracket me-1"></i>
-                            Logout
-                        </button>
-                    </form>
-                </div>
-
-            </div>
-        </nav>
-
-        {{-- ISI HALAMAN --}}
-        <div class="container-fluid page-container">
-            @yield('content')
-        </div>
-
-    </div>
-
 </div>
-
-{{-- BOOTSTRAP JS --}}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-{{-- SCRIPT TAMBAHAN --}}
-@stack('scripts')
 
 </body>
 </html>
-
