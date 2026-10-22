@@ -237,6 +237,27 @@ class MasterPasienController extends Controller
     }
 
     // ==========================================
+    // SIMPAN DATA MASTER PASIEN
+    // ==========================================
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|max:20',
+            'tanggal_lahir' => 'required|date',
+            'alamat' => 'required|string',
+            'golongan_darah' => 'nullable|string|max:5',
+            'status_asuransi' => 'nullable|string|max:10',
+        ]);
+
+        MasterPasien::create($validated);
+
+        return redirect()
+            ->route('master-pasien.index')
+            ->with('success', 'Data pasien berhasil ditambahkan.');
+    }
+
+    // ==========================================
     // FORMAT STATUS ASURANSI
     // ==========================================
     private function formatStatusAsuransi($status)
