@@ -1698,7 +1698,7 @@
                                     <div
                                         class="text-[10px] font-bold text-[#234d73]">
 
-                                        Resep & Obat
+                                        Hasil Pemeriksaan
 
                                     </div>
 
@@ -1706,7 +1706,7 @@
                                     <div
                                         class="text-[9px] text-slate-400 mt-1">
 
-                                        Kelola data dan resep obat
+                                       Simpan Hasil Pemeriksaan
 
                                     </div>
 
@@ -1743,7 +1743,7 @@
                                     <div
                                         class="text-[10px] font-bold text-[#234d73]">
 
-                                        Hasil Pemeriksaan
+                                        Resep & Obat
 
                                     </div>
 
@@ -1751,7 +1751,8 @@
                                     <div
                                         class="text-[9px] text-slate-400 mt-1">
 
-                                        Simpan hasil pemeriksaan
+
+                                        Kelola data dan resep obat
 
                                     </div>
 
@@ -2668,14 +2669,14 @@
 
 
                     <h3>
-                        Resep Obat
+                        Hasil Pemeriksaan
                     </h3>
 
 
                     <p class="mt-2">
 
-                        Dokter dapat memberikan resep
-                        obat sesuai hasil pemeriksaan.
+                       Hasil pemeriksaan pasien
+                       tersimpan dalam sistem.
 
                     </p>
 
@@ -2710,14 +2711,14 @@
 
 
                     <h3>
-                        Hasil Pemeriksaan
+                         Resep Obat
                     </h3>
 
 
                     <p class="mt-2">
 
-                        Hasil pemeriksaan pasien
-                        tersimpan dalam sistem.
+                        Dokter dapat memberikan resep
+                        obat sesuai hasil pemeriksaan.
 
                     </p>
 
