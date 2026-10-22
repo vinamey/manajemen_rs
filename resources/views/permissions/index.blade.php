@@ -1,6 +1,6 @@
 @extends('layouts.superadmin')
 
-@section('page-title', 'Permission Management')
+@section('navbar-title', 'Permission Management')
 
 @section('content')
 
