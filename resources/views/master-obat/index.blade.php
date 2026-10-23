@@ -1015,10 +1015,7 @@
     </div>
 </div>
 
-@endsection
 
-
-@push('scripts')
 
 {{-- JQUERY --}}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -1296,4 +1293,4 @@ $(document).ready(function () {
 });
 </script>
 
-@endpush
+@endsection

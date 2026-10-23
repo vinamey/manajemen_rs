@@ -573,12 +573,16 @@
             </div>
 
 
-            <form id="formTambah">
-
-                @csrf
+           
+           <form id="formTambah"
+                    method="POST"
+                    action="{{ route('master-poli.store') }}"
+                >
+                    @csrf
 
 
                 <div class="modal-body">
+
 
 
                     {{-- KODE POLI --}}
@@ -891,10 +895,10 @@
 
 </div>
 
-@endsection
 
 
-@push('scripts')
+
+
 
 {{-- SWEETALERT --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -1628,4 +1632,4 @@ $(document).ready(function () {
 });
 </script>
 
-@endpush
+@endsection
