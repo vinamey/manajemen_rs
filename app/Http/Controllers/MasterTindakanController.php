@@ -100,59 +100,39 @@ class MasterTindakanController extends Controller
      * SIMPAN DATA
      * =========================================================
      */
-    public function store(Request $request)
-    {
-        try {
 
-            $validated = $request->validate([
-                'kode' => 'required|string|max:255',
-                'nama' => 'required|string|max:255',
-            ], [
-                'kode.required' =>
-                    'Kode tindakan wajib diisi.',
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'kode' => 'required|string|max:255',
+        'nama' => 'required|string|max:255',
+    ], [
+        'kode.required' => 'Kode tindakan wajib diisi.',
+        'kode.max' => 'Kode tindakan maksimal 255 karakter.',
+        'nama.required' => 'Nama tindakan wajib diisi.',
+        'nama.max' => 'Nama tindakan maksimal 255 karakter.',
+    ]);
 
-                'kode.max' =>
-                    'Kode tindakan maksimal 255 karakter.',
+    try {
+        MasterTindakan::create([
+            'kode' => $validated['kode'],
+            'nama' => $validated['nama'],
+        ]);
 
-                'nama.required' =>
-                    'Nama tindakan wajib diisi.',
+        return redirect()
+            ->route('master-tindakan.index')
+            ->with('success', 'Data tindakan berhasil ditambahkan.');
 
-                'nama.max' =>
-                    'Nama tindakan maksimal 255 karakter.',
-            ]);
+    } catch (\Throwable $e) {
+        \Log::error('Gagal menyimpan Master Tindakan', [
+            'message' => $e->getMessage(),
+        ]);
 
-
-            $tindakan = MasterTindakan::create([
-                'kode' => $validated['kode'],
-                'nama' => $validated['nama'],
-            ]);
-
-
-            return response()->json([
-                'success' => true,
-                'message' =>
-                    'Data tindakan berhasil ditambahkan.',
-                'data' => $tindakan,
-            ], 201);
-
-        } catch (ValidationException $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Validasi gagal.',
-                'errors' => $e->errors(),
-            ], 422);
-
-        } catch (\Throwable $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' =>
-                    'Terjadi kesalahan saat menyimpan data tindakan.',
-            ], 500);
-        }
+        return back()
+            ->withInput()
+            ->with('error', 'Data tindakan gagal disimpan.');
     }
-
+}
 
     /**
      * =========================================================

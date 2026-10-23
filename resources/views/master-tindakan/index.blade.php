@@ -730,44 +730,34 @@
 </div>
 
 
-{{-- =========================================================
-     MODAL TAMBAH
-========================================================= --}}
+
+
+{{-- MODAL TAMBAH --}}
 <div
     class="modal fade modal-tindakan"
     id="modalTambahTindakan"
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <div class="d-flex align-items-center gap-2">
-
                     <i class="fas fa-notes-medical"></i>
-
-                    <h5 class="modal-title">
-                        Tambah Tindakan
-                    </h5>
-
+                    <h5 class="modal-title">Tambah Tindakan</h5>
                 </div>
-
             </div>
 
-
-            <form id="formTambahTindakan">
-
+            <form
+                id="formTambahTindakan"
+                method="POST"
+                action="{{ route('master-tindakan.store') }}"
+            >
                 @csrf
 
-
                 <div class="modal-body">
-
                     <div class="form-group-tindakan">
-
                         <label
                             for="tambah_kode"
                             class="form-label-tindakan"
@@ -784,12 +774,9 @@
                             maxlength="255"
                             required
                         >
-
                     </div>
 
-
                     <div class="form-group-tindakan mb-0">
-
                         <label
                             for="tambah_nama"
                             class="form-label-tindakan"
@@ -806,14 +793,10 @@
                             maxlength="255"
                             required
                         >
-
                     </div>
-
                 </div>
 
-
                 <div class="modal-footer">
-
                     <button
                         type="button"
                         class="btn btn-modal-cancel-tindakan"
@@ -822,24 +805,21 @@
                         Batal
                     </button>
 
-
                     <button
                         type="submit"
+                        id="btnSimpanTindakan"
                         class="btn btn-modal-save-tindakan"
                     >
                         <i class="fas fa-save me-1"></i>
                         Simpan Data
                     </button>
-
                 </div>
-
             </form>
 
         </div>
-
     </div>
-
 </div>
+
 
 
 {{-- =========================================================
@@ -877,16 +857,9 @@
 
                     <tr>
 
-                        <td class="detail-tindakan-label">
-                            ID
-                        </td>
 
-                        <td
-                            class="detail-tindakan-value"
-                            id="lihatTindakanId"
-                        >
-                            -
-                        </td>
+
+                       
 
                     </tr>
 
@@ -1069,7 +1042,7 @@
 @endsection
 
 
-@push('scripts')
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -1082,6 +1055,8 @@
 
 <script>
 $(document).ready(function () {
+console.log('JavaScript Master Tindakan berhasil dijalankan');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -1817,5 +1792,3 @@ $(document).ready(function () {
 
 });
 </script>
-
-@endpush
