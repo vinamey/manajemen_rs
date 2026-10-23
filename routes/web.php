@@ -708,26 +708,60 @@ Route::middleware([
 // PEMERIKSAAN DOKTER / RESEP DOKTER
 // ==================================================
 
+
 Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit|dokter|apoteker'
 ])->group(function () {
-    Route::resource('pemeriksaan-dokter', PemeriksaanDokterController::class);
+    Route::resource(
+        'pemeriksaan-dokter',
+        PemeriksaanDokterController::class
+    );
 });
+
+
 
 Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit|apoteker'
 ])->prefix('apoteker')->name('apoteker.')->group(function () {
-    Route::get(
-        '/log-stok-obat',
-        [LogStokObatController::class, 'index']
-    )->name('log-stok-obat.index');
 
-    Route::post(
-        '/log-stok-obat',
-        [LogStokObatController::class, 'store']
-    )->name('log-stok-obat.store');
+Route::get('/update-stok-obat', function () {
+    $obats = \App\Models\MasterObat::orderBy('nama', 'asc')->get();
+
+    return view('apoteker.update-stok-obat', compact('obats'));
+})->name('update-stok-obat.index');
+
+  
+    Route::get('/log-stok-obat', [
+        LogStokObatController::class,
+        'index'
+    ])->name('log-stok-obat.index');
+
+   
+    Route::post('/log-stok-obat', [
+        LogStokObatController::class,
+        'store'
+    ])->name('log-stok-obat.store');
+
+
+    Route::get('/update-stok-obat', function () {
+        $logsBaru = \App\Models\LogStokObat::with([
+            'obat',
+            'stokObat'
+        ])
+            ->where('nilai', '>', 0)
+            ->latest('tanggal_update')
+            ->get();
+
+        $obats = \App\Models\MasterObat::all();
+
+        return view(
+            'apoteker.update-stok-obat',
+            compact('logsBaru', 'obats')
+        );
+    })->name('update-stok-obat.index');
+
 });
 
 
