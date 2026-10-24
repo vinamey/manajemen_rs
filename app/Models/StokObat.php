@@ -18,8 +18,23 @@ class StokObat extends Model
         'stok_tersedia',
     ];
 
+    
     public function obat()
     {
-        return $this->belongsTo(MasterObat::class, 'obat_id');
+        return $this->belongsTo(
+            MasterObat::class,
+            'obat_id',
+            'id'
+        );
+    }
+
+   
+    public function satuanObat()
+    {
+        return $this->belongsTo(
+            MasterSatuanObat::class,
+            'satuan_obat_id',
+            'id'
+        );
     }
 }
