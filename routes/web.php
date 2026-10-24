@@ -370,11 +370,12 @@ Route::get('/kasir/resep', [
 ])->name('kasir.resep');
 
 
-// ==================================================
+
+ // ==================================================
 // KASIR - PEMBAYARAN OBAT
 // ==================================================
 
-Route::middleware(['auth', 'role:kasir'])->group(function () {
+Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
 
     Route::get('/kasir/pembayaran', [
         PembayaranController::class,
@@ -390,6 +391,7 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
         PembayaranController::class,
         'destroy'
     ])->name('kasir.pembayaran.hapus');
+
 });
 
 
