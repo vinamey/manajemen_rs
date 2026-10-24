@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StokObat extends Model
 {
+    use HasFactory;
+
     protected $table = 'stok_obats';
 
     protected $fillable = [
@@ -16,16 +18,8 @@ class StokObat extends Model
         'stok_tersedia',
     ];
 
-    public function obat(): BelongsTo
+    public function obat()
     {
         return $this->belongsTo(MasterObat::class, 'obat_id');
-    }
-
-    public function satuanObat(): BelongsTo
-    {
-        return $this->belongsTo(
-            MasterSatuanObat::class,
-            'satuan_obat_id'
-        );
     }
 }
