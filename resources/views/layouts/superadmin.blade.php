@@ -266,12 +266,7 @@
             @if (auth()->user()?->hasRole('admin rumah sakit'))
                 <ul class="nav flex-column">
 
-                    <li class="nav-item">
-                        <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
-                            <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
-                            Dashboard Apoteker
-                        </a>
-                    </li>
+                 
                     <li class="nav-item">
                         <a href="{{ route('admin.dokter.index') }}"
                             class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}">
@@ -296,7 +291,7 @@
                     <li class="nav-item">
                         <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
                             <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
-                            Dashboard Apoteker
+                            Data Apoteker
                         </a>
                     </li>
                     <li class="nav-item">
