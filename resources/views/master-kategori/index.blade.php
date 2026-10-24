@@ -431,6 +431,8 @@
             'Obat Lambung',
             'Obat Kulit',
             'Obat Mata',
+            'Obat Antinyeri dan Antiinflamasi',
+            'Obat Antasida / Penetral Asam Lambung',
         ];
     @endphp
 
