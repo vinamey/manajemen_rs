@@ -1,17 +1,34 @@
 <?php
- namespace App\Http\Controllers;
 
+namespace App\Http\Controllers;
+
+use App\Models\Obat;
 use App\Models\LogStokObat;
+use Illuminate\Http\Request;
 
 class StokObatController extends Controller
 {
-    public function index()
+    public function storeStok(Request $request)
     {
-        // Mengambil data log stok beserta relasi ke obat
-        $logs = LogStokObat::with(['obat', 'stokObat'])
-            ->latest('tanggal_update')
-            ->paginate(10);
+        $request->validate([
+            'obat_id' => 'required|exists:obats,id',
+            'jumlah' => 'required|integer|min:1',
+            'status' => 'required|string', 
+        ]);
 
-        return view('log-stok-obat.index', compact('logs'));
+        $obat = Obat::findOrFail($request->obat_id);
+        $obat->stok += $request->jumlah;
+        $obat->save();
+
+        LogStokObat::create([
+            'obat_id' => $obat->id,
+            'tanggal_update' => now(),
+            'status' => $request->status, 
+            'jumlah' => $request->jumlah,
+            'stok_tersedia' => $obat->stok,
+            'user_id' => auth()->id(), 
+        ]);
+
+        return redirect()->route('log-stok-obat.index')->with('success', 'Log stok obat berhasil diperbarui.');
     }
 }

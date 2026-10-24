@@ -164,7 +164,12 @@ class MasterObatController extends Controller
                 'Data obat berhasil diperbarui.'
             );
     }
+public function indexApoteker()
+{
+    $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
 
+    return view('apoteker.master-obat.index', compact('kategoris'));
+}
 
     // =========================================================
     // HAPUS OBAT
