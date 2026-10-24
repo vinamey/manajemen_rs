@@ -799,49 +799,37 @@
                     </div>
 
 
-                    {{-- JENIS --}}
-                    <div class="form-group-asuransi mb-0">
-
-                        <label
-                            for="tambah_nama_asuransi"
-                            class="form-label-asuransi"
-                        >
-                            Jenis Asuransi
-                        </label>
 
 
-                        <select
-                            id="tambah_nama_asuransi"
-                            name="nama"
-                            class="form-select-asuransi"
-                            required
-                        >
+{{-- JENIS --}}
+<div class="form-group-asuransi mb-0">
 
-                            <option value="">
-                                -- Pilih Jenis Asuransi --
-                            </option>
+    <label
+        for="tambah_nama_asuransi"
+        class="form-label-asuransi"
+    >
+        Jenis Asuransi
+    </label>
 
-                            <option value="Gigi">
-                                Gigi
-                            </option>
+    <select
+        id="tambah_nama_asuransi"
+        name="nama"
+        class="form-select-asuransi"
+        required
+    >
+        <option value="">-- Pilih Jenis Asuransi --</option>
 
-                            <option value="Rawat Inap">
-                                Rawat Inap
-                            </option>
+        <option value="BPJS Kesehatan">BPJS Kesehatan</option>
+        <option value="BPJS Ketenagakerjaan">BPJS Ketenagakerjaan</option>
+        <option value="Asuransi Swasta">Asuransi Swasta</option>
+        <option value="Asuransi Perusahaan">Asuransi Perusahaan</option>
+        <option value="Jaminan Kesehatan Daerah (Jamkesda)">Jaminan Kesehatan Daerah (Jamkesda)</option>
+        <option value="Jasa Raharja">Jasa Raharja</option>
+        <option value="Jaminan Kecelakaan Kerja (JKK)">Jaminan Kecelakaan Kerja (JKK)</option>
+        <option value="Umum (Bayar Mandiri)">Umum (Bayar Mandiri)</option>
+    </select>
 
-                            <option value="Penyakit Kritis">
-                                Penyakit Kritis
-                            </option>
-
-                            <option value="Rawat Jalan">
-                                Rawat Jalan
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                </div>
+</div>
 
 
                 <div class="modal-footer">
