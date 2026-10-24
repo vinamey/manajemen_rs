@@ -265,8 +265,6 @@
             {{-- SIDEBAR ADMIN RUMAH SAKIT --}}
             @if (auth()->user()?->hasRole('admin rumah sakit'))
                 <ul class="nav flex-column">
-
-                 
                     <li class="nav-item">
                         <a href="{{ route('admin.dokter.index') }}"
                             class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}">
@@ -301,12 +299,10 @@
                             Data Kasir
                         </a>
                     </li>
-
                 </ul>
             @else
                 {{-- SIDEBAR SUPER ADMIN --}}
                 <ul class="nav flex-column">
-
                     <li class="nav-item">
                         <a href="{{ route('superadmin.dashboard') }}"
                             class="nav-link {{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}">
@@ -499,11 +495,29 @@
         {{-- AREA KONTEN UTAMA --}}
         <div class="content">
 
-            {{-- NAVBAR ATAS --}}
+            {{-- NAVBAR ATAS (Dibuat Dinamis Berdasarkan Route) --}}
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid p-0">
                     <span class="navbar-brand">
-                        @yield('navbar-title', 'Dashboard Superadmin')
+                        @if (request()->routeIs('superadmin.laporan'))
+                            Laporan
+                        @elseif (request()->routeIs('roles.*'))
+                            Role Management
+                        @elseif (request()->routeIs('permissions.*'))
+                            Permission Management
+                        @elseif (request()->routeIs('users.*'))
+                            User Management
+                        @elseif (request()->routeIs('master-*'))
+                            Master Data
+                        @elseif (request()->routeIs('pendaftaran.*'))
+                            Pendaftaran Pasien
+                        @elseif (request()->routeIs('pemeriksaan-dokter.*'))
+                            Pemeriksaan Dokter
+                        @elseif (request()->routeIs('hasil-pemeriksaan.*'))
+                            Hasil Pemeriksaan
+                        @else
+                            @yield('navbar-title', 'Dashboard Superadmin')
+                        @endif
                     </span>
                     <div class="d-flex align-items-center gap-3">
                         <span class="user-name">
