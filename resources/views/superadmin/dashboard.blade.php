@@ -142,17 +142,16 @@
 </style>
 
 @php
-    $totalPasien = \App\Models\MasterPasien::count();
     $totalPerawat = \App\Models\MasterPerawat::count();
-    $totalObat = \App\Models\StokObat::count();
+    $totalObat = \App\Models\MasterObat::count();
     $totalKamar = \App\Models\MasterKamar::count();
-
-    // TOTAL PENDAFTARAN HARIAN (Reset jadi 0 saat berganti tanggal hari ini)
-    $totalPendaftaran = \App\Models\PendaftaranPasien::whereDate('tanggal_pendaftaran', today())->count();
+    $totalPendaftaran = \App\Models\PendaftaranPasien::whereDate(
+        'tanggal_pendaftaran',
+        today()
+    )->count();
 
     $halaman = $halaman ?? 'dashboard';
 @endphp
-
 <div class="container-fluid px-0">
 
     @if($halaman === 'laporan')

@@ -16,12 +16,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
-         $user = Auth::user();
-         if ($user->hasRole('super admin')) {
+        $user = Auth::user();
+
+        if ($user->hasRole('super admin')) {
             $totalUser = User::count();
             $totalPasien = MasterPasien::count();
             $totalDokter = MasterDokter::count();
+
+            // Menghitung semua data obat di Master Obat
             $totalObat = MasterObat::count();
+
             $totalPendaftaran = PendaftaranPasien::count();
             $totalPemeriksaan = PemeriksaanDokter::count();
             $totalPembayaran = Pembayaran::count();
@@ -35,12 +39,12 @@ class DashboardController extends Controller
                 'totalPemeriksaan',
                 'totalPembayaran'
             ));
-         }
-         if ($user->hasRole('admin rumah sakit')) {
+        }
+
+        if ($user->hasRole('admin rumah sakit')) {
             return view('admin.dashboard');
-            }
-         }
+        }
 
+        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
     }
-
-
+}

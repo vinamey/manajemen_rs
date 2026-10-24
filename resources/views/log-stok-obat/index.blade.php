@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Stok Obat</title>
+    <title>Log Stok Obat | SIM RS</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -17,9 +18,7 @@
             --text-muted: #6b7280;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -28,7 +27,6 @@
             color: var(--text-dark);
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -38,7 +36,7 @@
             background: linear-gradient(180deg, var(--blue-main), var(--blue-dark));
             color: white;
             padding-top: 20px;
-            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 3px 0 15px rgba(0, 0, 0, .08);
             z-index: 1000;
         }
 
@@ -64,7 +62,7 @@
 
         .sidebar-line {
             border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-top: 1px solid rgba(255, 255, 255, .25);
             margin: 0 18px 18px;
         }
 
@@ -72,7 +70,7 @@
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            opacity: 0.75;
+            opacity: .75;
             padding: 0 24px;
             margin-bottom: 8px;
         }
@@ -87,12 +85,10 @@
             margin: 4px 15px;
             border-radius: 12px;
             font-size: 15px;
-            transition: 0.2s;
+            transition: .2s;
         }
 
-        .sidebar a:hover {
-            background: rgba(255, 255, 255, 0.18);
-        }
+        .sidebar a:hover { background: rgba(255, 255, 255, .18); }
 
         .sidebar a.active {
             background: white;
@@ -115,13 +111,13 @@
 
         .logout-btn {
             border: none;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, .15);
             color: white;
             width: 100%;
             padding: 11px;
             border-radius: 10px;
             font-weight: 600;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .logout-btn:hover {
@@ -129,7 +125,6 @@
             color: var(--blue-main);
         }
 
-        /* KONTEN */
         .content {
             margin-left: 250px;
             padding: 35px;
@@ -152,9 +147,7 @@
             overflow: hidden;
         }
 
-        .card-header {
-            padding: 22px 20px;
-        }
+        .card-header { padding: 22px 20px; }
 
         .section-icon {
             width: 42px;
@@ -170,14 +163,14 @@
         .table thead th {
             background: #0d6efd !important;
             color: white !important;
-            padding: 20px 15px;
+            padding: 17px 15px;
             white-space: nowrap;
-            font-size: 16px;
+            font-size: 15px;
             border: none;
         }
 
         .table tbody td {
-            padding: 16px 15px;
+            padding: 15px;
             vertical-align: middle;
         }
 
@@ -195,18 +188,27 @@
         }
 
         @media (max-width: 900px) {
-            .sidebar {
-                width: 210px;
-            }
+            .sidebar { width: 210px; }
+            .content { margin-left: 210px; padding: 20px; }
+            .page-title { font-size: 25px; }
+        }
 
-            .content {
-                margin-left: 210px;
-                padding: 20px;
+        @media (max-width: 600px) {
+            .sidebar { width: 72px; }
+            .logo { font-size: 12px; }
+            .logo-icon { width: 42px; height: 42px; }
+            .menu-title { display: none; }
+            .sidebar a {
+                justify-content: center;
+                padding: 13px 5px;
+                margin: 5px;
+                font-size: 0;
             }
-
-            .page-title {
-                font-size: 25px;
-            }
+            .menu-icon { font-size: 19px; }
+            .logout-btn { font-size: 0; }
+            .content { margin-left: 72px; padding: 15px; }
+            .page-title { font-size: 22px; }
+            .page-subtitle { font-size: 13px; }
         }
     </style>
 </head>
@@ -236,7 +238,6 @@
             <span class="menu-icon">🛒</span> Log Stok Obat
         </a>
 
-
         <a href="{{ route('master-supplier.index') }}">
             <span class="menu-icon">🏢</span> Supplier Obat
         </a>
@@ -255,36 +256,59 @@
         </div>
     </div>
 
-    {{-- KONTEN UTAMA --}}
+    {{-- KONTEN --}}
     <main class="content">
 
-        <!-- HEADER & TOMBOL TAMBAH STOK (MODAL) -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
             <div>
                 <h1 class="page-title">Log Stok Obat</h1>
-                <p class="page-subtitle">Riwayat perubahan stok obat dan informasi stok yang perlu diprioritaskan.</p>
+                <p class="page-subtitle">
+                    Riwayat perubahan stok obat dan informasi stok tersedia.
+                </p>
             </div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahStok">
+
+            <button type="button" class="btn btn-primary"
+                data-bs-toggle="modal" data-bs-target="#modalTambahStok">
                 <i class="fas fa-plus me-1"></i> Tambah Stok Obat
             </button>
         </div>
 
+        {{-- PESAN BERHASIL / ERROR --}}
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show">
+                <strong>Data belum berhasil disimpan.</strong>
+                <ul class="mb-0 mt-2">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
         <div class="card border-0 shadow-sm">
 
-            {{-- HEADER STOK OBAT --}}
             <div class="card-header bg-white border-0">
                 <div class="d-flex align-items-center">
                     <div class="section-icon bg-primary bg-opacity-10 text-primary">
-                        <i class="fas fa-exclamation-triangle"></i>
+                        <i class="fas fa-boxes-stacked"></i>
                     </div>
                     <div>
                         <h5 class="mb-1 fw-bold text-dark">Stok Obat</h5>
-                        <small class="text-muted">Riwayat perubahan stok dan satuan obat masuk.</small>
+                        <small class="text-muted">
+                            Riwayat perubahan jumlah dan satuan obat.
+                        </small>
                     </div>
                 </div>
             </div>
 
-            {{-- TABEL STOK OBAT --}}
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
@@ -292,90 +316,122 @@
                             <tr>
                                 <th style="width: 7%;">No</th>
                                 <th>Tanggal Update</th>
-                                <th>Nama / ID Obat</th>
-                                <th>Satuan</th> {{-- Kolom Satuan Ditambahkan Disini --}}
+                                <th>Nama Obat</th>
+                                <th>Satuan</th>
                                 <th>Status</th>
-                                <th>Jumlah (Nilai)</th>
+                                <th>Nilai</th>
                                 <th>Stok Tersedia</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             @forelse (($logStokObats ?? $logStok ?? $logsLama ?? $logs ?? []) as $index => $log)
+
                                 @php
-                                    $nilai = (int) ($log->jumlah ?? $log->nilai ?? 0);
-                                    $isBertambah = $nilai > 0 || !empty($log->pembelian_obat_id) || (isset($log->status) && strtolower($log->status) == 'masuk');
+                                    $nilai = (int) ($log->nilai ?? $log->jumlah ?? 0);
+
+                                    $tanggal = $log->tanggal_update ?? $log->created_at;
+
+                                    $namaObat = $log->obat?->nama
+                                        ?? $log->obat?->nama_obat
+                                        ?? '-';
+
+                                    $namaSatuan = $log->stokObat?->satuanObat?->nama_satuan
+                                        ?? $log->stokObat?->satuanObat?->nama
+                                        ?? '-';
+
+                                    $stokTersedia = $log->stokObat?->stok_tersedia
+                                        ?? $log->stok_tersedia
+                                        ?? $log->nilai
+                                        ?? $log->jumlah
+                                        ?? 0;
+
+                                    $status = $log->status ?? null;
+
+                                    if (!$status) {
+                                        $status = $nilai > 0 ? 'Bertambah' : ($nilai < 0 ? 'Berkurang' : 'Tetap');
+                                    }
                                 @endphp
+
                                 <tr>
                                     {{-- NOMOR --}}
                                     <td class="fw-semibold">
                                         {{ $index + 1 }}
                                     </td>
 
-                                    {{-- TANGGAL UPDATE --}}
+                                    {{-- TANGGAL --}}
                                     <td>
                                         <i class="far fa-clock text-muted me-1"></i>
-                                        @if ($log->tanggal_update ?? $log->created_at)
-                                            {{ \Carbon\Carbon::parse($log->tanggal_update ?? $log->created_at)->format('d/m/Y H:i') }}
+
+                                        @if ($tanggal)
+                                            {{ \Carbon\Carbon::parse($tanggal)->format('d/m/Y H:i') }}
                                         @else
                                             -
                                         @endif
                                     </td>
 
-                                    {{-- NAMA OBAT --}}
+                                    {{-- NAMA OBAT DARI MASTER OBAT --}}
                                     <td>
                                         <span class="fw-bold text-dark">
-                                            {{ $log->obat->nama_obat ?? ($log->obat->nama ?? ($log->nama_obat ?? ('ID Obat: ' . $log->obat_id))) }}
+                                            {{ $namaObat }}
                                         </span>
                                     </td>
 
-                                    {{-- SATUAN OBAT --}}
+                                    {{-- SATUAN --}}
                                     <td>
                                         <span class="text-secondary fw-semibold">
-                                            {{ $log->stokObat->satuanObat->nama_satuan ?? ($log->stokObat->satuanObat->nama ?? ($log->satuan ?? '-')) }}
+                                            {{ $namaSatuan }}
                                         </span>
                                     </td>
 
                                     {{-- STATUS --}}
                                     <td>
-                                        @if (isset($log->status))
-                                            <span class="badge bg-info bg-opacity-15 text-dark px-3 py-2 text-capitalize">
-                                                {{ $log->status }}
-                                            </span>
-                                        @elseif ($isBertambah)
+                                        @if (strtolower($status) == 'masuk' || strtolower($status) == 'bertambah')
                                             <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">
-                                                <i class="fas fa-arrow-down me-1"></i> Bertambah
+                                                <i class="fas fa-arrow-up me-1"></i>
+                                                {{ ucfirst($status) }}
+                                            </span>
+                                        @elseif (strtolower($status) == 'keluar' || strtolower($status) == 'berkurang')
+                                            <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2">
+                                                <i class="fas fa-arrow-down me-1"></i>
+                                                {{ ucfirst($status) }}
                                             </span>
                                         @else
-                                            <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2">
-                                                <i class="fas fa-arrow-up me-1"></i> Berkurang
+                                            <span class="badge bg-secondary px-3 py-2">
+                                                {{ ucfirst($status) }}
                                             </span>
                                         @endif
                                     </td>
 
-                                    {{-- JUMLAH --}}
+                                    {{-- NILAI / JUMLAH PERUBAHAN --}}
                                     <td class="fw-bold">
                                         @if ($nilai > 0)
-                                            <span class="text-success">+{{ abs($nilai) }}</span>
+                                            <span class="text-success">+{{ $nilai }}</span>
                                         @elseif ($nilai < 0)
-                                            <span class="text-danger">-{{ abs($nilai) }}</span>
+                                            <span class="text-danger">{{ $nilai }}</span>
                                         @else
-                                            <span>{{ $nilai }}</span>
+                                            <span>0</span>
                                         @endif
                                     </td>
 
                                     {{-- STOK TERSEDIA --}}
                                     <td>
-                                        <span class="badge bg-secondary px-3 py-2 fs-6">
-                                            {{ $log->stokObat->stok_tersedia ?? ($log->stok_tersedia ?? '-') }}
+                                        <span class="badge bg-primary px-3 py-2 fs-6">
+                                            {{ $stokTersedia }}
                                         </span>
                                     </td>
                                 </tr>
+
                             @empty
                                 <tr>
                                     <td colspan="7" class="empty-state">
                                         <i class="fas fa-box-open"></i>
-                                        <div class="fw-semibold mb-1">Belum Ada Data Log Stok Obat</div>
-                                        <small>Riwayat stok obat akan ditampilkan di bagian ini.</small>
+                                        <div class="fw-semibold mb-1">
+                                            Belum Ada Data Log Stok Obat
+                                        </div>
+                                        <small>
+                                            Riwayat stok obat akan ditampilkan di bagian ini.
+                                        </small>
                                     </td>
                                 </tr>
                             @endforelse
@@ -383,73 +439,117 @@
                     </table>
                 </div>
             </div>
-
         </div>
 
     </main>
 
-    <!-- MODAL POP-UP TAMBAH STOK OBAT -->
-    <div class="modal fade" id="modalTambahStok" tabindex="-1" aria-labelledby="modalTambahStokLabel" aria-hidden="true">
+    {{-- MODAL TAMBAH STOK --}}
+    <div class="modal fade" id="modalTambahStok" tabindex="-1"
+        aria-labelledby="modalTambahStokLabel" aria-hidden="true">
+
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg">
+
                 <form action="{{ route('log-stok-obat.store') }}" method="POST">
                     @csrf
-                    <!-- HEADER MODAL DENGAN WARNA TEMA BIRU -->
+
                     <div class="modal-header bg-primary text-white py-3">
                         <h5 class="modal-title fw-bold" id="modalTambahStokLabel">
-                            <i class="fas fa-plus-circle me-2"></i> Tambah Stok Obat
+                            <i class="fas fa-plus-circle me-2"></i>
+                            Tambah Stok Obat
                         </h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        <button type="button" class="btn-close btn-close-white"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    
+
                     <div class="modal-body p-4">
-                        <!-- Pilih Obat -->
+
+                        {{-- PILIH OBAT --}}
                         <div class="mb-3">
-                            <label for="obat_id" class="form-label fw-semibold text-secondary">Nama Obat</label>
-                            <select name="obat_id" id="obat_id" class="form-select form-select-lg fs-6" required>
+                            <label for="obat_id" class="form-label fw-semibold">
+                                Nama Obat
+                            </label>
+
+                            <select name="obat_id" id="obat_id"
+                                class="form-select" required>
                                 <option value="">-- Pilih Obat --</option>
-                                @foreach(($obats ?? []) as $obat)
-                                    <option value="{{ $obat->id }}">{{ $obat->nama_obat ?? $obat->nama }}</option>
+
+                                @foreach ($obats ?? [] as $obat)
+                                    <option value="{{ $obat->id }}"
+                                        {{ old('obat_id') == $obat->id ? 'selected' : '' }}>
+                                        {{ $obat->nama ?? $obat->nama_obat }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <!-- Pilih Satuan Obat -->
+                        {{-- PILIH SATUAN --}}
                         <div class="mb-3">
-                            <label for="satuan_obat_id" class="form-label fw-semibold text-secondary">Satuan Obat</label>
-                            <select name="satuan_obat_id" id="satuan_obat_id" class="form-select form-select-lg fs-6" required>
+                            <label for="satuan_obat_id" class="form-label fw-semibold">
+                                Satuan Obat
+                            </label>
+
+                            <select name="satuan_obat_id" id="satuan_obat_id"
+                                class="form-select" required>
                                 <option value="">-- Pilih Satuan --</option>
-                                @foreach(($satuans ?? []) as $satuan)
-                                    <option value="{{ $satuan->id }}">{{ $satuan->nama_satuan ?? $satuan->nama }}</option>
+
+                                @foreach ($satuans ?? [] as $satuan)
+                                    <option value="{{ $satuan->id }}"
+                                        {{ old('satuan_obat_id') == $satuan->id ? 'selected' : '' }}>
+                                        {{ $satuan->nama_satuan ?? $satuan->nama }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <!-- Jumlah / Nilai Stok -->
+                        {{-- JUMLAH STOK --}}
                         <div class="mb-3">
-                            <label for="nilai" class="form-label fw-semibold text-secondary">Jumlah / Nilai Stok</label>
-                            <input type="number" name="nilai" id="nilai" class="form-control" min="1" placeholder="Masukkan jumlah stok..." required>
+                            <label for="nilai" class="form-label fw-semibold">
+                                Jumlah Stok
+                            </label>
+
+                            <input type="number" name="nilai" id="nilai"
+                                class="form-control" min="1"
+                                value="{{ old('nilai') }}"
+                                placeholder="Masukkan jumlah stok..." required>
                         </div>
 
-                        <!-- Tanggal Expired -->
+                        {{-- KEDALUWARSA --}}
                         <div class="mb-3">
-                            <label for="expired_date" class="form-label fw-semibold text-secondary">Tanggal Kedaluwarsa</label>
-                            <input type="date" name="expired_date" id="expired_date" class="form-control">
+                            <label for="expired_date" class="form-label fw-semibold">
+                                Tanggal Kedaluwarsa
+                            </label>
+
+                            <input type="date" name="expired_date" id="expired_date"
+                                class="form-control" value="{{ old('expired_date') }}">
                         </div>
 
-                        <!-- Keterangan -->
+                        {{-- KETERANGAN --}}
                         <div class="mb-3">
-                            <label for="keterangan" class="form-label fw-semibold text-secondary">Keterangan</label>
-                            <textarea name="keterangan" id="keterangan" class="form-control" rows="3" placeholder="Contoh: Stok masuk dari supplier..."></textarea>
+                            <label for="keterangan" class="form-label fw-semibold">
+                                Keterangan
+                            </label>
+
+                            <textarea name="keterangan" id="keterangan"
+                                class="form-control" rows="3"
+                                placeholder="Contoh: Stok masuk dari supplier...">{{ old('keterangan') }}</textarea>
                         </div>
+
                     </div>
 
                     <div class="modal-footer bg-light px-4 py-3">
-                        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary px-4 fw-semibold shadow-sm">
-                            <i class="fas fa-save me-1"></i> Simpan Stok
+                        <button type="button" class="btn btn-outline-secondary px-4"
+                            data-bs-dismiss="modal">
+                            Batal
+                        </button>
+
+                        <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                            <i class="fas fa-save me-1"></i>
+                            Simpan Stok
                         </button>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -457,6 +557,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-</body>
+    {{-- Buka kembali modal jika validasi gagal --}}
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const modal = document.getElementById('modalTambahStok');
+                if (modal) {
+                    bootstrap.Modal.getOrCreateInstance(modal).show();
+                }
+            });
+        </script>
+    @endif
 
+</body>
 </html>

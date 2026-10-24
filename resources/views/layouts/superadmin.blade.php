@@ -460,14 +460,6 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('log-stok-obat.index') }}"
-                            class="nav-link {{ request()->routeIs('log-stok-obat.*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-boxes-stacked me-2"></i>
-                            Stok Obat
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
                         <a href="{{ route('pendaftaran.index') }}"
                             class="nav-link {{ request()->routeIs('pendaftaran.*') ? 'active' : '' }}">
                             <i class="fa-solid fa-clipboard-user me-2"></i>
