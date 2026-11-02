@@ -4,7 +4,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Session\Middleware\StartSession;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
@@ -16,19 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [
-            StartSession::class,
+        $middleware->alias([
+            'role' => RoleMiddleware::class,
+            'permission' => PermissionMiddleware::class,
+            'role_or_permission' => RoleOrPermissionMiddleware::class,
+            'admin.rs' => \App\Http\Middleware\AdminRumahSakitMiddleware::class,
         ]);
-
-        // Alias Middleware Spatie
-       $middleware->alias([
-    'role' => RoleMiddleware::class,
-    'permission' => PermissionMiddleware::class,
-    'role_or_permission' => RoleOrPermissionMiddleware::class,
-
-    // Middleware Admin Rumah Sakit
-    'admin.rs' => \App\Http\Middleware\AdminRumahSakitMiddleware::class,
-]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

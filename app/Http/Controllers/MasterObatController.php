@@ -100,29 +100,41 @@ class MasterObatController extends Controller
             ->make(true);
     }
 
+    // ==================================================
+// FORM TAMBAH OBAT KHUSUS APOTEKER
+// ==================================================
+public function create()
+{
+    $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
 
-    // =========================================================
-    // SIMPAN OBAT
-    // =========================================================
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'kategori_id' => 'required|exists:master_kategoris,id',
-        ]);
+    return view('apoteker.tambah-obat', compact('kategoris'));
+}
 
-        MasterObat::create([
-            'nama' => $request->nama,
-            'kategori_id' => $request->kategori_id,
-        ]);
+   // ==================================================
+// SIMPAN OBAT
+// ==================================================
+public function store(Request $request)
+{
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'kategori_id' => 'required|exists:master_kategoris,id',
+    ]);
 
+    MasterObat::create([
+        'nama' => $request->nama,
+        'kategori_id' => $request->kategori_id,
+    ]);
+
+    if (auth()->user()->hasRole('apoteker')) {
         return redirect()
-            ->route('master-obat.index')
-            ->with(
-                'success',
-                'Data obat berhasil ditambahkan.'
-            );
+            ->route('apoteker.obat.index')
+            ->with('success', 'Data obat berhasil ditambahkan.');
     }
+
+    return redirect()
+        ->route('master-obat.index')
+        ->with('success', 'Data obat berhasil ditambahkan.');
+}
 
 
     // =========================================================
@@ -164,12 +176,34 @@ class MasterObatController extends Controller
                 'Data obat berhasil diperbarui.'
             );
     }
+
+    // =========================================================
+    // HALAMAN MASTER OBAT KHUSUS APOTEKER
+    // =========================================================
+   // HALAMAN DATA OBAT APOTEKER
 public function indexApoteker()
 {
-    $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
+    return view('apoteker.data-obat');
 
-    return view('apoteker.master-obat.index', compact('kategoris'));
 }
+    // =========================================================
+    // DATA YAJRA DATATABLE KHUSUS APOTEKER
+    // =========================================================
+    public function dataApoteker()
+    {
+        $obats = MasterObat::with('kategori')
+            ->select('master_obats.*')
+            ->orderBy('id', 'desc');
+
+        return DataTables::of($obats)
+            ->addIndexColumn()
+            ->addColumn('kategori_nama', function ($obat) {
+                return $obat->kategori
+                    ? $obat->kategori->nama
+                    : '-';
+            })
+            ->make(true);
+    }
 
     // =========================================================
     // HAPUS OBAT

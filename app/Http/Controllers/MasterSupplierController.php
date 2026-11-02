@@ -319,4 +319,35 @@ class MasterSupplierController extends Controller
             ], 500);
         }
     }
+
+    // ==================================================
+// HALAMAN SUPPLIER OBAT KHUSUS APOTEKER
+// ==================================================
+public function indexApoteker()
+{
+    $suppliers = \App\Models\MasterSupplier::orderBy('nama', 'asc')
+        ->paginate(10);
+
+    return view('apoteker.supplier-obat', compact('suppliers'));
+}
+
+// ==================================================
+// DATA SUPPLIER KHUSUS APOTEKER
+// ==================================================
+public function dataApoteker()
+{
+    $suppliers = MasterSupplier::query()
+        ->select([
+            'id',
+            'kode',
+            'nama',
+            'created_at',
+        ])
+        ->orderBy('nama', 'asc')
+        ->get();
+
+    return response()->json([
+        'data' => $suppliers
+    ]);
+}
 }
