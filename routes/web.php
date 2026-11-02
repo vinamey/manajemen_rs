@@ -296,25 +296,56 @@ Route::get('/apoteker/dashboard', [
 ])->name('apoteker.dashboard');
 
 
-// ==========================================
+
+// ==================================================
+// RESEP DOKTER KHUSUS APOTEKER
+// ==================================================
+
+Route::middleware([
+    'auth',
+    'role:apoteker|Apoteker|admin rumah sakit'
+])->prefix('apoteker')->name('apoteker.')->group(function () {
+
+    Route::get('/resep-dokter', [
+        KasirResepController::class,
+        'indexApoteker'
+    ])->name('resep.index');
+
+});
+
+ // ==========================================
 // DATA OBAT KHUSUS APOTEKER
 // ==========================================
+
 Route::middleware(['auth', 'role:apoteker'])
     ->prefix('apoteker')
     ->name('apoteker.')
     ->group(function () {
 
+        // Halaman daftar obat
         Route::get('/data-obat', [
             MasterObatController::class,
             'indexApoteker'
         ])->name('obat.index');
 
+        // Data tabel obat
         Route::get('/data-obat/data', [
             MasterObatController::class,
-            'data'
+            'dataApoteker'
         ])->name('obat.data');
-    });
 
+        // Form tambah obat
+        Route::get('/data-obat/create', [
+            MasterObatController::class,
+            'create'
+        ])->name('obat.create');
+
+        // Simpan obat baru
+        Route::post('/data-obat', [
+            MasterObatController::class,
+            'store'
+        ])->name('obat.store');
+    });
 // ==================================================
 // UPDATE STOK OBAT
 // ==================================================
@@ -366,7 +397,7 @@ Route::get('/kasir/resep', [
     'index'
 ])->middleware([
     'auth',
-    'role:kasir|apoteker|admin rumah sakit'
+    'role:kasir|admin rumah sakit'
 ])->name('kasir.resep');
 
 
@@ -645,13 +676,15 @@ Route::middleware([
 });
 
 
-// ==================================================
-// MASTER SUPPLIER
+
+
+ // ==================================================
+// MASTER SUPPLIER - SUPER ADMIN & ADMIN RS
 // ==================================================
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit|apoteker'
+    'role:super admin|admin rumah sakit'
 ])->group(function () {
 
     Route::get('/master-supplier/data', [
@@ -662,6 +695,30 @@ Route::middleware([
     Route::resource('master-supplier', MasterSupplierController::class);
 });
 
+
+// ==========================================
+// SUPPLIER OBAT KHUSUS APOTEKER
+// ==========================================
+
+
+// ==========================================
+// SUPPLIER OBAT KHUSUS APOTEKER
+// ==========================================
+
+Route::middleware(['auth', 'role:apoteker'])
+    ->prefix('apoteker')
+    ->name('apoteker.')
+    ->group(function () {
+        Route::get('/supplier-obat', [
+            MasterSupplierController::class,
+            'indexApoteker'
+        ])->name('supplier.index');
+
+        Route::get('/supplier-obat/data', [
+            MasterSupplierController::class,
+            'dataApoteker'
+        ])->name('supplier.data');
+    });
 
 // ==================================================
 // MASTER TINDAKAN
@@ -709,12 +766,12 @@ Route::middleware([
 
 
 // ==================================================
-// MASTER OBAT
+// MASTER OBAT - SUPER ADMIN & ADMIN RS
 // ==================================================
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit|apoteker'
+    'role:super admin|admin rumah sakit'
 ])->group(function () {
 
     Route::get('/master-obat/data', [
@@ -729,9 +786,6 @@ Route::middleware([
         'kurangiStok'
     ])->name('master-obat.kurangi-stok');
 });
-
-
-
 // ==================================================
 // LOG STOK OBAT
 // ==================================================

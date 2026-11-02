@@ -7,17 +7,13 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /**
-     * Menampilkan halaman login.
-     */
+    // Menampilkan halaman login
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    /**
-     * Proses login berdasarkan role pengguna.
-     */
+    // Proses login berdasarkan role pengguna
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -47,7 +43,7 @@ class LoginController extends Controller
         // ADMIN RUMAH SAKIT
         if ($user->hasAnyRole([
             'admin rumah sakit',
-            'Admin Rumah Sakit'
+            'Admin Rumah Sakit',
         ])) {
             return redirect()
                 ->route('admin.dashboard')
@@ -61,21 +57,20 @@ class LoginController extends Controller
                 ->with('success', 'Selamat datang Dokter!');
         }
 
-       
-// PERAWAT
-if ($user->hasRole('perawat')) {
+        // PERAWAT
+        if ($user->hasRole('perawat')) {
+            return redirect()
+                ->route('perawat.dashboard')
+                ->with('success', 'Selamat datang Perawat!');
+        }
+
+       // APOTEKER: MASUK KE DASHBOARD
+if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
     return redirect()
-        ->route('perawat.dashboard')
-        ->with('success', 'Selamat datang Perawat!');
+        ->route('apoteker.dashboard')
+        ->with('success', 'Selamat datang Apoteker!');
 }
 
-
-        // APOTEKER
-        if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
-            return redirect()
-                ->route('apoteker.dashboard')
-                ->with('success', 'Selamat datang Apoteker!');
-        }
 
         // KASIR
         if ($user->hasRole('kasir')) {
@@ -107,9 +102,7 @@ if ($user->hasRole('perawat')) {
             ]);
     }
 
-    /**
-     * Logout pengguna.
-     */
+    // Logout pengguna
     public function logout(Request $request)
     {
         Auth::logout();
