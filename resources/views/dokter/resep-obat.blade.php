@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resep dari Dokter | SIM RS</title>
+    <title>Resep Obat | SIM RS</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -375,7 +375,7 @@
 
 <main class="content">
     <header class="topbar">
-        <div class="topbar-title">Resep dari Dokter</div>
+        <div class="topbar-title">Resep Obat</div>
         <div class="user-info">
             <i class="fa-solid fa-user me-2"></i>{{ $user->name }}
         </div>
@@ -383,7 +383,7 @@
 
     <div class="page">
         <section class="page-header">
-            <h4><i class="fa-solid fa-file-prescription me-2"></i>Resep dari Dokter</h4>
+            <h4><i class="fa-solid fa-file-prescription me-2"></i>Resep Obat</h4>
             <p>Daftar resep obat yang diberikan dokter kepada pasien.</p>
         </section>
 
