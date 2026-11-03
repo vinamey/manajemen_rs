@@ -221,6 +221,26 @@
                 font-size: 21px;
             }
         }
+
+        .btn-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #1877f2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .btn-dashboard:hover {
+            background: #0f58c6;
+            color: white;
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 
@@ -230,10 +250,19 @@
 
 <main class="main-container">
 
-    <div class="page-heading">
+    <div class="page-heading d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+    <div>
         <h2>Data Perawat</h2>
-        <p>Informasi data perawat rumah sakit.</p>
+        <p>Informasi perawat yang terdaftar di rumah sakit.</p>
     </div>
+
+    <a href="{{ url('/admin/dashboard') }}" class="btn-dashboard">
+        <i class="fa-solid fa-arrow-left"></i>
+        Kembali ke Dashboard
+    </a>
+
+</div>
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
