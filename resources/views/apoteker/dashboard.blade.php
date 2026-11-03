@@ -358,31 +358,9 @@
             <p>Anda masuk sebagai Apoteker. Kelola kebutuhan obat rumah sakit melalui dashboard ini.</p>
         </div>
 
-        <!-- STAT CARDS -->
-        <div class="row g-4 mb-4">
-            <div class="col-md-6 col-xl-3">
-                <div class="stat-card">
-                    <div class="stat-icon">💊</div>
-                    <div class="stat-title">Total Obat</div>
-                    <div class="stat-number">250</div>
-                </div>
-            </div>
 
-            <div class="col-md-6 col-xl-3">
-                <div class="stat-card">
-                    <div class="stat-icon">🛒</div>
-                    <div class="stat-title">Pembelian Obat</div>
-                    <div class="stat-number">0</div>
-                </div>
-            </div>
 
-            <div class="col-md-6 col-xl-3">
-                <div class="stat-card">
-                    <div class="stat-icon">📝</div>
-                    <div class="stat-title">Resep Hari Ini</div>
-                    <div class="stat-number">37</div>
-                </div>
-            </div>
+            
 
 
 
