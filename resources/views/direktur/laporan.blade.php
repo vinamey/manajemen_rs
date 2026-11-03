@@ -1,91 +1,351 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Direktur</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+@extends('layouts.direktur')
+
+@section('page-title', 'Laporan - SIM RS')
+@section('navbar-title', 'Dashboard Laporan')
+
+@push('styles')
     <style>
-        body { margin: 0; background: #f5f7fb; font-family: Arial, sans-serif; }
-        .sidebar { width: 250px; height: 100vh; position: fixed; left: 0; top: 0; background: #0d6efd; color: white; }
-        .brand { padding: 25px 20px; text-align: center; font-size: 22px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,.2); }
-        .sidebar a { display: block; color: white; text-decoration: none; padding: 14px 22px; }
-        .sidebar a:hover, .sidebar a.active { background: #0b5ed7; }
-        .content { margin-left: 250px; padding: 30px; }
-        .report-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 3px 10px rgba(0,0,0,.08); }
-        .logout-btn { background: #dc3545; border: none; color: white; padding: 10px; border-radius: 6px; }
+        .laporan-page {
+            padding: 0;
+            transform: scale(.94);
+            transform-origin: top left;
+            width: 106.38%;
+        }
+
+        /* HEADER */
+        .laporan-header {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            min-height: 145px;
+            padding: 25px 32px;
+            margin-bottom: 22px;
+            border-radius: 17px;
+            background: linear-gradient(110deg, #e1edff, #ffffff);
+            border: 1px solid #dce9ff;
+            box-shadow: 0 5px 18px rgba(24, 80, 150, .05);
+        }
+
+        .laporan-header::after {
+            content: '\f0f6';
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 45px;
+            top: 20px;
+            font-size: 100px;
+            color: rgba(24, 119, 242, .10);
+            transform: rotate(-10deg);
+        }
+
+        .header-icon {
+            width: 82px;
+            height: 82px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #4da0ff, #1877f2);
+            color: white;
+            font-size: 35px;
+            box-shadow: 0 8px 20px rgba(24, 119, 242, .18);
+            z-index: 1;
+        }
+
+        .header-text {
+            z-index: 1;
+        }
+
+        .header-text h2 {
+            color: #17365f;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* CARD LAPORAN */
+        .laporan-card {
+            background: #fff;
+            border-radius: 17px;
+            padding: 27px;
+            border: 1px solid #edf1f7;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .035);
+        }
+
+        /* JUDUL DAFTAR */
+        .daftar-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .daftar-icon {
+            width: 49px;
+            height: 49px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e7f1ff;
+            color: #1877f2;
+            border-radius: 12px;
+            font-size: 22px;
+        }
+
+        .daftar-header h4 {
+            color: #17365f;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 5px;
+        }
+
+        .daftar-header p {
+            color: #7b8ba3;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        /* TABEL */
+        .table-laporan {
+            border: 1px solid #dce6f2;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-laporan table {
+            margin: 0;
+        }
+
+        .table-laporan thead th {
+            background: linear-gradient(100deg, #287df0, #438ff5);
+            color: #fff;
+            padding: 15px 19px;
+            font-size: 14px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, .12);
+        }
+
+        .table-laporan tbody td {
+            padding: 15px 19px;
+            color: #29415f;
+            font-size: 14px;
+            font-weight: 500;
+            vertical-align: middle;
+            border-color: #e3eaf3;
+        }
+
+        .nomor {
+            color: #4777b7 !important;
+            font-weight: 700 !important;
+        }
+
+        .nama-laporan {
+            color: #17365f !important;
+            font-weight: 600 !important;
+        }
+
+        /* TOMBOL */
+        .btn-excel,
+        .btn-pdf {
+            min-width: 82px;
+            padding: 9px 12px;
+            border-radius: 8px;
+            border: none;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            transition: .2s;
+        }
+
+        .btn-excel {
+            background: #13a36b;
+            margin-right: 7px;
+        }
+
+        .btn-excel:hover {
+            background: #0d8758;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-pdf {
+            background: #ed4055;
+        }
+
+        .btn-pdf:hover {
+            background: #d92e43;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* INFORMASI */
+        .info-laporan {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 15px 20px;
+            margin-top: 21px;
+            background: #e1edff;
+            border: 1px solid #c7ddff;
+            border-radius: 10px;
+            color: #1767cb;
+            font-size: 13px;
+        }
+
+        .info-laporan i {
+            font-size: 21px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .laporan-page {
+                transform: none;
+                width: 100%;
+            }
+
+            .laporan-header {
+                min-height: 120px;
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .header-icon {
+                width: 65px;
+                height: 65px;
+                font-size: 28px;
+                border-radius: 16px;
+            }
+
+            .header-text h2 {
+                font-size: 24px;
+            }
+
+            .laporan-card {
+                padding: 18px;
+            }
+
+            .table-laporan {
+                overflow-x: auto;
+            }
+
+            .table-laporan table {
+                min-width: 600px;
+            }
+
+            .info-laporan {
+                align-items: flex-start;
+            }
+        }
     </style>
-</head>
-<body>
+@endpush
 
-    <div class="sidebar">
-        <div class="brand">
-            <i class="fas fa-hospital"></i> SIM RS
+@section('content')
+    <div class="laporan-page">
+
+        {{-- HEADER LAPORAN --}}
+        <div class="laporan-header">
+            <div class="header-icon">
+                <i class="fas fa-file-invoice"></i>
+            </div>
+
+            <div class="header-text">
+                <h2>Laporan</h2>
+            </div>
         </div>
-        <a href="{{ route('dashboard') }}"><i class="fas fa-home me-2"></i> Dashboard</a>
-        <a href="{{ route('direktur.laporan') }}" class="active"><i class="fas fa-chart-column me-2"></i> Laporan</a>
-        <form action="{{ route('logout') }}" method="POST" class="p-3">
-            @csrf
-        </form>
-    </div>
 
-    <div class="content">
-        <h2 class="fw-bold mb-2">Laporan</h2>
-        <p class="text-muted mb-4">Laporan berupa tabel yang dapat diekspor ke Excel dan PDF.</p>
+        {{-- DAFTAR LAPORAN --}}
+        <div class="laporan-card">
 
-        <div class="report-card">
-            <div class="table-responsive">
+            <div class="daftar-header">
+                <div class="daftar-icon">
+                    <i class="fas fa-chart-simple"></i>
+                </div>
+
+                <div>
+                    <h4>Daftar Laporan</h4>
+                    <p>Silakan pilih laporan yang ingin Anda lihat atau unduh.</p>
+                </div>
+            </div>
+
+            <div class="table-responsive table-laporan">
                 <table class="table table-bordered align-middle">
-                    <thead class="table-primary">
+                    <thead>
                         <tr>
-                            <th width="70">No</th>
+                            <th width="85">No</th>
                             <th>Jenis Laporan</th>
-                            <th width="220">Aksi</th>
+                            <th width="300">Aksi</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>Pendapatan</td>
+                            <td class="nomor">1</td>
+                            <td class="nama-laporan">Pendapatan</td>
                             <td>
-                                <a href="{{ route('laporan.export.excel', 'pendapatan') }}" class="btn btn-success btn-sm">
-                                    <i class="fas fa-file-excel"></i> Excel
+                                <a href="{{ route('laporan.export.excel', 'pendapatan') }}" class="btn-excel">
+                                    <i class="fas fa-file-excel"></i>
+                                    Excel
                                 </a>
-                                <a href="{{ route('laporan.export.pdf', 'pendapatan') }}" target="_blank" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-file-pdf"></i> PDF
+
+                                <a href="{{ route('laporan.export.pdf', 'pendapatan') }}" class="btn-pdf">
+                                    <i class="fas fa-file-pdf"></i>
+                                    PDF
                                 </a>
                             </td>
                         </tr>
+
                         <tr>
-                            <td>2</td>
-                            <td>Pasien</td>
+                            <td class="nomor">2</td>
+                            <td class="nama-laporan">Pasien</td>
                             <td>
-                                <a href="{{ route('laporan.export.excel', 'pasien') }}" class="btn btn-success btn-sm">
-                                    <i class="fas fa-file-excel"></i> Excel
+                                <a href="{{ route('laporan.export.excel', 'pasien') }}" class="btn-excel">
+                                    <i class="fas fa-file-excel"></i>
+                                    Excel
                                 </a>
-                                <a href="{{ route('laporan.export.pdf', 'pasien') }}" target="_blank" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-file-pdf"></i> PDF
+
+                                <a href="{{ route('laporan.export.pdf', 'pasien') }}" class="btn-pdf">
+                                    <i class="fas fa-file-pdf"></i>
+                                    PDF
                                 </a>
                             </td>
                         </tr>
+
                         <tr>
-                            <td>3</td>
-                            <td>Apotek</td>
+                            <td class="nomor">3</td>
+                            <td class="nama-laporan">Apotek</td>
                             <td>
-                                <a href="{{ route('laporan.export.excel', 'apotek') }}" class="btn btn-success btn-sm">
-                                    <i class="fas fa-file-excel"></i> Excel
+                                <a href="{{ route('laporan.export.excel', 'apotek') }}" class="btn-excel">
+                                    <i class="fas fa-file-excel"></i>
+                                    Excel
                                 </a>
-                                <a href="{{ route('laporan.export.pdf', 'apotek') }}" target="_blank" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-file-pdf"></i> PDF
+
+                                <a href="{{ route('laporan.export.pdf', 'apotek') }}" class="btn-pdf">
+                                    <i class="fas fa-file-pdf"></i>
+                                    PDF
                                 </a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            {{-- INFORMASI --}}
+            <div class="info-laporan">
+                <i class="fas fa-circle-info"></i>
+                <span>
+                    Anda dapat mengekspor laporan dalam format Excel atau PDF
+                    sesuai kebutuhan.
+                </span>
+            </div>
+
         </div>
     </div>
-
-</body>
-</html>
+@endsection
