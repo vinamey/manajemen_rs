@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -33,6 +32,7 @@ use App\Http\Controllers\PendaftaranPasienController;
 use App\Http\Controllers\PemeriksaanDokterController;
 use App\Http\Controllers\LogStokObatController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ApotekerDashboardController;
 use App\Http\Controllers\ApotekerController;
 use App\Http\Controllers\KasirController;
@@ -279,7 +279,7 @@ Route::middleware(['auth', 'role:perawat'])
             MasterPasienController::class,
             'showPerawat'
         ])->whereNumber('master_pasien')
-          ->name('pasien.show');
+            ->name('pasien.show');
     });
 
 
@@ -299,6 +299,7 @@ Route::get('/apoteker/dashboard', [
 // ==========================================
 // DATA OBAT KHUSUS APOTEKER
 // ==========================================
+
 Route::middleware(['auth', 'role:apoteker'])
     ->prefix('apoteker')
     ->name('apoteker.')
@@ -315,6 +316,7 @@ Route::middleware(['auth', 'role:apoteker'])
         ])->name('obat.data');
     });
 
+
 // ==================================================
 // UPDATE STOK OBAT
 // ==================================================
@@ -330,10 +332,11 @@ Route::middleware([
         'updateStok'
     ])->name('update-stok-obat.index');
 
-// Pastikan route ini ada di dalam file routes/web.php
-Route::get('/apoteker/update-stok-obat',
- [LogStokObatController::class, 'updateStokobat'])
- ->name('log-stok-obat.update-stok-obat');
+    // Route update stok obat
+    Route::get('/update-stok-obat/data', [
+        LogStokObatController::class,
+        'updateStokobat'
+    ])->name('log-stok-obat.update-stok-obat');
 
     // Menyimpan penambahan stok
     Route::post('/update-stok-obat', [
@@ -370,8 +373,7 @@ Route::get('/kasir/resep', [
 ])->name('kasir.resep');
 
 
-
- // ==================================================
+// ==================================================
 // KASIR - PEMBAYARAN OBAT
 // ==================================================
 
@@ -391,31 +393,46 @@ Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
         PembayaranController::class,
         'destroy'
     ])->name('kasir.pembayaran.hapus');
-
 });
 
 
 // ==================================================
-// DIREKTUR - LAPORAN
+// DIREKTUR - LAPORAN DAN PENGELOLAAN PENGELUARAN
 // ==================================================
+
 
 Route::middleware(['auth', 'role:direktur'])->group(function () {
 
+    // HALAMAN LAPORAN
     Route::get('/direktur/laporan', [
         LaporanController::class,
         'index'
     ])->name('direktur.laporan');
 
+    // EXPORT EXCEL
     Route::get('/laporan/export/excel/{type}', [
         LaporanController::class,
         'exportExcel'
     ])->name('laporan.export.excel');
 
+    // EXPORT PDF
     Route::get('/laporan/export/pdf/{type}', [
         LaporanController::class,
         'exportPdf'
     ])->name('laporan.export.pdf');
+
+
+    Route::get('/direktur/pengeluaran/data', [
+        PengeluaranController::class,
+        'data'
+    ])->name('direktur.pengeluaran.data');
+
+    Route::resource('/direktur/pengeluaran', PengeluaranController::class)
+        ->except(['show'])
+        ->names('direktur.pengeluaran');
+
 });
+
 
 
 // ==================================================
@@ -689,6 +706,7 @@ Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit'
 ])->group(function () {
+
     Route::resource('pendaftaran', PendaftaranPasienController::class);
 });
 
@@ -701,6 +719,7 @@ Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit|dokter|apoteker'
 ])->group(function () {
+
     Route::resource(
         'pemeriksaan-dokter',
         PemeriksaanDokterController::class
@@ -729,7 +748,6 @@ Route::middleware([
         'kurangiStok'
     ])->name('master-obat.kurangi-stok');
 });
-
 
 
 // ==================================================
@@ -761,6 +779,7 @@ Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit'
 ])->group(function () {
+
     Route::resource('master-apoteker', ApotekerController::class);
 });
 
@@ -773,6 +792,7 @@ Route::middleware([
     'auth',
     'role:super admin|admin rumah sakit'
 ])->group(function () {
+
     Route::resource('kasir', KasirController::class);
 });
 
@@ -785,5 +805,6 @@ Route::middleware([
     'auth',
     'role:super admin'
 ])->group(function () {
+
     Route::resource('hasil-pemeriksaan', HasilPemeriksaanController::class);
 });

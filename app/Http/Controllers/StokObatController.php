@@ -2,33 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Obat;
+use App\Models\StokObat;
 use App\Models\LogStokObat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StokObatController extends Controller
 {
     public function storeStok(Request $request)
     {
-        $request->validate([
-            'obat_id' => 'required|exists:obats,id',
+        $validated = $request->validate([
+            'obat_id' => 'required|exists:master_obats,id',
+            'satuan_obat_id' => 'required|exists:master_satuan_obats,id',
             'jumlah' => 'required|integer|min:1',
-            'status' => 'required|string', 
+        ], [
+            'obat_id.required' => 'Nama obat wajib dipilih.',
+            'obat_id.exists' => 'Data obat tidak ditemukan.',
+            'satuan_obat_id.required' => 'Satuan obat wajib dipilih.',
+            'satuan_obat_id.exists' => 'Satuan obat tidak ditemukan.',
+            'jumlah.required' => 'Jumlah stok wajib diisi.',
+            'jumlah.integer' => 'Jumlah stok harus berupa angka.',
+            'jumlah.min' => 'Jumlah stok minimal 1.',
         ]);
 
-        $obat = Obat::findOrFail($request->obat_id);
-        $obat->stok += $request->jumlah;
-        $obat->save();
+        DB::beginTransaction();
 
-        LogStokObat::create([
-            'obat_id' => $obat->id,
-            'tanggal_update' => now(),
-            'status' => $request->status, 
-            'jumlah' => $request->jumlah,
-            'stok_tersedia' => $obat->stok,
-            'user_id' => auth()->id(), 
-        ]);
+        try {
+            // Cari stok berdasarkan obat dan satuannya
+            $stokObat = StokObat::where('obat_id', $validated['obat_id'])
+                ->where('satuan_obat_id', $validated['satuan_obat_id'])
+                ->lockForUpdate()
+                ->first();
 
-        return redirect()->route('log-stok-obat.index')->with('success', 'Log stok obat berhasil diperbarui.');
+            // Jika stok belum tersedia, buat data baru
+            if (!$stokObat) {
+                $stokObat = StokObat::create([
+                    'obat_id' => $validated['obat_id'],
+                    'satuan_obat_id' => $validated['satuan_obat_id'],
+                    'harga_jual' => 0,
+                    'stok_tersedia' => 0,
+                ]);
+            }
+
+            // Tambahkan stok
+            $stokObat->stok_tersedia += $validated['jumlah'];
+            $stokObat->save();
+
+            // Simpan log dengan nilai stok terbaru
+            LogStokObat::create([
+                'obat_id' => $stokObat->obat_id,
+                'stok_obat_id' => $stokObat->id,
+                'nilai' => $stokObat->stok_tersedia,
+                'tanggal_update' => now(),
+            ]);
+
+            DB::commit();
+
+            return redirect()
+                ->back()
+                ->with('success', 'Stok obat berhasil diperbarui.');
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui stok: ' . $e->getMessage());
+        }
     }
 }
