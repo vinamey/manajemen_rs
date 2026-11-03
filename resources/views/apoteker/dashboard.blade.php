@@ -330,14 +330,14 @@
         </a>
 
 
-        <a href="{{ route('master-supplier.index') }}">
-            <span class="menu-icon">🏢</span> Supplier Obat
-        </a>
+       <a href="{{ route('apoteker.supplier.index') }}">
+    <span class="menu-icon">🏢</span> Supplier Obat
+</a>
 
-        <a href="{{ route('kasir.resep') }}">
-            <span class="menu-icon">📝</span> Resep Dokter
-        </a>
-
+       <a href="{{ route('apoteker.resep.index') }}">
+    <i class="fa-solid fa-file-prescription"></i>
+    <span>Resep Dokter</span>
+</a>
         <div class="logout-box">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -393,7 +393,7 @@
                     <div class="row g-3">
                         <!-- DATA OBAT -->
                         <div class="col-md-6 col-xl-4">
-                            <a href="{{ route('master-obat.index') }}" class="menu-button">
+                           <a href="{{ route('apoteker.obat.index') }}" class="menu-button">
                                 <div class="menu-button-icon">💊</div>
                                 <div>
                                     <div class="menu-button-title">Data Obat</div>
@@ -414,27 +414,36 @@
                         </div>
 
 
+
                         <!-- SUPPLIER OBAT -->
                         <div class="col-md-6 col-xl-4">
-                            <a href="{{ route('master-supplier.index') }}" class="menu-button">
+                            <a href="{{ route('apoteker.supplier.index') }}" class="menu-button">
                                 <div class="menu-button-icon">🏢</div>
                                 <div>
                                     <div class="menu-button-title">Supplier Obat</div>
-                                    <div class="menu-button-desc">Mengelola data supplier obat</div>
+                                    <div class="menu-button-desc">
+                                        Melihat data supplier obat
+                                    </div>
                                 </div>
                             </a>
                         </div>
 
-                        <!-- RESEP DOKTER -->
-                        <div class="col-md-6 col-xl-4">
-                            <a href="{{ route('kasir.resep') }}" class="menu-button">
-                                <div class="menu-button-icon">📝</div>
-                                <div>
-                                    <div class="menu-button-title">Resep Dokter</div>
-                                    <div class="menu-button-desc">Melihat resep dari dokter</div>
-                                </div>
-                            </a>
-                        </div>
+
+<!-- RESEP DOKTER -->
+<div class="col-md-6 col-xl-4">
+    <a href="{{ route('apoteker.resep.index') }}" class="menu-button">
+        <div class="menu-button-icon">
+            <i class="fa-solid fa-file-prescription"></i>
+        </div>
+
+        <div>
+            <div class="menu-button-title">Resep Dokter</div>
+            <div class="menu-button-desc">
+                Melihat resep dari dokter
+            </div>
+        </div>
+    </a>
+</div>
                     </div>
                 </div>
             </div>

@@ -433,10 +433,11 @@
         Lihat resep pasien dan proses pembayaran obat.
     </p>
 
+    <a href="{{ route('kasir.pembayaran') }}" class="btn-payment">
+        <i class="fa-solid fa-arrow-right me-2"></i>
+        Buka Pembayaran
+    </a>
 
-    <div class="stat-value">
-                            0
-                        </div>
 </div>
 
 
