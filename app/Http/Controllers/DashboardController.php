@@ -33,7 +33,6 @@ class DashboardController extends Controller
 
         if (strtolower($user->getRoleNames()->first() ?? '') === 'direktur') {
 
-            // Nama bulan
             $namaBulan = [
                 1 => 'Januari',
                 2 => 'Februari',
@@ -49,49 +48,52 @@ class DashboardController extends Controller
                 12 => 'Desember',
             ];
 
-            $tahun = Carbon::now()->year;
-
-            // Bulan yang dipilih
+            // Mengambil bulan dan tahun yang dipilih
             $bulan = (int) $request->query('bulan', Carbon::now()->month);
+            $tahun = (int) $request->query('tahun', Carbon::now()->year);
 
+            // Validasi bulan
             if ($bulan < 1 || $bulan > 12) {
                 $bulan = Carbon::now()->month;
             }
 
-            // Total pendapatan sesuai bulan yang dipilih
+            // Validasi tahun
+            if ($tahun < 2000 || $tahun > 2100) {
+                $tahun = Carbon::now()->year;
+            }
+
+            // Total pendapatan hanya pada bulan yang dipilih
             $pendapatan = Pembayaran::where('status', 'LUNAS')
                 ->whereYear('created_at', $tahun)
                 ->whereMonth('created_at', $bulan)
                 ->sum('total_pembayaran');
 
-            // Grafik 6 bulan sampai bulan yang dipilih
+            // Mengambil pendapatan setiap bulan untuk grafik
             $grafikPendapatan = [];
+            $maksimalGrafik = 0;
 
-            for ($i = 5; $i >= 0; $i--) {
-
-                $tanggal = Carbon::create($tahun, $bulan, 1)
-                    ->subMonths($i);
+            for ($i = 1; $i <= 12; $i++) {
 
                 $total = Pembayaran::where('status', 'LUNAS')
-                    ->whereYear('created_at', $tanggal->year)
-                    ->whereMonth('created_at', $tanggal->month)
+                    ->whereYear('created_at', $tahun)
+                    ->whereMonth('created_at', $i)
                     ->sum('total_pembayaran');
 
                 $grafikPendapatan[] = [
-                    'bulan' => $namaBulan[$tanggal->month],
+                    'nomor' => $i,
+                    'bulan' => $namaBulan[$i],
+                    'singkatan' => substr($namaBulan[$i], 0, 3),
                     'total' => $total,
                 ];
+
+                $maksimalGrafik = max($maksimalGrafik, (float) $total);
             }
 
-            // Nilai tertinggi untuk ukuran grafik
-            $maksimalGrafik = max(
-                array_column($grafikPendapatan, 'total')
-            );
-
+            // Menghitung tinggi batang grafik
             foreach ($grafikPendapatan as &$item) {
                 $item['tinggi'] = $maksimalGrafik > 0
-                    ? max(5, ($item['total'] / $maksimalGrafik) * 100)
-                    : 5;
+                    ? max(4, ((float) $item['total'] / $maksimalGrafik) * 100)
+                    : 4;
             }
 
             unset($item);
