@@ -261,9 +261,12 @@ class MasterPasienController extends Controller
     }
 
     // HALAMAN PASIEN PERAWAT
+   // HALAMAN PASIEN PERAWAT
     public function indexPerawat()
     {
-        return view('perawat.data-pasien');
+        $pasien = MasterPasien::latest('id')->paginate(10);
+
+        return view('perawat.data-pasien', compact('pasien'));
     }
 
     // DATA PASIEN PERAWAT

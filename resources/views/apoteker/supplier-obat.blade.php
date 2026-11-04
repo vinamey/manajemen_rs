@@ -184,6 +184,41 @@
             .content-card { padding: 14px; }
             .page-heading h2 { font-size: 21px; }
         }
+
+        /* TOMBOL KEMBALI KE DASHBOARD */
+        .btn-dashboard {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            background: #1877f2;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-dashboard:hover {
+            background: #0f58c6;
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(24, 119, 242, 0.2);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 576px) {
+            .page-heading {
+                align-items: flex-start !important;
+            }
+
+            .btn-dashboard {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -193,10 +228,19 @@
 
 <main class="main-container">
 
-    <div class="page-heading">
-        <h2>Data Supplier Obat</h2>
-        <p>Informasi data supplier obat rumah sakit.</p>
+<div class="page-heading d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+    <div>
+        <h2>Supplier Obat</h2>
+        <p>Informasi daftar pemasok obat yang bekerja sama dengan rumah sakit.</p>
     </div>
+
+    <a href="{{ url('/apoteker/dashboard') }}" class="btn-dashboard">
+        <i class="fa-solid fa-arrow-left"></i>
+        Kembali ke Dashboard
+    </a>
+
+</div>
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">

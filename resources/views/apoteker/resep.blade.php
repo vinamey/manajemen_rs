@@ -312,6 +312,41 @@
                 flex-direction: column;
             }
         }
+
+        /* TOMBOL KEMBALI KE DASHBOARD */
+        .btn-dashboard {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            background: #1877f2;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-dashboard:hover {
+            background: #0f58c6;
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(24, 119, 242, 0.2);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 576px) {
+            .page-heading {
+                align-items: flex-start !important;
+            }
+
+            .btn-dashboard {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -319,30 +354,36 @@
 
 <main class="main-content">
 
-    <div class="topbar">
-        <div>
-            <h6>Resep Dokter</h6>
-            
-        </div>
+    {{-- TOPBAR --}}
+<div class="topbar">
 
-        <div class="user-info">
-            <div class="user-icon">
-                <i class="fa-solid fa-user-nurse"></i>
-            </div>
-            <div>
-                <strong>{{ auth()->user()->name ?? 'Apoteker' }}</strong>
-                <small>Apoteker</small>
-            </div>
+    <div class="user-info">
+        <div class="user-icon">
+            <i class="fa-solid fa-user-nurse"></i>
+        </div>
+        <div>
+            <strong>{{ auth()->user()->name ?? 'Apoteker' }}</strong>
+            <small>Apoteker</small>
         </div>
     </div>
+</div>
 
-    <section class="page-header">
+{{-- HEADER HALAMAN --}}
+<section class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
         <h3>
             <i class="fa-solid fa-file-prescription me-2"></i>
             Resep Dokter
         </h3>
         <p>Daftar resep obat dari hasil pemeriksaan dokter.</p>
-    </section>
+    </div>
+
+    <a href="{{ route('apoteker.dashboard') }}" class="btn-dashboard">
+    <i class="fa-solid fa-arrow-left"></i>
+    Kembali ke Dashboard
+</a>
+    </a>
+</section>
 
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
