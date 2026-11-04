@@ -360,7 +360,7 @@
 
 
 
-            
+
 
 
 
@@ -380,16 +380,17 @@
                             </a>
                         </div>
 
-                        <!-- PEMBELIAN OBAT -->
-                        <div class="col-md-6 col-xl-4">
-                            <a href="{{ route('master-obat.index') }}" class="menu-button">
-                                <div class="menu-button-icon">🛒</div>
-                                <div>
-                                    <div class="menu-button-title">Pembelian Obat</div>
-                                    <div class="menu-button-desc">Masuk ke Master Obat untuk pembelian</div>
-                                </div>
-                            </a>
-                        </div>
+                       
+<!-- LOG STOK OBAT -->
+<div class="col-md-6 col-xl-4">
+    <a href="{{ route('log-stok-obat.index') }}" class="menu-button">
+        <div class="menu-button-icon">📦</div>
+        <div>
+            <div class="menu-button-title">Log Stok Obat</div>
+            <div class="menu-button-desc">Lihat riwayat perubahan stok obat</div>
+        </div>
+    </a>
+</div>
 
 
 

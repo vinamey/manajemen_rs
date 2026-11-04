@@ -9,19 +9,7 @@ class KasirController extends Controller
 {
    public function index()
 {
-    $resepObats = \App\Models\ResepObat::with([
-        'pemeriksaan.pendaftaran.pasien',
-        'pemeriksaan.dokter',
-        'obat'
-    ])->latest()->paginate(10);
-
-    if (auth()->user()->hasRole('apoteker')) {
-        return view('kasir.resep', compact('resepObats'))
-            ->with('roleResep', 'apoteker');
-    }
-
-    return view('kasir.resep', compact('resepObats'))
-        ->with('roleResep', 'kasir');
+    return redirect()->route('kasir.dashboard');
 }
 
     public function create()
