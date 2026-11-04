@@ -677,246 +677,216 @@
 
                     <hr class="my-4">
 
-                    {{-- RESEP OBAT --}}
-                    <div class="resep-box">
+                    
+{{-- RESEP OBAT --}}
+<div class="resep-box">
 
-                        <div class="mb-3">
-                            <h5 class="mb-1">
-                                <i class="fa-solid fa-pills text-primary me-2"></i>
-                                Resep Obat
-                            </h5>
+    <div class="mb-3">
+        <h5 class="mb-1">
+            <i class="fa-solid fa-pills text-primary me-2"></i>
+            Resep Obat
+        </h5>
 
-                            <small class="text-muted">
-                                Isi obat yang diresepkan dokter.
-                            </small>
-                        </div>
-
-
-                    {{-- OBAT --}}
-                    <div class="row g-3">
-
-                        {{-- NAMA OBAT --}}
-                        <div class="col-12">
-
-                            <label for="obat_id" class="form-label">
-                                Obat
-                            </label>
-
-                            <select
-                                name="obat_id"
-                                id="obat_id"
-                                class="form-select"
-                            >
-                                <option value="">
-                                    -- Pilih Obat --
-                                </option>
-
-                                @foreach($obats ?? [] as $obat)
-
-                                    <option value="{{ $obat->id }}">
-                                        {{ $obat->nama }}
-
-                                        @if($obat->kategori)
-                                            - {{ $obat->kategori->nama }}
-                                        @endif
-                                    </option>
-
-                                @endforeach
-
-                            </select>
-
-                        </div>
-
-
-                        {{-- JUMLAH --}}
-                        <div class="col-md-6">
-
-                            <label for="jumlah_obat" class="form-label">
-                                Jumlah Obat
-                            </label>
-
-                            <input
-                                type="number"
-                                name="jumlah_obat"
-                                id="jumlah_obat"
-                                class="form-control"
-                                min="1"
-                                step="1"
-                                placeholder="Contoh: 10"
-                            >
-
-                        </div>
-
-
-                        {{-- DOSIS --}}
-                        <div class="col-md-6">
-
-                            <label for="dosis_obat" class="form-label">
-                                Dosis
-                            </label>
-
-                            <input
-                                type="text"
-                                name="dosis_obat"
-                                id="dosis_obat"
-                                class="form-control"
-                                placeholder="Contoh: 500 mg"
-                            >
-
-                        </div>
-
-
-                        {{-- FREKUENSI --}}
-                        <div class="col-md-6">
-
-                            <label for="frekuensi_obat" class="form-label">
-                                Frekuensi
-                            </label>
-
-                            <input
-                                type="text"
-                                name="frekuensi_obat"
-                                id="frekuensi_obat"
-                                class="form-control"
-                                placeholder="Contoh: 3 kali sehari"
-                            >
-
-                        </div>
-
-
-                        {{-- LAMA --}}
-                        <div class="col-md-6">
-
-                            <label for="lama_obat" class="form-label">
-                                Lama Pemakaian (hari)
-                            </label>
-
-                            <input
-                                type="number"
-                                name="lama_obat"
-                                id="lama_obat"
-                                class="form-control"
-                                min="1"
-                                step="1"
-                                placeholder="Contoh: 5"
-                            >
-
-                        </div>
-
-
-                        {{-- ATURAN PAKAI --}}
-                        <div class="col-12">
-
-                            <label for="aturan_pakai" class="form-label">
-                                Aturan Pakai
-                            </label>
-
-                            <div class="aturan-pakai-wrapper">
-
-                                <div class="aturan-pakai-input-wrapper">
-
-                                    <input
-                                        type="text"
-                                        name="aturan_pakai"
-                                        id="aturan_pakai"
-                                        class="form-control"
-                                        placeholder="Ketik untuk mencari aturan pakai..."
-                                        autocomplete="off"
-                                    >
-
-                                    <span class="aturan-pakai-arrow">
-                                        ▾
-                                    </span>
-
-                                </div>
-
-
-                                <div
-                                    id="aturanPakaiDropdown"
-                                    class="aturan-pakai-dropdown"
-                                >
-
-                                    @foreach([
-                                        'Sebelum makan',
-                                        'Sesudah makan',
-                                        'Saat makan',
-                                        'Sebelum tidur',
-                                        'Sesudah bangun tidur',
-                                        'Pagi hari',
-                                        'Siang hari',
-                                        'Sore hari',
-                                        'Malam hari',
-                                        'Sebelum makan & sebelum tidur',
-                                        'Sesudah makan & sebelum tidur',
-                                        'Saat diperlukan',
-                                        'Sesuai petunjuk dokter',
-                                        'Dengan air putih',
-                                        'Dikonsumsi bersama makanan'
-                                    ] as $aturan)
-
-                                        <div
-                                            class="aturan-pakai-option"
-                                            data-value="{{ $aturan }}"
-                                        >
-                                            {{ $aturan }}
-                                        </div>
-
-                                    @endforeach
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {{-- FOOTER --}}
-                <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >
-                        Batal
-                    </button>
-
-                    <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-save me-1"></i>
-                    Tambah Pemeriksaan & Obat
-                </button>
-                </div>
-            </form>
-        </div>
+        <small class="text-muted">
+            Isi obat yang diresepkan dokter.
+        </small>
     </div>
+
+    {{-- INPUT OBAT --}}
+    <div class="row g-3">
+
+        {{-- NAMA OBAT --}}
+        <div class="col-12">
+            <label for="obat_id" class="form-label">Obat</label>
+
+            <select name="obat_id" id="obat_id" class="form-select">
+                <option value="">-- Pilih Obat --</option>
+
+                @foreach($obats ?? [] as $obat)
+                    <option value="{{ $obat->id }}">
+                        {{ $obat->nama }}
+                        @if($obat->kategori)
+                            - {{ $obat->kategori->nama }}
+                        @endif
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- JUMLAH --}}
+        <div class="col-md-6">
+            <label for="jumlah_obat" class="form-label">Jumlah Obat</label>
+            <input type="number" id="jumlah_obat" class="form-control"
+                min="1" step="1" placeholder="Contoh: 10">
+        </div>
+
+        {{-- DOSIS --}}
+        <div class="col-md-6">
+            <label for="dosis_obat" class="form-label">Dosis</label>
+            <input type="text" id="dosis_obat" class="form-control"
+                placeholder="Contoh: 500 mg">
+        </div>
+
+        {{-- FREKUENSI --}}
+        <div class="col-md-6">
+            <label for="frekuensi_obat" class="form-label">Frekuensi</label>
+            <input type="text" id="frekuensi_obat" class="form-control"
+                placeholder="Contoh: sesuai petunjuk dokter">
+        </div>
+
+        {{-- LAMA --}}
+        <div class="col-md-6">
+            <label for="lama_obat" class="form-label">
+                Lama Pemakaian (hari)
+            </label>
+            <input type="number" id="lama_obat" class="form-control"
+                min="1" step="1" placeholder="Contoh: 5">
+        </div>
+
+        {{-- ATURAN PAKAI --}}
+        <div class="col-12">
+            <label for="aturan_pakai" class="form-label">Aturan Pakai</label>
+
+            <div class="aturan-pakai-wrapper">
+                <div class="aturan-pakai-input-wrapper">
+                    <input type="text" id="aturan_pakai"
+                        class="form-control"
+                        placeholder="Ketik untuk mencari aturan pakai..."
+                        autocomplete="off">
+
+                    <span class="aturan-pakai-arrow">▾</span>
+                </div>
+
+                <div id="aturanPakaiDropdown" class="aturan-pakai-dropdown">
+                    @foreach([
+                        'Sebelum makan',
+                        'Sesudah makan',
+                        'Saat makan',
+                        'Sebelum tidur',
+                        'Sesudah bangun tidur',
+                        'Pagi hari',
+                        'Siang hari',
+                        'Sore hari',
+                        'Malam hari',
+                        'Saat diperlukan',
+                        'Sesuai petunjuk dokter',
+                        'Dengan air putih',
+                        'Dikonsumsi bersama makanan'
+                    ] as $aturan)
+                        <div class="aturan-pakai-option"
+                            data-value="{{ $aturan }}">
+                            {{ $aturan }}
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        {{-- TOMBOL TAMBAH OBAT --}}
+        <div class="col-12">
+            <button type="button" id="btnTambahkanObat"
+                class="btn btn-success">
+                <i class="fa-solid fa-plus me-1"></i>
+                Tambahkan Obat
+            </button>
+        </div>
+
+    </div>
+
+    <hr class="my-4">
+
+    {{-- DAFTAR OBAT --}}
+    <h6 class="mb-3">
+        <i class="fa-solid fa-list me-2"></i>
+        Daftar Obat yang Diresepkan
+    </h6>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Nama Obat</th>
+                    <th>Jumlah</th>
+                    <th>Dosis</th>
+                    <th>Frekuensi</th>
+                    <th>Lama</th>
+                    <th>Aturan Pakai</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody id="resepTableBody">
+                <tr>
+                    <td colspan="8" class="text-center text-muted">
+                        Belum ada obat ditambahkan.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button type="submit" class="btn btn-primary">
+    <i class="fa-solid fa-prescription-bottle-medical me-1"></i>
+    Tambah Resep
+</button>
+
+    {{-- DATA RESEP DIKIRIM KE CONTROLLER --}}
+    <input type="hidden" name="resep_obat" id="resep_obat" value="[]">
+
 </div>
 
             
 {{-- JAVASCRIPT --}}
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
+
     let daftarObat = [];
 
     const formPemeriksaan = document.getElementById('formPemeriksaan');
     const modalPemeriksaanEl = document.getElementById('modalTambahPemeriksaan');
-    const modalObatEl = document.getElementById('modalTambahObat');
+
+    const selectObat = document.getElementById('obat_id');
+    const jumlahInput = document.getElementById('jumlah_obat');
+    const dosisInput = document.getElementById('dosis_obat');
+    const frekuensiInput = document.getElementById('frekuensi_obat');
+    const lamaInput = document.getElementById('lama_obat');
+    const aturanInput = document.getElementById('aturan_pakai');
+
+    const tombolTambah = document.getElementById('btnTambahkanObat');
+    const tbody = document.getElementById('resepTableBody');
+    const hiddenResep = document.getElementById('resep_obat');
+
     const wrapper = document.querySelector('.aturan-pakai-wrapper');
-    const inputAturan = document.getElementById('aturan_pakai');
     const dropdownAturan = document.getElementById('aturanPakaiDropdown');
 
-    /*
-     * Aturan pakai: buka dropdown dan cari pilihan.
-     */
+    // Pastikan semua elemen utama tersedia.
+    if (
+        !formPemeriksaan ||
+        !modalPemeriksaanEl ||
+        !selectObat ||
+        !tombolTambah ||
+        !tbody ||
+        !hiddenResep
+    ) {
+        console.error('Elemen form pemeriksaan atau resep tidak ditemukan.');
+        return;
+    }
+
+    // FILTER ATURAN PAKAI
     function filterAturanPakai(keyword) {
+        if (!dropdownAturan) return;
+
         const options = dropdownAturan.querySelectorAll('.aturan-pakai-option');
         const search = keyword.trim().toLowerCase();
+
         let ditemukan = 0;
 
         options.forEach(function (option) {
             const cocok = option.dataset.value.toLowerCase().includes(search);
+
             option.style.display = cocok ? 'block' : 'none';
+
             if (cocok) ditemukan++;
         });
 
@@ -929,227 +899,216 @@ document.addEventListener('DOMContentLoaded', function () {
                 noResult.textContent = 'Aturan pakai tidak ditemukan';
                 dropdownAturan.appendChild(noResult);
             }
+
             noResult.style.display = 'block';
+
         } else if (noResult) {
             noResult.style.display = 'none';
         }
     }
 
-    inputAturan.addEventListener('focus', function () {
-        wrapper.classList.add('active');
-        filterAturanPakai(this.value);
-    });
+    if (aturanInput && wrapper && dropdownAturan) {
 
-    inputAturan.addEventListener('input', function () {
-        wrapper.classList.add('active');
-        filterAturanPakai(this.value);
-    });
+        aturanInput.addEventListener('focus', function () {
+            wrapper.classList.add('active');
+            filterAturanPakai(this.value);
+        });
 
-    dropdownAturan.addEventListener('click', function (event) {
-        const option = event.target.closest('.aturan-pakai-option');
-        if (!option) return;
+        aturanInput.addEventListener('input', function () {
+            wrapper.classList.add('active');
+            filterAturanPakai(this.value);
+        });
 
-        inputAturan.value = option.dataset.value;
-        wrapper.classList.remove('active');
-        inputAturan.dispatchEvent(new Event('change', { bubbles: true }));
-    });
+        dropdownAturan.addEventListener('click', function (event) {
+            const option = event.target.closest('.aturan-pakai-option');
 
-    document.addEventListener('click', function (event) {
-        if (!wrapper.contains(event.target)) {
+            if (!option) return;
+
+            aturanInput.value = option.dataset.value;
             wrapper.classList.remove('active');
-        }
-    });
+        });
 
-    inputAturan.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-            wrapper.classList.remove('active');
-            inputAturan.blur();
-        }
-
-        if (event.key === 'Enter' && wrapper.classList.contains('active')) {
-            const visibleOption = dropdownAturan.querySelector(
-                '.aturan-pakai-option[style*="display: block"]'
-            );
-
-            if (visibleOption) {
-                event.preventDefault();
-                visibleOption.click();
+        document.addEventListener('click', function (event) {
+            if (!wrapper.contains(event.target)) {
+                wrapper.classList.remove('active');
             }
-        }
-    });
+        });
 
-    /*
-     * Reset input obat.
-     */
+        aturanInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                wrapper.classList.remove('active');
+                aturanInput.blur();
+            }
+
+            if (event.key === 'Enter' && wrapper.classList.contains('active')) {
+                const visibleOption = Array.from(
+                    dropdownAturan.querySelectorAll('.aturan-pakai-option')
+                ).find(option => option.style.display !== 'none');
+
+                if (visibleOption) {
+                    event.preventDefault();
+                    visibleOption.click();
+                }
+            }
+        });
+    }
+
+    // RESET INPUT OBAT
     function resetFormObat() {
-        document.getElementById('obat_id').value = '';
-        document.getElementById('jumlah_obat').value = '';
-        document.getElementById('dosis_obat').value = '';
-        document.getElementById('frekuensi_obat').value = '';
-        document.getElementById('aturan_pakai').value = '';
-        document.getElementById('lama_obat').value = '';
-        wrapper.classList.remove('active');
+        selectObat.value = '';
+        jumlahInput.value = '';
+        dosisInput.value = '';
+        frekuensiInput.value = '';
+        lamaInput.value = '';
+        aturanInput.value = '';
+
+        if (wrapper) {
+            wrapper.classList.remove('active');
+        }
+
         filterAturanPakai('');
     }
 
-    /*
-     * Tambahkan obat ke daftar resep.
-     */
-    document.getElementById('btnTambahkanObat').addEventListener('click', function () {
-        const selectObat = document.getElementById('obat_id');
-        const jumlah = document.getElementById('jumlah_obat').value.trim();
-        const dosis = document.getElementById('dosis_obat').value.trim();
-        const frekuensi = document.getElementById('frekuensi_obat').value.trim();
-        const aturan = document.getElementById('aturan_pakai').value.trim();
-        const lama = document.getElementById('lama_obat').value.trim();
+    // TAMPILKAN DAFTAR OBAT
+    function tampilkanObat() {
 
-        if (!selectObat.value) {
+        tbody.innerHTML = '';
+
+        if (daftarObat.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="empty-resep">
+                        <i class="fa-solid fa-pills fa-2x mb-2"></i>
+                        <br>
+                        Belum ada obat yang ditambahkan.
+                    </td>
+                </tr>
+            `;
+
+            hiddenResep.value = '[]';
+            return;
+        }
+
+        daftarObat.forEach(function (obat, index) {
+
+            const row = document.createElement('tr');
+
+            const data = [
+                index + 1,
+                obat.nama_obat,
+                obat.jumlah,
+                obat.dosis,
+                obat.frekuensi,
+                obat.aturan_pakai || '-',
+                obat.lama ? obat.lama + ' hari' : '-'
+            ];
+
+            data.forEach(function (value) {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+            const actionCell = document.createElement('td');
+
+            const tombolHapus = document.createElement('button');
+
+            tombolHapus.type = 'button';
+            tombolHapus.className = 'btn btn-sm btn-danger';
+            tombolHapus.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            tombolHapus.title = 'Hapus obat';
+
+            tombolHapus.addEventListener('click', function () {
+                daftarObat.splice(index, 1);
+                tampilkanObat();
+            });
+
+            actionCell.appendChild(tombolHapus);
+            row.appendChild(actionCell);
+
+            tbody.appendChild(row);
+        });
+
+        // Kirim semua obat sebagai JSON.
+        hiddenResep.value = JSON.stringify(daftarObat);
+    }
+
+    // TAMBAHKAN OBAT KE DAFTAR
+    tombolTambah.addEventListener('click', function () {
+
+        const obatId = selectObat.value;
+        const jumlah = jumlahInput.value.trim();
+        const dosis = dosisInput.value.trim();
+        const frekuensi = frekuensiInput.value.trim();
+        const lama = lamaInput.value.trim();
+        const aturan = aturanInput.value.trim();
+
+        if (!obatId) {
             alert('Silakan pilih obat terlebih dahulu.');
             selectObat.focus();
             return;
         }
 
-        if (!jumlah || Number(jumlah) < 1 || !Number.isInteger(Number(jumlah))) {
+        if (!jumlah || !Number.isInteger(Number(jumlah)) || Number(jumlah) < 1) {
             alert('Jumlah obat harus berupa bilangan bulat minimal 1.');
-            document.getElementById('jumlah_obat').focus();
+            jumlahInput.focus();
             return;
         }
 
         if (!dosis) {
             alert('Silakan isi dosis obat.');
-            document.getElementById('dosis_obat').focus();
+            dosisInput.focus();
             return;
         }
 
         if (!frekuensi) {
             alert('Silakan isi frekuensi obat.');
-            document.getElementById('frekuensi_obat').focus();
+            frekuensiInput.focus();
             return;
         }
 
         const option = selectObat.options[selectObat.selectedIndex];
 
         daftarObat.push({
-            obat_id: selectObat.value,
+            obat_id: Number(obatId),
             nama_obat: option.text.trim(),
             jumlah: Number(jumlah),
             dosis: dosis,
             frekuensi: frekuensi,
-            aturan_pakai: aturan,
-            lama: lama
+            lama: lama,
+            aturan_pakai: aturan
         });
 
         tampilkanObat();
         resetFormObat();
 
-        /*
-         * Tutup modal obat lalu kembalikan fokus ke modal pemeriksaan.
-         */
-        bootstrap.Modal.getOrCreateInstance(modalObatEl).hide();
+        alert('Obat berhasil ditambahkan ke daftar resep.');
     });
 
-    /*
-     * Render ulang tabel resep.
-     */
-    function tampilkanObat() {
-        const tbody = document.getElementById('resepTableBody');
-        const hiddenResep = document.getElementById('resep_obat');
-
-        tbody.innerHTML = '';
-
-        if (daftarObat.length === 0) {
-            const row = document.createElement('tr');
-            const cell = document.createElement('td');
-
-            cell.colSpan = 8;
-            cell.className = 'empty-resep';
-            cell.innerHTML =
-                '<i class="fa-solid fa-pills fa-2x mb-2"></i><br>' +
-                'Belum ada obat yang ditambahkan.';
-
-            row.appendChild(cell);
-            tbody.appendChild(row);
-            hiddenResep.value = '[]';
-            return;
-        }
-
-        daftarObat.forEach(function (obat, index) {
-            const row = document.createElement('tr');
-
-            function tambahCell(value) {
-                const cell = document.createElement('td');
-                cell.textContent = value;
-                row.appendChild(cell);
-            }
-
-            tambahCell(index + 1);
-            tambahCell(obat.nama_obat);
-            tambahCell(obat.jumlah);
-            tambahCell(obat.dosis);
-            tambahCell(obat.frekuensi + ' x sehari');
-            tambahCell(obat.aturan_pakai || '-');
-            tambahCell(obat.lama ? obat.lama + ' hari' : '-');
-
-            const actionCell = document.createElement('td');
-            const deleteButton = document.createElement('button');
-
-            deleteButton.type = 'button';
-            deleteButton.className = 'btn btn-sm btn-danger';
-            deleteButton.title = 'Hapus obat';
-            deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>';
-
-            deleteButton.addEventListener('click', function () {
-                daftarObat.splice(index, 1);
-                tampilkanObat();
-            });
-
-            actionCell.appendChild(deleteButton);
-            row.appendChild(actionCell);
-            tbody.appendChild(row);
-        });
-
-        hiddenResep.value = JSON.stringify(daftarObat);
-    }
-
-    /*
-     * Pastikan JSON resep terbaru terkirim saat form disimpan.
-     */
+    // PASTIKAN JSON TERKIRIM SAAT FORM DISIMPAN
     formPemeriksaan.addEventListener('submit', function () {
-        document.getElementById('resep_obat').value =
-            JSON.stringify(daftarObat);
+        hiddenResep.value = JSON.stringify(daftarObat);
     });
 
-    /*
-     * Bersihkan resep ketika modal tambah pemeriksaan ditutup,
-     * supaya tidak terbawa ke pemeriksaan baru berikutnya.
-     */
+    // RESET FORM KETIKA MODAL DITUTUP
     modalPemeriksaanEl.addEventListener('hidden.bs.modal', function () {
+
         daftarObat = [];
-        tampilkanObat();
+
         formPemeriksaan.reset();
-        resetFormObat();
-    });
 
-    modalPemeriksaanEl.addEventListener('shown.bs.modal', function () {
+        resetFormObat();
+
         tampilkanObat();
     });
 
-    /*
-     * Setelah modal obat tertutup, modal pemeriksaan tetap terbuka.
-     */
-    modalObatEl.addEventListener('hidden.bs.modal', function () {
-        wrapper.classList.remove('active');
-    });
-
-    tampilkanObat();
-    filterAturanPakai('');
-
-    // Mengisi dokter dan poli otomatis dari pendaftaran pasien
+    // ISI DOKTER DAN POLI OTOMATIS
     const pasienSelect = document.getElementById('pendaftaran_id');
     const dokterInput = document.getElementById('dokter_nama');
     const poliInput = document.getElementById('poli_nama');
 
     function isiDataPendaftaran() {
+
         if (!pasienSelect || !dokterInput || !poliInput) {
             return;
         }
@@ -1164,7 +1123,12 @@ document.addEventListener('DOMContentLoaded', function () {
         pasienSelect.addEventListener('change', isiDataPendaftaran);
         isiDataPendaftaran();
     }
+
+    tampilkanObat();
+    filterAturanPakai('');
+
 });
+
 </script>
 
 @endsection
