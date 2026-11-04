@@ -293,12 +293,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('kasir.index') }}"
-                            class="nav-link {{ request()->routeIs('kasir.*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cash-register me-2"></i>
-                            Data Kasir
-                        </a>
-                    </li>
+    <a href="{{ route('kasir.dashboard') }}"
+        class="nav-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
+        <i class="fa-solid fa-cash-register me-2"></i>
+        Data Kasir
+    </a>
+</li>
                 </ul>
             @else
                 {{-- SIDEBAR SUPER ADMIN --}}

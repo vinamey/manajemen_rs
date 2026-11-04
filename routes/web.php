@@ -45,7 +45,9 @@ use App\Http\Controllers\HasilPemeriksaanController;
 // LANDING PAGE
 // ==================================================
 
-Route::get('/', function () {
+Route::redirect('/', '/SIM-RS');
+
+Route::get('/SIM-RS', function () {
     return view('landing');
 })->name('landing');
 

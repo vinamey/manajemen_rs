@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SIM RS - Sistem Informasi Rumah Sakit</title>
+    <title>SIM RS Sistem Informasi Rumah Sakit</title>
 
 
     <!-- =========================================================
