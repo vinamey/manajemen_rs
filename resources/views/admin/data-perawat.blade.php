@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,8 +8,13 @@
 
     <title>Data Perawat - Admin Rumah Sakit</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+    <!-- DataTables -->
     <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
     <style>
@@ -71,6 +77,7 @@
             margin: 6px 0 18px;
         }
 
+        /* TABEL */
         table.dataTable {
             width: 100% !important;
             border-collapse: collapse !important;
@@ -83,6 +90,7 @@
             padding: 12px 10px !important;
             font-size: 12px;
             white-space: nowrap;
+            vertical-align: middle;
         }
 
         table.dataTable tbody td {
@@ -95,25 +103,85 @@
             background: #f3f8ff;
         }
 
-        .btn-view {
+        /* KOLOM AKSI */
+        #tabelPerawat th:last-child,
+        #tabelPerawat td:last-child {
+            width: 125px !important;
+            min-width: 125px !important;
+            max-width: 125px !important;
+            text-align: center !important;
+            white-space: nowrap !important;
+        }
+
+        /* TOMBOL AKSI SEJAJAR */
+        .aksi-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .aksi-wrapper .btn-view,
+        .aksi-wrapper .btn-edit,
+        .aksi-wrapper .btn-delete {
             width: 30px;
             height: 30px;
+            min-width: 30px;
+            padding: 0;
+            margin: 0;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #0dcaf0;
-            color: #fff;
             border: none;
-            border-radius: 7px;
+            border-radius: 6px;
+            font-size: 12px;
             cursor: pointer;
             transition: .2s;
         }
 
-        .btn-view:hover {
+        /* TOMBOL LIHAT */
+        .aksi-wrapper .btn-view {
+            background: #0dcaf0;
+            color: #fff;
+        }
+
+        .aksi-wrapper .btn-view:hover {
             background: #0aa8c7;
             color: #fff;
         }
 
+        /* TOMBOL EDIT */
+        .aksi-wrapper .btn-edit {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .aksi-wrapper .btn-edit:hover {
+            background: #e0a800;
+            color: #212529;
+        }
+
+        /* TOMBOL HAPUS */
+        .aksi-wrapper .btn-delete {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .aksi-wrapper .btn-delete:hover {
+            background: #bb2d3b;
+            color: #fff;
+        }
+
+        .aksi-wrapper form {
+            display: inline-flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* DATATABLES */
         .dataTables_wrapper {
             font-size: 12px;
             color: #59677b;
@@ -146,6 +214,7 @@
             border: 1px solid #1877f2 !important;
         }
 
+        /* MODAL */
         .modal-content {
             border: none;
             border-radius: 14px;
@@ -200,6 +269,27 @@
             color: #fff;
         }
 
+        /* TOMBOL DASHBOARD */
+        .btn-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #1877f2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s ease;
+        }
+
+        .btn-dashboard:hover {
+            background: #0f58c6;
+            color: white;
+            transform: translateY(-1px);
+        }
+
         .footer-text {
             text-align: center;
             color: #8a95a7;
@@ -207,6 +297,7 @@
             padding: 20px 0;
         }
 
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .main-container {
                 margin-top: 20px;
@@ -221,26 +312,6 @@
                 font-size: 21px;
             }
         }
-
-        .btn-dashboard {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            background: #1877f2;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            transition: 0.2s ease;
-        }
-
-        .btn-dashboard:hover {
-            background: #0f58c6;
-            color: white;
-            transform: translateY(-1px);
-        }
     </style>
 </head>
 
@@ -250,20 +321,22 @@
 
 <main class="main-container">
 
+    <!-- HEADER HALAMAN -->
     <div class="page-heading d-flex justify-content-between align-items-center flex-wrap gap-3">
 
-    <div>
-        <h2>Data Perawat</h2>
-        <p>Informasi perawat yang terdaftar di rumah sakit.</p>
+        <div>
+            <h2>Data Perawat</h2>
+            <p>Informasi perawat yang terdaftar di rumah sakit.</p>
+        </div>
+
+        <a href="{{ url('/admin/dashboard') }}" class="btn-dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+            Kembali ke Dashboard
+        </a>
+
     </div>
 
-    <a href="{{ url('/admin/dashboard') }}" class="btn-dashboard">
-        <i class="fa-solid fa-arrow-left"></i>
-        Kembali ke Dashboard
-    </a>
-
-</div>
-
+    <!-- NOTIFIKASI -->
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -283,28 +356,36 @@
         </div>
     @endif
 
+    <!-- CARD DATA PERAWAT -->
     <div class="content-card">
 
+        <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
 
-<div class="d-flex justify-content-between align-items-center gap-2 mb-2">
-    <div class="content-title">
-        <i class="fa-solid fa-user-nurse me-2" style="color:#1877f2"></i>
-        Daftar Perawat
-    </div>
+            <div class="content-title">
+                <i class="fa-solid fa-user-nurse me-2" style="color:#1877f2"></i>
+                Daftar Perawat
+            </div>
 
-    <button type="button" class="btn btn-primary btn-sm"
-            data-bs-toggle="modal" data-bs-target="#modalTambah">
-        <i class="fa-solid fa-plus me-1"></i> Tambah Perawat
-    </button>
-</div>
+            <button type="button"
+                    class="btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalTambah">
 
+                <i class="fa-solid fa-plus me-1"></i>
+                Tambah Perawat
+
+            </button>
+
+        </div>
 
         <div class="content-subtitle">
             Daftar informasi perawat yang terdaftar di rumah sakit.
         </div>
 
         <div class="table-responsive">
+
             <table id="tabelPerawat" class="table table-hover table-bordered w-100">
+
                 <thead>
                     <tr>
                         <th width="55">No.</th>
@@ -312,34 +393,49 @@
                         <th>Jenis Kelamin</th>
                         <th>Tanggal Lahir</th>
                         <th>Alamat</th>
-                        <th width="90" class="text-center">Aksi</th>
+                        <th width="125" class="text-center">Aksi</th>
                     </tr>
                 </thead>
+
                 <tbody></tbody>
+
             </table>
+
         </div>
 
     </div>
 
+    <!-- FOOTER -->
     <div class="footer-text">
         SIM RS &copy; {{ date('Y') }} — Admin Rumah Sakit
     </div>
 
 </main>
 
-{{-- MODAL DETAIL PERAWAT --}}
+
+<!-- ==========================================
+     MODAL DETAIL PERAWAT
+========================================== -->
+
 <div class="modal fade" id="modalLihat" tabindex="-1" aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content">
 
             <div class="modal-header">
+
                 <h5 class="modal-title">
                     <i class="fa-solid fa-user-nurse me-2"></i>
                     Detail Perawat
                 </h5>
 
-                <button type="button" class="btn-close"
-                        data-bs-dismiss="modal" aria-label="Tutup"></button>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Tutup">
+                </button>
+
             </div>
 
             <div class="modal-body">
@@ -361,122 +457,202 @@
 
                 <div class="mb-3">
                     <label class="form-label">Alamat</label>
-                    <div id="lihatAlamat" class="detail-value"
+                    <div id="lihatAlamat"
+                         class="detail-value"
                          style="min-height:70px; white-space:pre-wrap;">-</div>
                 </div>
 
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn-close-modal"
+
+                <button type="button"
+                        class="btn-close-modal"
                         data-bs-dismiss="modal">
                     Tutup
                 </button>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
 
-{{-- MODAL TAMBAH PERAWAT --}}
+<!-- ==========================================
+     MODAL TAMBAH PERAWAT
+========================================== -->
+
 <div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content">
+
             <form action="{{ route('admin.perawat.store') }}" method="POST">
+
                 @csrf
 
                 <div class="modal-header">
+
                     <h5 class="modal-title">
                         <i class="fa-solid fa-user-plus me-2"></i>
                         Tambah Perawat
                     </h5>
-                    <button type="button" class="btn-close"
-                            data-bs-dismiss="modal" aria-label="Tutup"></button>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Tutup">
+                    </button>
+
                 </div>
 
                 <div class="modal-body">
+
                     <div class="mb-3">
+
                         <label class="form-label">Nama Perawat</label>
-                        <input type="text" name="nama" class="form-control"
-                               value="{{ old('nama') }}" required>
+
+                        <input type="text"
+                               name="nama"
+                               class="form-control"
+                               value="{{ old('nama') }}"
+                               required>
+
                     </div>
 
                     <div class="mb-3">
+
                         <label class="form-label">Jenis Kelamin</label>
-                        <select name="jenis_kelamin" class="form-select" required>
+
+                        <select name="jenis_kelamin"
+                                class="form-select"
+                                required>
+
                             <option value="">-- Pilih Jenis Kelamin --</option>
                             <option value="laki-laki">Laki-laki</option>
                             <option value="perempuan">Perempuan</option>
+
                         </select>
+
                     </div>
 
                     <div class="mb-3">
+
                         <label class="form-label">Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir"
+
+                        <input type="date"
+                               name="tanggal_lahir"
                                class="form-control"
-                               value="{{ old('tanggal_lahir') }}" required>
+                               value="{{ old('tanggal_lahir') }}"
+                               required>
+
                     </div>
 
                     <div class="mb-3">
+
                         <label class="form-label">Alamat</label>
-                        <textarea name="alamat" class="form-control"
-                                  rows="3" required>{{ old('alamat') }}</textarea>
+
+                        <textarea name="alamat"
+                                  class="form-control"
+                                  rows="3"
+                                  required>{{ old('alamat') }}</textarea>
+
                     </div>
+
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light"
-                            data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-save me-1"></i> Simpan
+
+                    <button type="button"
+                            class="btn btn-light"
+                            data-bs-dismiss="modal">
+                        Batal
                     </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-save me-1"></i>
+                        Simpan
+                    </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
 
 
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
+
 <script>
+
 $(document).ready(function () {
 
+    // ======================================
+    // DATATABLE PERAWAT
+    // ======================================
+
     const tabel = $('#tabelPerawat').DataTable({
+
         processing: true,
         serverSide: true,
         autoWidth: false,
 
         ajax: {
+
             url: "{{ route('admin.perawat.data') }}",
             type: 'GET',
+
             error: function (xhr) {
+
                 console.error(xhr.responseText);
-                alert('Data perawat gagal dimuat. Periksa route admin.perawat.data dan method controller.');
+
+                alert('Data perawat gagal dimuat. Periksa route dan controller.');
+
             }
+
         },
 
         columns: [
+
             {
                 data: 'DT_RowIndex',
                 name: 'DT_RowIndex',
                 orderable: false,
                 searchable: false
             },
+
             {
                 data: 'nama',
                 name: 'nama',
                 defaultContent: '-'
             },
+
             {
                 data: 'jenis_kelamin',
                 name: 'jenis_kelamin',
                 defaultContent: '-',
+
                 render: function (data) {
+
                     if (!data) return '-';
 
                     const value = String(data).toLowerCase();
@@ -490,59 +666,102 @@ $(document).ready(function () {
                     }
 
                     return data;
+
                 }
             },
+
             {
                 data: 'tanggal_lahir',
                 name: 'tanggal_lahir',
                 defaultContent: '-'
             },
+
             {
                 data: 'alamat',
                 name: 'alamat',
                 defaultContent: '-'
             },
-          {
-    data: null,
-    name: 'aksi',
-    orderable: false,
-    searchable: false,
-    className: 'text-center',
-    render: function (data, type, row) {
-        return `
-            <button type="button" class="btn-view" title="Lihat Detail">
-                <i class="fa-solid fa-eye"></i>
-            </button>
 
-            <button type="button"
-                    class="btn-edit btn btn-warning btn-sm"
-                    title="Edit">
-                <i class="fa-solid fa-pen"></i>
-            </button>
+            // ======================================
+            // KOLOM AKSI
+            // ======================================
 
-            <form action="/admin/data-perawat/${row.id}"
-                  method="POST"
-                  class="d-inline"
-                  onsubmit="return confirm('Yakin ingin menghapus data perawat ini?')">
-                <input type="hidden" name="_token"
-                       value="{{ csrf_token() }}">
-                <input type="hidden" name="_method" value="DELETE">
+            {
+                data: null,
+                name: 'aksi',
+                orderable: false,
+                searchable: false,
+                className: 'text-center',
+                width: '125px',
 
-                <button type="submit"
-                        class="btn btn-danger btn-sm"
-                        title="Hapus">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </form>
-        `;
-    }
-}
+                render: function (data, type, row) {
+
+                    return `
+
+                        <div class="aksi-wrapper">
+
+                            <!-- TOMBOL LIHAT -->
+
+                            <button type="button"
+                                    class="btn-view"
+                                    title="Lihat Detail">
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </button>
+
+
+                            <!-- TOMBOL EDIT -->
+
+                            <button type="button"
+                                    class="btn-edit"
+                                    title="Edit">
+
+                                <i class="fa-solid fa-pen"></i>
+
+                            </button>
+
+
+                            <!-- TOMBOL HAPUS -->
+
+                            <form action="/admin/data-perawat/${row.id}"
+                                  method="POST"
+                                  onsubmit="return confirm('Yakin ingin menghapus data perawat ini?')">
+
+                                <input type="hidden"
+                                       name="_token"
+                                       value="{{ csrf_token() }}">
+
+                                <input type="hidden"
+                                       name="_method"
+                                       value="DELETE">
+
+                                <button type="submit"
+                                        class="btn-delete"
+                                        title="Hapus">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+
         ],
 
         order: [],
+
         pageLength: 10,
 
         language: {
+
             processing: 'Memuat data...',
             search: 'Cari:',
             lengthMenu: 'Tampilkan _MENU_ data',
@@ -551,16 +770,27 @@ $(document).ready(function () {
             infoFiltered: '(disaring dari _MAX_ data)',
             zeroRecords: 'Data tidak ditemukan',
             emptyTable: 'Belum ada data perawat',
+
             paginate: {
+
                 first: 'Pertama',
                 last: 'Terakhir',
                 next: 'Berikutnya',
                 previous: 'Sebelumnya'
+
             }
+
         }
+
     });
 
+
+    // ======================================
+    // TOMBOL LIHAT DETAIL
+    // ======================================
+
     $('#tabelPerawat').on('click', '.btn-view', function () {
+
         const row = tabel.row($(this).closest('tr')).data();
 
         if (!row) {
@@ -569,31 +799,40 @@ $(document).ready(function () {
 
         $('#lihatNama').text(row.nama || '-');
 
+
         const gender = row.jenis_kelamin_raw || row.jenis_kelamin || '';
+
         const genderLower = String(gender).toLowerCase();
 
         $('#lihatJenisKelamin').text(
+
             genderLower === 'laki-laki' || genderLower === 'laki_laki'
                 ? 'Laki-laki'
                 : genderLower === 'perempuan'
                     ? 'Perempuan'
                     : gender || '-'
+
         );
+
 
         $('#lihatTanggalLahir').text(
             row.tanggal_lahir_raw || row.tanggal_lahir || '-'
         );
 
+
         $('#lihatAlamat').text(
             row.alamat_raw || row.alamat || '-'
         );
 
+
         bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalLihat')
         ).show();
+
     });
 
 });
+
 </script>
 
 </body>
