@@ -9,16 +9,20 @@
 
     <title>Data Obat - Apoteker</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          rel="stylesheet">
-
-    <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
     <style>
+        :root {
+            --blue-main: #1877f2;
+            --blue-dark: #0f58c6;
+            --blue-light: #e7f3ff;
+            --blue-soft: #f4f8ff;
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -26,153 +30,274 @@
         body {
             margin: 0;
             background: #f4f6fa;
-            color: #243247;
             font-family: Arial, sans-serif;
+            color: var(--text-dark);
         }
 
-        .topbar {
-            background: linear-gradient(135deg, #1877f2, #0f58c6);
+        /* =========================================
+           SIDEBAR - TETAP SAMA DENGAN DASHBOARD
+        ========================================= */
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: linear-gradient(180deg, var(--blue-main), var(--blue-dark));
             color: white;
-            padding: 18px 28px;
-            box-shadow: 0 4px 15px rgba(24, 119, 242, .18);
+            padding-top: 20px;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
         }
 
-        .topbar-inner {
-            max-width: 1400px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
+        .logo {
+            text-align: center;
+            font-weight: 700;
+            font-size: 21px;
+            margin-bottom: 20px;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .brand-icon {
-            width: 44px;
-            height: 44px;
-            flex-shrink: 0;
-            background: rgba(255, 255, 255, .18);
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: white;
+            color: var(--blue-main);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 21px;
+            margin: 0 auto 10px;
+            font-size: 22px;
         }
 
-        .brand h4 {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 0 0 3px;
+        .sidebar-line {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            margin: 0 18px 15px;
         }
 
-        .brand small {
-            opacity: .85;
+        .menu-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            padding: 0 20px;
+            margin-bottom: 7px;
         }
 
-        .btn-back {
-            display: inline-flex;
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 9px 14px;
-            border-radius: 8px;
+            gap: 12px;
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateX(3px);
+            color: white;
+        }
+
+        .sidebar a.active {
             background: white;
-            color: #0f58c6;
-            text-decoration: none;
-            font-size: 13px;
+            color: var(--blue-main);
             font-weight: 600;
-            transition: .2s;
         }
 
-        .btn-back:hover {
-            background: #e7f1ff;
-            color: #0f58c6;
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
         }
 
-        .main-container {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 22px;
+        /* LOGOUT */
+
+        .logout-box {
+            position: absolute;
+            bottom: 20px;
+            left: 12px;
+            right: 12px;
         }
 
-        .breadcrumb-custom {
-            color: #7a879a;
-            font-size: 13px;
-            margin-bottom: 12px;
+        .logout-btn {
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            width: 100%;
+            padding: 11px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
-        .breadcrumb-custom a {
-            color: #1877f2;
-            text-decoration: none;
+        .logout-btn:hover {
+            background: white;
+            color: var(--blue-main);
         }
 
-        .page-heading {
-            margin-bottom: 22px;
+        /* =========================================
+           MAIN CONTENT
+        ========================================= */
+
+        .content {
+            margin-left: 250px;
+            padding: 30px;
+            min-height: 100vh;
         }
 
-        .page-heading h2 {
-            font-size: 25px;
+        .page-title {
+            font-size: 27px;
             font-weight: 700;
-            margin: 0 0 7px;
+            margin-bottom: 5px;
             color: #243247;
         }
 
-        .page-heading p {
-            margin: 0;
-            color: #7a879a;
+        .page-subtitle {
+            color: var(--text-muted);
             font-size: 14px;
+            margin-bottom: 25px;
         }
+
+        /* =========================================
+           HEADER CARD
+        ========================================= */
+
+        .welcome-card {
+            background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
+            color: white;
+            border: none;
+            border-radius: 18px;
+            padding: 23px 27px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(24, 119, 242, 0.16);
+        }
+
+        .welcome-card h3 {
+            font-size: 23px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .welcome-card p {
+            font-size: 14px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .welcome-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255,255,255,.17);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        /* =========================================
+           TABLE CARD
+        ========================================= */
 
         .content-card {
             background: white;
             border: 1px solid #e9eef5;
-            border-radius: 14px;
-            padding: 24px;
-            box-shadow: 0 4px 15px rgba(25, 50, 90, .035);
+            border-radius: 17px;
+            box-shadow: 0 4px 15px rgba(25, 50, 90, .045);
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            padding: 20px 23px;
+            border-bottom: 1px solid #edf0f5;
         }
 
         .content-title {
             font-size: 17px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin: 0;
+            color: #243247;
+        }
+
+        .content-title i {
+            color: var(--blue-main);
+            margin-right: 9px;
         }
 
         .content-subtitle {
             color: #7a879a;
             font-size: 13px;
-            margin-bottom: 22px;
+            margin-top: 6px;
+            margin-bottom: 0;
         }
+
+        .card-body-custom {
+            padding: 22px;
+        }
+
+        /* BUTTON TAMBAH */
+
+        .btn-add {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue-main);
+            border: none;
+            color: white;
+            padding: 10px 17px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .btn-add:hover {
+            background: var(--blue-dark);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(24,119,242,.2);
+        }
+
+        /* =========================================
+           DATATABLE
+        ========================================= */
 
         table.dataTable {
             width: 100% !important;
             border-collapse: collapse !important;
+            margin-top: 12px !important;
         }
 
         table.dataTable thead th {
-            background: #1877f2 !important;
+            background: var(--blue-main) !important;
             color: white !important;
             border-bottom: none !important;
-            padding: 14px 12px !important;
+            padding: 14px 13px !important;
+            font-size: 13px;
             white-space: nowrap;
         }
 
         table.dataTable tbody td {
-            padding: 13px 12px;
+            padding: 13px 13px !important;
             vertical-align: middle;
+            font-size: 13px;
+            color: #344054;
         }
 
         table.dataTable tbody tr:hover {
-            background: #f3f8ff;
+            background: #f3f8ff !important;
         }
 
-        .dataTables_wrapper .dataTables_length,
-        .dataTables_wrapper .dataTables_filter,
-        .dataTables_wrapper .dataTables_info,
-        .dataTables_wrapper .dataTables_paginate {
+        .dataTables_wrapper {
             font-size: 13px;
             color: #59677b;
         }
@@ -180,228 +305,365 @@
         .dataTables_wrapper .dataTables_filter input,
         .dataTables_wrapper .dataTables_length select {
             border: 1px solid #dce3ed;
-            border-radius: 7px;
+            border-radius: 8px;
             padding: 7px 10px;
             outline: none;
             background: white;
+            font-size: 13px;
+            margin-left: 7px;
         }
 
         .dataTables_wrapper .dataTables_filter input:focus,
         .dataTables_wrapper .dataTables_length select:focus {
-            border-color: #1877f2;
-            box-shadow: 0 0 0 2px rgba(24, 119, 242, .1);
+            border-color: var(--blue-main);
+            box-shadow: 0 0 0 3px rgba(24,119,242,.1);
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button {
-            border-radius: 6px !important;
+            border-radius: 7px !important;
             margin: 0 2px;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: #1877f2 !important;
+            background: var(--blue-main) !important;
             color: white !important;
-            border: 1px solid #1877f2 !important;
+            border: 1px solid var(--blue-main) !important;
         }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: var(--blue-dark) !important;
+            color: white !important;
+            border-color: var(--blue-dark) !important;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            padding-top: 15px;
+        }
+
+        /* FOOTER */
 
         .footer-text {
             text-align: center;
             color: #8a95a7;
-            font-size: 12px;
-            padding: 25px 0;
+            font-size: 11px;
+            padding: 25px 0 10px;
         }
 
-        @media (max-width: 768px) {
-            .topbar {
+        /* RESPONSIVE */
+
+        @media(max-width: 900px) {
+            .sidebar {
+                width: 210px;
+            }
+
+            .content {
+                margin-left: 210px;
+                padding: 22px;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .sidebar {
+                width: 75px;
+            }
+
+            .logo {
+                font-size: 0;
+            }
+
+            .logo-icon {
+                margin-bottom: 10px;
+            }
+
+            .menu-title {
+                display: none;
+            }
+
+            .sidebar-line {
+                margin: 0 10px 15px;
+            }
+
+            .sidebar a {
+                justify-content: center;
+                padding: 13px 5px;
+                font-size: 0;
+            }
+
+            .menu-icon {
+                font-size: 19px;
+            }
+
+            .logout-btn {
+                font-size: 0;
+            }
+
+            .logout-btn:first-letter {
+                font-size: 18px;
+            }
+
+            .content {
+                margin-left: 75px;
                 padding: 15px;
             }
 
-            .topbar-inner {
-                flex-wrap: wrap;
+            .page-title {
+                font-size: 22px;
             }
 
-            .main-container {
-                margin-top: 20px;
-                padding: 0 12px;
+            .welcome-card {
+                padding: 18px;
             }
 
-            .content-card {
-                padding: 15px;
+            .welcome-card h3 {
+                font-size: 19px;
             }
 
-            .page-heading h2 {
-                font-size: 21px;
+            .card-body-custom {
+                padding: 14px;
             }
-
-            .brand h4 {
-                font-size: 16px;
-            }
-        }
-
-        .btn-dashboard {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            background: #1877f2;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            transition: 0.2s ease;
-        }
-
-        .btn-dashboard:hover {
-            background: #0f58c6;
-            color: white;
-            transform: translateY(-1px);
         }
     </style>
 </head>
 
 <body>
 
-<header class="topbar">
-    <div class="topbar-inner">
+    <!-- =========================================
+         SIDEBAR
+    ========================================= -->
 
-        <div class="brand">
+    <div class="sidebar">
 
+        <div class="logo">
+            <div class="logo-icon">💊</div>
+            SIM RS
         </div>
 
-     
-    </div>
-</header>
+        <hr class="sidebar-line">
 
-<main class="main-container">
+        <div class="menu-title">Menu Apoteker</div>
 
-    <div class="breadcrumb-custom">
-    <i class="fa-solid fa-house me-1"></i>
-    Apoteker / Data Obat
-</div>
+        <a href="{{ route('apoteker.dashboard') }}">
+            <span class="menu-icon">🏠</span>
+            Dashboard
+        </a>
 
-<div class="page-heading d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <a href="{{ route('apoteker.obat.index') }}" class="active">
+            <span class="menu-icon">💊</span>
+            Data Obat
+        </a>
 
-    <div>
-        <h2>Data Obat</h2>
-        <p>Informasi daftar obat yang tersedia di rumah sakit.</p>
-    </div>
+        <a href="{{ route('log-stok-obat.index') }}">
+            <span class="menu-icon">🛒</span>
+            Log Stok Obat
+        </a>
 
-    <a href="{{ url('/apoteker/dashboard') }}" class="btn-dashboard">
-        <i class="fa-solid fa-arrow-left"></i>
-        Kembali ke Dashboard
-    </a>
+        <a href="{{ route('apoteker.supplier.index') }}">
+            <span class="menu-icon">🏢</span>
+            Supplier Obat
+        </a>
 
-</div>
+        <a href="{{ route('apoteker.resep.index') }}">
+            <span class="menu-icon">
+                <i class="fa-solid fa-file-prescription"></i>
+            </span>
+            Resep Dokter
+        </a>
 
-    <div class="content-card">
-
-        <div class="content-title">
-            <i class="fa-solid fa-capsules me-2" style="color:#1877f2"></i>
-            Daftar Obat
-        </div>
-
-       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-    <div class="content-subtitle mb-0">
-        Cari dan lihat data obat berdasarkan nama obat dan kategori.
-    </div>
-
-    <a href="{{ route('apoteker.obat.create') }}" class="btn btn-primary">
-    <i class="fa-solid fa-plus me-2"></i>
-    Tambah Data
-</a>
-</div>
-
-        <div class="table-responsive">
-            <table id="tabelObat"
-                   class="table table-hover table-bordered w-100">
-
-                <thead>
-                    <tr>
-                        <th width="65">No.</th>
-                        <th>Nama Obat</th>
-                        <th>Kategori</th>
-                    </tr>
-                </thead>
-
-                <tbody></tbody>
-
-            </table>
+        <div class="logout-box">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="logout-btn">
+                    🚪 &nbsp; Logout
+                </button>
+            </form>
         </div>
 
     </div>
 
-    <div class="footer-text">
-        SIM RS &copy; {{ date('Y') }} — Apoteker
-    </div>
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================= -->
 
-</main>
+    <main class="content">
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <!-- HEADER -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="welcome-card">
 
-<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+            <div class="d-flex align-items-center gap-3">
 
-<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+                <div class="welcome-icon">
+                    <i class="fa-solid fa-capsules"></i>
+                </div>
 
-<script>
-$(document).ready(function () {
+                <div>
+                    <h3>Data Obat Apoteker</h3>
+                    <p>
+                        Kelola informasi dan daftar obat rumah sakit melalui halaman ini.
+                    </p>
+                </div>
 
-    $('#tabelObat').DataTable({
-        processing: true,
-        serverSide: true,
-        autoWidth: false,
-        pageLength: 10,
-        order: [],
+            </div>
 
-        ajax: {
-            url: '{{ route("apoteker.obat.data") }}',
-            type: 'GET',
-            error: function (xhr) {
-                console.error(xhr.responseText);
-                alert('Data obat gagal dimuat. Periksa route dan controller Data Obat.');
-            }
-        },
+        </div>
 
-        columns: [
-            {
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: 'nama',
-                name: 'nama',
-                defaultContent: '-'
-            },
-            {
-                data: 'kategori_nama',
-                name: 'kategori_nama',
-                defaultContent: '-'
-            }
-        ],
+        <!-- ALERT -->
 
-        language: {
-            processing: 'Memuat data...',
-            search: 'Cari:',
-            lengthMenu: 'Tampilkan _MENU_ data',
-            info: 'Menampilkan _START_ sampai _END_ dari _TOTAL_ data',
-            infoEmpty: 'Belum ada data',
-            infoFiltered: '(disaring dari _MAX_ data)',
-            zeroRecords: 'Data obat tidak ditemukan',
-            emptyTable: 'Belum ada data obat',
-            paginate: {
-                first: 'Pertama',
-                last: 'Terakhir',
-                next: 'Berikutnya',
-                previous: 'Sebelumnya'
-            }
-        }
-    });
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i>
+                {{ session('success') }}
 
-});
-</script>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show">
+                <strong>Terjadi kesalahan:</strong>
+
+                <ul class="mb-0 mt-2">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        <!-- DAFTAR OBAT -->
+
+        <div class="content-card">
+
+            <div class="card-header-custom">
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                    <div>
+                        <h5 class="content-title">
+                            <i class="fa-solid fa-list-ul"></i>
+                            Daftar Obat
+                        </h5>
+
+                        <p class="content-subtitle">
+                            Cari dan lihat data obat berdasarkan nama obat dan kategori.
+                        </p>
+                    </div>
+
+                    <a href="{{ route('apoteker.obat.create') }}" class="btn-add">
+                        <i class="fa-solid fa-plus"></i>
+                        Tambah Data
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="card-body-custom">
+
+                <div class="table-responsive">
+
+                    <table id="tabelObat" class="table table-bordered table-hover w-100">
+
+                        <thead>
+                            <tr>
+                                <th width="65">No.</th>
+                                <th>Nama Obat</th>
+                                <th>Kategori</th>
+                            </tr>
+                        </thead>
+
+                        <tbody></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="footer-text">
+            SIM RS &copy; {{ date('Y') }} — Apoteker
+        </div>
+
+    </main>
+
+    <!-- JAVASCRIPT -->
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#tabelObat').DataTable({
+
+                processing: true,
+                serverSide: true,
+                autoWidth: false,
+                pageLength: 10,
+                order: [],
+
+                ajax: {
+                    url: '{{ route("apoteker.obat.data") }}',
+                    type: 'GET',
+
+                    error: function (xhr) {
+                        console.error(xhr.responseText);
+                        alert('Data obat gagal dimuat. Periksa route dan controller Data Obat.');
+                    }
+                },
+
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama',
+                        defaultContent: '-'
+                    },
+                    {
+                        data: 'kategori_nama',
+                        name: 'kategori_nama',
+                        defaultContent: '-'
+                    }
+                ],
+
+                language: {
+                    processing: 'Memuat data...',
+                    search: 'Cari:',
+                    lengthMenu: 'Tampilkan _MENU_ data',
+                    info: 'Menampilkan _START_ sampai _END_ dari _TOTAL_ data',
+                    infoEmpty: 'Belum ada data',
+                    infoFiltered: '(disaring dari _MAX_ data)',
+                    zeroRecords: 'Data obat tidak ditemukan',
+                    emptyTable: 'Belum ada data obat',
+
+                    paginate: {
+                        first: 'Pertama',
+                        last: 'Terakhir',
+                        next: 'Berikutnya',
+                        previous: 'Sebelumnya'
+                    }
+                }
+
+            });
+
+        });
+    </script>
 
 </body>
 </html>

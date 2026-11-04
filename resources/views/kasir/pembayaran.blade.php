@@ -765,9 +765,9 @@
 
         <header class="topbar">
 
-            <div class="topbar-title">
+            <!-- <div class="topbar-title">
                 Pembayaran Obat
-            </div>
+            </div> -->
 
             <div class="user-info">
                 <i class="fa-solid fa-user me-2"></i>
@@ -779,13 +779,13 @@
 
         <div class="page">
 
-            <h3 class="page-title">
+            <!-- <h3 class="page-title">
                 Pembayaran Obat
             </h3>
 
             <div class="page-subtitle">
                 Kelola pembayaran resep obat pasien dan riwayat transaksi.
-            </div>
+            </div> -->
 
 
             {{-- NOTIFIKASI --}}
