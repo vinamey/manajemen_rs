@@ -319,7 +319,10 @@ Route::middleware([
 // DATA OBAT KHUSUS APOTEKER
 // ==========================================
 
-Route::middleware(['auth', 'role:apoteker'])
+Route::middleware([
+    'auth',
+    'role:apoteker|Apoteker|admin rumah sakit'
+])
     ->prefix('apoteker')
     ->name('apoteker.')
     ->group(function () {
@@ -713,19 +716,20 @@ Route::middleware([
 });
 
 
-// ==========================================
-// SUPPLIER OBAT KHUSUS APOTEKER
-// ==========================================
 
 
 // ==========================================
 // SUPPLIER OBAT KHUSUS APOTEKER
 // ==========================================
 
-Route::middleware(['auth', 'role:apoteker'])
+Route::middleware([
+    'auth',
+    'role:apoteker|Apoteker|admin rumah sakit'
+])
     ->prefix('apoteker')
     ->name('apoteker.')
     ->group(function () {
+
         Route::get('/supplier-obat', [
             MasterSupplierController::class,
             'indexApoteker'
