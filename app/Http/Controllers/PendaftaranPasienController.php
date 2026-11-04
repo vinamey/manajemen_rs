@@ -74,20 +74,23 @@ class PendaftaranPasienController extends Controller
         $kamars = MasterKamar::all();
 
 
-        $totalPendaftaran = PendaftaranPasien::whereDate('tanggal_pendaftaran', today())->count();
+       // Total seluruh pendaftaran
+$totalPendaftaran = PendaftaranPasien::count();
 
-        $totalMenunggu = PendaftaranPasien::whereDate('tanggal_pendaftaran', today())
-            ->where('status', 'menunggu')
-            ->count();
+// Total pendaftaran menunggu
+$totalMenunggu = PendaftaranPasien::whereRaw(
+    'LOWER(status) = ?', ['menunggu']
+)->count();
 
-        $totalDiperiksa = PendaftaranPasien::whereDate('tanggal_pendaftaran', today())
-            ->where('status', 'diperiksa')
-            ->count();
+// Total pendaftaran diperiksa
+$totalDiperiksa = PendaftaranPasien::whereRaw(
+    'LOWER(status) = ?', ['diperiksa']
+)->count();
 
-        $totalSelesai = PendaftaranPasien::whereDate('tanggal_pendaftaran', today())
-            ->where('status', 'selesai')
-            ->count();
-
+// Total pendaftaran selesai
+$totalSelesai = PendaftaranPasien::whereRaw(
+    'LOWER(status) = ?', ['selesai']
+)->count();
         return view(
             'pendaftaran.index',
             compact(
