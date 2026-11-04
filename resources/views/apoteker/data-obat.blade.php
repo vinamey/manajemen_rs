@@ -236,6 +236,26 @@
                 font-size: 16px;
             }
         }
+
+        .btn-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #1877f2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .btn-dashboard:hover {
+            background: #0f58c6;
+            color: white;
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 
@@ -255,14 +275,23 @@
 <main class="main-container">
 
     <div class="breadcrumb-custom">
-        <i class="fa-solid fa-house me-1"></i>
-        Apoteker / Data Obat
-    </div>
+    <i class="fa-solid fa-house me-1"></i>
+    Apoteker / Data Obat
+</div>
 
-    <div class="page-heading">
+<div class="page-heading d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+    <div>
         <h2>Data Obat</h2>
         <p>Informasi daftar obat yang tersedia di rumah sakit.</p>
     </div>
+
+    <a href="{{ url('/apoteker/dashboard') }}" class="btn-dashboard">
+        <i class="fa-solid fa-arrow-left"></i>
+        Kembali ke Dashboard
+    </a>
+
+</div>
 
     <div class="content-card">
 
