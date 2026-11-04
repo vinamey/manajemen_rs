@@ -5,9 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Log Stok Obat | SIM RS</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <style>
@@ -18,136 +22,95 @@
             --text-muted: #6b7280;
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
+            padding: 0;
             background: #f4f6fa;
             font-family: Arial, sans-serif;
             color: var(--text-dark);
         }
 
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background: linear-gradient(180deg, var(--blue-main), var(--blue-dark));
-            color: white;
-            padding-top: 20px;
-            box-shadow: 3px 0 15px rgba(0, 0, 0, .08);
-            z-index: 1000;
-        }
-
-        .logo {
-            text-align: center;
-            font-weight: 700;
-            font-size: 21px;
-            margin-bottom: 20px;
-        }
-
-        .logo-icon {
-            width: 55px;
-            height: 55px;
-            background: white;
-            color: var(--blue-main);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-size: 25px;
-        }
-
-        .sidebar-line {
-            border: none;
-            border-top: 1px solid rgba(255, 255, 255, .25);
-            margin: 0 18px 18px;
-        }
-
-        .menu-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: .75;
-            padding: 0 24px;
-            margin-bottom: 8px;
-        }
-
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px 20px;
-            margin: 4px 15px;
-            border-radius: 12px;
-            font-size: 15px;
-            transition: .2s;
-        }
-
-        .sidebar a:hover { background: rgba(255, 255, 255, .18); }
-
-        .sidebar a.active {
-            background: white;
-            color: var(--blue-main);
-            font-weight: 600;
-        }
-
-        .menu-icon {
-            width: 22px;
-            text-align: center;
-            font-size: 17px;
-        }
-
-        .logout-box {
-            position: absolute;
-            bottom: 20px;
-            left: 12px;
-            right: 12px;
-        }
-
-        .logout-btn {
-            border: none;
-            background: rgba(255, 255, 255, .15);
-            color: white;
-            width: 100%;
-            padding: 11px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: .2s;
-        }
-
-        .logout-btn:hover {
-            background: white;
-            color: var(--blue-main);
-        }
+        /* =========================
+           KONTEN UTAMA
+        ========================= */
 
         .content {
-            margin-left: 250px;
-            padding: 35px;
+            width: 100%;
+            min-height: 100vh;
+            padding: 30px;
         }
 
-        .page-title {
-            font-size: 30px;
+        /* =========================
+           HEADER HALAMAN
+        ========================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .page-header h2 {
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 8px;
             color: #172b4d;
+            margin-bottom: 8px;
         }
 
-        .page-subtitle {
+        .page-header p {
+            font-size: 14px;
             color: var(--text-muted);
             margin-bottom: 0;
         }
 
-        .card {
-            border-radius: 10px;
-            overflow: hidden;
+        /* =========================
+           TOMBOL KEMBALI DASHBOARD
+        ========================= */
+
+        .btn-dashboard {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            background: var(--blue-main);
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            transition: .2s;
+            white-space: nowrap;
         }
 
-        .card-header { padding: 22px 20px; }
+        .btn-dashboard:hover {
+            background: var(--blue-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .card-header {
+            padding: 20px;
+        }
 
         .section-icon {
             width: 42px;
@@ -158,176 +121,306 @@
             border-radius: 9px;
             font-size: 18px;
             margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        /* =========================
+           TOMBOL TAMBAH
+        ========================= */
+
+        .btn-primary {
+            background: var(--blue-main);
+            border-color: var(--blue-main);
+        }
+
+        .btn-primary:hover {
+            background: var(--blue-dark);
+            border-color: var(--blue-dark);
+        }
+
+        /* =========================
+           TABEL
+        ========================= */
+
+        .table {
+            margin-bottom: 0;
         }
 
         .table thead th {
             background: #0d6efd !important;
             color: white !important;
-            padding: 17px 15px;
+            padding: 15px;
             white-space: nowrap;
-            font-size: 15px;
+            font-size: 13px;
             border: none;
         }
 
         .table tbody td {
             padding: 15px;
             vertical-align: middle;
+            font-size: 13px;
         }
 
+        .table tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
         .empty-state {
-            padding: 55px 20px !important;
+            padding: 45px 20px !important;
             text-align: center;
             color: var(--text-muted);
         }
 
         .empty-state i {
             font-size: 38px;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             color: #7b8794;
             display: block;
         }
 
-        @media (max-width: 900px) {
-            .sidebar { width: 210px; }
-            .content { margin-left: 210px; padding: 20px; }
-            .page-title { font-size: 25px; }
+        .empty-title {
+            color: #111827;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
 
-        @media (max-width: 600px) {
-            .sidebar { width: 72px; }
-            .logo { font-size: 12px; }
-            .logo-icon { width: 42px; height: 42px; }
-            .menu-title { display: none; }
-            .sidebar a {
-                justify-content: center;
-                padding: 13px 5px;
-                margin: 5px;
-                font-size: 0;
-            }
-            .menu-icon { font-size: 19px; }
-            .logout-btn { font-size: 0; }
-            .content { margin-left: 72px; padding: 15px; }
-            .page-title { font-size: 22px; }
-            .page-subtitle { font-size: 13px; }
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal-content {
+            border-radius: 12px;
         }
+
+        .modal-header {
+            background: var(--blue-main);
+            color: white;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--blue-main);
+            box-shadow: 0 0 0 .2rem rgba(24, 119, 242, .15);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .content {
+                padding: 20px;
+            }
+
+            .page-header h2 {
+                font-size: 24px;
+            }
+
+            .page-header p {
+                font-size: 13px;
+            }
+
+            .btn-dashboard {
+                padding: 10px 14px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .content {
+                padding: 14px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+            }
+
+            .page-header h2 {
+                font-size: 21px;
+            }
+
+            .btn-dashboard {
+                font-size: 12px;
+            }
+
+        }
+
     </style>
 </head>
 
 <body>
 
-    {{-- SIDEBAR --}}
-    <div class="sidebar">
-        <div class="logo">
-            <div class="logo-icon">💊</div>
-            SIM RS
-        </div>
+    <!-- =========================
+         KONTEN UTAMA
+    ========================== -->
 
-        <hr class="sidebar-line">
-
-        <div class="menu-title">Menu Apoteker</div>
-
-        <a href="{{ route('apoteker.dashboard') }}">
-            <span class="menu-icon">🏠</span> Dashboard
-        </a>
-
-        <a href="{{ route('master-obat.index') }}">
-            <span class="menu-icon">💊</span> Data Obat
-        </a>
-
-        <a href="{{ route('log-stok-obat.index') }}" class="active">
-            <span class="menu-icon">🛒</span> Log Stok Obat
-        </a>
-
-        <a href="{{ route('master-supplier.index') }}">
-            <span class="menu-icon">🏢</span> Supplier Obat
-        </a>
-
-        <a href="{{ route('kasir.resep') }}">
-            <span class="menu-icon">📝</span> Resep Dokter
-        </a>
-
-        <div class="logout-box">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="logout-btn">
-                    🚪 &nbsp; Logout
-                </button>
-            </form>
-        </div>
-    </div>
-
-    {{-- KONTEN --}}
     <main class="content">
 
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <!-- =========================
+             HEADER HALAMAN
+        ========================== -->
+
+        <div class="page-header">
+
             <div>
-                <h1 class="page-title">Log Stok Obat</h1>
-                <p class="page-subtitle">
+                <h2>Log Stok Obat</h2>
+
+                <p>
                     Riwayat perubahan stok obat dan informasi stok tersedia.
                 </p>
             </div>
 
-            <button type="button" class="btn btn-primary"
-                data-bs-toggle="modal" data-bs-target="#modalTambahStok">
-                <i class="fas fa-plus me-1"></i> Tambah Stok Obat
-            </button>
+            <a href="{{ url('/apoteker/dashboard') }}" class="btn-dashboard">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Kembali ke Dashboard
+
+            </a>
+
         </div>
 
-        {{-- PESAN BERHASIL / ERROR --}}
+
+        <!-- =========================
+             PESAN BERHASIL
+        ========================== -->
+
         @if (session('success'))
+
             <div class="alert alert-success alert-dismissible fade show">
+
                 {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+                <button type="button" class="btn-close"
+                    data-bs-dismiss="alert"></button>
+
             </div>
+
         @endif
+
+
+        <!-- =========================
+             PESAN ERROR
+        ========================== -->
 
         @if ($errors->any())
+
             <div class="alert alert-danger alert-dismissible fade show">
+
                 <strong>Data belum berhasil disimpan.</strong>
+
                 <ul class="mb-0 mt-2">
+
                     @foreach ($errors->all() as $error)
+
                         <li>{{ $error }}</li>
+
                     @endforeach
+
                 </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+                <button type="button" class="btn-close"
+                    data-bs-dismiss="alert"></button>
+
             </div>
+
         @endif
 
-        <div class="card border-0 shadow-sm">
+
+        <!-- =========================
+             CARD STOK OBAT
+        ========================== -->
+
+        <div class="card shadow-sm">
+
+            <!-- HEADER CARD -->
 
             <div class="card-header bg-white border-0">
-                <div class="d-flex align-items-center">
-                    <div class="section-icon bg-primary bg-opacity-10 text-primary">
-                        <i class="fas fa-boxes-stacked"></i>
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="section-icon bg-primary bg-opacity-10 text-primary">
+
+                            <i class="fas fa-boxes-stacked"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5 class="mb-1 fw-bold text-dark">
+                                Stok Obat
+                            </h5>
+
+                            <small class="text-muted">
+                                Riwayat perubahan jumlah dan satuan obat.
+                            </small>
+
+                        </div>
+
                     </div>
-                    <div>
-                        <h5 class="mb-1 fw-bold text-dark">Stok Obat</h5>
-                        <small class="text-muted">
-                            Riwayat perubahan jumlah dan satuan obat.
-                        </small>
-                    </div>
+
+                    <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalTambahStok">
+
+                        <i class="fas fa-plus me-1"></i>
+
+                        Tambah Stok Obat
+
+                    </button>
+
                 </div>
+
             </div>
 
+
+            <!-- =========================
+                 TABEL DATA STOK
+            ========================== -->
+
             <div class="card-body p-0">
+
                 <div class="table-responsive">
+
                     <table class="table table-hover align-middle mb-0">
+
                         <thead>
+
                             <tr>
+
                                 <th style="width: 7%;">No</th>
+
                                 <th>Tanggal Update</th>
+
                                 <th>Nama Obat</th>
+
                                 <th>Satuan</th>
+
                                 <th>Status</th>
+
                                 <th>Nilai</th>
+
                                 <th>Stok Tersedia</th>
+
                             </tr>
+
                         </thead>
 
                         <tbody>
+
                             @forelse (($logStokObats ?? $logStok ?? $logsLama ?? $logs ?? []) as $index => $log)
 
                                 @php
+
                                     $nilai = (int) ($log->nilai ?? $log->jumlah ?? 0);
 
                                     $tanggal = $log->tanggal_update ?? $log->created_at;
@@ -349,225 +442,386 @@
                                     $status = $log->status ?? null;
 
                                     if (!$status) {
-                                        $status = $nilai > 0 ? 'Bertambah' : ($nilai < 0 ? 'Berkurang' : 'Tetap');
+                                        $status = $nilai > 0
+                                            ? 'Bertambah'
+                                            : ($nilai < 0 ? 'Berkurang' : 'Tetap');
                                     }
+
                                 @endphp
 
                                 <tr>
-                                    {{-- NOMOR --}}
+
+                                    <!-- NOMOR -->
+
                                     <td class="fw-semibold">
                                         {{ $index + 1 }}
                                     </td>
 
-                                    {{-- TANGGAL --}}
+
+                                    <!-- TANGGAL -->
+
                                     <td>
+
                                         <i class="far fa-clock text-muted me-1"></i>
 
                                         @if ($tanggal)
+
                                             {{ \Carbon\Carbon::parse($tanggal)->format('d/m/Y H:i') }}
+
                                         @else
+
                                             -
+
                                         @endif
+
                                     </td>
 
-                                    {{-- NAMA OBAT DARI MASTER OBAT --}}
+
+                                    <!-- NAMA OBAT -->
+
                                     <td>
+
                                         <span class="fw-bold text-dark">
                                             {{ $namaObat }}
                                         </span>
+
                                     </td>
 
-                                    {{-- SATUAN --}}
+
+                                    <!-- SATUAN -->
+
                                     <td>
+
                                         <span class="text-secondary fw-semibold">
                                             {{ $namaSatuan }}
                                         </span>
+
                                     </td>
 
-                                    {{-- STATUS --}}
+
+                                    <!-- STATUS -->
+
                                     <td>
-                                        @if (strtolower($status) == 'masuk' || strtolower($status) == 'bertambah')
+
+                                        @if (in_array(strtolower($status), ['masuk', 'bertambah']))
+
                                             <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">
+
                                                 <i class="fas fa-arrow-up me-1"></i>
+
                                                 {{ ucfirst($status) }}
+
                                             </span>
-                                        @elseif (strtolower($status) == 'keluar' || strtolower($status) == 'berkurang')
+
+                                        @elseif (in_array(strtolower($status), ['keluar', 'berkurang']))
+
                                             <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2">
+
                                                 <i class="fas fa-arrow-down me-1"></i>
+
                                                 {{ ucfirst($status) }}
+
                                             </span>
+
                                         @else
+
                                             <span class="badge bg-secondary px-3 py-2">
+
                                                 {{ ucfirst($status) }}
+
                                             </span>
+
                                         @endif
+
                                     </td>
 
-                                    {{-- NILAI / JUMLAH PERUBAHAN --}}
+
+                                    <!-- NILAI -->
+
                                     <td class="fw-bold">
+
                                         @if ($nilai > 0)
-                                            <span class="text-success">+{{ $nilai }}</span>
+
+                                            <span class="text-success">
+                                                +{{ $nilai }}
+                                            </span>
+
                                         @elseif ($nilai < 0)
-                                            <span class="text-danger">{{ $nilai }}</span>
+
+                                            <span class="text-danger">
+                                                {{ $nilai }}
+                                            </span>
+
                                         @else
+
                                             <span>0</span>
+
                                         @endif
+
                                     </td>
 
-                                    {{-- STOK TERSEDIA --}}
+
+                                    <!-- STOK TERSEDIA -->
+
                                     <td>
+
                                         <span class="badge bg-primary px-3 py-2 fs-6">
+
                                             {{ $stokTersedia }}
+
                                         </span>
+
                                     </td>
+
                                 </tr>
 
                             @empty
+
                                 <tr>
+
                                     <td colspan="7" class="empty-state">
+
                                         <i class="fas fa-box-open"></i>
-                                        <div class="fw-semibold mb-1">
+
+                                        <div class="empty-title">
                                             Belum Ada Data Log Stok Obat
                                         </div>
+
                                         <small>
                                             Riwayat stok obat akan ditampilkan di bagian ini.
                                         </small>
+
                                     </td>
+
                                 </tr>
+
                             @endforelse
+
                         </tbody>
+
                     </table>
+
                 </div>
+
             </div>
+
         </div>
 
     </main>
 
-    {{-- MODAL TAMBAH STOK --}}
+
+    <!-- =========================
+         MODAL TAMBAH STOK OBAT
+    ========================== -->
+
     <div class="modal fade" id="modalTambahStok" tabindex="-1"
         aria-labelledby="modalTambahStokLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered">
+
             <div class="modal-content border-0 shadow-lg">
 
                 <form action="{{ route('log-stok-obat.store') }}" method="POST">
+
                     @csrf
 
-                    <div class="modal-header bg-primary text-white py-3">
+                    <!-- HEADER MODAL -->
+
+                    <div class="modal-header py-3">
+
                         <h5 class="modal-title fw-bold" id="modalTambahStokLabel">
+
                             <i class="fas fa-plus-circle me-2"></i>
+
                             Tambah Stok Obat
+
                         </h5>
 
-                        <button type="button" class="btn-close btn-close-white"
-                            data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+
                     </div>
+
+
+                    <!-- BODY MODAL -->
 
                     <div class="modal-body p-4">
 
-                        {{-- PILIH OBAT --}}
+                        <!-- NAMA OBAT -->
+
                         <div class="mb-3">
+
                             <label for="obat_id" class="form-label fw-semibold">
                                 Nama Obat
                             </label>
 
                             <select name="obat_id" id="obat_id"
                                 class="form-select" required>
+
                                 <option value="">-- Pilih Obat --</option>
 
                                 @foreach ($obats ?? [] as $obat)
+
                                     <option value="{{ $obat->id }}"
                                         {{ old('obat_id') == $obat->id ? 'selected' : '' }}>
+
                                         {{ $obat->nama ?? $obat->nama_obat }}
+
                                     </option>
+
                                 @endforeach
+
                             </select>
+
                         </div>
 
-                        {{-- PILIH SATUAN --}}
+
+                        <!-- SATUAN OBAT -->
+
                         <div class="mb-3">
+
                             <label for="satuan_obat_id" class="form-label fw-semibold">
                                 Satuan Obat
                             </label>
 
                             <select name="satuan_obat_id" id="satuan_obat_id"
                                 class="form-select" required>
+
                                 <option value="">-- Pilih Satuan --</option>
 
                                 @foreach ($satuans ?? [] as $satuan)
+
                                     <option value="{{ $satuan->id }}"
                                         {{ old('satuan_obat_id') == $satuan->id ? 'selected' : '' }}>
+
                                         {{ $satuan->nama_satuan ?? $satuan->nama }}
+
                                     </option>
+
                                 @endforeach
+
                             </select>
+
                         </div>
 
-                        {{-- JUMLAH STOK --}}
+
+                        <!-- JUMLAH STOK -->
+
                         <div class="mb-3">
+
                             <label for="nilai" class="form-label fw-semibold">
                                 Jumlah Stok
                             </label>
 
-                            <input type="number" name="nilai" id="nilai"
-                                class="form-control" min="1"
+                            <input type="number"
+                                name="nilai"
+                                id="nilai"
+                                class="form-control"
+                                min="1"
                                 value="{{ old('nilai') }}"
-                                placeholder="Masukkan jumlah stok..." required>
+                                placeholder="Masukkan jumlah stok..."
+                                required>
+
                         </div>
 
-                        {{-- KEDALUWARSA --}}
+
+                        <!-- KEDALUWARSA -->
+
                         <div class="mb-3">
+
                             <label for="expired_date" class="form-label fw-semibold">
                                 Tanggal Kedaluwarsa
                             </label>
 
-                            <input type="date" name="expired_date" id="expired_date"
-                                class="form-control" value="{{ old('expired_date') }}">
+                            <input type="date"
+                                name="expired_date"
+                                id="expired_date"
+                                class="form-control"
+                                value="{{ old('expired_date') }}">
+
                         </div>
 
-                        {{-- KETERANGAN --}}
+
+                        <!-- KETERANGAN -->
+
                         <div class="mb-3">
+
                             <label for="keterangan" class="form-label fw-semibold">
                                 Keterangan
                             </label>
 
-                            <textarea name="keterangan" id="keterangan"
-                                class="form-control" rows="3"
+                            <textarea name="keterangan"
+                                id="keterangan"
+                                class="form-control"
+                                rows="3"
                                 placeholder="Contoh: Stok masuk dari supplier...">{{ old('keterangan') }}</textarea>
+
                         </div>
 
                     </div>
 
+
+                    <!-- FOOTER MODAL -->
+
                     <div class="modal-footer bg-light px-4 py-3">
-                        <button type="button" class="btn btn-outline-secondary px-4"
+
+                        <button type="button"
+                            class="btn btn-outline-secondary px-4"
                             data-bs-dismiss="modal">
+
                             Batal
+
                         </button>
 
-                        <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                        <button type="submit"
+                            class="btn btn-primary px-4 fw-semibold">
+
                             <i class="fas fa-save me-1"></i>
+
                             Simpan Stok
+
                         </button>
+
                     </div>
 
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
+
+    <!-- BOOTSTRAP JAVASCRIPT -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    {{-- Buka kembali modal jika validasi gagal --}}
+
+    <!-- BUKA MODAL KEMBALI JIKA VALIDASI GAGAL -->
+
     @if ($errors->any())
+
         <script>
+
             document.addEventListener('DOMContentLoaded', function () {
+
                 const modal = document.getElementById('modalTambahStok');
+
                 if (modal) {
+
                     bootstrap.Modal.getOrCreateInstance(modal).show();
+
                 }
+
             });
+
         </script>
+
     @endif
 
 </body>
+
 </html>

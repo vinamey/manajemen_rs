@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Pembayaran Obat - Kasir</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,7 +16,7 @@
         :root {
             --blue: #1877f2;
             --blue-dark: #0f58c6;
-            --blue-light: #e7f3ff;
+            --blue-light: #edf5ff;
             --bg: #f4f6fa;
             --text: #374151;
         }
@@ -151,7 +153,7 @@
         .page-header {
             padding: 22px;
             margin-bottom: 22px;
-            border-radius: 14px;
+            border-radius: 12px;
             color: white;
             background: linear-gradient(135deg, var(--blue), var(--blue-dark));
         }
@@ -170,7 +172,7 @@
         .payment-card {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
             margin-bottom: 22px;
         }
@@ -193,7 +195,7 @@
 
         .payment-table {
             margin: 0;
-            min-width: 1250px;
+            min-width: 1000px;
         }
 
         .payment-table thead th {
@@ -239,10 +241,6 @@
             white-space: nowrap;
         }
 
-        .medicine-detail:last-child {
-            margin-bottom: 0;
-        }
-
         .detail-badge {
             display: inline-block;
             padding: 5px 8px;
@@ -285,7 +283,7 @@
             border-top: 1px solid #edf0f4;
         }
 
-        /* MODAL PEMBAYARAN */
+        /* MODAL */
         .payment-backdrop {
             position: fixed;
             inset: 0;
@@ -309,7 +307,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            border-radius: 17px;
+            border-radius: 14px;
             background: white;
             box-shadow: 0 24px 70px #071b3b45;
             animation: modalIn .18s ease-out;
@@ -331,8 +329,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            padding: 20px 22px;
+            padding: 18px 22px;
             color: white;
             background: linear-gradient(135deg, var(--blue), var(--blue-dark));
         }
@@ -346,7 +343,6 @@
         .payment-modal-header small {
             display: block;
             margin-top: 5px;
-            opacity: .9;
         }
 
         .modal-close {
@@ -354,7 +350,6 @@
             background: transparent;
             color: white;
             font-size: 24px;
-            line-height: 1;
         }
 
         .payment-modal-body {
@@ -366,7 +361,7 @@
             padding: 16px;
             margin-bottom: 20px;
             border: 1px solid #dce8f8;
-            border-radius: 12px;
+            border-radius: 10px;
             background: #f4f8ff;
         }
 
@@ -393,7 +388,7 @@
         .form-select {
             min-height: 43px;
             border-color: #dce3ed;
-            border-radius: 9px;
+            border-radius: 8px;
             font-size: 13px;
         }
 
@@ -416,9 +411,8 @@
             padding: 12px;
             margin-bottom: 9px;
             border: 1px solid #dce3ed;
-            border-radius: 11px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: .15s;
         }
 
         .method-option:has(input:checked) {
@@ -434,7 +428,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
+            border-radius: 9px;
             background: #f0f6ff;
             color: var(--blue);
             font-size: 19px;
@@ -442,7 +436,6 @@
 
         .method-description {
             flex: 1;
-            min-width: 0;
         }
 
         .method-description strong {
@@ -464,7 +457,7 @@
             margin-top: 14px;
             padding: 15px;
             border: 1px solid #dce8f8;
-            border-radius: 11px;
+            border-radius: 10px;
             background: #f8fbff;
         }
 
@@ -472,20 +465,133 @@
             display: none !important;
         }
 
-        .qris-placeholder {
-            width: 150px;
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 12px auto;
-            border: 2px dashed #9bb9e7;
-            border-radius: 12px;
-            background: white;
-            color: #31557f;
+        /* QRIS KHUSUS */
+        #panelQris {
+            padding: 20px;
+            border: 1px solid #cfe2ff;
+            border-radius: 13px;
+            background: linear-gradient(180deg, #f8fbff, #edf5ff);
+            color: #334155;
             text-align: center;
         }
 
+        .qris-heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            color: var(--blue-dark);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .qris-description {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .qris-merchant {
+            display: inline-block;
+            padding: 6px 13px;
+            margin-bottom: 15px;
+            border-radius: 20px;
+            background: #dcecff;
+            color: #175bb2;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .qris-image-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 5px auto 18px;
+        }
+
+        .qris-image-frame {
+            width: 245px;
+            height: 245px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border: 2px solid #b9d6ff;
+            border-radius: 13px;
+            box-shadow: 0 5px 18px rgba(24, 119, 242, .12);
+        }
+
+        .qris-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .qris-total-box {
+            padding: 12px;
+            margin-bottom: 12px;
+            background: white;
+            border: 1px solid #dce8f8;
+            border-radius: 9px;
+            text-align: left;
+        }
+
+        .qris-total-box label {
+            display: block;
+            margin-bottom: 5px;
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .qris-total-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--blue-dark);
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .qris-information {
+            padding: 11px;
+            border-radius: 8px;
+            background: #fff5d9;
+            border: 1px solid #ffe4a3;
+            color: #8a6418;
+            font-size: 11px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .qris-information i {
+            margin-right: 5px;
+        }
+
+        .btn-qris {
+            width: 100%;
+            min-height: 46px;
+            margin-top: 14px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            box-shadow: 0 5px 14px #1877f233;
+        }
+
+        .btn-qris:hover {
+            background: var(--blue-dark);
+        }
+
+        .btn-qris:disabled {
+            opacity: .65;
+        }
+
+        /* CASH */
         .change-box {
             margin-top: 12px;
             padding: 12px;
@@ -494,6 +600,7 @@
             color: #16834b;
         }
 
+        /* TRANSFER */
         .payment-note {
             margin-top: 12px;
             font-size: 11px;
@@ -507,10 +614,10 @@
             align-items: center;
             justify-content: center;
             gap: 9px;
-            min-height: 48px;
+            min-height: 46px;
             margin-top: 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 9px;
             background: linear-gradient(135deg, var(--blue), var(--blue-dark));
             color: white;
             font-size: 14px;
@@ -530,6 +637,7 @@
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
+
             .sidebar {
                 width: 65px;
             }
@@ -576,8 +684,9 @@
         }
 
         @media (max-width: 480px) {
+
             .payment-backdrop {
-                padding: 10px;
+                padding: 8px;
             }
 
             .payment-modal {
@@ -585,15 +694,20 @@
             }
 
             .payment-modal-body {
-                padding: 16px;
+                padding: 15px;
             }
 
             .payment-modal-header {
-                padding: 16px;
+                padding: 15px;
             }
 
             .summary-total {
                 font-size: 24px;
+            }
+
+            .qris-image-frame {
+                width: 220px;
+                height: 220px;
             }
         }
     </style>
@@ -638,9 +752,11 @@
                     <i class="fa-solid fa-right-from-bracket me-2"></i>
                     Logout
                 </button>
+
             </form>
 
         </div>
+
     </aside>
 
 
@@ -663,7 +779,9 @@
 
         <div class="page">
 
-            <h3 class="page-title">Pembayaran Obat</h3>
+            <h3 class="page-title">
+                Pembayaran Obat
+            </h3>
 
             <div class="page-subtitle">
                 Kelola pembayaran resep obat pasien dan riwayat transaksi.
@@ -673,18 +791,22 @@
             {{-- NOTIFIKASI --}}
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show">
+
                     <i class="fa-solid fa-circle-check me-2"></i>
                     {{ session('success') }}
 
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
                 </div>
             @endif
 
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show">
+
                     {{ session('error') }}
 
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
                 </div>
             @endif
 
@@ -703,7 +825,7 @@
             @endif
 
 
-            {{-- HEADER HALAMAN --}}
+            {{-- HEADER --}}
             <section class="page-header">
 
                 <h4>
@@ -754,17 +876,11 @@
                             </tr>
                         </thead>
 
-
                         <tbody>
 
                             @forelse($resepObats as $index => $resep)
 
                                 @php
-                                    /*
-                                     * Memisahkan informasi dari kolom aturan_pakai.
-                                     * Format yang dibaca:
-                                     * Dosis: 500mg | Frekuensi: 3 | Aturan: Sesudah makan | Lama: 7 hari
-                                     */
 
                                     $detailObat = $resep->obat->map(function ($obat) {
 
@@ -780,8 +896,11 @@
                                         if ($aturanPakai !== '') {
 
                                             preg_match('/dosis\s*:\s*([^|]+)/i', $aturanPakai, $dosis);
+
                                             preg_match('/frekuensi\s*:\s*([^|]+)/i', $aturanPakai, $frekuensi);
+
                                             preg_match('/aturan(?:\s+pakai)?\s*:\s*([^|]+)/i', $aturanPakai, $aturan);
+
                                             preg_match('/lama\s*:\s*([^|]+)/i', $aturanPakai, $lama);
 
                                             if (isset($dosis[1])) {
@@ -800,10 +919,6 @@
                                                 $detail['lama'] = trim($lama[1]);
                                             }
 
-                                            /*
-                                             * Jika format lama hanya berupa teks biasa,
-                                             * tampilkan teks tersebut di kolom Aturan.
-                                             */
                                             if (
                                                 !isset($dosis[1]) &&
                                                 !isset($frekuensi[1]) &&
@@ -815,34 +930,30 @@
                                         }
 
                                         return $detail;
+
                                     });
+
                                 @endphp
 
 
                                 <tr>
 
-                                    {{-- NOMOR --}}
                                     <td>
                                         {{ $resepObats->firstItem() + $index }}
                                     </td>
 
-
-                                    {{-- PASIEN --}}
                                     <td>
                                         <span class="patient-name">
                                             {{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? '-' }}
                                         </span>
                                     </td>
 
-
-                                    {{-- DOKTER --}}
                                     <td>
                                         {{ $resep->pemeriksaan?->dokter?->nama ?? '-' }}
                                     </td>
 
-
-                                    {{-- OBAT --}}
                                     <td>
+
                                         @forelse($resep->obat as $obat)
 
                                             <div class="medicine-detail">
@@ -854,11 +965,11 @@
                                         @empty
                                             -
                                         @endforelse
+
                                     </td>
 
-
-                                    {{-- JUMLAH --}}
                                     <td>
+
                                         @forelse($resep->obat as $obat)
 
                                             <div class="medicine-detail">
@@ -870,11 +981,11 @@
                                         @empty
                                             -
                                         @endforelse
+
                                     </td>
 
-
-                                    {{-- DOSIS --}}
                                     <td>
+
                                         @forelse($detailObat as $detail)
 
                                             <div class="medicine-detail">
@@ -886,11 +997,11 @@
                                         @empty
                                             -
                                         @endforelse
+
                                     </td>
 
-
-                                    {{-- FREKUENSI --}}
                                     <td>
+
                                         @forelse($detailObat as $detail)
 
                                             <div class="medicine-detail">
@@ -902,11 +1013,11 @@
                                         @empty
                                             -
                                         @endforelse
+
                                     </td>
 
-
-                                    {{-- ATURAN --}}
                                     <td>
+
                                         @forelse($detailObat as $detail)
 
                                             <div class="medicine-detail">
@@ -918,11 +1029,11 @@
                                         @empty
                                             -
                                         @endforelse
+
                                     </td>
 
-
-                                    {{-- LAMA --}}
                                     <td>
+
                                         @forelse($detailObat as $detail)
 
                                             <div class="medicine-detail">
@@ -934,10 +1045,9 @@
                                         @empty
                                             -
                                         @endforelse
+
                                     </td>
 
-
-                                    {{-- AKSI --}}
                                     <td>
 
                                         @if($resep->obat->isEmpty())
@@ -994,7 +1104,6 @@
                 </div>
 
 
-                {{-- PAGINATION RESEP --}}
                 @if($resepObats->hasPages())
 
                     <div class="pagination-wrapper">
@@ -1038,7 +1147,6 @@
                                 <th>Tanggal</th>
                             </tr>
                         </thead>
-
 
                         <tbody>
 
@@ -1129,7 +1237,6 @@
                 </div>
 
 
-                {{-- PAGINATION RIWAYAT --}}
                 @if($riwayatPembayaran->hasPages())
 
                     <div class="pagination-wrapper">
@@ -1146,24 +1253,15 @@
 
 
     {{-- MODAL PEMBAYARAN --}}
-    <div
-        class="payment-backdrop"
-        id="paymentBackdrop"
-        aria-hidden="true"
-    >
+    <div class="payment-backdrop" id="paymentBackdrop" aria-hidden="true">
 
-        <section
-            class="payment-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="paymentModalTitle"
-        >
+        <section class="payment-modal" role="dialog" aria-modal="true">
 
             <header class="payment-modal-header">
 
                 <div>
 
-                    <h5 id="paymentModalTitle">
+                    <h5>
                         <i class="fa-solid fa-wallet me-2"></i>
                         Pembayaran Pasien
                     </h5>
@@ -1178,7 +1276,6 @@
                     type="button"
                     class="modal-close"
                     id="tutupPembayaran"
-                    aria-label="Tutup"
                 >
                     <i class="fa-solid fa-xmark"></i>
                 </button>
@@ -1193,7 +1290,7 @@
                     @csrf
 
 
-                    {{-- TOTAL PEMBAYARAN --}}
+                    {{-- TOTAL --}}
                     <div class="summary-box">
 
                         <div class="summary-label">
@@ -1226,7 +1323,7 @@
                     </div>
 
 
-                    {{-- METODE PEMBAYARAN --}}
+                    {{-- PILIH METODE --}}
                     <div class="method-title">
                         Pilih Metode Pembayaran
                     </div>
@@ -1276,7 +1373,7 @@
                     </label>
 
 
-                    {{-- TRANSFER --}}
+                    {{-- TRANSFER BANK --}}
                     <label class="method-option">
 
                         <span class="method-icon">
@@ -1337,22 +1434,80 @@
                     {{-- DETAIL QRIS --}}
                     <div id="panelQris" class="method-panel hidden">
 
-                        <h6 class="fw-bold">
+                        <div class="qris-heading">
+                            <i class="fa-solid fa-qrcode"></i>
                             Pembayaran QRIS
-                        </h6>
+                        </div>
 
-                        <div class="qris-placeholder">
+                        <div class="qris-description">
+                            Scan QR Code berikut untuk melakukan pembayaran.
+                        </div>
 
-                            <div>
-                                <i class="fa-solid fa-qrcode fa-3x mb-2"></i><br>
-                                QRIS belum terhubung
+                        <div class="qris-merchant">
+                            <i class="fa-solid fa-hospital me-1"></i>
+                            QRIS RUMAH SAKIT
+                        </div>
+
+                        {{-- GAMBAR QRIS --}}
+                        <div class="qris-image-wrapper">
+
+                            <div class="qris-image-frame">
+
+                                <img
+                                    src="{{ asset('images/qris.jpeg') }}"
+                                    alt="QRIS Rumah Sakit"
+                                    class="qris-image"
+                                    id="gambarQris"
+                                    onerror="
+                                        this.classList.add('hidden');
+                                        document.getElementById('qrisError').classList.remove('hidden');
+                                    "
+                                >
+
+                                <div id="qrisError" class="hidden text-center text-danger small">
+                                    <i class="fa-solid fa-image fa-2x mb-2"></i>
+                                    <br>
+                                    Gambar QRIS belum tersedia.
+                                </div>
+
                             </div>
 
                         </div>
 
-                        <div class="alert alert-warning small mb-0">
-                            QRIS asli belum terintegrasi. Transaksi akan dicatat menunggu verifikasi, bukan otomatis lunas.
+                        {{-- JUMLAH --}}
+                        <div class="qris-total-box">
+
+                            <label>Jumlah pembayaran</label>
+
+                            <input
+                                type="text"
+                                id="qrisJumlah"
+                                value="Rp0"
+                                readonly
+                            >
+
                         </div>
+
+                        {{-- INFORMASI --}}
+                        <div class="qris-information">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            Silakan scan QRIS menggunakan aplikasi pembayaran
+                            yang mendukung QRIS. Transaksi akan menunggu
+                            verifikasi kasir sebelum dinyatakan lunas.
+
+                        </div>
+
+                        {{-- TOMBOL QRIS --}}
+                        <button
+                            type="submit"
+                            class="btn-qris"
+                            id="tombolQris"
+                        >
+                            <i class="fa-solid fa-qrcode me-2"></i>
+                            Bayar via QRIS
+                        </button>
 
                     </div>
 
@@ -1383,20 +1538,22 @@
                         </select>
 
                         <div class="alert alert-info small mb-0">
-                            Nomor rekening tujuan perlu diisi sesuai rekening resmi proyek. Jangan memasukkan password atau PIN rekening pasien.
-                            Transfer akan menunggu verifikasi sebelum dinyatakan lunas.
+                            Transfer akan menunggu verifikasi kasir sebelum
+                            dinyatakan lunas. Jangan memasukkan PIN atau
+                            password rekening pasien.
                         </div>
 
                     </div>
 
 
                     <p class="payment-note">
-                        Cash akan dicatat lunas oleh sistem setelah konfirmasi berhasil.
+                        Cash dicatat lunas setelah konfirmasi berhasil.
                         QRIS dan transfer dicatat menunggu verifikasi.
-                        Halaman ini belum terhubung ke layanan pembayaran asli.
+                        Halaman ini belum terhubung ke layanan pembayaran otomatis.
                     </p>
 
 
+                    {{-- TOMBOL CASH DAN TRANSFER --}}
                     <button
                         type="submit"
                         class="btn-pay"
@@ -1421,12 +1578,22 @@
     <script>
 
         const backdrop = document.getElementById('paymentBackdrop');
+
         const form = document.getElementById('formPembayaran');
+
         const totalInput = document.getElementById('total_pembayaran');
+
         const uangInput = document.getElementById('uangDiterima');
+
         const totalText = document.getElementById('tampilanTotal');
+
         const kembalianText = document.getElementById('nilaiKembalian');
+
+        const qrisJumlah = document.getElementById('qrisJumlah');
+
         const tombolBayar = document.getElementById('tombolBayar');
+
+        const tombolQris = document.getElementById('tombolQris');
 
 
         // FORMAT RUPIAH
@@ -1444,7 +1611,11 @@
         // UPDATE TOTAL
         function updateTotal() {
 
-            totalText.textContent = rupiah(Number(totalInput.value) || 0);
+            const total = Number(totalInput.value) || 0;
+
+            totalText.textContent = rupiah(total);
+
+            qrisJumlah.value = rupiah(total);
 
             updateKembalian();
 
@@ -1455,6 +1626,7 @@
         function updateKembalian() {
 
             const total = Number(totalInput.value) || 0;
+
             const uang = Number(uangInput.value) || 0;
 
             kembalianText.textContent = rupiah(
@@ -1464,18 +1636,26 @@
         }
 
 
-        // PILIH METODE PEMBAYARAN
+        // PILIH METODE
         function updateMetode() {
 
             const cash = document.getElementById('panelCash');
+
             const qris = document.getElementById('panelQris');
+
             const transfer = document.getElementById('panelTransfer');
 
             cash.classList.add('hidden');
+
             qris.classList.add('hidden');
+
             transfer.classList.add('hidden');
 
             uangInput.required = false;
+
+            tombolBayar.classList.remove('hidden');
+
+            tombolQris.disabled = false;
 
             const metode = document.querySelector(
                 'input[name="metode_pembayaran"]:checked'
@@ -1483,16 +1663,33 @@
 
             if (!metode) return;
 
+
+            // CASH
             if (metode.value === 'Cash') {
 
                 cash.classList.remove('hidden');
+
                 uangInput.required = true;
 
-            } else if (metode.value === 'QRIS') {
+            }
+
+
+            // QRIS
+            else if (metode.value === 'QRIS') {
 
                 qris.classList.remove('hidden');
 
-            } else if (metode.value === 'Transfer Bank') {
+                tombolBayar.classList.add('hidden');
+
+                qrisJumlah.value = rupiah(
+                    Number(totalInput.value) || 0
+                );
+
+            }
+
+
+            // TRANSFER
+            else if (metode.value === 'Transfer Bank') {
 
                 transfer.classList.remove('hidden');
 
@@ -1505,6 +1702,7 @@
         function bukaModal(tombol) {
 
             const resepId = tombol.dataset.resepId;
+
             const pasien = tombol.dataset.pasien || '-';
 
             form.action =
@@ -1518,12 +1716,18 @@
             form.reset();
 
             updateTotal();
+
             updateMetode();
 
             tombolBayar.disabled = false;
 
+            tombolQris.disabled = false;
+
             tombolBayar.innerHTML =
                 '<i class="fa-solid fa-lock"></i> Bayar Sekarang';
+
+            tombolQris.innerHTML =
+                '<i class="fa-solid fa-qrcode me-2"></i> Bayar via QRIS';
 
             backdrop.classList.add('show');
 
@@ -1548,7 +1752,7 @@
         }
 
 
-        // EVENT TOMBOL PROSES BAYAR
+        // BUKA PEMBAYARAN
         document.querySelectorAll('[data-open-payment]').forEach(button => {
 
             button.addEventListener('click', () => {
@@ -1560,12 +1764,12 @@
         });
 
 
-        // TOMBOL TUTUP
+        // TUTUP MODAL
         document.getElementById('tutupPembayaran')
             .addEventListener('click', tutupModal);
 
 
-        // KLIK DI LUAR MODAL
+        // KLIK LUAR MODAL
         backdrop.addEventListener('click', event => {
 
             if (event.target === backdrop) {
@@ -1577,7 +1781,7 @@
         });
 
 
-        // TOMBOL ESCAPE
+        // ESCAPE
         document.addEventListener('keydown', event => {
 
             if (
@@ -1592,7 +1796,7 @@
         });
 
 
-        // EVENT PILIH METODE
+        // PILIH METODE
         document.querySelectorAll(
             'input[name="metode_pembayaran"]'
         ).forEach(radio => {
@@ -1602,15 +1806,15 @@
         });
 
 
-        // EVENT TOTAL
+        // TOTAL
         totalInput.addEventListener('input', updateTotal);
 
 
-        // EVENT UANG DITERIMA
+        // UANG CASH
         uangInput.addEventListener('input', updateKembalian);
 
 
-        // VALIDASI FORM PEMBAYARAN
+        // VALIDASI PEMBAYARAN
         form.addEventListener('submit', event => {
 
             const metode = document.querySelector(
@@ -1687,7 +1891,10 @@
 
 
             // KONFIRMASI QRIS DAN TRANSFER
-            if (metode.value !== 'Cash') {
+            if (
+                metode.value === 'QRIS' ||
+                metode.value === 'Transfer Bank'
+            ) {
 
                 const lanjut = confirm(
                     'Pembayaran ' + metode.value +
@@ -1705,13 +1912,24 @@
             }
 
 
-            // STATUS TOMBOL
+            // TOMBOL PROSES
             if (!event.defaultPrevented) {
 
                 tombolBayar.disabled = true;
 
-                tombolBayar.innerHTML =
-                    '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+                tombolQris.disabled = true;
+
+                if (metode.value === 'QRIS') {
+
+                    tombolQris.innerHTML =
+                        '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+
+                } else {
+
+                    tombolBayar.innerHTML =
+                        '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+
+                }
 
             }
 
@@ -1720,5 +1938,4 @@
     </script>
 
 </body>
-
 </html>
