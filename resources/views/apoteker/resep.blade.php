@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,21 +9,17 @@
 
     <title>Resep Dokter - Apoteker | SIM RS</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --blue-main: #1877f2;
             --blue-dark: #0f58c6;
             --blue-light: #e7f3ff;
-            --background: #f4f6fa;
-            --border: #e5eaf2;
-            --text: #253247;
-            --muted: #758197;
+            --blue-soft: #f4f8ff;
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
         }
 
         * {
@@ -30,176 +28,252 @@
 
         body {
             margin: 0;
-            padding: 0;
-            background: var(--background);
-            color: var(--text);
+            background: #f4f6fa;
             font-family: Arial, sans-serif;
+            color: var(--text-dark);
         }
 
-        /* Sidebar dihilangkan */
+        /* =========================================
+           SIDEBAR - SAMA DENGAN DASHBOARD
+        ========================================= */
+
         .sidebar {
-            display: none !important;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: linear-gradient(180deg, var(--blue-main), var(--blue-dark));
+            color: white;
+            padding-top: 20px;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
         }
 
-        /* Konten memenuhi seluruh layar */
-        .main-content {
-            width: 100%;
-            margin: 0 !important;
-            padding: 25px 30px;
-            min-height: 100vh;
+        .logo {
+            text-align: center;
+            font-weight: 700;
+            font-size: 21px;
+            margin-bottom: 20px;
         }
 
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .topbar h6 {
-            margin: 0;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .logo-icon {
+            width: 45px;
+            height: 45px;
             background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 9px 13px;
-        }
-
-        .user-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--blue-light);
             color: var(--blue-main);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 22px;
         }
 
-        .user-info strong {
-            display: block;
-            font-size: 12px;
+        .sidebar-line {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            margin: 0 18px 15px;
         }
 
-        .user-info small {
-            color: var(--muted);
+        .menu-title {
             font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            padding: 0 20px;
+            margin-bottom: 7px;
         }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateX(3px);
+        }
+
+        .sidebar a.active {
+            background: white;
+            color: var(--blue-main);
+            font-weight: 600;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        /* =========================================
+           LOGOUT - SAMA DENGAN DASHBOARD
+        ========================================= */
+
+        .logout-box {
+            position: absolute;
+            bottom: 20px;
+            left: 12px;
+            right: 12px;
+        }
+
+        .logout-btn {
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            width: 100%;
+            padding: 11px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: var(--blue-main);
+        }
+
+        /* =========================================
+           CONTENT
+        ========================================= */
+
+        .content {
+            margin-left: 250px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        /* =========================================
+           PAGE HEADER
+        ========================================= */
 
         .page-header {
-            padding: 25px;
-            border-radius: 16px;
-            background: linear-gradient(115deg, #1877f2, #0f58c6);
+            background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
             color: white;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 22px rgba(24, 119, 242, .15);
+            border: none;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 27px;
+            box-shadow: 0 8px 20px rgba(24, 119, 242, 0.18);
         }
 
         .page-header h3 {
-            font-size: 23px;
+            font-size: 27px;
             font-weight: 700;
             margin-bottom: 7px;
         }
 
         .page-header p {
             margin: 0;
-            font-size: 13px;
-            opacity: .9;
+            opacity: 0.9;
+            font-size: 15px;
         }
+
+        /* =========================================
+           CONTENT CARD
+        ========================================= */
 
         .content-card {
             width: 100%;
             background: white;
-            border: 1px solid var(--border);
-            border-radius: 15px;
+            border: none;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(30, 50, 80, .04);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .card-heading {
-            padding: 20px 22px;
+            padding: 20px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #edf0f5;
             flex-wrap: wrap;
         }
 
         .card-heading h5 {
-            font-size: 15px;
+            font-size: 18px;
             font-weight: 700;
-            margin: 0 0 5px;
+            margin: 0 0 7px;
         }
 
         .card-heading p {
             margin: 0;
-            font-size: 12px;
-            color: var(--muted);
+            font-size: 13px;
+            color: var(--text-muted);
         }
+
+        /* =========================================
+           SEARCH
+        ========================================= */
 
         .search-box {
             position: relative;
-            width: 260px;
+            width: 305px;
             max-width: 100%;
         }
 
         .search-box i {
             position: absolute;
-            left: 13px;
-            top: 13px;
+            left: 14px;
+            top: 14px;
             color: #8b96a8;
         }
 
         .search-box input {
             width: 100%;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            padding: 10px 12px 10px 36px;
+            border: 1px solid #e5eaf2;
+            border-radius: 10px;
+            padding: 12px 12px 12px 40px;
             outline: none;
-            font-size: 12px;
+            font-size: 13px;
         }
 
         .search-box input:focus {
             border-color: var(--blue-main);
-            box-shadow: 0 0 0 3px rgba(24, 119, 242, .1);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
         }
 
+        /* =========================================
+           TABLE
+        ========================================= */
+
         .table-responsive {
-            padding: 0 20px;
+            padding: 0 23px;
         }
 
         .table {
             margin: 0;
             vertical-align: middle;
-            font-size: 12px;
+            font-size: 13px;
             min-width: 1100px;
         }
 
         .table thead th {
             background: var(--blue-main);
             color: white;
-            padding: 14px 12px;
+            padding: 16px 13px;
             white-space: nowrap;
             border: none;
             font-weight: 600;
         }
 
         .table tbody td {
-            padding: 14px 12px;
+            padding: 15px 13px;
             border-bottom: 1px solid #edf0f5;
         }
 
-        .table tbody tr:hover {
+        .table tbody tr:hover:not(.empty-row) {
             background: #f7faff;
         }
 
@@ -221,13 +295,6 @@
             color: #27364b;
         }
 
-        .sub-text {
-            display: block;
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 11px;
-        }
-
         .medicine-name {
             font-weight: 700;
             color: var(--blue-dark);
@@ -237,29 +304,44 @@
             display: inline-block;
             background: #f1f5fb;
             color: #52627a;
-            padding: 5px 8px;
+            padding: 6px 9px;
             border-radius: 6px;
             margin: 2px 0;
         }
 
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
         .empty-state {
-            padding: 55px 20px !important;
+            padding: 60px 20px !important;
             text-align: center;
-            color: var(--muted);
+            color: var(--text-muted);
         }
 
         .empty-state i {
             display: block;
-            font-size: 35px;
+            font-size: 37px;
             color: #b8c9df;
-            margin-bottom: 13px;
+            margin-bottom: 15px;
+        }
+
+        .empty-state strong {
+            display: block;
+            color: #253247;
+            font-size: 14px;
+        }
+
+        .empty-state div {
+            margin-top: 12px;
+            font-size: 13px;
         }
 
         .card-footer-custom {
-            padding: 17px 22px;
-            border-top: 1px solid var(--border);
-            font-size: 12px;
-            color: var(--muted);
+            padding: 18px 25px;
+            border-top: 1px solid #edf0f5;
+            font-size: 13px;
+            color: var(--text-muted);
         }
 
         .pagination {
@@ -278,25 +360,70 @@
             color: white;
         }
 
-        @media (max-width: 900px) {
-            .main-content {
-                width: 100%;
-                margin: 0 !important;
-                padding: 20px 15px;
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media(max-width: 900px) {
+            .sidebar {
+                width: 210px;
+            }
+
+            .content {
+                margin-left: 210px;
             }
         }
 
-        @media (max-width: 550px) {
+        @media(max-width: 600px) {
+            .sidebar {
+                width: 75px;
+            }
+
+            .logo {
+                font-size: 12px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu-title {
+                font-size: 0;
+            }
+
+            .sidebar a {
+                justify-content: center;
+                padding: 12px 5px;
+            }
+
+            .sidebar a span:not(.menu-icon) {
+                display: none;
+            }
+
+            .sidebar a .menu-icon {
+                font-size: 18px;
+            }
+
+            .logout-btn {
+                font-size: 0;
+            }
+
+            .logout-btn::first-letter {
+                font-size: 15px;
+            }
+
+            .content {
+                margin-left: 75px;
+                padding: 20px 12px;
+            }
+
             .page-header {
                 padding: 20px;
             }
 
             .page-header h3 {
-                font-size: 19px;
-            }
-
-            .user-info > div:last-child {
-                display: none;
+                font-size: 21px;
             }
 
             .card-heading {
@@ -312,272 +439,357 @@
                 flex-direction: column;
             }
         }
-
-        /* TOMBOL KEMBALI KE DASHBOARD */
-        .btn-dashboard {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            background: #1877f2;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-dashboard:hover {
-            background: #0f58c6;
-            color: #ffffff;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(24, 119, 242, 0.2);
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 576px) {
-            .page-heading {
-                align-items: flex-start !important;
-            }
-
-            .btn-dashboard {
-                width: 100%;
-            }
-        }
     </style>
 </head>
 
 <body>
 
-<main class="main-content">
+    <!-- =========================================
+         SIDEBAR
+    ========================================= -->
 
-    {{-- TOPBAR --}}
-<div class="topbar">
+    <div class="sidebar">
 
-    <div class="user-info">
-        <div class="user-icon">
-            <i class="fa-solid fa-user-nurse"></i>
-        </div>
-        <div>
-            <strong>{{ auth()->user()->name ?? 'Apoteker' }}</strong>
-            <small>Apoteker</small>
-        </div>
-    </div>
-</div>
-
-{{-- HEADER HALAMAN --}}
-<section class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
-    <div>
-        <h3>
-            <i class="fa-solid fa-file-prescription me-2"></i>
-            Resep Dokter
-        </h3>
-        <p>Daftar resep obat dari hasil pemeriksaan dokter.</p>
-    </div>
-
-    <a href="{{ route('apoteker.dashboard') }}" class="btn-dashboard">
-    <i class="fa-solid fa-arrow-left"></i>
-    Kembali ke Dashboard
-</a>
-    </a>
-</section>
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Tutup"></button>
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Tutup"></button>
-        </div>
-    @endif
-
-    <section class="content-card">
-
-        <div class="card-heading">
-            <div>
-                <h5>Daftar Resep Obat</h5>
-                <p>Informasi pasien, dokter, dan obat yang diresepkan.</p>
-            </div>
-
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text"
-                       id="searchResep"
-                       placeholder="Cari pasien, dokter, atau obat..."
-                       autocomplete="off">
-            </div>
+        <div class="logo">
+            <div class="logo-icon">💊</div>
+            SIM RS
         </div>
 
-        <div class="table-responsive">
-            <table class="table" id="tabelResep">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Nama Pasien</th>
-                        <th>Dokter</th>
-                        <th>Nama Obat</th>
-                        <th>Jumlah</th>
-                        <th>Dosis</th>
-                        <th>Frekuensi</th>
-                        <th>Aturan Pakai</th>
-                        <th>Lama</th>
-                    </tr>
-                </thead>
+        <hr class="sidebar-line">
 
-                <tbody>
-                    @forelse ($resepObats as $resep)
-                        @forelse ($resep->obat as $obat)
-                            @php
-                                $teks = $obat->pivot->aturan_pakai ?? '';
+        <div class="menu-title">Menu Apoteker</div>
 
-                                preg_match(
-                                    '/Dosis:\s*(.*?)(?=\s*\|\s*Frekuensi:|$)/i',
-                                    $teks,
-                                    $dosis
-                                );
+        <a href="{{ route('apoteker.dashboard') }}">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+        </a>
 
-                                preg_match(
-                                    '/Frekuensi:\s*(.*?)(?=\s*\|\s*Aturan:|$)/i',
-                                    $teks,
-                                    $frekuensi
-                                );
+        <a href="{{ route('apoteker.obat.index') }}">
+            <span class="menu-icon">💊</span>
+            <span>Data Obat</span>
+        </a>
 
-                                preg_match(
-                                    '/Aturan:\s*(.*?)(?=\s*\|\s*Lama:|$)/i',
-                                    $teks,
-                                    $aturan
-                                );
+        <a href="{{ route('log-stok-obat.index') }}">
+            <span class="menu-icon">🛒</span>
+            <span>Log Stok Obat</span>
+        </a>
 
-                                preg_match(
-                                    '/Lama:\s*(.*)/i',
-                                    $teks,
-                                    $lama
-                                );
-                            @endphp
+        <a href="{{ route('apoteker.supplier.index') }}">
+            <span class="menu-icon">🏢</span>
+            <span>Supplier Obat</span>
+        </a>
 
-                            <tr>
-                                <td>
-                                    <span class="number-badge">
-                                        {{ ($resepObats->firstItem() ?? 1) + $loop->parent->index }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="patient-name">
-                                        {{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? 'Belum ada data' }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    {{ $resep->pemeriksaan?->dokter?->nama ?? 'Belum ada data' }}
-                                </td>
-
-                                <td>
-                                    <span class="medicine-name">
-                                        {{ $obat->nama ?? 'Nama obat tidak tersedia' }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="number-badge">
-                                        {{ $obat->pivot->nilai ?? 0 }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    {{ trim($dosis[1] ?? '-') ?: '-' }}
-                                </td>
-
-                                <td>
-                                    {{ trim($frekuensi[1] ?? '-') ?: '-' }}
-                                </td>
-
-                                <td>
-                                    <span class="instruction">
-                                        {{ trim($aturan[1] ?? '-') ?: '-' }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    {{ trim($lama[1] ?? '-') ?: '-' }}
-                                </td>
-                            </tr>
-                        @empty
-                            {{-- Resep belum memiliki obat --}}
-                        @endforelse
-                    @empty
-                        <tr>
-                            <td colspan="9" class="empty-state">
-                                <i class="fa-solid fa-prescription-bottle-medical"></i>
-                                <strong>Belum ada resep dokter</strong>
-                                <div class="mt-2">
-                                    Resep yang tersedia akan ditampilkan di sini.
-                                </div>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-
-            <div id="hasilKosong"
-                 class="text-center py-4 text-secondary d-none">
-                Tidak ada resep yang sesuai dengan pencarian.
-            </div>
-        </div>
-
-        <div class="card-footer-custom d-flex justify-content-between align-items-center flex-wrap gap-3">
-            <span>
-                Menampilkan {{ $resepObats->count() }} resep pada halaman ini
+        <a href="{{ route('apoteker.resep.index') }}" class="active">
+            <span class="menu-icon">
+                <i class="fa-solid fa-file-prescription"></i>
             </span>
+            <span>Resep Dokter</span>
+        </a>
 
-            <div>
-                {{ $resepObats->links('pagination::bootstrap-5') }}
-            </div>
+        <!-- LOGOUT -->
+
+        <div class="logout-box">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+
+                <button type="submit" class="logout-btn">
+                    🚪 &nbsp; Logout
+                </button>
+            </form>
         </div>
 
-    </section>
+    </div>
 
-</main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================= -->
 
-<script>
-    const searchInput = document.getElementById('searchResep');
-    const rows = document.querySelectorAll('#tabelResep tbody tr');
-    const hasilKosong = document.getElementById('hasilKosong');
+    <div class="content">
 
-    searchInput.addEventListener('input', function () {
-        const keyword = this.value.toLowerCase().trim();
-        let jumlahTampil = 0;
+        <!-- HEADER -->
 
-        rows.forEach(function (row) {
-            const cocok = row.innerText.toLowerCase().includes(keyword);
+        <section class="page-header">
 
-            row.style.display = cocok ? '' : 'none';
+            <h3>
+                <i class="fa-solid fa-file-prescription me-2"></i>
+                Resep Dokter
+            </h3>
 
-            if (cocok) {
-                jumlahTampil++;
-            }
+            <p>
+                Daftar resep obat dari hasil pemeriksaan dokter.
+            </p>
+
+        </section>
+
+
+        <!-- ALERT SUCCESS -->
+
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                {{ session('success') }}
+
+                <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+                </button>
+
+            </div>
+        @endif
+
+
+        <!-- ALERT ERROR -->
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                {{ session('error') }}
+
+                <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+                </button>
+
+            </div>
+        @endif
+
+
+        <!-- =========================================
+             DAFTAR RESEP OBAT
+        ========================================= -->
+
+        <section class="content-card">
+
+            <div class="card-heading">
+
+                <div>
+                    <h5>Daftar Resep Obat</h5>
+
+                    <p>
+                        Informasi pasien, dokter, dan obat yang diresepkan.
+                    </p>
+                </div>
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input type="text"
+                        id="searchResep"
+                        placeholder="Cari pasien, dokter, atau obat..."
+                        autocomplete="off">
+
+                </div>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="table-responsive">
+
+                <table class="table" id="tabelResep">
+
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama Pasien</th>
+                            <th>Dokter</th>
+                            <th>Nama Obat</th>
+                            <th>Jumlah</th>
+                            <th>Dosis</th>
+                            <th>Frekuensi</th>
+                            <th>Aturan Pakai</th>
+                            <th>Lama</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @forelse ($resepObats as $resep)
+
+                            @forelse ($resep->obat as $obat)
+
+                                @php
+                                    $teks = $obat->pivot->aturan_pakai ?? '';
+
+                                    preg_match(
+                                        '/Dosis:\s*(.*?)(?=\s*\|\s*Frekuensi:|$)/i',
+                                        $teks,
+                                        $dosis
+                                    );
+
+                                    preg_match(
+                                        '/Frekuensi:\s*(.*?)(?=\s*\|\s*Aturan:|$)/i',
+                                        $teks,
+                                        $frekuensi
+                                    );
+
+                                    preg_match(
+                                        '/Aturan:\s*(.*?)(?=\s*\|\s*Lama:|$)/i',
+                                        $teks,
+                                        $aturan
+                                    );
+
+                                    preg_match(
+                                        '/Lama:\s*(.*)/i',
+                                        $teks,
+                                        $lama
+                                    );
+                                @endphp
+
+                                <tr class="resep-row">
+
+                                    <td>
+                                        <span class="number-badge">
+                                            {{ ($resepObats->firstItem() ?? 1) + $loop->parent->index }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <span class="patient-name">
+                                            {{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? 'Belum ada data' }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{ $resep->pemeriksaan?->dokter?->nama ?? 'Belum ada data' }}
+                                    </td>
+
+                                    <td>
+                                        <span class="medicine-name">
+                                            {{ $obat->nama ?? 'Nama obat tidak tersedia' }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <span class="number-badge">
+                                            {{ $obat->pivot->nilai ?? 0 }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{ trim($dosis[1] ?? '-') ?: '-' }}
+                                    </td>
+
+                                    <td>
+                                        {{ trim($frekuensi[1] ?? '-') ?: '-' }}
+                                    </td>
+
+                                    <td>
+                                        <span class="instruction">
+                                            {{ trim($aturan[1] ?? '-') ?: '-' }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{ trim($lama[1] ?? '-') ?: '-' }}
+                                    </td>
+
+                                </tr>
+
+                            @empty
+                                {{-- Resep belum memiliki obat --}}
+                            @endforelse
+
+                        @empty
+
+                            <tr class="empty-row">
+
+                                <td colspan="9" class="empty-state">
+
+                                    <i class="fa-solid fa-prescription-bottle-medical"></i>
+
+                                    <strong>
+                                        Belum ada resep dokter
+                                    </strong>
+
+                                    <div>
+                                        Resep yang tersedia akan ditampilkan di sini.
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+
+                <!-- HASIL PENCARIAN KOSONG -->
+
+                <div id="hasilKosong"
+                    class="text-center py-4 text-secondary d-none">
+
+                    Tidak ada resep yang sesuai dengan pencarian.
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="card-footer-custom d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                <span>
+                    Menampilkan {{ $resepObats->count() }} resep pada halaman ini
+                </span>
+
+                <div>
+                    {{ $resepObats->links('pagination::bootstrap-5') }}
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- =========================================
+         SEARCH RESEP
+    ========================================= -->
+
+    <script>
+
+        const searchInput = document.getElementById('searchResep');
+
+        const rows = document.querySelectorAll('#tabelResep tbody .resep-row');
+
+        const hasilKosong = document.getElementById('hasilKosong');
+
+        searchInput.addEventListener('input', function () {
+
+            const keyword = this.value.toLowerCase().trim();
+
+            let jumlahTampil = 0;
+
+            rows.forEach(function (row) {
+
+                const cocok = row.innerText.toLowerCase().includes(keyword);
+
+                row.style.display = cocok ? '' : 'none';
+
+                if (cocok) {
+                    jumlahTampil++;
+                }
+
+            });
+
+            hasilKosong.classList.toggle('d-none', jumlahTampil > 0);
+
         });
 
-        hasilKosong.classList.toggle('d-none', jumlahTampil > 0);
-    });
-</script>
+    </script>
 
 </body>
-</html>
 
+</html>
