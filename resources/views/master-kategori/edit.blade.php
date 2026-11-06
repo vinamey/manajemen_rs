@@ -5,9 +5,7 @@
 <div class="card shadow">
 
     <div class="card-header bg-warning">
-
         <h4 class="mb-0">Edit Kategori</h4>
-
     </div>
 
     <div class="card-body">
@@ -24,16 +22,18 @@
                     Nama Kategori
                 </label>
 
-                <input type="text"
-                       name="nama_kategori"
-                       class="form-control"
-                       value="{{ old('nama_kategori', $kategori->nama_kategori) }}"
-                       required>
+                <input
+                    type="text"
+                    name="nama"
+                    class="form-control"
+                    value="{{ old('nama', $kategori->nama) }}"
+                    placeholder="Masukkan nama kategori"
+                    required
+                >
 
             </div>
 
-            <button type="submit"
-                    class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">
                 Update
             </button>
 

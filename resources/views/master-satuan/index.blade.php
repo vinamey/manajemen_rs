@@ -590,147 +590,20 @@
                     {{-- NAMA --}}
                     <div class="mb-3">
 
-                        <label class="form-label">
-                            Nama Satuan
-                        </label>
+                      <div class="mb-3">
+    <label for="nama_satuan" class="form-label">
+        Nama Satuan
+    </label>
 
-                        <div class="custom-select-wrapper">
-
-                            <input
-                                type="hidden"
-                                name="nama"
-                                id="nama"
-                                required
-                            >
-
-
-                            <button
-                                type="button"
-                                class="custom-select-button"
-                                id="namaButton"
-                            >
-
-                                <span id="namaText">
-                                    -- Pilih Satuan --
-                                </span>
-
-                                <i
-                                    class="fas fa-chevron-down custom-select-arrow"
-                                ></i>
-
-                            </button>
-
-
-                            <div
-                                class="custom-select-list"
-                                id="namaList"
-                            >
-
-                                <div
-                                    class="custom-option placeholder"
-                                    data-value=""
-                                >
-                                    -- Pilih Satuan --
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Tablet"
-                                >
-                                    Tablet
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Kapsul"
-                                >
-                                    Kapsul
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Keping"
-                                >
-                                    Keping
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Strip"
-                                >
-                                    Strip
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Botol"
-                                >
-                                    Botol
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Tube"
-                                >
-                                    Tube
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Ampul"
-                                >
-                                    Ampul
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Vial"
-                                >
-                                    Vial
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Sachet"
-                                >
-                                    Sachet
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Pcs"
-                                >
-                                    Pcs
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Box"
-                                >
-                                    Box
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Dus"
-                                >
-                                    Dus
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Pot"
-                                >
-                                    Pot
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+    <input
+        type="text"
+        name="nama_satuan"
+        id="nama_satuan"
+        class="form-control"
+        placeholder="Masukkan nama satuan"
+        required
+    >
+</div>
 
 
                 <div class="modal-footer">
