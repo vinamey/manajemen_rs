@@ -763,32 +763,21 @@
 
                         <!-- SATUAN OBAT -->
 
-                        <div class="mb-3">
+<div class="mb-3">
 
-                            <label for="satuan_obat_id" class="form-label fw-semibold">
-                                Satuan Obat
-                            </label>
+    <label for="satuan_obat" class="form-label fw-semibold">
+        Satuan Obat
+    </label>
 
-                            <select name="satuan_obat_id" id="satuan_obat_id"
-                                class="form-select" required>
+    <input type="text"
+        name="satuan_obat"
+        id="satuan_obat"
+        class="form-control"
+        value="{{ old('satuan_obat') }}"
+        placeholder="Contoh: Tablet, Kapsul, Botol, Strip"
+        required>
 
-                                <option value="">-- Pilih Satuan --</option>
-
-                                @foreach ($satuans ?? [] as $satuan)
-
-                                    <option value="{{ $satuan->id }}"
-                                        {{ old('satuan_obat_id') == $satuan->id ? 'selected' : '' }}>
-
-                                        {{ $satuan->nama_satuan ?? $satuan->nama }}
-
-                                    </option>
-
-                                @endforeach
-
-                            </select>
-
-                        </div>
-
+</div>
                         <!-- JUMLAH STOK -->
 
                         <div class="mb-3">

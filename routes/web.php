@@ -339,17 +339,12 @@ Route::middleware([
             'dataApoteker'
         ])->name('obat.data');
 
-        // Form tambah obat
-        Route::get('/data-obat/create', [
-            MasterObatController::class,
-            'create'
-        ])->name('obat.create');
-
-        // Simpan obat baru
+        // Simpan obat dari modal
         Route::post('/data-obat', [
             MasterObatController::class,
             'store'
         ])->name('obat.store');
+
     });
 // ==================================================
 // UPDATE STOK OBAT

@@ -421,10 +421,6 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route('kasir.resep') }}">
-                <i class="fa-solid fa-file-prescription"></i>
-                <span>Resep dari Dokter</span>
-            </a>
 
             <a href="{{ route('kasir.pembayaran') }}">
                 <i class="fa-solid fa-money-bill-wave"></i>
@@ -505,42 +501,11 @@
 
 <div class="row g-4">
 
-    <!-- RESEP DARI DOKTER -->
-
-    <div class="col-lg-6 col-md-6">
-
-        <div class="payment-card">
-
-            <div class="payment-icon">
-                <i class="fa-solid fa-file-prescription"></i>
-            </div>
-
-            <h5>
-                Resep Dari Dokter
-            </h5>
-
-            <p>
-                Lihat daftar resep obat yang diberikan oleh dokter.
-            </p>
-
-            <div class="stat-value mb-3">
-                {{ $jumlahResepMenunggu }}
-            </div>
-
-            <a href="{{ route('kasir.resep') }}" class="btn-payment">
-                <i class="fa-solid fa-arrow-right me-2"></i>
-                Lihat Resep
-            </a>
-
-        </div>
-
-    </div>
 
 
     <!-- PEMBAYARAN OBAT -->
 
-    <div class="col-lg-6 col-md-6">
-
+<div class="col-lg-12 col-md-12">
         <div class="payment-card">
 
             <div class="payment-icon">
