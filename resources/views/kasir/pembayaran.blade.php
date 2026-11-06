@@ -731,10 +731,7 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route('kasir.resep') }}">
-                <i class="fa-solid fa-file-prescription"></i>
-                <span>Resep dari Dokter</span>
-            </a>
+           
 
             <a href="{{ route('kasir.pembayaran') }}" class="active">
                 <i class="fa-solid fa-money-bill-wave"></i>
