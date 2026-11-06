@@ -1,23 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Log Stok Obat | SIM RS</title>
+    <title>Log Stok Obat - Apoteker | SIM RS</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --blue-main: #1877f2;
             --blue-dark: #0f58c6;
+            --blue-light: #e7f3ff;
             --text-dark: #1f2937;
             --text-muted: #6b7280;
         }
@@ -28,25 +29,125 @@
 
         body {
             margin: 0;
-            padding: 0;
             background: #f4f6fa;
             font-family: Arial, sans-serif;
             color: var(--text-dark);
         }
 
-        /* =========================
-           KONTEN UTAMA
-        ========================= */
+        /* SIDEBAR */
 
-        .content {
-            width: 100%;
-            min-height: 100vh;
-            padding: 30px;
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: linear-gradient(180deg, var(--blue-main), var(--blue-dark));
+            color: white;
+            padding-top: 20px;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
         }
 
-        /* =========================
-           HEADER HALAMAN
-        ========================= */
+        .logo {
+            text-align: center;
+            font-weight: 700;
+            font-size: 21px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: white;
+            color: var(--blue-main);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 22px;
+        }
+
+        .sidebar-line {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            margin: 0 18px 15px;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            padding: 0 20px;
+            margin-bottom: 7px;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateX(3px);
+        }
+
+        .sidebar a.active {
+            background: white;
+            color: var(--blue-main);
+            font-weight: 600;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        /* LOGOUT */
+
+        .logout-box {
+            position: absolute;
+            bottom: 20px;
+            left: 12px;
+            right: 12px;
+        }
+
+        .logout-btn {
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            width: 100%;
+            padding: 11px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: var(--blue-main);
+        }
+
+        /* CONTENT */
+
+        .content {
+            margin-left: 250px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
 
         .page-header {
             display: flex;
@@ -69,10 +170,6 @@
             color: var(--text-muted);
             margin-bottom: 0;
         }
-
-        /* =========================
-           TOMBOL KEMBALI DASHBOARD
-        ========================= */
 
         .btn-dashboard {
             display: inline-flex;
@@ -97,9 +194,7 @@
             transform: translateY(-2px);
         }
 
-        /* =========================
-           CARD
-        ========================= */
+        /* CARD */
 
         .card {
             border: none;
@@ -124,9 +219,7 @@
             flex-shrink: 0;
         }
 
-        /* =========================
-           TOMBOL TAMBAH
-        ========================= */
+        /* BUTTON */
 
         .btn-primary {
             background: var(--blue-main);
@@ -138,9 +231,7 @@
             border-color: var(--blue-dark);
         }
 
-        /* =========================
-           TABEL
-        ========================= */
+        /* TABLE */
 
         .table {
             margin-bottom: 0;
@@ -165,9 +256,7 @@
             background: #f8fbff;
         }
 
-        /* =========================
-           EMPTY STATE
-        ========================= */
+        /* EMPTY STATE */
 
         .empty-state {
             padding: 45px 20px !important;
@@ -189,9 +278,7 @@
             margin-bottom: 5px;
         }
 
-        /* =========================
-           MODAL
-        ========================= */
+        /* MODAL */
 
         .modal-content {
             border-radius: 12px;
@@ -208,18 +295,64 @@
             box-shadow: 0 0 0 .2rem rgba(24, 119, 242, .15);
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+        /* RESPONSIVE */
 
-        @media (max-width: 768px) {
+        @media(max-width: 900px) {
+            .sidebar {
+                width: 210px;
+            }
 
             .content {
-                padding: 20px;
+                margin-left: 210px;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .sidebar {
+                width: 75px;
+            }
+
+            .logo {
+                font-size: 12px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu-title {
+                font-size: 0;
+            }
+
+            .sidebar a {
+                justify-content: center;
+                padding: 12px 5px;
+            }
+
+            .sidebar a span:not(.menu-icon) {
+                display: none;
+            }
+
+            .sidebar a .menu-icon {
+                font-size: 18px;
+            }
+
+            .logout-btn {
+                font-size: 0;
+            }
+
+            .logout-btn::first-letter {
+                font-size: 15px;
+            }
+
+            .content {
+                margin-left: 75px;
+                padding: 20px 12px;
             }
 
             .page-header h2 {
-                font-size: 24px;
+                font-size: 21px;
             }
 
             .page-header p {
@@ -229,43 +362,71 @@
             .btn-dashboard {
                 padding: 10px 14px;
             }
-
         }
-
-        @media (max-width: 480px) {
-
-            .content {
-                padding: 14px;
-            }
-
-            .page-header {
-                align-items: flex-start;
-            }
-
-            .page-header h2 {
-                font-size: 21px;
-            }
-
-            .btn-dashboard {
-                font-size: 12px;
-            }
-
-        }
-
     </style>
 </head>
 
 <body>
 
-    <!-- =========================
-         KONTEN UTAMA
-    ========================== -->
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">💊</div>
+            SIM RS
+        </div>
+
+        <hr class="sidebar-line">
+
+        <div class="menu-title">Menu Apoteker</div>
+
+        <a href="{{ route('apoteker.dashboard') }}">
+            <span class="menu-icon">🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ route('apoteker.obat.index') }}">
+            <span class="menu-icon">💊</span>
+            <span>Data Obat</span>
+        </a>
+
+        <a href="{{ route('log-stok-obat.index') }}" class="active">
+            <span class="menu-icon">🛒</span>
+            <span>Log Stok Obat</span>
+        </a>
+
+        <a href="{{ route('apoteker.supplier.index') }}">
+            <span class="menu-icon">🏢</span>
+            <span>Supplier Obat</span>
+        </a>
+
+        <a href="{{ route('apoteker.resep.index') }}">
+            <span class="menu-icon">
+                <i class="fa-solid fa-file-prescription"></i>
+            </span>
+            <span>Resep Dokter</span>
+        </a>
+
+        <!-- LOGOUT -->
+
+        <div class="logout-box">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+
+                <button type="submit" class="logout-btn">
+                    🚪 &nbsp; Logout
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
 
     <main class="content">
 
-        <!-- =========================
-             HEADER HALAMAN
-        ========================== -->
+        <!-- HEADER HALAMAN -->
 
         <div class="page-header">
 
@@ -277,66 +438,43 @@
                 </p>
             </div>
 
-            <a href="{{ url('/apoteker/dashboard') }}" class="btn-dashboard">
-
-                <i class="fa-solid fa-arrow-left"></i>
-
-                Kembali ke Dashboard
-
-            </a>
-
         </div>
 
-
-        <!-- =========================
-             PESAN BERHASIL
-        ========================== -->
+        <!-- PESAN BERHASIL -->
 
         @if (session('success'))
-
             <div class="alert alert-success alert-dismissible fade show">
 
                 {{ session('success') }}
 
-                <button type="button" class="btn-close"
+                <button type="button"
+                    class="btn-close"
                     data-bs-dismiss="alert"></button>
 
             </div>
-
         @endif
 
-
-        <!-- =========================
-             PESAN ERROR
-        ========================== -->
+        <!-- PESAN ERROR -->
 
         @if ($errors->any())
-
             <div class="alert alert-danger alert-dismissible fade show">
 
                 <strong>Data belum berhasil disimpan.</strong>
 
                 <ul class="mb-0 mt-2">
-
                     @foreach ($errors->all() as $error)
-
                         <li>{{ $error }}</li>
-
                     @endforeach
-
                 </ul>
 
-                <button type="button" class="btn-close"
+                <button type="button"
+                    class="btn-close"
                     data-bs-dismiss="alert"></button>
 
             </div>
-
         @endif
 
-
-        <!-- =========================
-             CARD STOK OBAT
-        ========================== -->
+        <!-- CARD STOK OBAT -->
 
         <div class="card shadow-sm">
 
@@ -349,13 +487,10 @@
                     <div class="d-flex align-items-center">
 
                         <div class="section-icon bg-primary bg-opacity-10 text-primary">
-
                             <i class="fas fa-boxes-stacked"></i>
-
                         </div>
 
                         <div>
-
                             <h5 class="mb-1 fw-bold text-dark">
                                 Stok Obat
                             </h5>
@@ -363,17 +498,16 @@
                             <small class="text-muted">
                                 Riwayat perubahan jumlah dan satuan obat.
                             </small>
-
                         </div>
 
                     </div>
 
-                    <button type="button" class="btn btn-primary"
+                    <button type="button"
+                        class="btn btn-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#modalTambahStok">
 
                         <i class="fas fa-plus me-1"></i>
-
                         Tambah Stok Obat
 
                     </button>
@@ -382,10 +516,7 @@
 
             </div>
 
-
-            <!-- =========================
-                 TABEL DATA STOK
-            ========================== -->
+            <!-- TABEL DATA STOK -->
 
             <div class="card-body p-0">
 
@@ -394,25 +525,15 @@
                     <table class="table table-hover align-middle mb-0">
 
                         <thead>
-
                             <tr>
-
                                 <th style="width: 7%;">No</th>
-
                                 <th>Tanggal Update</th>
-
                                 <th>Nama Obat</th>
-
                                 <th>Satuan</th>
-
                                 <th>Status</th>
-
                                 <th>Nilai</th>
-
                                 <th>Stok Tersedia</th>
-
                             </tr>
-
                         </thead>
 
                         <tbody>
@@ -420,7 +541,6 @@
                             @forelse (($logStokObats ?? $logStok ?? $logsLama ?? $logs ?? []) as $index => $log)
 
                                 @php
-
                                     $nilai = (int) ($log->nilai ?? $log->jumlah ?? 0);
 
                                     $tanggal = $log->tanggal_update ?? $log->created_at;
@@ -446,7 +566,6 @@
                                             ? 'Bertambah'
                                             : ($nilai < 0 ? 'Berkurang' : 'Tetap');
                                     }
-
                                 @endphp
 
                                 <tr>
@@ -457,47 +576,33 @@
                                         {{ $index + 1 }}
                                     </td>
 
-
                                     <!-- TANGGAL -->
 
                                     <td>
-
                                         <i class="far fa-clock text-muted me-1"></i>
 
                                         @if ($tanggal)
-
                                             {{ \Carbon\Carbon::parse($tanggal)->format('d/m/Y H:i') }}
-
                                         @else
-
                                             -
-
                                         @endif
-
                                     </td>
-
 
                                     <!-- NAMA OBAT -->
 
                                     <td>
-
                                         <span class="fw-bold text-dark">
                                             {{ $namaObat }}
                                         </span>
-
                                     </td>
-
 
                                     <!-- SATUAN -->
 
                                     <td>
-
                                         <span class="text-secondary fw-semibold">
                                             {{ $namaSatuan }}
                                         </span>
-
                                     </td>
-
 
                                     <!-- STATUS -->
 
@@ -506,35 +611,26 @@
                                         @if (in_array(strtolower($status), ['masuk', 'bertambah']))
 
                                             <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">
-
                                                 <i class="fas fa-arrow-up me-1"></i>
-
                                                 {{ ucfirst($status) }}
-
                                             </span>
 
                                         @elseif (in_array(strtolower($status), ['keluar', 'berkurang']))
 
                                             <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2">
-
                                                 <i class="fas fa-arrow-down me-1"></i>
-
                                                 {{ ucfirst($status) }}
-
                                             </span>
 
                                         @else
 
                                             <span class="badge bg-secondary px-3 py-2">
-
                                                 {{ ucfirst($status) }}
-
                                             </span>
 
                                         @endif
 
                                     </td>
-
 
                                     <!-- NILAI -->
 
@@ -560,17 +656,12 @@
 
                                     </td>
 
-
                                     <!-- STOK TERSEDIA -->
 
                                     <td>
-
                                         <span class="badge bg-primary px-3 py-2 fs-6">
-
                                             {{ $stokTersedia }}
-
                                         </span>
-
                                     </td>
 
                                 </tr>
@@ -578,7 +669,6 @@
                             @empty
 
                                 <tr>
-
                                     <td colspan="7" class="empty-state">
 
                                         <i class="fas fa-box-open"></i>
@@ -592,7 +682,6 @@
                                         </small>
 
                                     </td>
-
                                 </tr>
 
                             @endforelse
@@ -609,10 +698,7 @@
 
     </main>
 
-
-    <!-- =========================
-         MODAL TAMBAH STOK OBAT
-    ========================== -->
+    <!-- MODAL TAMBAH STOK OBAT -->
 
     <div class="modal fade" id="modalTambahStok" tabindex="-1"
         aria-labelledby="modalTambahStokLabel" aria-hidden="true">
@@ -632,7 +718,6 @@
                         <h5 class="modal-title fw-bold" id="modalTambahStokLabel">
 
                             <i class="fas fa-plus-circle me-2"></i>
-
                             Tambah Stok Obat
 
                         </h5>
@@ -643,7 +728,6 @@
                             aria-label="Close"></button>
 
                     </div>
-
 
                     <!-- BODY MODAL -->
 
@@ -677,36 +761,23 @@
 
                         </div>
 
-
                         <!-- SATUAN OBAT -->
 
-                        <div class="mb-3">
+<div class="mb-3">
 
-                            <label for="satuan_obat_id" class="form-label fw-semibold">
-                                Satuan Obat
-                            </label>
+    <label for="satuan_obat" class="form-label fw-semibold">
+        Satuan Obat
+    </label>
 
-                            <select name="satuan_obat_id" id="satuan_obat_id"
-                                class="form-select" required>
+    <input type="text"
+        name="satuan_obat"
+        id="satuan_obat"
+        class="form-control"
+        value="{{ old('satuan_obat') }}"
+        placeholder="Contoh: Tablet, Kapsul, Botol, Strip"
+        required>
 
-                                <option value="">-- Pilih Satuan --</option>
-
-                                @foreach ($satuans ?? [] as $satuan)
-
-                                    <option value="{{ $satuan->id }}"
-                                        {{ old('satuan_obat_id') == $satuan->id ? 'selected' : '' }}>
-
-                                        {{ $satuan->nama_satuan ?? $satuan->nama }}
-
-                                    </option>
-
-                                @endforeach
-
-                            </select>
-
-                        </div>
-
-
+</div>
                         <!-- JUMLAH STOK -->
 
                         <div class="mb-3">
@@ -726,7 +797,6 @@
 
                         </div>
 
-
                         <!-- KEDALUWARSA -->
 
                         <div class="mb-3">
@@ -742,7 +812,6 @@
                                 value="{{ old('expired_date') }}">
 
                         </div>
-
 
                         <!-- KETERANGAN -->
 
@@ -762,7 +831,6 @@
 
                     </div>
 
-
                     <!-- FOOTER MODAL -->
 
                     <div class="modal-footer bg-light px-4 py-3">
@@ -779,7 +847,6 @@
                             class="btn btn-primary px-4 fw-semibold">
 
                             <i class="fas fa-save me-1"></i>
-
                             Simpan Stok
 
                         </button>
@@ -794,34 +861,28 @@
 
     </div>
 
-
     <!-- BOOTSTRAP JAVASCRIPT -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 
     <!-- BUKA MODAL KEMBALI JIKA VALIDASI GAGAL -->
 
     @if ($errors->any())
 
         <script>
-
             document.addEventListener('DOMContentLoaded', function () {
 
                 const modal = document.getElementById('modalTambahStok');
 
                 if (modal) {
-
                     bootstrap.Modal.getOrCreateInstance(modal).show();
-
                 }
 
             });
-
         </script>
 
     @endif
 
 </body>
-
 </html>
+

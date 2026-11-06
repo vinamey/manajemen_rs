@@ -18,7 +18,6 @@
             --blue-main: #1877f2;
             --blue-dark: #0f58c6;
             --blue-light: #e7f3ff;
-            --blue-soft: #f4f8ff;
             --text-dark: #1f2937;
             --text-muted: #6b7280;
         }
@@ -34,9 +33,7 @@
             color: var(--text-dark);
         }
 
-        /* =========================================
-           SIDEBAR - TETAP SAMA DENGAN DASHBOARD
-        ========================================= */
+        /* SIDEBAR */
 
         .sidebar {
             width: 250px;
@@ -47,7 +44,7 @@
             background: linear-gradient(180deg, var(--blue-main), var(--blue-dark));
             color: white;
             padding-top: 20px;
-            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 3px 0 15px rgba(0,0,0,.08);
             z-index: 1000;
         }
 
@@ -73,7 +70,7 @@
 
         .sidebar-line {
             border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-top: 1px solid rgba(255,255,255,.25);
             margin: 0 18px 15px;
         }
 
@@ -81,7 +78,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            opacity: 0.7;
+            opacity: .7;
             padding: 0 20px;
             margin-bottom: 7px;
         }
@@ -96,11 +93,11 @@
             margin: 4px 12px;
             border-radius: 10px;
             font-size: 14px;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .sidebar a:hover {
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(255,255,255,.18);
             transform: translateX(3px);
             color: white;
         }
@@ -117,8 +114,6 @@
             font-size: 17px;
         }
 
-        /* LOGOUT */
-
         .logout-box {
             position: absolute;
             bottom: 20px;
@@ -128,13 +123,13 @@
 
         .logout-btn {
             border: none;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255,255,255,.15);
             color: white;
             width: 100%;
             padding: 11px;
             border-radius: 10px;
             font-weight: 600;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .logout-btn:hover {
@@ -142,32 +137,13 @@
             color: var(--blue-main);
         }
 
-        /* =========================================
-           MAIN CONTENT
-        ========================================= */
+        /* MAIN CONTENT */
 
         .content {
             margin-left: 250px;
             padding: 30px;
             min-height: 100vh;
         }
-
-        .page-title {
-            font-size: 27px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: #243247;
-        }
-
-        .page-subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        /* =========================================
-           HEADER CARD
-        ========================================= */
 
         .welcome-card {
             background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
@@ -176,7 +152,7 @@
             border-radius: 18px;
             padding: 23px 27px;
             margin-bottom: 25px;
-            box-shadow: 0 8px 20px rgba(24, 119, 242, 0.16);
+            box-shadow: 0 8px 20px rgba(24,119,242,.16);
         }
 
         .welcome-card h3 {
@@ -188,7 +164,7 @@
         .welcome-card p {
             font-size: 14px;
             margin: 0;
-            opacity: 0.9;
+            opacity: .9;
         }
 
         .welcome-icon {
@@ -202,15 +178,13 @@
             font-size: 25px;
         }
 
-        /* =========================================
-           TABLE CARD
-        ========================================= */
+        /* TABLE CARD */
 
         .content-card {
             background: white;
             border: 1px solid #e9eef5;
             border-radius: 17px;
-            box-shadow: 0 4px 15px rgba(25, 50, 90, .045);
+            box-shadow: 0 4px 15px rgba(25,50,90,.045);
             overflow: hidden;
         }
 
@@ -256,7 +230,6 @@
             border-radius: 9px;
             font-size: 13px;
             font-weight: 600;
-            text-decoration: none;
             transition: .2s;
         }
 
@@ -264,12 +237,9 @@
             background: var(--blue-dark);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(24,119,242,.2);
         }
 
-        /* =========================================
-           DATATABLE
-        ========================================= */
+        /* DATATABLE */
 
         table.dataTable {
             width: 100% !important;
@@ -287,7 +257,7 @@
         }
 
         table.dataTable tbody td {
-            padding: 13px 13px !important;
+            padding: 13px !important;
             vertical-align: middle;
             font-size: 13px;
             color: #344054;
@@ -313,12 +283,6 @@
             margin-left: 7px;
         }
 
-        .dataTables_wrapper .dataTables_filter input:focus,
-        .dataTables_wrapper .dataTables_length select:focus {
-            border-color: var(--blue-main);
-            box-shadow: 0 0 0 3px rgba(24,119,242,.1);
-        }
-
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             border-radius: 7px !important;
             margin: 0 2px;
@@ -330,18 +294,6 @@
             border: 1px solid var(--blue-main) !important;
         }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: var(--blue-dark) !important;
-            color: white !important;
-            border-color: var(--blue-dark) !important;
-        }
-
-        .dataTables_wrapper .dataTables_info {
-            padding-top: 15px;
-        }
-
-        /* FOOTER */
-
         .footer-text {
             text-align: center;
             color: #8a95a7;
@@ -349,7 +301,97 @@
             padding: 25px 0 10px;
         }
 
-        /* RESPONSIVE */
+        /* =================================
+           POPUP TAMBAH OBAT
+        ================================= */
+
+        .modal-backdrop.show {
+            opacity: .55;
+        }
+
+        .modal-dialog {
+            max-width: 400px;
+        }
+
+        .modal-content {
+            border: none;
+            border-radius: 9px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(0,0,0,.18);
+        }
+
+        .modal-header {
+            background: var(--blue-main);
+            color: white;
+            padding: 12px 15px;
+            border: none;
+        }
+
+        .modal-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+            opacity: .8;
+            box-shadow: none;
+        }
+
+        .modal-body {
+            padding: 20px 18px;
+        }
+
+        .modal-body .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #344054;
+            margin-bottom: 7px;
+        }
+
+        .modal-body .form-control,
+        .modal-body .form-select {
+            border: 1px solid #dce3ed;
+            border-radius: 7px;
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+
+        .modal-body .form-control:focus,
+        .modal-body .form-select:focus {
+            border-color: var(--blue-main);
+            box-shadow: 0 0 0 3px rgba(24,119,242,.1);
+        }
+
+        .modal-footer {
+            padding: 12px 18px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9eef5;
+        }
+
+        .btn-modal-cancel {
+            background: white;
+            border: 1px solid #adb5bd;
+            color: #59677b;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .btn-modal-save {
+            background: var(--blue-main);
+            border: none;
+            color: white;
+            padding: 8px 17px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-modal-save:hover {
+            background: var(--blue-dark);
+            color: white;
+        }
 
         @media(max-width: 900px) {
             .sidebar {
@@ -369,10 +411,6 @@
 
             .logo {
                 font-size: 0;
-            }
-
-            .logo-icon {
-                margin-bottom: 10px;
             }
 
             .menu-title {
@@ -397,17 +435,9 @@
                 font-size: 0;
             }
 
-            .logout-btn:first-letter {
-                font-size: 18px;
-            }
-
             .content {
                 margin-left: 75px;
                 padding: 15px;
-            }
-
-            .page-title {
-                font-size: 22px;
             }
 
             .welcome-card {
@@ -421,15 +451,17 @@
             .card-body-custom {
                 padding: 14px;
             }
+
+            .modal-dialog {
+                margin: 15px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- =========================================
-         SIDEBAR
-    ========================================= -->
+    <!-- SIDEBAR -->
 
     <div class="sidebar">
 
@@ -480,9 +512,7 @@
 
     </div>
 
-    <!-- =========================================
-         MAIN CONTENT
-    ========================================= -->
+    <!-- MAIN CONTENT -->
 
     <main class="content">
 
@@ -507,16 +537,18 @@
 
         </div>
 
-        <!-- ALERT -->
+        <!-- ALERT SUCCESS -->
 
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show">
                 <i class="fa-solid fa-circle-check me-2"></i>
                 {{ session('success') }}
 
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
+
+        <!-- ALERT ERROR -->
 
         @if($errors->any())
             <div class="alert alert-danger alert-dismissible fade show">
@@ -551,10 +583,18 @@
                         </p>
                     </div>
 
-                    <a href="{{ route('apoteker.obat.create') }}" class="btn-add">
+                    <!-- BUTTON BUKA POPUP -->
+
+                    <button
+                        type="button"
+                        class="btn-add"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalTambahObat">
+
                         <i class="fa-solid fa-plus"></i>
                         Tambah Data
-                    </a>
+
+                    </button>
 
                 </div>
 
@@ -592,6 +632,123 @@
 
     </main>
 
+    <!-- =================================
+         MODAL TAMBAH OBAT
+    ================================== -->
+
+    <div
+        class="modal fade"
+        id="modalTambahObat"
+        tabindex="-1"
+        aria-labelledby="judulModalObat"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <!-- HEADER MODAL -->
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="judulModalObat">
+                        <i class="fa-solid fa-circle-plus me-2"></i>
+                        Tambah Data Obat
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+
+                </div>
+
+                <!-- FORM -->
+
+                <form action="{{ route('apoteker.obat.store') }}" method="POST">
+
+                    @csrf
+
+                    <div class="modal-body">
+
+                        <!-- NAMA OBAT -->
+
+                        <div class="mb-3">
+
+                            <label for="nama" class="form-label">
+                                Nama Obat
+                                <span class="text-danger">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control @error('nama') is-invalid @enderror"
+                                id="nama"
+                                name="nama"
+                                value="{{ old('nama') }}"
+                                placeholder="Masukkan nama obat"
+                                required>
+
+                            @error('nama')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
+                        </div>
+<!-- KATEGORI OBAT -->
+
+<div class="mb-2">
+
+    <label for="kategori_nama" class="form-label">
+        Kategori Obat
+        <span class="text-danger">*</span>
+    </label>
+
+    <input
+        type="text"
+        class="form-control"
+        id="kategori_nama"
+        name="kategori_nama"
+        placeholder="Ketik nama kategori obat"
+        required
+    >
+
+</div>
+                    </div>
+
+                    <!-- FOOTER MODAL -->
+
+                    <div class="modal-footer">
+
+                        <button
+                            type="button"
+                            class="btn-modal-cancel"
+                            data-bs-dismiss="modal">
+
+                            Batal
+
+                        </button>
+
+                        <button type="submit" class="btn-modal-save">
+
+                            <i class="fa-solid fa-floppy-disk me-1"></i>
+                            Simpan Obat
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
     <!-- JAVASCRIPT -->
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -603,7 +760,10 @@
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
+
         $(document).ready(function () {
+
+            // DATATABLE OBAT
 
             $('#tabelObat').DataTable({
 
@@ -619,30 +779,35 @@
 
                     error: function (xhr) {
                         console.error(xhr.responseText);
-                        alert('Data obat gagal dimuat. Periksa route dan controller Data Obat.');
+                        alert('Data obat gagal dimuat. Periksa route dan controller.');
                     }
                 },
 
                 columns: [
+
                     {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         orderable: false,
                         searchable: false
                     },
+
                     {
                         data: 'nama',
                         name: 'nama',
                         defaultContent: '-'
                     },
+
                     {
                         data: 'kategori_nama',
                         name: 'kategori_nama',
                         defaultContent: '-'
                     }
+
                 ],
 
                 language: {
+
                     processing: 'Memuat data...',
                     search: 'Cari:',
                     lengthMenu: 'Tampilkan _MENU_ data',
@@ -658,11 +823,25 @@
                         next: 'Berikutnya',
                         previous: 'Sebelumnya'
                     }
+
                 }
 
             });
 
+            // BUKA KEMBALI POPUP JIKA VALIDASI GAGAL
+
+            @if($errors->any())
+
+                var modalTambah = new bootstrap.Modal(
+                    document.getElementById('modalTambahObat')
+                );
+
+                modalTambah.show();
+
+            @endif
+
         });
+
     </script>
 
 </body>

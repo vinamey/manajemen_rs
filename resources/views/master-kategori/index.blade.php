@@ -419,22 +419,6 @@
         }
     </style>
 
-    @php
-        $daftarKategori = [
-            'Antibiotik',
-            'Analgesik',
-            'Antipiretik',
-            'Antihistamin',
-            'Antiseptik',
-            'Vitamin dan Suplemen',
-            'Obat Batuk dan Pilek',
-            'Obat Lambung',
-            'Obat Kulit',
-            'Obat Mata',
-            'Obat Antinyeri dan Antiinflamasi',
-            'Obat Antasida / Penetral Asam Lambung',
-        ];
-    @endphp
 
     <div class="master-kategori-page">
         <div class="kategori-header">
@@ -468,46 +452,90 @@
         </div>
     </div>
 
-    {{-- MODAL TAMBAH --}}
-    <div class="modal fade" id="modalTambahKategori" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-tags"></i> Tambah Kategori</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+   {{-- MODAL TAMBAH --}}
+<div class="modal fade" id="modalTambahKategori" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
+        <div class="modal-content">
+
+            {{-- HEADER --}}
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-tags"></i> Tambah Kategori
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            {{-- FORM --}}
+            <form id="formTambahKategori"
+                  action="{{ route('master-kategori.store') }}"
+                  method="POST">
+
+                @csrf
+
+                {{-- BODY --}}
+                <div class="modal-body">
+
+                    {{-- KODE KATEGORI --}}
+                    <div class="form-kategori-group">
+                        <label for="tambahKode" class="form-kategori-label">
+                            Kode Kategori
+                        </label>
+
+                        <input
+                            type="text"
+                            name="kode"
+                            id="tambahKode"
+                            class="form-kategori-control"
+                            placeholder="Masukkan kode kategori"
+                            required
+                        >
+                    </div>
+
+                    {{-- NAMA KATEGORI --}}
+                    <div class="form-kategori-group">
+                        <label for="namaKategori" class="form-kategori-label">
+                            Nama Kategori
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nama"
+                            id="namaKategori"
+                            class="form-kategori-control"
+                            placeholder="Masukkan nama kategori"
+                            required
+                        >
+                    </div>
+
                 </div>
 
-                <form id="formTambahKategori" action="{{ route('master-kategori.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-kategori-group">
-                            <label for="tambahKode" class="form-kategori-label">Kode Kategori</label>
-                            <input type="text" name="kode" id="tambahKode" class="form-kategori-control"
-                                placeholder="Masukkan kode kategori" required>
-                        </div>
+                {{-- FOOTER --}}
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn-batal-kategori"
+                        data-bs-dismiss="modal">
+                        Batal
+                    </button>
 
-                        <div class="form-kategori-group">
-                            <label for="namaKategori" class="form-kategori-label">Nama Kategori</label>
-                            <select name="nama" id="namaKategori" class="form-kategori-control form-kategori-select2"
-                                required>
-                                <option value=""></option>
-                                @foreach ($daftarKategori as $namaKategori)
-                                    <option value="{{ $namaKategori }}">{{ $namaKategori }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                    <button
+                        type="submit"
+                        id="btnSimpanKategori"
+                        class="btn-simpan-kategori">
+                        <i class="fas fa-save"></i> Simpan Data
+                    </button>
+                </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn-batal-kategori" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" id="btnSimpanKategori" class="btn-simpan-kategori">
-                            <i class="fas fa-save"></i> Simpan Data
-                        </button>
-                    </div>
-                </form>
-            </div>
+            </form>
+
         </div>
     </div>
+</div>
 
     {{-- MODAL LIHAT --}}
     <div class="modal fade" id="modalLihatKategori" tabindex="-1" aria-hidden="true">
@@ -553,13 +581,6 @@
                         </div>
                         <div class="form-kategori-group">
                             <label for="editNama" class="form-kategori-label">Nama Kategori</label>
-                            <select name="nama" id="editNama" class="form-kategori-control form-kategori-select2"
-                                required>
-                                <option value=""></option>
-                                @foreach ($daftarKategori as $namaKategori)
-                                    <option value="{{ $namaKategori }}">{{ $namaKategori }}</option>
-                                @endforeach
-                            </select>
                         </div>
                     </div>
 
@@ -614,13 +635,6 @@ $(function () {
     const csrfToken = @json(csrf_token());
     const baseUrl = @json(url('/master-kategori'));
 
-    // Select2
-    $('#namaKategori, #editNama').select2({
-        placeholder: 'Cari / Pilih Kategori',
-        allowClear: true,
-        width: '100%',
-        dropdownParent: $('#namaKategori').closest('.modal')
-    });
 
     // DataTable
     const table = $('#kategori-table').DataTable({

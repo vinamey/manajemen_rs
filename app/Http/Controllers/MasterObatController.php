@@ -183,8 +183,9 @@ public function store(Request $request)
    // HALAMAN DATA OBAT APOTEKER
 public function indexApoteker()
 {
-    return view('apoteker.data-obat');
+    $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
 
+    return view('apoteker.data-obat', compact('kategoris'));
 }
     // =========================================================
     // DATA YAJRA DATATABLE KHUSUS APOTEKER

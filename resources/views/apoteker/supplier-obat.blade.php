@@ -444,7 +444,7 @@
     {{-- KONTEN UTAMA --}}
     <main class="content">
 
-    
+
         {{-- BANNER --}}
         <div class="welcome-card">
             <h3>
@@ -495,15 +495,7 @@
                         </p>
                     </div>
 
-                    <button type="button"
-                            class="btn-add"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalTambah">
-
-                        <i class="fa-solid fa-plus me-1"></i>
-                        Tambah Supplier
-
-                    </button>
+                  
 
                 </div>
 
