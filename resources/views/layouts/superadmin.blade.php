@@ -264,7 +264,10 @@
 
             {{-- SIDEBAR ADMIN RUMAH SAKIT --}}
             @if (auth()->user()?->hasRole('admin rumah sakit'))
+
                 <ul class="nav flex-column">
+
+                    {{-- DATA DOKTER --}}
                     <li class="nav-item">
                         <a href="{{ route('admin.dokter.index') }}"
                             class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}">
@@ -272,6 +275,8 @@
                             Data Dokter
                         </a>
                     </li>
+
+                    {{-- DATA PERAWAT --}}
                     <li class="nav-item">
                         <a href="{{ route('admin.perawat.index') }}"
                             class="nav-link {{ request()->routeIs('admin.perawat.*') ? 'active' : '' }}">
@@ -279,6 +284,8 @@
                             Data Perawat
                         </a>
                     </li>
+
+                    {{-- DATA PASIEN --}}
                     <li class="nav-item">
                         <a href="{{ route('admin.pasien.index') }}"
                             class="nav-link {{ request()->routeIs('admin.pasien.*') ? 'active' : '' }}">
@@ -286,23 +293,33 @@
                             Data Pasien
                         </a>
                     </li>
+
+                    {{-- DATA APOTEKER --}}
                     <li class="nav-item">
-                        <a href="{{ route('apoteker.dashboard') }}" class="nav-link">
+                        <a href="{{ route('apoteker.dashboard') }}"
+                            class="nav-link {{ request()->routeIs('apoteker.*') ? 'active' : '' }}">
                             <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
                             Data Apoteker
                         </a>
                     </li>
+
+                    {{-- DATA KASIR --}}
                     <li class="nav-item">
-    <a href="{{ route('kasir.dashboard') }}"
-        class="nav-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
-        <i class="fa-solid fa-cash-register me-2"></i>
-        Data Kasir
-    </a>
-</li>
+                        <a href="{{ route('kasir.dashboard') }}"
+                            class="nav-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
+                            <i class="fa-solid fa-cash-register me-2"></i>
+                            Data Kasir
+                        </a>
+                    </li>
+
                 </ul>
+
             @else
+
                 {{-- SIDEBAR SUPER ADMIN --}}
                 <ul class="nav flex-column">
+
+                    {{-- DASHBOARD --}}
                     <li class="nav-item">
                         <a href="{{ route('superadmin.dashboard') }}"
                             class="nav-link {{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}">
@@ -311,6 +328,7 @@
                         </a>
                     </li>
 
+                    {{-- ROLE MANAGEMENT --}}
                     <li class="nav-item">
                         <a href="{{ route('roles.index') }}"
                             class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
@@ -319,6 +337,7 @@
                         </a>
                     </li>
 
+                    {{-- PERMISSION MANAGEMENT --}}
                     <li class="nav-item">
                         <a href="{{ route('permissions.index') }}"
                             class="nav-link {{ request()->routeIs('permissions.*') ? 'active' : '' }}">
@@ -327,6 +346,7 @@
                         </a>
                     </li>
 
+                    {{-- USER MANAGEMENT --}}
                     <li class="nav-item">
                         <a href="{{ route('users.index') }}"
                             class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
@@ -362,18 +382,28 @@
                     @endphp
 
                     <li class="nav-item">
+
                         <a class="nav-link master-toggle {{ $masterAktif ? 'master-active' : '' }}"
-                            data-bs-toggle="collapse" href="#masterDataMenu" role="button"
-                            aria-expanded="{{ $masterAktif ? 'true' : 'false' }}" aria-controls="masterDataMenu">
+                            data-bs-toggle="collapse"
+                            href="#masterDataMenu"
+                            role="button"
+                            aria-expanded="{{ $masterAktif ? 'true' : 'false' }}"
+                            aria-controls="masterDataMenu">
+
                             <span class="master-toggle-left">
                                 <i class="fa-solid fa-database me-2"></i>
                                 Master Data
                             </span>
+
                             <i class="fa-solid fa-chevron-down master-arrow"></i>
+
                         </a>
 
                         <div class="collapse {{ $masterAktif ? 'show' : '' }}" id="masterDataMenu">
+
                             <ul class="master-menu">
+
+                                {{-- MASTER PASIEN --}}
                                 <li>
                                     <a href="{{ route('master-pasien.index') }}"
                                         class="master-item {{ request()->routeIs('master-pasien.*') ? 'active' : '' }}">
@@ -381,6 +411,8 @@
                                         <span>Master Pasien</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER DOKTER --}}
                                 <li>
                                     <a href="{{ route('master-dokter.index') }}"
                                         class="master-item {{ request()->routeIs('master-dokter.*') ? 'active' : '' }}">
@@ -388,6 +420,8 @@
                                         <span>Master Dokter</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER PERAWAT --}}
                                 <li>
                                     <a href="{{ route('master-perawat.index') }}"
                                         class="master-item {{ request()->routeIs('master-perawat.*') ? 'active' : '' }}">
@@ -395,6 +429,8 @@
                                         <span>Master Perawat</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER OBAT --}}
                                 <li>
                                     <a href="{{ route('master-obat.index') }}"
                                         class="master-item {{ request()->routeIs('master-obat.*') ? 'active' : '' }}">
@@ -402,6 +438,8 @@
                                         <span>Master Obat</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER SUPPLIER --}}
                                 <li>
                                     <a href="{{ route('master-supplier.index') }}"
                                         class="master-item {{ request()->routeIs('master-supplier.*') ? 'active' : '' }}">
@@ -409,6 +447,8 @@
                                         <span>Master Supplier</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER KATEGORI --}}
                                 <li>
                                     <a href="{{ route('master-kategori.index') }}"
                                         class="master-item {{ request()->routeIs('master-kategori.*') ? 'active' : '' }}">
@@ -416,6 +456,8 @@
                                         <span>Master Kategori</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER SATUAN OBAT --}}
                                 <li>
                                     <a href="{{ route('master-satuan.index') }}"
                                         class="master-item {{ request()->routeIs('master-satuan.*') ? 'active' : '' }}">
@@ -423,6 +465,8 @@
                                         <span>Master Satuan Obat</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER POLI --}}
                                 <li>
                                     <a href="{{ route('master-poli.index') }}"
                                         class="master-item {{ request()->routeIs('master-poli.*') ? 'active' : '' }}">
@@ -430,6 +474,8 @@
                                         <span>Master Poli</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER KAMAR --}}
                                 <li>
                                     <a href="{{ route('master-kamar.index') }}"
                                         class="master-item {{ request()->routeIs('master-kamar.*') ? 'active' : '' }}">
@@ -437,6 +483,8 @@
                                         <span>Master Kamar</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER ASURANSI --}}
                                 <li>
                                     <a href="{{ route('master-asuransi.index') }}"
                                         class="master-item {{ request()->routeIs('master-asuransi.*') ? 'active' : '' }}">
@@ -444,6 +492,8 @@
                                         <span>Master Asuransi</span>
                                     </a>
                                 </li>
+
+                                {{-- MASTER TINDAKAN --}}
                                 <li>
                                     <a href="{{ route('master-tindakan.index') }}"
                                         class="master-item {{ request()->routeIs('master-tindakan.*') ? 'active' : '' }}">
@@ -451,10 +501,12 @@
                                         <span>Master Tindakan</span>
                                     </a>
                                 </li>
+
                             </ul>
                         </div>
                     </li>
 
+                    {{-- PENDAFTARAN PASIEN --}}
                     <li class="nav-item">
                         <a href="{{ route('pendaftaran.index') }}"
                             class="nav-link {{ request()->routeIs('pendaftaran.*') ? 'active' : '' }}">
@@ -463,6 +515,7 @@
                         </a>
                     </li>
 
+                    {{-- PEMERIKSAAN DOKTER --}}
                     <li class="nav-item">
                         <a href="{{ route('pemeriksaan-dokter.index') }}"
                             class="nav-link {{ request()->routeIs('pemeriksaan-dokter.*') ? 'active' : '' }}">
@@ -471,6 +524,7 @@
                         </a>
                     </li>
 
+                    {{-- HASIL PEMERIKSAAN --}}
                     <li class="nav-item">
                         <a href="{{ route('hasil-pemeriksaan.index') }}"
                             class="nav-link {{ request()->routeIs('hasil-pemeriksaan.*') ? 'active' : '' }}">
@@ -479,6 +533,7 @@
                         </a>
                     </li>
 
+                    {{-- LAPORAN --}}
                     <li class="nav-item">
                         <a href="{{ route('superadmin.laporan') }}"
                             class="nav-link {{ request()->routeIs('superadmin.laporan') ? 'active' : '' }}">
@@ -488,6 +543,7 @@
                     </li>
 
                 </ul>
+
             @endif
 
         </div>
@@ -495,48 +551,153 @@
         {{-- AREA KONTEN UTAMA --}}
         <div class="content">
 
-            {{-- NAVBAR ATAS (Dibuat Dinamis Berdasarkan Route) --}}
+            {{-- NAVBAR ATAS --}}
             <nav class="navbar navbar-expand-lg">
+
                 <div class="container-fluid p-0">
+
                     <span class="navbar-brand">
+
                         @if (request()->routeIs('superadmin.laporan'))
                             Laporan
+
                         @elseif (request()->routeIs('roles.*'))
                             Role Management
+
                         @elseif (request()->routeIs('permissions.*'))
                             Permission Management
+
                         @elseif (request()->routeIs('users.*'))
                             User Management
+
                         @elseif (request()->routeIs('master-*'))
                             Master Data
+
                         @elseif (request()->routeIs('pendaftaran.*'))
                             Pendaftaran Pasien
+
                         @elseif (request()->routeIs('pemeriksaan-dokter.*'))
                             Pemeriksaan Dokter
+
                         @elseif (request()->routeIs('hasil-pemeriksaan.*'))
                             Hasil Pemeriksaan
+
                         @else
                             @yield('navbar-title', 'Dashboard Superadmin')
                         @endif
+
                     </span>
+
                     <div class="d-flex align-items-center gap-3">
+
                         <span class="user-name">
                             <i class="fa-solid fa-circle-user me-1"></i>
                             {{ auth()->user()->name ?? 'User' }}
                         </span>
+
                         <form action="{{ route('logout') }}" method="POST" class="m-0">
                             @csrf
+
                             <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                                <i class="fa-solid fa-right-from-bracket me-1"></i>
+                                Logout
                             </button>
                         </form>
+
                     </div>
+
                 </div>
+
             </nav>
 
             {{-- WADAH ISI HALAMAN --}}
             <div class="page-container">
-                @yield('content')
+
+                @php
+                    $requiredPermission = null;
+
+                    $permissionRoutes = [
+
+                        // DASHBOARD
+                        'superadmin.dashboard' => 'dashboard',
+                        'admin.dashboard' => 'dashboard',
+
+                        // MANAGEMENT
+                        'roles.*' => 'role management',
+                        'permissions.*' => 'permission management',
+                        'users.*' => 'user management',
+
+                        // DATA ADMIN RUMAH SAKIT
+                        'admin.dokter.*' => 'master dokter',
+                        'admin.perawat.*' => 'master perawat',
+                        'admin.pasien.*' => 'master pasien',
+
+                        // MASTER DATA
+                        'master-pasien.*' => 'master pasien',
+                        'master-dokter.*' => 'master dokter',
+                        'master-perawat.*' => 'master perawat',
+                        'master-obat.*' => 'master obat',
+                        'master-supplier.*' => 'master supplier',
+                        'master-kategori.*' => 'master kategori',
+                        'master-satuan.*' => 'master satuan obat',
+                        'master-poli.*' => 'master poli',
+                        'master-kamar.*' => 'master kamar',
+                        'master-asuransi.*' => 'master asuransi',
+                        'master-tindakan.*' => 'master tindakan',
+                        'master-apoteker.*' => 'master apoteker',
+
+                        // APOTEKER
+                        'apoteker.dashboard' => 'master apoteker',
+                        'apoteker.obat.*' => 'master obat',
+                        'apoteker.supplier.*' => 'master supplier',
+                        'apoteker.resep.*' => 'resep obat',
+                        'apoteker.update-stok-obat.*' => 'stok obat',
+                        'apoteker.log-stok-obat.*' => 'stok obat',
+
+                        // KASIR
+                        'kasir.dashboard' => 'master kasir',
+                        'kasir.resep' => 'resep obat',
+                        'kasir.pembayaran' => 'pembayaran',
+                        'kasir.pembayaran.*' => 'pembayaran',
+
+                        // DATA KASIR
+                        'kasir.index' => 'master kasir',
+                        'kasir.create' => 'master kasir',
+                        'kasir.store' => 'master kasir',
+                        'kasir.show' => 'master kasir',
+                        'kasir.edit' => 'master kasir',
+                        'kasir.update' => 'master kasir',
+                        'kasir.destroy' => 'master kasir',
+
+                        // FITUR LAINNYA
+                        'pendaftaran.*' => 'pendaftaran pasien',
+                        'pemeriksaan-dokter.*' => 'pemeriksaan dokter',
+                        'hasil-pemeriksaan.*' => 'hasil pemeriksaan',
+                        'log-stok-obat.*' => 'stok obat',
+                        'superadmin.laporan' => 'laporan',
+                    ];
+
+                    foreach ($permissionRoutes as $routePattern => $permission) {
+                        if (request()->routeIs($routePattern)) {
+                            $requiredPermission = $permission;
+                            break;
+                        }
+                    }
+                @endphp
+
+                            {{-- PENGECEKAN PERMISSION --}}
+                @if (
+                    request()->routeIs('roles.*', 'permissions.*') ||
+                    (
+                        $requiredPermission !== null &&
+                        auth()->user()?->hasPermissionTo($requiredPermission)
+                    )
+                )
+
+                    @yield('content')
+
+                @endif
+
             </div>
 
         </div>
@@ -549,3 +710,4 @@
 </body>
 
 </html>
+

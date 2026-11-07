@@ -5,40 +5,53 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleController extends Controller
 {
-   public function index()
-{
-    $roles = Role::orderBy('id', 'ASC')->get();
+    // ==============================
+    // MENAMPILKAN DATA ROLE
+    // ==============================
+    public function index()
+    {
+        $roles = Role::orderBy('id', 'ASC')->get();
 
-    $permissions = Permission::orderBy('name')->get();
+        $permissions = Permission::orderBy('name')->get();
 
-    return view('roles.index', compact('roles', 'permissions'));
-}
+        return view('roles.index', compact('roles', 'permissions'));
+    }
 
-    // Form tambah role
+    // ==============================
+    // FORM TAMBAH ROLE
+    // ==============================
     public function create()
     {
         return view('roles.create');
     }
 
-    // Simpan role baru
+    // ==============================
+    // SIMPAN ROLE BARU
+    // ==============================
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:roles,name'
+            'name' => 'required|unique:roles,name',
         ]);
 
         Role::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'guard_name' => 'web',
         ]);
+
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         return redirect()->route('roles.index')
             ->with('success', 'Role berhasil ditambahkan.');
     }
 
-    // Form edit role
+    // ==============================
+    // FORM EDIT ROLE
+    // ==============================
     public function edit($id)
     {
         $role = Role::findOrFail($id);
@@ -46,58 +59,78 @@ class RoleController extends Controller
         return view('roles.edit', compact('role'));
     }
 
-    // Update role
+    // ==============================
+    // UPDATE ROLE
+    // ==============================
     public function update(Request $request, $id)
-{
-    $role = Role::findOrFail($id);
-
-    $request->validate([
-        'name' => 'required|unique:roles,name,' . $role->id,
-    ]);
-
-    $role->update([
-        'name' => $request->name,
-    ]);
-
-    return redirect()->route('roles.index')
-        ->with('success', 'Role berhasil diupdate.');
-}
-
-    // Hapus role
-    public function destroy($id)
-{
-    $role = Role::findOrFail($id);
-
-    if($role->name == 'Super Admin')
     {
+        $role = Role::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|unique:roles,name,' . $role->id,
+        ]);
+
+        $role->update([
+            'name' => $request->name,
+        ]);
+
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
         return redirect()->route('roles.index')
-            ->with('error','Role Super Admin tidak boleh dihapus.');
+            ->with('success', 'Role berhasil diupdate.');
     }
 
-    $role->delete();
+    // ==============================
+    // HAPUS ROLE
+    // ==============================
+    public function destroy($id)
+    {
+        $role = Role::findOrFail($id);
 
-    return redirect()->route('roles.index')
-        ->with('success','Role berhasil dihapus.');
-}
+        if (strtolower($role->name) === 'super admin') {
+            return redirect()->route('roles.index')
+                ->with('error', 'Role Super Admin tidak boleh dihapus.');
+        }
 
-// Form Assign Permission
-public function givePermission($id)
-{
-    $role = Role::findOrFail($id);
+        $role->delete();
 
-    $permissions = Permission::orderBy('name')->get();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-    return view('roles.permission', compact('role', 'permissions'));
-}
+        return redirect()->route('roles.index')
+            ->with('success', 'Role berhasil dihapus.');
+    }
 
-// Simpan Permission ke Role
-public function givePermissionStore(Request $request, $id)
-{
-    $role = Role::findOrFail($id);
+    // ==============================
+    // FORM ASSIGN PERMISSION
+    // ==============================
+    public function givePermission($id)
+    {
+        $role = Role::findOrFail($id);
 
-    $role->syncPermissions($request->permission ?? []);
+        $permissions = Permission::orderBy('name')->get();
 
-    return redirect()->route('roles.index')
-        ->with('success', 'Permission berhasil diberikan ke Role.');
-}
+        return view('roles.permission', compact('role', 'permissions'));
+    }
+
+    // ==============================
+    // SIMPAN PERMISSION KE ROLE
+    // ==============================
+    public function givePermissionStore(Request $request, $id)
+    {
+        $role = Role::findOrFail($id);
+
+        $request->validate([
+            'permission' => 'nullable|array',
+            'permission.*' => 'string|exists:permissions,name',
+        ]);
+
+        $permissions = $request->input('permission', []);
+
+        $role->syncPermissions($permissions);
+
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        return redirect()->route('roles.index')
+            ->with('success', 'Permission berhasil diperbarui.');
+    }
 }
