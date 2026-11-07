@@ -536,6 +536,7 @@
 </div>
 
 
+
 {{-- =========================================================
      MODAL TAMBAH
 ========================================================= --}}
@@ -545,34 +546,28 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <h5 class="modal-title">
                     <i class="fas fa-plus-circle me-2"></i>
                     Tambah Satuan Obat
                 </h5>
-
             </div>
 
-
-            <form id="formTambah">
-
+            <form
+                id="formTambah"
+                method="POST"
+                action="{{ route('master-satuan.store') }}"
+            >
                 @csrf
 
                 <div class="modal-body">
 
                     {{-- KODE --}}
                     <div class="mb-3">
-
-                        <label
-                            for="kode"
-                            class="form-label"
-                        >
+                        <label for="kode" class="form-label">
                             Kode Satuan
                         </label>
 
@@ -583,31 +578,27 @@
                             class="form-control"
                             placeholder="Contoh: TAB"
                         >
-
                     </div>
-
 
                     {{-- NAMA --}}
                     <div class="mb-3">
+                        <label for="nama_satuan" class="form-label">
+                            Nama Satuan
+                        </label>
 
-                      <div class="mb-3">
-    <label for="nama_satuan" class="form-label">
-        Nama Satuan
-    </label>
+                        <input
+                            type="text"
+                            name="nama"
+                            id="nama_satuan"
+                            class="form-control"
+                            placeholder="Masukkan nama satuan"
+                            required
+                        >
+                    </div>
 
-    <input
-        type="text"
-        name="nama_satuan"
-        id="nama_satuan"
-        class="form-control"
-        placeholder="Masukkan nama satuan"
-        required
-    >
-</div>
-
+                </div>
 
                 <div class="modal-footer">
-
                     <button
                         type="button"
                         class="btn btn-secondary"
@@ -616,7 +607,6 @@
                         Batal
                     </button>
 
-
                     <button
                         type="submit"
                         class="btn btn-primary"
@@ -624,16 +614,14 @@
                         <i class="fas fa-save me-1"></i>
                         Simpan
                     </button>
-
                 </div>
 
             </form>
 
         </div>
-
     </div>
-
 </div>
+
 
 
 {{-- =========================================================
@@ -793,150 +781,23 @@
 
 
                     {{-- NAMA --}}
+                    
                     <div class="mb-3">
 
-                        <label class="form-label">
+                        <label for="editNama" class="form-label">
                             Nama Satuan
                         </label>
 
-
-                        <div class="custom-select-wrapper">
-
-                            <input
-                                type="hidden"
-                                name="nama"
-                                id="editNama"
-                                required
-                            >
-
-
-                            <button
-                                type="button"
-                                class="custom-select-button"
-                                id="editNamaButton"
-                            >
-
-                                <span id="editNamaText">
-                                    -- Pilih Satuan --
-                                </span>
-
-                                <i
-                                    class="fas fa-chevron-down custom-select-arrow"
-                                ></i>
-
-                            </button>
-
-
-                            <div
-                                class="custom-select-list"
-                                id="editNamaList"
-                            >
-
-                                <div
-                                    class="custom-option placeholder"
-                                    data-value=""
-                                >
-                                    -- Pilih Satuan --
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Tablet"
-                                >
-                                    Tablet
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Kapsul"
-                                >
-                                    Kapsul
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Keping"
-                                >
-                                    Keping
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Strip"
-                                >
-                                    Strip
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Botol"
-                                >
-                                    Botol
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Tube"
-                                >
-                                    Tube
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Ampul"
-                                >
-                                    Ampul
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Vial"
-                                >
-                                    Vial
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Sachet"
-                                >
-                                    Sachet
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Pcs"
-                                >
-                                    Pcs
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Box"
-                                >
-                                    Box
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Dus"
-                                >
-                                    Dus
-                                </div>
-
-                                <div
-                                    class="custom-option"
-                                    data-value="Pot"
-                                >
-                                    Pot
-                                </div>
-
-                            </div>
-
-                        </div>
+                        <input
+                            type="text"
+                            name="nama"
+                            id="editNama"
+                            class="form-control"
+                            placeholder="Masukkan nama satuan"
+                            required
+                        >
 
                     </div>
-
-                </div>
 
 
                 <div class="modal-footer">
@@ -1111,195 +972,13 @@ $(document).ready(function () {
     |--------------------------------------------------------------------------
     */
 
-    const namaButton =
-        document.getElementById('namaButton');
-
-    const namaList =
-        document.getElementById('namaList');
-
-    const namaInput =
-        document.getElementById('nama');
-
-    const namaText =
-        document.getElementById('namaText');
+    const namaInput = document.getElementById('nama_satuan');
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | ELEMENT DROPDOWN EDIT
-    |--------------------------------------------------------------------------
-    */
-
-    const editNamaButton =
-        document.getElementById('editNamaButton');
-
-    const editNamaList =
-        document.getElementById('editNamaList');
-
+    
+/* ELEMENT INPUT EDIT */
     const editNamaInput =
-        document.getElementById('editNama');
-
-    const editNamaText =
-        document.getElementById('editNamaText');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DROPDOWN TAMBAH
-    |--------------------------------------------------------------------------
-    */
-
-    namaButton.addEventListener(
-        'click',
-        function (e) {
-
-            e.stopPropagation();
-
-            namaList.classList.toggle('show');
-
-            namaButton.classList.toggle(
-                'active',
-                namaList.classList.contains('show')
-            );
-        }
-    );
-
-
-    namaList
-        .querySelectorAll('.custom-option')
-        .forEach(function (option) {
-
-            option.addEventListener(
-                'click',
-                function (e) {
-
-                    e.stopPropagation();
-
-                    const value =
-                        this.dataset.value;
-
-                    const text =
-                        this.textContent.trim();
-
-
-                    namaInput.value = value;
-
-                    namaText.textContent =
-                        value
-                            ? text
-                            : '-- Pilih Satuan --';
-
-
-                    namaList
-                        .querySelectorAll('.custom-option')
-                        .forEach(function (item) {
-
-                            item.classList.remove(
-                                'selected'
-                            );
-                        });
-
-
-                    if (value) {
-                        this.classList.add(
-                            'selected'
-                        );
-                    }
-
-
-                    namaList.classList.remove(
-                        'show'
-                    );
-
-                    namaButton.classList.remove(
-                        'active'
-                    );
-                }
-            );
-
-        });
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DROPDOWN EDIT
-    |--------------------------------------------------------------------------
-    */
-
-    editNamaButton.addEventListener(
-        'click',
-        function (e) {
-
-            e.stopPropagation();
-
-            editNamaList.classList.toggle(
-                'show'
-            );
-
-            editNamaButton.classList.toggle(
-                'active',
-                editNamaList.classList.contains(
-                    'show'
-                )
-            );
-        }
-    );
-
-
-    editNamaList
-        .querySelectorAll('.custom-option')
-        .forEach(function (option) {
-
-            option.addEventListener(
-                'click',
-                function (e) {
-
-                    e.stopPropagation();
-
-                    const value =
-                        this.dataset.value;
-
-                    const text =
-                        this.textContent.trim();
-
-
-                    editNamaInput.value =
-                        value;
-
-                    editNamaText.textContent =
-                        value
-                            ? text
-                            : '-- Pilih Satuan --';
-
-
-                    editNamaList
-                        .querySelectorAll('.custom-option')
-                        .forEach(function (item) {
-
-                            item.classList.remove(
-                                'selected'
-                            );
-                        });
-
-
-                    if (value) {
-                        this.classList.add(
-                            'selected'
-                        );
-                    }
-
-
-                    editNamaList.classList.remove(
-                        'show'
-                    );
-
-                    editNamaButton.classList.remove(
-                        'active'
-                    );
-                }
-            );
-
-        });
+    document.getElementById('editNama');
 
 
     /*
@@ -1308,27 +987,10 @@ $(document).ready(function () {
     |--------------------------------------------------------------------------
     */
 
-    document.addEventListener(
-        'click',
-        function () {
-
-            namaList.classList.remove('show');
-
-            namaButton.classList.remove(
-                'active'
-            );
-
-
-            editNamaList.classList.remove(
-                'show'
-            );
-
-            editNamaButton.classList.remove(
-                'active'
-            );
-        }
-    );
-
+    document.addEventListener('click', function () {
+    editNamaList.classList.remove('show');
+    editNamaButton.classList.remove('active');
+});
 
     /*
     |--------------------------------------------------------------------------
@@ -1343,17 +1005,15 @@ $(document).ready(function () {
             e.preventDefault();
 
 
-            if (!namaInput.value) {
+            if (!namaInput.value.trim()) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan!',
+                text: 'Silakan masukkan nama satuan terlebih dahulu.'
+            });
 
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan!',
-                    text:
-                        'Silakan pilih nama satuan terlebih dahulu.'
-                });
-
-                return;
-            }
+            return;
+        }
 
 
             const form = $(this);
@@ -1450,6 +1110,7 @@ $(document).ready(function () {
         'click',
         '.btn-satuan-lihat',
         function () {
+            console.log('TOMBOL LIHAT DIKLIK');
 
             const row =
                 $(this).closest('tr');
@@ -1498,79 +1159,31 @@ $(document).ready(function () {
     |--------------------------------------------------------------------------
     */
 
-    $('#satuan-table').on(
-        'click',
-        '.btn-satuan-edit',
-        function () {
 
-            const row =
-                $(this).closest('tr');
+$('#satuan-table').on(
+    'click',
+    '.btn-satuan-edit',
+    function () {
 
+        const row = $(this).closest('tr');
+        const data = table.row(row).data();
 
-            const data =
-                table.row(row).data();
-
-
-            if (!data) {
-                return;
-            }
-
-
-            $('#editId').val(
-                data.id
-            );
-
-            $('#editKode').val(
-                data.kode || ''
-            );
-
-            $('#editNama').val(
-                data.nama || ''
-            );
-
-
-            editNamaText.textContent =
-                data.nama ||
-                '-- Pilih Satuan --';
-
-
-            editNamaList
-                .querySelectorAll(
-                    '.custom-option'
-                )
-                .forEach(function (option) {
-
-                    option.classList.remove(
-                        'selected'
-                    );
-
-
-                    if (
-                        option.dataset.value ===
-                        (data.nama || '')
-                    ) {
-
-                        option.classList.add(
-                            'selected'
-                        );
-                    }
-
-                });
-
-
-            const modal =
-                bootstrap.Modal
-                    .getOrCreateInstance(
-                        document.getElementById(
-                            'modalEdit'
-                        )
-                    );
-
-
-            modal.show();
-
+        if (!data) {
+            return;
         }
-    );
+
+        $('#editId').val(data.id);
+        $('#editKode').val(data.kode || '');
+        $('#editNama').val(data.nama || '');
+
+        const modal = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalEdit')
+        );
+
+        modal.show();
+    }
+);
+
 
 
     /*
@@ -1586,13 +1199,12 @@ $(document).ready(function () {
             e.preventDefault();
 
 
-            if (!editNamaInput.value) {
+            if (!editNamaInput.value.trim()) {
 
                 Swal.fire({
                     icon: 'warning',
                     title: 'Peringatan!',
-                    text:
-                        'Silakan pilih nama satuan terlebih dahulu.'
+                    text: 'Silakan masukkan nama satuan terlebih dahulu.'
                 });
 
                 return;
@@ -1837,38 +1449,9 @@ $(document).ready(function () {
     |--------------------------------------------------------------------------
     */
 
-    function resetDropdownTambah() {
-
-        namaInput.value = '';
-
-        namaText.textContent =
-            '-- Pilih Satuan --';
-
-
-        namaList
-            .querySelectorAll(
-                '.custom-option'
-            )
-            .forEach(
-                function (option) {
-
-                    option.classList.remove(
-                        'selected'
-                    );
-                }
-            );
-
-
-        namaList.classList.remove(
-            'show'
-        );
-
-        namaButton.classList.remove(
-            'active'
-        );
-
-    }
-
+   function resetDropdownTambah() {
+    namaInput.value = '';
+}
 
     /*
     |--------------------------------------------------------------------------
