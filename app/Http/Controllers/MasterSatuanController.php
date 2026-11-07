@@ -17,62 +17,7 @@ class MasterSatuanController extends Controller
         return view('master-satuan.index');
     }
 
-    /**
-     * DATA YAJRA DATATABLES
-     */
-    public function data()
-    {
-        $satuans = MasterSatuanObat::query()
-            ->select([
-                'id',
-                'kode',
-                'nama',
-            ]);
-
-        return DataTables::of($satuans)
-            ->addIndexColumn()
-
-            ->addColumn('aksi', function ($satuan) {
-
-                return '
-                    <div class="aksi-wrapper">
-
-                        <button
-                            type="button"
-                            class="btn btn-satuan-aksi btn-satuan-lihat"
-                            title="Lihat"
-                        >
-                            <i class="fas fa-eye me-1"></i>
-                            Lihat
-                        </button>
-
-                        <button
-                            type="button"
-                            class="btn btn-satuan-aksi btn-satuan-edit"
-                            title="Edit"
-                        >
-                            <i class="fas fa-edit me-1"></i>
-                            Edit
-                        </button>
-
-                        <button
-                            type="button"
-                            class="btn btn-satuan-aksi btn-satuan-hapus"
-                            title="Hapus"
-                        >
-                            <i class="fas fa-trash me-1"></i>
-                            Hapus
-                        </button>
-
-                    </div>
-                ';
-            })
-
-            ->rawColumns(['aksi'])
-
-            ->make(true);
-    }
-
+      
     /**
      * CREATE
      */
@@ -216,6 +161,60 @@ class MasterSatuanController extends Controller
             ], 500);
         }
     }
+
+    /*
+ * DATA YAJRA DATATABLES
+ */
+public function data()
+{
+    $satuans = MasterSatuanObat::query()
+        ->select([
+            'id',
+            'kode',
+            'nama',
+        ]);
+
+    return DataTables::of($satuans)
+        ->addIndexColumn()
+
+        ->addColumn('aksi', function ($satuan) {
+            return '
+                <div class="aksi-wrapper">
+
+                    <button
+                        type="button"
+                        class="btn btn-satuan-aksi btn-satuan-lihat"
+                        title="Lihat"
+                    >
+                        <i class="fas fa-eye me-1"></i>
+                        Lihat
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-satuan-aksi btn-satuan-edit"
+                        title="Edit"
+                    >
+                        <i class="fas fa-edit me-1"></i>
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-satuan-aksi btn-satuan-hapus"
+                        title="Hapus"
+                    >
+                        <i class="fas fa-trash me-1"></i>
+                        Hapus
+                    </button>
+
+                </div>
+            ';
+        })
+
+        ->rawColumns(['aksi'])
+        ->make(true);
+}
 
     /**
      * HAPUS DATA

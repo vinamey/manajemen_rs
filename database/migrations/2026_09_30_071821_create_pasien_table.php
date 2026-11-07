@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('pasiens', function (Blueprint $table) {
             $table->id();
-            $table->string('no_rekam_medis');
+            $table->string('no_rekam_medis'); 
             $table->string('nama_pasien');
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->date('tanggal_masuk');
@@ -22,4 +22,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('pasiens');
     }
-};
+}; 
