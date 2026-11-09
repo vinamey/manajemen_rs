@@ -24,22 +24,6 @@ class PendaftaranPasien extends Model
         'status',
     ];
 
-    protected static function booted()
-    {
-        static::creating(function ($pendaftaran) {
-            if (empty($pendaftaran->tanggal_pendaftaran)) {
-                $pendaftaran->tanggal_pendaftaran = Carbon::today()->toDateString();
-            }
-
-            $totalHariIni = static::whereDate(
-                'tanggal_pendaftaran',
-                $pendaftaran->tanggal_pendaftaran
-            )->count();
-
-            $pendaftaran->nomor_antrian = $totalHariIni + 1;
-        });
-    }
-
     public function scopeHariIni($query)
     {
         return $query->whereDate(
@@ -51,12 +35,11 @@ class PendaftaranPasien extends Model
     public function scopeCariPasien($query, $keyword)
     {
         return $query->whereHas('pasien', function ($q) use ($keyword) {
-            $q->where('nama_pasien', 'like', "%{$keyword}%")
-              ->orWhere('nik', 'like', "%{$keyword}%")
-              ->orWhere('no_rm', 'like', "%{$keyword}%");
+            $q->where('nama', 'like', "%{$keyword}%");
         });
     }
 
+    // Relasi ke master pasien
     public function pasien()
     {
         return $this->belongsTo(MasterPasien::class, 'pasien_id');

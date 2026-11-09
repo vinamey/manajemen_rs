@@ -9,6 +9,7 @@ use App\Models\MasterObat;
 use App\Models\MasterKamar;
 use App\Models\PendaftaranPasien;
 use App\Models\Pembayaran;
+use App\Models\Pengeluaran;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,23 +53,29 @@ class DashboardController extends Controller
             $bulan = (int) $request->query('bulan', Carbon::now()->month);
             $tahun = (int) $request->query('tahun', Carbon::now()->year);
 
-            // Validasi bulan
             if ($bulan < 1 || $bulan > 12) {
                 $bulan = Carbon::now()->month;
             }
 
-            // Validasi tahun
             if ($tahun < 2000 || $tahun > 2100) {
                 $tahun = Carbon::now()->year;
             }
 
-            // Total pendapatan hanya pada bulan yang dipilih
+            // Total pendapatan
             $pendapatan = Pembayaran::where('status', 'LUNAS')
                 ->whereYear('created_at', $tahun)
                 ->whereMonth('created_at', $bulan)
                 ->sum('total_pembayaran');
 
-            // Mengambil pendapatan setiap bulan untuk grafik
+            // Total pengeluaran dari database
+            $pengeluaran = Pengeluaran::whereYear(
+                    'tanggal_pengeluaran',
+                    $tahun
+                )
+                ->whereMonth('tanggal_pengeluaran', $bulan)
+                ->sum('nominal');
+
+            // Grafik pendapatan
             $grafikPendapatan = [];
             $maksimalGrafik = 0;
 
@@ -86,13 +93,19 @@ class DashboardController extends Controller
                     'total' => $total,
                 ];
 
-                $maksimalGrafik = max($maksimalGrafik, (float) $total);
+                $maksimalGrafik = max(
+                    $maksimalGrafik,
+                    (float) $total
+                );
             }
 
-            // Menghitung tinggi batang grafik
+            // Tinggi batang grafik
             foreach ($grafikPendapatan as &$item) {
                 $item['tinggi'] = $maksimalGrafik > 0
-                    ? max(4, ((float) $item['total'] / $maksimalGrafik) * 100)
+                    ? max(
+                        4,
+                        ((float) $item['total'] / $maksimalGrafik) * 100
+                    )
                     : 4;
             }
 
@@ -107,6 +120,7 @@ class DashboardController extends Controller
                 'totalKamar',
                 'totalPendaftaran',
                 'pendapatan',
+                'pengeluaran',
                 'bulan',
                 'tahun',
                 'namaBulan',
