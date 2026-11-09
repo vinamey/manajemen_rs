@@ -28,26 +28,7 @@
             </tr>
 
             <tr>
-                <th>Status</th>
-                <td>
-
-                    @if($kamar->status == 'tersedia')
-
-                        <span class="badge bg-success">
-                            Tersedia
-                        </span>
-
-                    @else
-
-                        <span class="badge bg-danger">
-                            Terisi
-                        </span>
-
-                    @endif
-
-                </td>
-            </tr>
-
+                
         </table>
 
         <a href="{{ route('master-kamar.edit', $kamar->id) }}"

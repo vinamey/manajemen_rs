@@ -91,80 +91,56 @@ class MasterKamarController extends Controller
      * =========================================================
      */
     public function store(Request $request)
-    {
-        try {
-
-            $validated = $request->validate(
-                [
-                    'kode' => [
-                        'required',
-                        'string',
-                        Rule::unique('master_kamars', 'kode'),
-                    ],
-
-                    'nama' => [
-                        'required',
-                        'string',
-                    ],
-
-                    'status' => [
-                        'required',
-                        Rule::in([
-                            'tersedia',
-                            'terisi',
-                        ]),
-                    ],
+{
+    try {
+        $validated = $request->validate(
+            [
+                'kode' => [
+                    'required',
+                    'string',
+                    Rule::unique('master_kamars', 'kode'),
                 ],
-                [
-                    'kode.required' =>
-                        'Kode Kamar wajib diisi.',
 
-                    'kode.unique' =>
-                        'Kode Kamar sudah digunakan.',
+                'nama' => [
+                    'required',
+                    'string',
+                ],
+            ],
+            [
+                'kode.required' => 'Kode Kamar wajib diisi.',
+                'kode.unique' => 'Kode Kamar sudah digunakan.',
+                'nama.required' => 'Nama Kamar wajib diisi.',
+            ]
+        );
 
-                    'nama.required' =>
-                        'Nama Kamar wajib diisi.',
+        $kamar = MasterKamar::create([
+            'kode' => $validated['kode'],
+            'nama' => $validated['nama'],
+            'status' => 'tersedia',
+        ]);
 
-                    'status.required' =>
-                        'Status kamar wajib dipilih.',
+        return response()->json([
+            'success' => true,
+            'message' => 'Data kamar berhasil ditambahkan!',
+            'data' => $kamar,
+        ], 201);
 
-                    'status.in' =>
-                        'Status kamar tidak valid.',
-                ]
-            );
+    } catch (ValidationException $e) {
 
+        return response()->json([
+            'success' => false,
+            'message' => 'Validasi gagal.',
+            'errors' => $e->errors(),
+        ], 422);
 
-            $kamar = MasterKamar::create([
-                'kode' => $validated['kode'],
-                'nama' => $validated['nama'],
-                'status' => $validated['status'],
-            ]);
+    } catch (\Throwable $e) {
 
-
-            return response()->json([
-                'success' => true,
-                'message' =>
-                    'Data kamar berhasil ditambahkan!',
-                'data' => $kamar,
-            ], 201);
-
-        } catch (ValidationException $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Validasi gagal.',
-                'errors' => $e->errors(),
-            ], 422);
-
-        } catch (\Throwable $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' =>
-                    'Terjadi kesalahan saat menyimpan data kamar.',
-            ], 500);
-        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Terjadi kesalahan saat menyimpan data kamar.',
+        ], 500);
     }
+}
 
 
     /**
@@ -200,87 +176,58 @@ class MasterKamarController extends Controller
      * =========================================================
      */
     public function update(Request $request, $id)
-    {
-        try {
+{
+    try {
+        $kamar = MasterKamar::findOrFail($id);
 
-            $kamar = MasterKamar::findOrFail($id);
-
-
-            $validated = $request->validate(
-                [
-                    'kode' => [
-                        'required',
-                        'string',
-
-                        Rule::unique(
-                            'master_kamars',
-                            'kode'
-                        )->ignore($kamar->id),
-                    ],
-
-                    'nama' => [
-                        'required',
-                        'string',
-                    ],
-
-                    'status' => [
-                        'required',
-                        Rule::in([
-                            'tersedia',
-                            'terisi',
-                        ]),
-                    ],
+        $validated = $request->validate(
+            [
+                'kode' => [
+                    'required',
+                    'string',
+                    Rule::unique('master_kamars', 'kode')->ignore($kamar->id),
                 ],
-                [
-                    'kode.required' =>
-                        'Kode Kamar wajib diisi.',
 
-                    'kode.unique' =>
-                        'Kode Kamar sudah digunakan.',
+                'nama' => [
+                    'required',
+                    'string',
+                ],
+            ],
+            [
+                'kode.required' => 'Kode Kamar wajib diisi.',
+                'kode.unique' => 'Kode Kamar sudah digunakan.',
+                'nama.required' => 'Nama Kamar wajib diisi.',
+            ]
+        );
 
-                    'nama.required' =>
-                        'Nama Kamar wajib diisi.',
+        $kamar->update([
+            'kode' => $validated['kode'],
+            'nama' => $validated['nama'],
+            'status' => 'tersedia',
+        ]);
 
-                    'status.required' =>
-                        'Status kamar wajib dipilih.',
+        return response()->json([
+            'success' => true,
+            'message' => 'Data kamar berhasil diperbarui!',
+            'data' => $kamar,
+        ]);
 
-                    'status.in' =>
-                        'Status kamar tidak valid.',
-                ]
-            );
+    } catch (ValidationException $e) {
 
+        return response()->json([
+            'success' => false,
+            'message' => 'Validasi gagal.',
+            'errors' => $e->errors(),
+        ], 422);
 
-            $kamar->update([
-                'kode' => $validated['kode'],
-                'nama' => $validated['nama'],
-                'status' => $validated['status'],
-            ]);
+    } catch (\Throwable $e) {
 
-
-            return response()->json([
-                'success' => true,
-                'message' =>
-                    'Data kamar berhasil diperbarui!',
-                'data' => $kamar,
-            ]);
-
-        } catch (ValidationException $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Validasi gagal.',
-                'errors' => $e->errors(),
-            ], 422);
-
-        } catch (\Throwable $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' =>
-                    'Terjadi kesalahan saat memperbarui data kamar.',
-            ], 500);
-        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Terjadi kesalahan saat memperbarui data kamar.',
+        ], 500);
     }
+}
 
 
     /**
