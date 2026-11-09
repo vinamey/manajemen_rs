@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -127,7 +128,6 @@ Route::middleware(['auth', 'admin.rs'])
     ->name('admin.')
     ->group(function () {
 
-        // DATA PASIEN
         Route::get('/data-pasien/data', [
             MasterPasienController::class,
             'dataAdmin'
@@ -144,7 +144,6 @@ Route::middleware(['auth', 'admin.rs'])
         ])->whereNumber('id')->name('pasien.show');
 
 
-        // DATA PERAWAT
         Route::get('/data-perawat', [
             MasterPerawatController::class,
             'indexAdmin'
@@ -168,10 +167,9 @@ Route::middleware(['auth', 'admin.rs'])
         Route::delete('/data-perawat/{id}', [
             MasterPerawatController::class,
             'destroyAdmin'
-        ])->whereNumber('id')->name('perawat.destroy');
+        ])->name('perawat.destroy');
 
 
-        // DATA DOKTER
         Route::get('/data-dokter', [
             MasterDokterController::class,
             'indexAdmin'
@@ -298,7 +296,6 @@ Route::get('/apoteker/dashboard', [
 ])->name('apoteker.dashboard');
 
 
-
 // ==================================================
 // RESEP DOKTER KHUSUS APOTEKER
 // ==================================================
@@ -313,39 +310,41 @@ Route::middleware([
         'indexApoteker'
     ])->name('resep.index');
 
+    // ROUTE PROSES RESEP
+    Route::post('/resep-dokter/{id}/proses', [
+        KasirResepController::class,
+        'prosesApoteker'
+    ])->whereNumber('id')->name('resep.proses');
+
 });
 
- // ==========================================
+
+// ==================================================
 // DATA OBAT KHUSUS APOTEKER
-// ==========================================
+// ==================================================
 
 Route::middleware([
     'auth',
     'role:apoteker|Apoteker|admin rumah sakit'
-])
-    ->prefix('apoteker')
-    ->name('apoteker.')
-    ->group(function () {
+])->prefix('apoteker')->name('apoteker.')->group(function () {
 
-        // Halaman daftar obat
-        Route::get('/data-obat', [
-            MasterObatController::class,
-            'indexApoteker'
-        ])->name('obat.index');
+    Route::get('/data-obat', [
+        MasterObatController::class,
+        'indexApoteker'
+    ])->name('obat.index');
 
-        // Data tabel obat
-        Route::get('/data-obat/data', [
-            MasterObatController::class,
-            'dataApoteker'
-        ])->name('obat.data');
+    Route::get('/data-obat/data', [
+        MasterObatController::class,
+        'dataApoteker'
+    ])->name('obat.data');
 
-        // Simpan obat dari modal
-        Route::post('/data-obat', [
-            MasterObatController::class,
-            'store'
-        ])->name('obat.store');
+    Route::post('/data-obat', [
+        MasterObatController::class,
+        'storeApoteker'
+    ])->name('obat.store');
+});
 
-    });
+
 // ==================================================
 // UPDATE STOK OBAT
 // ==================================================
@@ -355,19 +354,16 @@ Route::middleware([
     'role:super admin|admin rumah sakit|apoteker'
 ])->prefix('apoteker')->name('apoteker.')->group(function () {
 
-    // Menampilkan halaman update stok
     Route::get('/update-stok-obat', [
         LogStokObatController::class,
         'updateStok'
     ])->name('update-stok-obat.index');
 
-    // Route update stok obat
     Route::get('/update-stok-obat/data', [
         LogStokObatController::class,
         'updateStokobat'
     ])->name('log-stok-obat.update-stok-obat');
 
-    // Menyimpan penambahan stok
     Route::post('/update-stok-obat', [
         LogStokObatController::class,
         'store'
@@ -429,27 +425,22 @@ Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
 // DIREKTUR - LAPORAN DAN PENGELOLAAN PENGELUARAN
 // ==================================================
 
-
 Route::middleware(['auth', 'role:direktur'])->group(function () {
 
-    // HALAMAN LAPORAN
     Route::get('/direktur/laporan', [
         LaporanController::class,
         'index'
     ])->name('direktur.laporan');
 
-    // EXPORT EXCEL
     Route::get('/laporan/export/excel/{type}', [
         LaporanController::class,
         'exportExcel'
     ])->name('laporan.export.excel');
 
-    // EXPORT PDF
     Route::get('/laporan/export/pdf/{type}', [
         LaporanController::class,
         'exportPdf'
     ])->name('laporan.export.pdf');
-
 
     Route::get('/direktur/pengeluaran/data', [
         PengeluaranController::class,
@@ -459,9 +450,7 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
     Route::resource('/direktur/pengeluaran', PengeluaranController::class)
         ->except(['show'])
         ->names('direktur.pengeluaran');
-
 });
-
 
 
 // ==================================================
@@ -644,7 +633,10 @@ Route::middleware([
 // MASTER PERAWAT
 // ==================================================
 
-Route::middleware(['auth', 'role:super admin'])->group(function () {
+Route::middleware([
+    'auth',
+    'role:super admin'
+])->group(function () {
 
     Route::get('/master-perawat/data', [
         MasterPerawatController::class,
@@ -691,9 +683,7 @@ Route::middleware([
 });
 
 
-
-
- // ==================================================
+// ==================================================
 // MASTER SUPPLIER - SUPER ADMIN & ADMIN RS
 // ==================================================
 
@@ -711,30 +701,26 @@ Route::middleware([
 });
 
 
-
-
-// ==========================================
+// ==================================================
 // SUPPLIER OBAT KHUSUS APOTEKER
-// ==========================================
+// ==================================================
 
 Route::middleware([
     'auth',
     'role:apoteker|Apoteker|admin rumah sakit'
-])
-    ->prefix('apoteker')
-    ->name('apoteker.')
-    ->group(function () {
+])->prefix('apoteker')->name('apoteker.')->group(function () {
 
-        Route::get('/supplier-obat', [
-            MasterSupplierController::class,
-            'indexApoteker'
-        ])->name('supplier.index');
+    Route::get('/supplier-obat', [
+        MasterSupplierController::class,
+        'indexApoteker'
+    ])->name('supplier.index');
 
-        Route::get('/supplier-obat/data', [
-            MasterSupplierController::class,
-            'dataApoteker'
-        ])->name('supplier.data');
-    });
+    Route::get('/supplier-obat/data', [
+        MasterSupplierController::class,
+        'dataApoteker'
+    ])->name('supplier.data');
+});
+
 
 // ==================================================
 // MASTER TINDAKAN

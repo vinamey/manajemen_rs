@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterObat;
 use App\Models\MasterKategori;
+use App\Models\MasterSatuanObat;
+use App\Models\HargaJualObat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class MasterObatController extends Controller
 {
-    // =========================================================
     // HALAMAN MASTER OBAT
-    // =========================================================
     public function index()
     {
         $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
@@ -19,10 +20,7 @@ class MasterObatController extends Controller
         return view('master-obat.index', compact('kategoris'));
     }
 
-
-    // =========================================================
-    // DATA YAJRA DATATABLE
-    // =========================================================
+    // DATA MASTER OBAT
     public function data()
     {
         $obats = MasterObat::with('kategori')
@@ -30,185 +28,184 @@ class MasterObatController extends Controller
             ->orderBy('id', 'desc');
 
         return DataTables::of($obats)
-
-            // Nomor urut
             ->addIndexColumn()
-
-            // Nama kategori
             ->addColumn('kategori_nama', function ($obat) {
-                return $obat->kategori
-                    ? $obat->kategori->nama
-                    : '-';
+                return $obat->kategori?->nama ?? '-';
             })
-
-            // Tombol aksi
             ->addColumn('aksi', function ($obat) {
-
-                $deleteUrl = route(
-                    'master-obat.destroy',
-                    $obat->id
-                );
+                $deleteUrl = route('master-obat.destroy', $obat->id);
 
                 return '
                     <div class="action-buttons">
-
-                        <button
-                            type="button"
+                        <button type="button"
                             class="btn-aksi btn-lihat"
-                            title="Lihat"
-                        >
+                            title="Lihat">
                             <i class="fas fa-eye"></i>
                             <span>Lihat</span>
                         </button>
 
-                        <button
-                            type="button"
+                        <button type="button"
                             class="btn-aksi btn-edit"
-                            title="Edit"
-                        >
+                            title="Edit">
                             <i class="fas fa-edit"></i>
                             <span>Edit</span>
                         </button>
 
-                        <form
-                            action="' . $deleteUrl . '"
+                        <form action="' . $deleteUrl . '"
                             method="POST"
-                            onsubmit="return confirm(\'Yakin ingin menghapus obat ini?\')"
-                        >
+                            onsubmit="return confirm(\'Yakin ingin menghapus obat ini?\')">
                             ' . csrf_field() . '
                             ' . method_field('DELETE') . '
 
-                            <button
-                                type="submit"
+                            <button type="submit"
                                 class="btn-aksi btn-hapus"
-                                title="Hapus"
-                            >
+                                title="Hapus">
                                 <i class="fas fa-trash"></i>
                                 <span>Hapus</span>
                             </button>
-
                         </form>
-
                     </div>
                 ';
             })
-
-            ->rawColumns([
-                'aksi'
-            ])
-
+            ->rawColumns(['aksi'])
             ->make(true);
     }
 
-    // ==================================================
-// FORM TAMBAH OBAT KHUSUS APOTEKER
-// ==================================================
-public function create()
-{
-    $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
+    // FORM TAMBAH OBAT
+    public function create()
+    {
+        $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
 
-    return view('apoteker.tambah-obat', compact('kategoris'));
-}
+        return view('apoteker.tambah-obat', compact('kategoris'));
+    }
 
-   // ==================================================
-// SIMPAN OBAT
-// ==================================================
-public function store(Request $request)
-{
-    $request->validate([
-        'nama' => 'required|string|max:255',
-        'kategori_id' => 'required|exists:master_kategoris,id',
-    ]);
+    // SIMPAN OBAT
+    public function store(Request $request)
+    {
+        // Penyimpanan dari halaman Data Obat Apoteker
+        if ($request->routeIs('apoteker.obat.store')) {
 
-    MasterObat::create([
-        'nama' => $request->nama,
-        'kategori_id' => $request->kategori_id,
-    ]);
+            $validated = $request->validate([
+                'nama' => 'required|string|max:255',
+                'kategori_id' => 'required|exists:master_kategoris,id',
+                'satuan_id' => 'required|exists:master_satuan_obats,id',
+                'isi' => 'required|integer|min:1',
+                'harga' => 'required|numeric|min:0',
+            ]);
 
-    if (auth()->user()->hasRole('apoteker')) {
+            DB::transaction(function () use ($validated) {
+                $obat = MasterObat::create([
+                    'nama' => $validated['nama'],
+                    'kategori_id' => $validated['kategori_id'],
+                ]);
+
+                HargaJualObat::create([
+                    'obat_id' => $obat->id,
+                    'satuan_id' => $validated['satuan_id'],
+                    'isi' => $validated['isi'],
+                    'harga' => $validated['harga'],
+                ]);
+            });
+
+            return redirect()
+                ->route('apoteker.obat.index')
+                ->with('success', 'Data obat dan harga jual berhasil ditambahkan.');
+        }
+
+        // Penyimpanan dari halaman Master Obat tetap seperti sebelumnya
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'kategori_id' => 'required|exists:master_kategoris,id',
+        ]);
+
+        MasterObat::create([
+            'nama' => $validated['nama'],
+            'kategori_id' => $validated['kategori_id'],
+        ]);
+
         return redirect()
-            ->route('apoteker.obat.index')
+            ->route('master-obat.index')
             ->with('success', 'Data obat berhasil ditambahkan.');
     }
 
-    return redirect()
-        ->route('master-obat.index')
-        ->with('success', 'Data obat berhasil ditambahkan.');
-}
-
-
-    // =========================================================
     // DETAIL OBAT
-    // =========================================================
     public function show(string $id)
     {
-        $obat = MasterObat::with('kategori')
-            ->findOrFail($id);
+        $obat = MasterObat::with('kategori')->findOrFail($id);
 
-        return view(
-            'master-obat.show',
-            compact('obat')
-        );
+        return view('master-obat.show', compact('obat'));
     }
 
-
-    // =========================================================
     // UPDATE OBAT
-    // =========================================================
     public function update(Request $request, string $id)
     {
         $obat = MasterObat::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'kategori_id' => 'required|exists:master_kategoris,id',
         ]);
 
         $obat->update([
-            'nama' => $request->nama,
-            'kategori_id' => $request->kategori_id,
+            'nama' => $validated['nama'],
+            'kategori_id' => $validated['kategori_id'],
         ]);
 
         return redirect()
             ->route('master-obat.index')
-            ->with(
-                'success',
-                'Data obat berhasil diperbarui.'
-            );
+            ->with('success', 'Data obat berhasil diperbarui.');
     }
 
-    // =========================================================
-    // HALAMAN MASTER OBAT KHUSUS APOTEKER
-    // =========================================================
-   // HALAMAN DATA OBAT APOTEKER
-public function indexApoteker()
-{
-    $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
+    // HALAMAN DATA OBAT APOTEKER
+    public function indexApoteker()
+    {
+        $kategoris = MasterKategori::orderBy('nama', 'asc')->get();
 
-    return view('apoteker.data-obat', compact('kategoris'));
-}
-    // =========================================================
-    // DATA YAJRA DATATABLE KHUSUS APOTEKER
-    // =========================================================
+        $satuans = MasterSatuanObat::orderBy('nama', 'asc')->get();
+
+        return view(
+            'apoteker.data-obat',
+            compact('kategoris', 'satuans')
+        );
+    }
+
+    // DATA YAJRA APOTEKER
     public function dataApoteker()
     {
-        $obats = MasterObat::with('kategori')
+        $obats = MasterObat::with([
+                'kategori',
+                'hargaJual.satuan'
+            ])
             ->select('master_obats.*')
             ->orderBy('id', 'desc');
 
         return DataTables::of($obats)
             ->addIndexColumn()
+
             ->addColumn('kategori_nama', function ($obat) {
-                return $obat->kategori
-                    ? $obat->kategori->nama
+                return $obat->kategori?->nama ?? '-';
+            })
+
+            ->addColumn('satuan_nama', function ($obat) {
+                return $obat->hargaJual->first()?->satuan?->nama ?? '-';
+            })
+
+            ->addColumn('isi', function ($obat) {
+                return $obat->hargaJual->first()?->isi ?? '-';
+            })
+
+            ->addColumn('harga', function ($obat) {
+                $harga = $obat->hargaJual->first()?->harga;
+
+                return $harga !== null
+                    ? 'Rp ' . number_format((float) $harga, 0, ',', '.')
                     : '-';
             })
+
             ->make(true);
     }
 
-    // =========================================================
     // HAPUS OBAT
-    // =========================================================
     public function destroy(string $id)
     {
         $obat = MasterObat::findOrFail($id);
@@ -217,9 +214,6 @@ public function indexApoteker()
 
         return redirect()
             ->route('master-obat.index')
-            ->with(
-                'success',
-                'Data obat berhasil dihapus.'
-            );
+            ->with('success', 'Data obat berhasil dihapus.');
     }
 }

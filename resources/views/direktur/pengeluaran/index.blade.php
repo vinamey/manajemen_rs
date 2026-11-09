@@ -1,4 +1,3 @@
-
 @extends('layouts.direktur')
 
 @section('page-title', 'Data Pengeluaran - SIM RS')
@@ -32,25 +31,9 @@
         margin: 5px 0 0;
     }
 
-    .btn-tambah {
-        background: linear-gradient(120deg, #3992ff, #1265e8);
-        color: white;
-        border: 0;
-        border-radius: 9px;
-        padding: 11px 17px;
-        font-size: 13px;
-        font-weight: 600;
-        box-shadow: 0 5px 12px rgba(24,119,242,.18);
-    }
-
-    .btn-tambah:hover {
-        background: #105bc9;
-        color: white;
-    }
-
     .summary-card {
         background: linear-gradient(120deg, #1877f2, #0758c7);
-        color: white;
+        color: #fff;
         border-radius: 15px;
         padding: 21px 24px;
         margin-bottom: 20px;
@@ -164,7 +147,7 @@
     }
 
     .table {
-        min-width: 850px;
+        min-width: 750px;
         margin: 0;
     }
 
@@ -206,127 +189,11 @@
         white-space: nowrap;
     }
 
-    .btn-aksi {
-        width: 31px;
-        height: 31px;
-        border: none;
+    .btn-detail {
+        font-size: 11px;
+        padding: 6px 10px;
         border-radius: 7px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 2px;
-        transition: .2s;
-    }
-
-    .btn-edit {
-        background: #fff4d9;
-        color: #e5a000;
-    }
-
-    .btn-hapus {
-        background: #ffe9eb;
-        color: #dc3545;
-    }
-
-    .btn-edit:hover {
-        background: #f2ae00;
-        color: white;
-    }
-
-    .btn-hapus:hover {
-        background: #dc3545;
-        color: white;
-    }
-
-    .modal-content {
-        border: none;
-        border-radius: 14px;
-        overflow: hidden;
-    }
-
-    .modal-header {
-        background: linear-gradient(120deg, #1877f2, #0758c7);
-        color: white;
-        padding: 17px 21px;
-    }
-
-    .modal-header .btn-close {
-        filter: brightness(0) invert(1);
-    }
-
-    .modal-title {
-        font-size: 16px;
-        font-weight: 700;
-    }
-
-    .modal-body {
-        padding: 22px;
-    }
-
-    .form-label {
-        color: #44566e;
-        font-size: 12px;
-        font-weight: 700;
-        margin-bottom: 7px;
-    }
-
-    .form-control,
-    .form-select {
-        border: 1px solid #dce5f0;
-        border-radius: 8px;
-        padding: 10px 12px;
-        font-size: 13px;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-        border-color: #1877f2;
-        box-shadow: 0 0 0 3px rgba(24,119,242,.1);
-    }
-
-    .modal-footer {
-        padding: 15px 22px;
-        border-top: 1px solid #edf1f7;
-    }
-
-    .btn-simpan {
-        background: #1877f2;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 9px 18px;
-        font-size: 13px;
-        font-weight: 600;
-    }
-
-    .btn-simpan:hover {
-        background: #105bc9;
-        color: white;
-    }
-
-    .btn-batal {
-        background: #edf2f8;
-        color: #526174;
-        border: none;
-        border-radius: 8px;
-        padding: 9px 18px;
-        font-size: 13px;
-    }
-
-    .toast {
-        border-radius: 12px;
-        overflow: hidden;
-        min-width: 290px;
-    }
-
-    .toast-header {
-        padding: 11px 14px;
-    }
-
-    .toast-body {
-        font-size: 13px;
-        padding: 13px 15px;
-        color: #40536c;
+        white-space: nowrap;
     }
 
     @media(max-width:768px) {
@@ -352,23 +219,18 @@
     <div class="page-header">
         <div>
             <h4>Data Pengeluaran</h4>
-            <p>Kelola dan pantau pengeluaran rumah sakit.</p>
+            <p>Melihat data pengeluaran rumah sakit yang telah tersimpan.</p>
         </div>
-
-        <button type="button" class="btn btn-tambah"
-                onclick="tambahPengeluaran()">
-            <i class="fas fa-plus me-2"></i>
-            Tambah Pengeluaran
-        </button>
     </div>
 
-    {{-- RINGKASAN --}}
+    {{-- RINGKASAN PENGELUARAN --}}
     <div class="summary-card">
         <div class="d-flex justify-content-between align-items-center">
             <div>
                 <div class="summary-label">Total Pengeluaran</div>
+
                 <h3 class="summary-total" id="totalPengeluaran">
-                    Rp {{ number_format($totalPengeluaran ?? 0, 0, ',', '.') }}
+                    Rp {{ number_format($totalPengeluaran ?? $pengeluarans->sum('nominal'), 0, ',', '.') }}
                 </h3>
             </div>
 
@@ -396,27 +258,31 @@
         </div>
     </div>
 
-    {{-- TABEL --}}
+    {{-- TABEL PENGELUARAN --}}
     <div class="table-card">
+
         <div class="table-heading">
             <div>
                 <h5>
                     <i class="fas fa-list-ul text-primary me-2"></i>
                     Daftar Pengeluaran
                 </h5>
+
                 <p>Data pengeluaran berdasarkan periode yang dipilih.</p>
             </div>
 
+            {{-- FILTER BULAN DAN TAHUN --}}
             <div class="period-filter">
+
                 <label for="filterBulan">Bulan</label>
 
                 <select id="filterBulan">
                     <option value="all">Semua Bulan</option>
 
-                    @foreach(range(1, 12) as $bulan)
-                        <option value="{{ $bulan }}"
-                            {{ $bulan == now()->month ? 'selected' : '' }}>
-                            {{ \Carbon\Carbon::create()->month($bulan)->locale('id')->translatedFormat('F') }}
+                    @foreach(range(1, 12) as $angkaBulan)
+                        <option value="{{ $angkaBulan }}"
+                            {{ $angkaBulan == now()->month ? 'selected' : '' }}>
+                            {{ \Carbon\Carbon::create()->month($angkaBulan)->locale('id')->translatedFormat('F') }}
                         </option>
                     @endforeach
                 </select>
@@ -424,18 +290,20 @@
                 <label for="filterTahun">Tahun</label>
 
                 <select id="filterTahun">
-                    @for($tahun = now()->year; $tahun >= now()->year - 5; $tahun--)
-                        <option value="{{ $tahun }}"
-                            {{ $tahun == now()->year ? 'selected' : '' }}>
-                            {{ $tahun }}
+                    @for($angkaTahun = now()->year; $angkaTahun >= now()->year - 5; $angkaTahun--)
+                        <option value="{{ $angkaTahun }}"
+                            {{ $angkaTahun == now()->year ? 'selected' : '' }}>
+                            {{ $angkaTahun }}
                         </option>
                     @endfor
                 </select>
+
             </div>
         </div>
 
         <div class="table-responsive">
             <table class="table table-hover align-middle">
+
                 <thead>
                     <tr>
                         <th width="55">NO</th>
@@ -444,160 +312,123 @@
                         <th>TANGGAL</th>
                         <th>NOMINAL</th>
                         <th>KETERANGAN</th>
-                        <th width="100" class="text-center">AKSI</th>
+                        <th width="100">AKSI</th>
                     </tr>
                 </thead>
 
                 <tbody id="tabelPengeluaran">
+
                     @forelse($pengeluarans as $index => $item)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td class="fw-semibold">{{ $item->nama }}</td>
+
+                            <td class="fw-semibold">
+                                {{ $item->nama }}
+                            </td>
+
                             <td>
                                 <span class="badge-kategori">
                                     {{ $item->kategori }}
                                 </span>
                             </td>
+
                             <td>
                                 {{ \Carbon\Carbon::parse($item->tanggal_pengeluaran)->format('d-m-Y') }}
                             </td>
+
                             <td>
                                 <span class="nominal-text">
                                     Rp {{ number_format($item->nominal, 0, ',', '.') }}
                                 </span>
                             </td>
-                            <td>{{ $item->keterangan ?? '-' }}</td>
-                            <td class="text-center">
-                                <button type="button"
-                                    class="btn-aksi btn-edit"
-                                    onclick="editPengeluaran({{ $item->id }})"
-                                    title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
 
+                            <td>
+                                {{ $item->keterangan ?? '-' }}
+                            </td>
+
+                            <td>
                                 <button type="button"
-                                    class="btn-aksi btn-hapus"
-                                    onclick="hapusPengeluaran({{ $item->id }})"
-                                    title="Hapus">
-                                    <i class="fas fa-trash"></i>
+                                    class="btn btn-primary btn-detail"
+                                    data-nama="{{ $item->nama }}"
+                                    data-kategori="{{ $item->kategori }}"
+                                    data-tanggal="{{ \Carbon\Carbon::parse($item->tanggal_pengeluaran)->format('d-m-Y') }}"
+                                    data-nominal="{{ number_format($item->nominal, 0, ',', '.') }}"
+                                    data-keterangan="{{ $item->keterangan ?? '-' }}">
+                                    <i class="fas fa-eye me-1"></i> Detail
                                 </button>
                             </td>
                         </tr>
+
                     @empty
                         <tr>
                             <td colspan="7" class="text-center py-4 text-muted">
-                                Belum ada data pengeluaran bulan ini.
+                                Belum ada data pengeluaran pada periode ini.
                             </td>
                         </tr>
                     @endforelse
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-{{-- TOAST NOTIFIKASI --}}
-<div class="toast-container position-fixed top-0 end-0 p-3"
-     style="z-index:11000;">
-    <div id="toastPengeluaran"
-         class="toast border-0 shadow"
-         role="alert"
-         aria-live="assertive"
-         aria-atomic="true">
+{{-- MODAL DETAIL PENGELUARAN --}}
+<div class="modal fade" id="modalDetailPengeluaran" tabindex="-1"
+    aria-labelledby="judulDetailPengeluaran" aria-hidden="true">
 
-        <div class="toast-header bg-primary text-white">
-            <i class="fas fa-bell me-2"></i>
-            <strong class="me-auto">SIM RS</strong>
-            <button type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="toast"></button>
-        </div>
-
-        <div class="toast-body" id="toastPesan">
-            Berhasil.
-        </div>
-    </div>
-</div>
-
-{{-- MODAL TAMBAH / EDIT --}}
-<div class="modal fade" id="modalPengeluaran" tabindex="-1"
-     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content border-0 shadow">
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="judulModal">
-                    <i class="fas fa-wallet me-2"></i>
-                    Tambah Pengeluaran
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="judulDetailPengeluaran">
+                    <i class="fas fa-receipt me-2"></i>
+                    Detail Pengeluaran
                 </h5>
 
-                <button type="button" class="btn-close"
-                        data-bs-dismiss="modal"></button>
+                <button type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Tutup">
+                </button>
             </div>
 
-            <form id="formPengeluaran">
-                @csrf
+            <div class="modal-body p-4">
 
-                <input type="hidden" id="pengeluaran_id">
-                <input type="hidden" id="method" value="POST">
-
-                <div class="modal-body">
-
-                    <div class="mb-3">
-                        <label class="form-label">Nama Pengeluaran</label>
-                        <input type="text" class="form-control"
-                               id="nama"
-                               placeholder="Masukkan nama pengeluaran"
-                               required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Kategori</label>
-                        <select class="form-select" id="kategori" required>
-                            <option value="">Pilih Kategori</option>
-                            <option value="Operasional">Operasional</option>
-                            <option value="Gaji">Gaji</option>
-                            <option value="Obat dan Alat Medis">Obat dan Alat Medis</option>
-                            <option value="Pemeliharaan">Pemeliharaan</option>
-                            <option value="Listrik dan Air">Listrik dan Air</option>
-                            <option value="Lainnya">Lainnya</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Tanggal Pengeluaran</label>
-                        <input type="date" class="form-control"
-                               id="tanggal_pengeluaran" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Nominal (Rp)</label>
-                        <input type="number" class="form-control"
-                               id="nominal" min="1"
-                               placeholder="Masukkan nominal" required>
-                    </div>
-
-                    <div class="mb-0">
-                        <label class="form-label">Keterangan</label>
-                        <textarea class="form-control" id="keterangan"
-                                  rows="3"
-                                  placeholder="Masukkan keterangan"></textarea>
-                    </div>
-
+                <div class="mb-3">
+                    <label class="text-muted small">Nama Pengeluaran</label>
+                    <div class="fw-semibold" id="detailNama">-</div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-batal"
-                            data-bs-dismiss="modal">
-                        Batal
-                    </button>
-
-                    <button type="submit" class="btn btn-simpan"
-                            id="btnSimpan">
-                        <i class="fas fa-save me-1"></i> Simpan
-                    </button>
+                <div class="mb-3">
+                    <label class="text-muted small">Kategori</label>
+                    <div class="fw-semibold" id="detailKategori">-</div>
                 </div>
-            </form>
+
+                <div class="mb-3">
+                    <label class="text-muted small">Tanggal Pengeluaran</label>
+                    <div class="fw-semibold" id="detailTanggal">-</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-muted small">Nominal</label>
+                    <div class="fw-bold text-success" id="detailNominal">-</div>
+                </div>
+
+                <div>
+                    <label class="text-muted small">Keterangan</label>
+                    <div class="fw-semibold" id="detailKeterangan">-</div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                    class="btn btn-secondary btn-sm"
+                    data-bs-dismiss="modal">
+                    Tutup
+                </button>
+            </div>
 
         </div>
     </div>
@@ -608,213 +439,75 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
-    const baseUrl = "{{ url('/direktur/pengeluaran') }}";
-    let modalPengeluaran;
-
-    $(document).ready(function () {
-        modalPengeluaran = new bootstrap.Modal(
-            document.getElementById('modalPengeluaran')
-        );
-
-        loadPengeluaran();
-    });
-
-    // TOAST TANPA POP-UP ALERT
-    function tampilkanToast(pesan) {
-        $('#toastPesan').text(pesan);
-
-        const toastElement = document.getElementById('toastPengeluaran');
-
-        const toast = bootstrap.Toast.getOrCreateInstance(toastElement, {
-            delay: 3000,
-            autohide: true
-        });
-
-        toast.show();
-    }
+    const urlDataPengeluaran = "{{ url('/direktur/pengeluaran/data') }}";
 
     function formatRupiah(angka) {
         return 'Rp ' + Number(angka || 0).toLocaleString('id-ID');
     }
 
-    // LOAD DATA SESUAI BULAN DAN TAHUN
+    // MEMUAT DATA PENGELUARAN
     function loadPengeluaran() {
         $.ajax({
-            url: baseUrl + '/data',
+            url: urlDataPengeluaran,
             type: 'GET',
+            dataType: 'json',
+
             data: {
                 bulan: $('#filterBulan').val(),
                 tahun: $('#filterTahun').val()
             },
-            dataType: 'json',
 
-            success: function (response) {
+            success: function(response) {
                 $('#tabelPengeluaran').html(response.html);
-                $('#totalPengeluaran').text(formatRupiah(response.total));
+
+                $('#totalPengeluaran').text(
+                    formatRupiah(response.total)
+                );
+
                 $('#jumlahPengeluaran').text(response.jumlah);
+
                 $('#periodePengeluaran').text(response.periode);
             },
 
-            error: function (xhr) {
-                console.error(xhr.responseText);
-                tampilkanToast('Gagal memuat data pengeluaran.');
+            error: function(xhr) {
+                console.error(
+                    'Gagal memuat data pengeluaran:',
+                    xhr.responseText
+                );
             }
         });
     }
 
-    // GANTI PERIODE
-    $('#filterBulan, #filterTahun').on('change', function () {
+    // MENAMPILKAN DETAIL PENGELUARAN
+    $(document).on('click', '.btn-detail', function() {
+
+        $('#detailNama').text($(this).attr('data-nama') || '-');
+
+        $('#detailKategori').text($(this).attr('data-kategori') || '-');
+
+        $('#detailTanggal').text($(this).attr('data-tanggal') || '-');
+
+        $('#detailNominal').text(
+            'Rp ' + ($(this).attr('data-nominal') || '0')
+        );
+
+        $('#detailKeterangan').text(
+            $(this).attr('data-keterangan') || '-'
+        );
+
+        const modalElement = document.getElementById('modalDetailPengeluaran');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+        modal.show();
+    });
+
+    // FILTER BULAN DAN TAHUN
+    $(document).ready(function() {
+        $('#filterBulan, #filterTahun').on('change', function() {
+            loadPengeluaran();
+        });
+
         loadPengeluaran();
     });
-
-    // TAMBAH DATA
-    function tambahPengeluaran() {
-        $('#formPengeluaran')[0].reset();
-
-        $('#pengeluaran_id').val('');
-        $('#method').val('POST');
-
-        $('#judulModal').html(
-            '<i class="fas fa-wallet me-2"></i> Tambah Pengeluaran'
-        );
-
-        $('#btnSimpan').html(
-            '<i class="fas fa-save me-1"></i> Simpan'
-        );
-
-        modalPengeluaran.show();
-    }
-
-    // EDIT DATA
-    function editPengeluaran(id) {
-        $.ajax({
-            url: baseUrl + '/' + id + '/edit',
-            type: 'GET',
-            dataType: 'json',
-
-            success: function (data) {
-                $('#pengeluaran_id').val(data.id);
-                $('#nama').val(data.nama);
-                $('#kategori').val(data.kategori);
-                $('#tanggal_pengeluaran').val(data.tanggal_pengeluaran);
-                $('#nominal').val(data.nominal);
-                $('#keterangan').val(data.keterangan);
-
-                $('#method').val('PUT');
-
-                $('#judulModal').html(
-                    '<i class="fas fa-edit me-2"></i> Edit Pengeluaran'
-                );
-
-                $('#btnSimpan').html(
-                    '<i class="fas fa-save me-1"></i> Perbarui'
-                );
-
-                modalPengeluaran.show();
-            },
-
-            error: function (xhr) {
-                console.error(xhr.responseText);
-                tampilkanToast('Gagal mengambil data pengeluaran.');
-            }
-        });
-    }
-
-    // SIMPAN DAN UPDATE
-    $('#formPengeluaran').on('submit', function (e) {
-        e.preventDefault();
-
-        const id = $('#pengeluaran_id').val();
-        const method = $('#method').val();
-
-        const url = method === 'PUT'
-            ? baseUrl + '/' + id
-            : baseUrl;
-
-        const tombol = $('#btnSimpan');
-        const teksAwal = tombol.html();
-
-        const formData = {
-            _token: "{{ csrf_token() }}",
-            _method: method,
-            nama: $('#nama').val(),
-            kategori: $('#kategori').val(),
-            tanggal_pengeluaran: $('#tanggal_pengeluaran').val(),
-            nominal: $('#nominal').val(),
-            keterangan: $('#keterangan').val()
-        };
-
-        tombol.prop('disabled', true).text('Menyimpan...');
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-
-            success: function (response) {
-                modalPengeluaran.hide();
-                loadPengeluaran();
-
-                tampilkanToast(
-                    response.message || 'Data pengeluaran berhasil disimpan.'
-                );
-            },
-
-            error: function (xhr) {
-                console.error(xhr.responseText);
-
-                let pesan = 'Terjadi kesalahan saat menyimpan data.';
-
-                if (xhr.responseJSON?.errors) {
-                    pesan = Object.values(xhr.responseJSON.errors)
-                        .flat()
-                        .join(', ');
-                } else if (xhr.responseJSON?.message) {
-                    pesan = xhr.responseJSON.message;
-                }
-
-                tampilkanToast(pesan);
-            },
-
-            complete: function () {
-                tombol.prop('disabled', false).html(teksAwal);
-            }
-        });
-    });
-
-    // HAPUS DATA
-    function hapusPengeluaran(id) {
-        if (!confirm('Yakin ingin menghapus data pengeluaran ini?')) {
-            return;
-        }
-
-        $.ajax({
-            url: baseUrl + '/' + id,
-            type: 'POST',
-            data: {
-                _token: "{{ csrf_token() }}",
-                _method: 'DELETE'
-            },
-            dataType: 'json',
-
-            success: function (response) {
-                loadPengeluaran();
-
-                tampilkanToast(
-                    response.message || 'Data pengeluaran berhasil dihapus.'
-                );
-            },
-
-            error: function (xhr) {
-                console.error(xhr.responseText);
-
-                tampilkanToast(
-                    xhr.responseJSON?.message ||
-                    'Gagal menghapus data pengeluaran.'
-                );
-            }
-        });
-    }
 </script>
 @endpush

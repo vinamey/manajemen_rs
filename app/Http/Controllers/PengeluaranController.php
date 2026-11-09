@@ -92,93 +92,117 @@ class PengeluaranController extends Controller
         ]);
     }
 
-    public function data(Request $request)
-    {
-        $bulan = $request->input('bulan', now()->month);
-        $tahun = $request->input('tahun', now()->year);
+   
+public function data(Request $request)
+{
+    $bulan = $request->input('bulan', now()->month);
+    $tahun = $request->input('tahun', now()->year);
 
-        $query = Pengeluaran::query();
+    $query = Pengeluaran::query();
 
-        if ($bulan !== 'all') {
-            $query->whereMonth('tanggal_pengeluaran', (int) $bulan);
-        }
-
-        $query->whereYear('tanggal_pengeluaran', (int) $tahun);
-
-        $pengeluarans = $query
-            ->orderBy('tanggal_pengeluaran', 'desc')
-            ->get();
-
-        $total = $pengeluarans->sum('nominal');
-        $jumlah = $pengeluarans->count();
-
-        $html = '';
-
-        foreach ($pengeluarans as $index => $item) {
-            $id = $item->id;
-            $nama = e($item->nama);
-            $kategori = e($item->kategori);
-            $tanggal = Carbon::parse(
-                $item->tanggal_pengeluaran
-            )->format('d-m-Y');
-
-            $nominal = number_format($item->nominal, 0, ',', '.');
-            $keterangan = e($item->keterangan ?? '-');
-
-            $html .= "
-                <tr>
-                    <td>" . ($index + 1) . "</td>
-                    <td class='fw-semibold'>{$nama}</td>
-                    <td>
-                        <span class='badge-kategori'>{$kategori}</span>
-                    </td>
-                    <td>{$tanggal}</td>
-                    <td>
-                        <span class='nominal-text'>Rp {$nominal}</span>
-                    </td>
-                    <td>{$keterangan}</td>
-                    <td class='text-center'>
-                        <button type='button'
-                            class='btn-aksi btn-edit'
-                            onclick='editPengeluaran({$id})'
-                            title='Edit'>
-                            <i class='fas fa-edit'></i>
-                        </button>
-
-                        <button type='button'
-                            class='btn-aksi btn-hapus'
-                            onclick='hapusPengeluaran({$id})'
-                            title='Hapus'>
-                            <i class='fas fa-trash'></i>
-                        </button>
-                    </td>
-                </tr>
-            ";
-        }
-
-        if ($pengeluarans->isEmpty()) {
-            $html = '
-                <tr>
-                    <td colspan="7" class="text-center text-muted py-4">
-                        <i class="fas fa-folder-open d-block mb-2"
-                           style="font-size:25px;color:#b6c6da;"></i>
-                        Belum ada data pengeluaran pada periode ini.
-                    </td>
-                </tr>
-            ';
-        }
-
-        $namaBulan = $bulan === 'all'
-            ? 'Semua Bulan'
-            : Carbon::create()->month((int) $bulan)
-                ->locale('id')
-                ->translatedFormat('F');
-
-        return response()->json([
-            'html' => $html,
-            'total' => $total,
-            'jumlah' => $jumlah,
-            'periode' => $namaBulan . ' ' . $tahun
-        ]);
+    if ($bulan !== 'all') {
+        $query->whereMonth('tanggal_pengeluaran', (int) $bulan);
     }
+
+    $query->whereYear('tanggal_pengeluaran', (int) $tahun);
+
+    $pengeluarans = $query
+        ->orderBy('tanggal_pengeluaran', 'desc')
+        ->get();
+
+    $total = $pengeluarans->sum('nominal');
+    $jumlah = $pengeluarans->count();
+
+    $html = '';
+
+    foreach ($pengeluarans as $index => $item) {
+        $id = $item->id;
+        $nama = e($item->nama);
+        $kategori = e($item->kategori);
+
+        $tanggal = Carbon::parse(
+            $item->tanggal_pengeluaran
+        )->format('d-m-Y');
+
+        $nominal = number_format(
+            $item->nominal,
+            0,
+            ',',
+            '.'
+        );
+
+        $keterangan = e($item->keterangan ?? '-');
+
+        $html .= "
+            <tr>
+                <td>" . ($index + 1) . "</td>
+
+                <td class='fw-semibold'>
+                    {$nama}
+                </td>
+
+                <td>
+                    <span class='badge-kategori'>
+                        {$kategori}
+                    </span>
+                </td>
+
+                <td>{$tanggal}</td>
+
+                <td>
+                    <span class='nominal-text'>
+                        Rp {$nominal}
+                    </span>
+                </td>
+
+                <td>{$keterangan}</td>
+
+                <td class='text-center'>
+                    <button type='button'
+                        class='btn btn-primary btn-sm btn-detail'
+                        data-nama='{$nama}'
+                        data-kategori='{$kategori}'
+                        data-tanggal='{$tanggal}'
+                        data-nominal='Rp {$nominal}'
+                        data-keterangan='{$keterangan}'
+                        title='Detail'>
+
+                        <i class='fas fa-eye'></i>
+                        Detail
+                    </button>
+                </td>
+            </tr>
+        ";
+    }
+
+    if ($pengeluarans->isEmpty()) {
+        $html = '
+            <tr>
+                <td colspan="7"
+                    class="text-center text-muted py-4">
+
+                    <i class="fas fa-folder-open d-block mb-2"
+                       style="font-size:25px;color:#b6c6da;">
+                    </i>
+
+                    Belum ada data pengeluaran pada periode ini.
+                </td>
+            </tr>
+        ';
+    }
+
+    $namaBulan = $bulan === 'all'
+        ? 'Semua Bulan'
+        : Carbon::create()
+            ->month((int) $bulan)
+            ->locale('id')
+            ->translatedFormat('F');
+
+    return response()->json([
+        'html' => $html,
+        'total' => $total,
+        'jumlah' => $jumlah,
+        'periode' => $namaBulan . ' ' . $tahun
+    ]);
+}
 }

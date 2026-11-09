@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Laporan {{ ucfirst($type) }}</title>
+    <title>Laporan {{ $type == 'data-obat' ? 'Data Obat' : ucfirst($type) }}</title>
 
     <style>
         body {
@@ -111,7 +111,7 @@
     <div class="header">
         <h2>
             Laporan Data
-            {{ $type == 'apotek' ? 'Obat & Apotek' : ucfirst($type) }}
+            {{ $type == 'data-obat' ? 'Data Obat' : ucfirst($type) }}
         </h2>
 
         <p>
@@ -129,7 +129,7 @@
             <tr>
                 <th width="5%" class="text-center">No</th>
 
-                @if($type == 'apotek')
+                @if($type == 'data-obat')
                     <th width="35%">Nama Obat</th>
                     <th width="20%" class="text-center">Stok</th>
                     <th width="20%" class="text-right">Harga</th>
@@ -156,8 +156,8 @@
                         {{ $index + 1 }}
                     </td>
 
-                    {{-- LAPORAN APOTEK --}}
-                    @if($type == 'apotek')
+                    {{-- LAPORAN DATA OBAT --}}
+                    @if($type == 'data-obat')
 
                         @php
                             $obat = $item->obat;
@@ -234,7 +234,7 @@
             @empty
                 <tr>
                     <td colspan="5" class="empty-data">
-                        Tidak ada data {{ $type }} yang tersedia.
+                        Tidak ada data {{ $type == 'data-obat' ? 'obat' : $type }} yang tersedia.
                     </td>
                 </tr>
             @endforelse
@@ -248,7 +248,7 @@
 
         <div class="signature-space"></div>
 
-        <p>________________________</p>
+        <p>____________________________</p>
     </div>
 
 </body>
