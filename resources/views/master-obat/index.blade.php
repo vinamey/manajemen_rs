@@ -576,32 +576,15 @@
                             Nama Obat
                         </label>
 
-                        <select name="nama"
-                                id="namaObat"
-                                class="form-obat-control"
-                                required>
-
-                            <option value=""></option>
-                            <option value="Omeprazole" {{ old('nama') == 'Omeprazole' ? 'selected' : '' }}>Omeprazole</option>
-                            <option value="Ibuprofen" {{ old('nama') == 'Ibuprofen' ? 'selected' : '' }}>Ibuprofen</option>
-                            <option value="Vitamin C" {{ old('nama') == 'Vitamin C' ? 'selected' : '' }}>Vitamin C</option>
-                            <option value="Antasida" {{ old('nama') == 'Antasida' ? 'selected' : '' }}>Antasida</option>
-                            <option value="Amoxicillin" {{ old('nama') == 'Amoxicillin' ? 'selected' : '' }}>Amoxicillin</option>
-                            <option value="Paracetamol" {{ old('nama') == 'Paracetamol' ? 'selected' : '' }}>Paracetamol</option>
-                            <option value="Asam Mefenamat" {{ old('nama') == 'Asam Mefenamat' ? 'selected' : '' }}>Asam Mefenamat</option>
-                            <option value="Cefadroxil" {{ old('nama') == 'Cefadroxil' ? 'selected' : '' }}>Cefadroxil</option>
-                            <option value="Cefixime" {{ old('nama') == 'Cefixime' ? 'selected' : '' }}>Cefixime</option>
-                            <option value="Cetirizine" {{ old('nama') == 'Cetirizine' ? 'selected' : '' }}>Cetirizine</option>
-                            <option value="Loratadine" {{ old('nama') == 'Loratadine' ? 'selected' : '' }}>Loratadine</option>
-                            <option value="Povidone Iodine" {{ old('nama') == 'Povidone Iodine' ? 'selected' : '' }}>Povidone Iodine</option>
-                            <option value="Vitamin B Kompleks" {{ old('nama') == 'Vitamin B Kompleks' ? 'selected' : '' }}>Vitamin B Kompleks</option>
-                            <option value="Ambroxol" {{ old('nama') == 'Ambroxol' ? 'selected' : '' }}>Ambroxol</option>
-                            <option value="Bromhexine" {{ old('nama') == 'Bromhexine' ? 'selected' : '' }}>Bromhexine</option>
-                            <option value="Lansoprazole" {{ old('nama') == 'Lansoprazole' ? 'selected' : '' }}>Lansoprazole</option>
-                            <option value="Metronidazole" {{ old('nama') == 'Metronidazole' ? 'selected' : '' }}>Metronidazole</option>
-                            <option value="Azithromycin" {{ old('nama') == 'Azithromycin' ? 'selected' : '' }}>Azithromycin</option>
-                            <option value="Fexofenadine" {{ old('nama') == 'Fexofenadine' ? 'selected' : '' }}>Fexofenadine</option>
-                        </select>
+                        <input
+                            type="text"
+                            name="nama"
+                            id="namaObat"
+                            class="form-obat-control"
+                            placeholder="Masukkan nama obat"
+                            value="{{ old('nama') }}"
+                            required
+                        >
 
                         @error('nama')
                             <span class="error-obat">{{ $message }}</span>
@@ -775,15 +758,7 @@
 <script>
 $(document).ready(function () {
 
-    /* DROPDOWN NAMA OBAT */
-    $('#namaObat').select2({
-        placeholder: 'Cari / Pilih Nama Obat',
-        allowClear: true,
-        width: '100%',
-        dropdownParent: $('#modalTambahObat'),
-        minimumResultsForSearch: 0
-    });
-
+    
     /* DATATABLE */
     const table = $('#obat-table').DataTable({
         processing: true,
