@@ -17,14 +17,10 @@
         :root {
             --blue-main: #1877f2;
             --blue-dark: #0f58c6;
-            --blue-light: #e7f3ff;
             --text-dark: #1f2937;
-            --text-muted: #6b7280;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -32,8 +28,6 @@
             font-family: Arial, sans-serif;
             color: var(--text-dark);
         }
-
-        /* SIDEBAR */
 
         .sidebar {
             width: 250px;
@@ -137,8 +131,6 @@
             color: var(--blue-main);
         }
 
-        /* MAIN CONTENT */
-
         .content {
             margin-left: 250px;
             padding: 30px;
@@ -178,8 +170,6 @@
             font-size: 25px;
         }
 
-        /* TABLE CARD */
-
         .content-card {
             background: white;
             border: 1px solid #e9eef5;
@@ -212,11 +202,7 @@
             margin-bottom: 0;
         }
 
-        .card-body-custom {
-            padding: 22px;
-        }
-
-        /* BUTTON TAMBAH */
+        .card-body-custom { padding: 22px; }
 
         .btn-add {
             display: inline-flex;
@@ -238,8 +224,6 @@
             color: white;
             transform: translateY(-2px);
         }
-
-        /* DATATABLE */
 
         table.dataTable {
             width: 100% !important;
@@ -283,17 +267,6 @@
             margin-left: 7px;
         }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            border-radius: 7px !important;
-            margin: 0 2px;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: var(--blue-main) !important;
-            color: white !important;
-            border: 1px solid var(--blue-main) !important;
-        }
-
         .footer-text {
             text-align: center;
             color: #8a95a7;
@@ -301,17 +274,7 @@
             padding: 25px 0 10px;
         }
 
-        /* =================================
-           POPUP TAMBAH OBAT
-        ================================= */
-
-        .modal-backdrop.show {
-            opacity: .55;
-        }
-
-        .modal-dialog {
-            max-width: 400px;
-        }
+        .modal-dialog { max-width: 460px; }
 
         .modal-content {
             border: none;
@@ -338,9 +301,7 @@
             box-shadow: none;
         }
 
-        .modal-body {
-            padding: 20px 18px;
-        }
+        .modal-body { padding: 20px 18px; }
 
         .modal-body .form-label {
             font-size: 12px;
@@ -353,7 +314,7 @@
         .modal-body .form-select {
             border: 1px solid #dce3ed;
             border-radius: 7px;
-            padding: 8px 10px;
+            padding: 9px 10px;
             font-size: 12px;
         }
 
@@ -394,10 +355,7 @@
         }
 
         @media(max-width: 900px) {
-            .sidebar {
-                width: 210px;
-            }
-
+            .sidebar { width: 210px; }
             .content {
                 margin-left: 210px;
                 padding: 22px;
@@ -405,21 +363,10 @@
         }
 
         @media(max-width: 600px) {
-            .sidebar {
-                width: 75px;
-            }
-
-            .logo {
-                font-size: 0;
-            }
-
-            .menu-title {
-                display: none;
-            }
-
-            .sidebar-line {
-                margin: 0 10px 15px;
-            }
+            .sidebar { width: 75px; }
+            .logo { font-size: 0; }
+            .menu-title { display: none; }
+            .sidebar-line { margin: 0 10px 15px; }
 
             .sidebar a {
                 justify-content: center;
@@ -427,34 +374,18 @@
                 font-size: 0;
             }
 
-            .menu-icon {
-                font-size: 19px;
-            }
-
-            .logout-btn {
-                font-size: 0;
-            }
+            .menu-icon { font-size: 19px; }
+            .logout-btn { font-size: 0; }
 
             .content {
                 margin-left: 75px;
                 padding: 15px;
             }
 
-            .welcome-card {
-                padding: 18px;
-            }
-
-            .welcome-card h3 {
-                font-size: 19px;
-            }
-
-            .card-body-custom {
-                padding: 14px;
-            }
-
-            .modal-dialog {
-                margin: 15px;
-            }
+            .welcome-card { padding: 18px; }
+            .welcome-card h3 { font-size: 19px; }
+            .card-body-custom { padding: 14px; }
+            .modal-dialog { margin: 15px; }
         }
     </style>
 </head>
@@ -462,7 +393,6 @@
 <body>
 
     <!-- SIDEBAR -->
-
     <div class="sidebar">
 
         <div class="logo">
@@ -513,63 +443,52 @@
     </div>
 
     <!-- MAIN CONTENT -->
-
     <main class="content">
 
-        <!-- HEADER -->
-
         <div class="welcome-card">
-
             <div class="d-flex align-items-center gap-3">
-
                 <div class="welcome-icon">
                     <i class="fa-solid fa-capsules"></i>
                 </div>
 
                 <div>
                     <h3>Data Obat Apoteker</h3>
-                    <p>
-                        Kelola informasi dan daftar obat rumah sakit melalui halaman ini.
-                    </p>
+                    <p>Kelola informasi dan daftar obat rumah sakit melalui halaman ini.</p>
                 </div>
-
             </div>
-
         </div>
-
-        <!-- ALERT SUCCESS -->
 
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show">
                 <i class="fa-solid fa-circle-check me-2"></i>
                 {{ session('success') }}
-
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-        <!-- ALERT ERROR -->
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
 
         @if($errors->any())
             <div class="alert alert-danger alert-dismissible fade show">
                 <strong>Terjadi kesalahan:</strong>
-
                 <ul class="mb-0 mt-2">
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
         <!-- DAFTAR OBAT -->
-
         <div class="content-card">
 
             <div class="card-header-custom">
-
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
 
                     <div>
@@ -579,11 +498,9 @@
                         </h5>
 
                         <p class="content-subtitle">
-                            Cari dan lihat data obat berdasarkan nama obat dan kategori.
+                            Cari dan lihat ID, nama obat, serta kategori obat.
                         </p>
                     </div>
-
-                    <!-- BUTTON BUKA POPUP -->
 
                     <button
                         type="button"
@@ -593,49 +510,38 @@
 
                         <i class="fa-solid fa-plus"></i>
                         Tambah Data
-
                     </button>
 
                 </div>
-
             </div>
 
             <div class="card-body-custom">
-
                 <div class="table-responsive">
 
                     <table id="tabelObat" class="table table-bordered table-hover w-100">
-
                         <thead>
                             <tr>
-                                <th width="65">No.</th>
+                                <th width="80">ID</th>
                                 <th>Nama Obat</th>
                                 <th>Kategori</th>
                             </tr>
                         </thead>
 
                         <tbody></tbody>
-
                     </table>
 
                 </div>
-
             </div>
 
         </div>
 
-        <!-- FOOTER -->
-
         <div class="footer-text">
-            SIM RS &copy; {{ date('Y') }} — Apoteker
+            SIM RS © {{ date('Y') }} — Apoteker
         </div>
 
     </main>
 
-    <!-- =================================
-         MODAL TAMBAH OBAT
-    ================================== -->
-
+    <!-- MODAL TAMBAH OBAT -->
     <div
         class="modal fade"
         id="modalTambahObat"
@@ -644,13 +550,9 @@
         aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered">
-
             <div class="modal-content">
 
-                <!-- HEADER MODAL -->
-
                 <div class="modal-header">
-
                     <h5 class="modal-title" id="judulModalObat">
                         <i class="fa-solid fa-circle-plus me-2"></i>
                         Tambah Data Obat
@@ -662,24 +564,16 @@
                         data-bs-dismiss="modal"
                         aria-label="Close">
                     </button>
-
                 </div>
 
-                <!-- FORM -->
-
                 <form action="{{ route('apoteker.obat.store') }}" method="POST">
-
                     @csrf
 
                     <div class="modal-body">
 
-                        <!-- NAMA OBAT -->
-
                         <div class="mb-3">
-
                             <label for="nama" class="form-label">
-                                Nama Obat
-                                <span class="text-danger">*</span>
+                                Nama Obat <span class="text-danger">*</span>
                             </label>
 
                             <input
@@ -692,81 +586,69 @@
                                 required>
 
                             @error('nama')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-
                         </div>
-<!-- KATEGORI OBAT -->
 
-<div class="mb-2">
+                        <div class="mb-3">
+                            <label for="kategori_id" class="form-label">
+                                Kategori Obat <span class="text-danger">*</span>
+                            </label>
 
-    <label for="kategori_nama" class="form-label">
-        Kategori Obat
-        <span class="text-danger">*</span>
-    </label>
+                            <select
+                                class="form-select @error('kategori_id') is-invalid @enderror"
+                                id="kategori_id"
+                                name="kategori_id"
+                                required>
 
-    <input
-        type="text"
-        class="form-control"
-        id="kategori_nama"
-        name="kategori_nama"
-        placeholder="Ketik nama kategori obat"
-        required
-    >
+                                <option value="">-- Pilih Kategori --</option>
 
-</div>
+                                @foreach($kategoris as $kategori)
+                                    <option
+                                        value="{{ $kategori->id }}"
+                                        {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                                        {{ $kategori->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('kategori_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                     </div>
 
-                    <!-- FOOTER MODAL -->
-
                     <div class="modal-footer">
-
                         <button
                             type="button"
                             class="btn-modal-cancel"
                             data-bs-dismiss="modal">
-
                             Batal
-
                         </button>
 
                         <button type="submit" class="btn-modal-save">
-
                             <i class="fa-solid fa-floppy-disk me-1"></i>
                             Simpan Obat
-
                         </button>
-
                     </div>
 
                 </form>
 
             </div>
-
         </div>
-
     </div>
 
     <!-- JAVASCRIPT -->
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
-
         $(document).ready(function () {
 
-            // DATATABLE OBAT
-
             $('#tabelObat').DataTable({
-
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
@@ -784,30 +666,23 @@
                 },
 
                 columns: [
-
                     {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
+                        data: 'id',
+                        name: 'id'
                     },
-
                     {
                         data: 'nama',
                         name: 'nama',
                         defaultContent: '-'
                     },
-
                     {
                         data: 'kategori_nama',
                         name: 'kategori_nama',
                         defaultContent: '-'
                     }
-
                 ],
 
                 language: {
-
                     processing: 'Memuat data...',
                     search: 'Cari:',
                     lengthMenu: 'Tampilkan _MENU_ data',
@@ -823,25 +698,18 @@
                         next: 'Berikutnya',
                         previous: 'Sebelumnya'
                     }
-
                 }
-
             });
 
-            // BUKA KEMBALI POPUP JIKA VALIDASI GAGAL
-
             @if($errors->any())
-
-                var modalTambah = new bootstrap.Modal(
+                const modalTambah = new bootstrap.Modal(
                     document.getElementById('modalTambahObat')
                 );
 
                 modalTambah.show();
-
             @endif
 
         });
-
     </script>
 
 </body>

@@ -88,234 +88,163 @@ class PemeriksaanDokterController extends Controller
      * Menyimpan pemeriksaan dan resep obat.
      */
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'pendaftaran_id' => [
-                'required',
-                'exists:pendaftaran_pasiens,id',
-            ],
+{
+    $validated = $request->validate([
+        'pendaftaran_id' => 'required|exists:pendaftaran_pasiens,id',
+        'keluhan' => 'required|string',
+        'resep_obat' => 'nullable|json',
 
-            'keluhan' => [
-                'required',
-                'string',
-            ],
+        'obat_id' => 'nullable|integer|exists:master_obats,id',
+        'satuan_obat_id' => 'nullable|integer|exists:master_satuan_obats,id',
+        'jumlah_obat' => 'nullable|integer|min:1',
+    ]);
 
-            'resep_obat' => [
-                'nullable',
-                'json',
-            ],
+    $pendaftaran = PendaftaranPasien::with([
+        'pasien',
+        'dokter',
+        'poli',
+    ])->findOrFail($validated['pendaftaran_id']);
 
-            'obat_id' => [
-                'nullable',
-                'integer',
-                'exists:master_obats,id',
-            ],
+    if (!$pendaftaran->dokter_id) {
+        return back()->withInput()->withErrors([
+            'pendaftaran_id' => 'Pendaftaran ini belum memiliki dokter.',
+        ]);
+    }
 
-            'jumlah_obat' => [
-                'nullable',
-                'integer',
-                'min:1',
-            ],
+    if (
+        auth()->user()->hasRole('dokter') &&
+        (int) $pendaftaran->dokter_id !==
+        (int) auth()->user()->dokter_id
+    ) {
+        return back()->withInput()->withErrors([
+            'pendaftaran_id' => 'Pasien ini tidak ditugaskan kepada akun dokter Anda.',
+        ]);
+    }
+
+    // Ambil daftar resep dari JSON.
+    $obatList = [];
+
+    if ($request->filled('resep_obat')) {
+        $decoded = json_decode($request->resep_obat, true);
+
+        if (!is_array($decoded)) {
+            return back()->withInput()->withErrors([
+                'resep_obat' => 'Format daftar resep obat tidak valid.',
+            ]);
+        }
+
+        $obatList = $decoded;
+    }
+
+    // Jika form menggunakan input langsung.
+    if (empty($obatList) && $request->filled('obat_id')) {
+        $obatList[] = [
+            'obat_id' => $request->obat_id,
+            'satuan_obat_id' => $request->satuan_obat_id,
+            'jumlah' => $request->jumlah_obat,
+            'dosis' => $request->dosis_obat,
+            'frekuensi' => $request->frekuensi_obat,
+            'lama' => $request->lama_obat,
+            'aturan_pakai' => $request->aturan_pakai,
+        ];
+    }
+
+    // Validasi setiap obat.
+    $obatValid = [];
+
+    foreach ($obatList as $obat) {
+        if (!is_array($obat)) {
+            continue;
+        }
+
+        $obatId = $obat['obat_id'] ?? null;
+        $satuanId = $obat['satuan_obat_id'] ?? null;
+        $jumlah = $obat['jumlah'] ?? $obat['jumlah_obat'] ?? null;
+
+        if (
+            empty($obatId) ||
+            empty($satuanId) ||
+            !is_numeric($jumlah) ||
+            (int) $jumlah < 1
+        ) {
+            return back()->withInput()->withErrors([
+                'resep_obat' => 'Obat, satuan, dan jumlah obat wajib diisi dengan benar.',
+            ]);
+        }
+
+        if (!MasterObat::find($obatId)) {
+            return back()->withInput()->withErrors([
+                'resep_obat' => 'Obat tidak ditemukan.',
+            ]);
+        }
+
+        $obatValid[] = [
+            'obat_id' => (int) $obatId,
+            'satuan_obat_id' => (int) $satuanId,
+            'jumlah' => (int) $jumlah,
+            'dosis' => $obat['dosis'] ?? '',
+            'frekuensi' => $obat['frekuensi'] ?? '',
+            'lama' => $obat['lama'] ?? '',
+            'aturan_pakai' => $obat['aturan_pakai'] ?? '',
+        ];
+    }
+
+    DB::transaction(function () use ($validated, $pendaftaran, $obatValid) {
+
+        $pemeriksaan = PemeriksaanDokter::create([
+            'pendaftaran_id' => $pendaftaran->id,
+            'dokter_id' => $pendaftaran->dokter_id,
+            'keluhan' => $validated['keluhan'],
+            'resep_obat' => 0,
         ]);
 
-        // Ambil data pendaftaran.
-        $pendaftaran = PendaftaranPasien::with([
-            'pasien',
-            'dokter',
-            'poli',
-        ])->findOrFail($validated['pendaftaran_id']);
-
-        if (!$pendaftaran->dokter_id) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'pendaftaran_id' =>
-                        'Pendaftaran ini belum memiliki dokter.',
-                ]);
+        if (empty($obatValid)) {
+            return;
         }
 
-        // Dokter hanya boleh memeriksa pasien yang ditugaskan kepadanya.
-        if (
-            auth()->user()->hasRole('dokter') &&
-            (int) $pendaftaran->dokter_id !==
-            (int) auth()->user()->dokter_id
-        ) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'pendaftaran_id' =>
-                        'Pasien ini tidak ditugaskan kepada akun dokter Anda.',
-                ]);
-        }
+        $resep = ResepObat::create([
+            'pemeriksaan_id' => $pemeriksaan->id,
+            'status' => 'menunggu',
+        ]);
 
-        /*
-         * MEMBACA DATA RESEP
-         *
-         * Mendukung dua format:
-         * 1. JSON resep_obat.
-         * 2. Input langsung dari form pemeriksaan dokter.
-         */
+        foreach ($obatValid as $obat) {
 
-        $obatList = [];
+            $aturan = [];
 
-        $jsonResep = $request->input('resep_obat');
-
-        if (!empty($jsonResep)) {
-            $decoded = json_decode($jsonResep, true);
-
-            if (!is_array($decoded)) {
-                return back()
-                    ->withInput()
-                    ->withErrors([
-                        'resep_obat' =>
-                            'Format daftar resep obat tidak valid.',
-                    ]);
+            if ($obat['dosis']) {
+                $aturan[] = 'Dosis: ' . $obat['dosis'];
             }
 
-            $obatList = $decoded;
-        }
-
-        /*
-         * Jika JSON kosong, ambil data dari input langsung.
-         */
-        if (
-            empty($obatList) &&
-            $request->filled('obat_id')
-        ) {
-            $obatList[] = [
-                'obat_id' => $request->input('obat_id'),
-                'jumlah' => $request->input('jumlah_obat'),
-                'dosis' => $request->input('dosis_obat'),
-                'frekuensi' => $request->input('frekuensi_obat'),
-                'lama' => $request->input('lama_obat'),
-                'aturan_pakai' => $request->input('aturan_pakai'),
-            ];
-        }
-
-        /*
-         * VALIDASI DAFTAR OBAT
-         */
-        $obatValid = [];
-
-        foreach ($obatList as $obat) {
-            if (!is_array($obat)) {
-                continue;
+            if ($obat['frekuensi']) {
+                $aturan[] = 'Frekuensi: ' . $obat['frekuensi'];
             }
 
-            $obatId = $obat['obat_id'] ?? null;
-
-            $jumlah = $obat['jumlah']
-                ?? $obat['jumlah_obat']
-                ?? null;
-
-            if (
-                empty($obatId) ||
-                !is_numeric($jumlah) ||
-                (int) $jumlah < 1
-            ) {
-                return back()
-                    ->withInput()
-                    ->withErrors([
-                        'resep_obat' =>
-                            'Obat dan jumlah obat harus diisi dengan benar.',
-                    ]);
+            if ($obat['aturan_pakai']) {
+                $aturan[] = 'Aturan: ' . $obat['aturan_pakai'];
             }
 
-            $obatModel = MasterObat::find((int) $obatId);
-
-            if (!$obatModel) {
-                return back()
-                    ->withInput()
-                    ->withErrors([
-                        'resep_obat' =>
-                            'Obat tidak ditemukan. Silakan periksa kembali.',
-                    ]);
+            if ($obat['lama']) {
+                $aturan[] = 'Lama: ' . $obat['lama'] . ' hari';
             }
 
-            $obatValid[] = [
-                'obat_id' => (int) $obatId,
-                'jumlah' => (int) $jumlah,
-                'dosis' => $obat['dosis'] ?? '',
-                'frekuensi' => $obat['frekuensi'] ?? '',
-                'lama' => $obat['lama'] ?? '',
-                'aturan_pakai' => $obat['aturan_pakai'] ?? '',
-            ];
-        }
-
-        /*
-         * SIMPAN PEMERIKSAAN DAN RESEP
-         */
-        DB::transaction(function () use (
-            $validated,
-            $pendaftaran,
-            $obatValid
-        ) {
-            // Simpan pemeriksaan.
-            $pemeriksaan = PemeriksaanDokter::create([
-                'pendaftaran_id' => $pendaftaran->id,
-                'dokter_id' => $pendaftaran->dokter_id,
-                'keluhan' => $validated['keluhan'],
-                'resep_obat' => 0,
+            $resep->obat()->attach($obat['obat_id'], [
+                'satuan_obat_id' => $obat['satuan_obat_id'],
+                'nilai' => $obat['jumlah'],
+                'aturan_pakai' => implode(' | ', $aturan) ?: '-',
             ]);
-
-            // Jika tidak ada obat, pemeriksaan tetap disimpan.
-            if (empty($obatValid)) {
-                return;
-            }
-
-            // Buat data resep.
-            $resep = ResepObat::create([
-                'pemeriksaan_id' => $pemeriksaan->id,
-            ]);
-
-            // Simpan detail obat ke tabel pivot.
-            foreach ($obatValid as $obat) {
-                $aturan = [];
-
-                if (!empty($obat['dosis'])) {
-                    $aturan[] = 'Dosis: ' . $obat['dosis'];
-                }
-
-                if (!empty($obat['frekuensi'])) {
-                    $aturan[] = 'Frekuensi: ' . $obat['frekuensi'];
-                }
-
-                if (!empty($obat['aturan_pakai'])) {
-                    $aturan[] = 'Aturan: ' . $obat['aturan_pakai'];
-                }
-
-                if (!empty($obat['lama'])) {
-                    $aturan[] = 'Lama: ' . $obat['lama'] . ' hari';
-                }
-
-                $resep->obat()->attach(
-                    $obat['obat_id'],
-                    [
-                        'satuan_obat_id' => null,
-                        'nilai' => $obat['jumlah'],
-                        'aturan_pakai' => implode(' | ', $aturan) ?: '-',
-                    ]
-                );
-            }
-        });
-
-        // Redirect sesuai role pengguna.
-        if (auth()->user()->hasRole('dokter')) {
-            return redirect()
-                ->route('dokter.resep.index')
-                ->with(
-                    'success',
-                    'Pemeriksaan dan resep obat berhasil disimpan.'
-                );
         }
+    });
 
+    if (auth()->user()->hasRole('dokter')) {
         return redirect()
-            ->route('pemeriksaan-dokter.index')
-            ->with(
-                'success',
-                'Pemeriksaan dan resep obat berhasil disimpan.'
-            );
+            ->route('dokter.resep.index')
+            ->with('success', 'Pemeriksaan dan resep obat berhasil disimpan.');
     }
+
+    return redirect()
+        ->route('pemeriksaan-dokter.index')
+        ->with('success', 'Pemeriksaan dan resep obat berhasil disimpan.');
+}
 
     /**
      * Detail pemeriksaan.

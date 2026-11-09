@@ -12,13 +12,14 @@ class LogStokObat extends Model
     protected $table = 'log_stok_obats';
 
     protected $fillable = [
-        'obat_id',
-        'nilai',
-        'stok_obat_id',
-        'tanggal_update',
-        'pivot_resep_obat_id',
-        'pembelian_obat_id',
-    ];
+    'obat_id',
+    'nilai',
+    'status',
+    'stok_obat_id',
+    'tanggal_update',
+    'pivot_resep_obat_id',
+    'pembelian_obat_id',
+];
 
     public function stokObat()
     {

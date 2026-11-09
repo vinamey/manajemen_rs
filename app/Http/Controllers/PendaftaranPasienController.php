@@ -7,15 +7,20 @@ use App\Models\MasterPasien;
 use App\Models\MasterDokter;
 use App\Models\MasterPoli;
 use App\Models\MasterKamar;
+use App\Models\Pasien;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PendaftaranPasienController extends Controller
 {
     /**
-     * Menampilkan semua data pendaftaran pasien
+     * Menampilkan data pendaftaran pasien.
      */
     public function index(Request $request)
     {
+        $tanggalHariIni = now()->toDateString();
+
         $query = PendaftaranPasien::with([
             'pasien',
             'dokter',
@@ -23,6 +28,30 @@ class PendaftaranPasienController extends Controller
             'kamar'
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | TAMPILAN AWAL
+        |--------------------------------------------------------------------------
+        | Jika tidak mencari dan tidak memilih tanggal,
+        | tampilkan pendaftaran hari ini.
+        | Jika mencari, data tanggal lama juga bisa ditemukan.
+        */
+
+        if (
+            !$request->filled('search') &&
+            !$request->filled('tanggal')
+        ) {
+            $query->whereDate(
+                'tanggal_pendaftaran',
+                $tanggalHariIni
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | PENCARIAN
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('search')) {
 
@@ -30,40 +59,98 @@ class PendaftaranPasienController extends Controller
 
             $query->where(function ($q) use ($search) {
 
-                $q->where('nomor_antrian', 'like', '%' . $search . '%')
+                // Cari nomor antrean
+                $q->where(
+                    'nomor_antrian',
+                    'like',
+                    "%{$search}%"
+                )
 
+                // Cari nama pasien
+                ->orWhereHas('pasien', function ($pasien) use ($search) {
 
-                    ->orWhereHas('pasien', function ($pasien) use ($search) {
-                        $pasien->where('nama', 'like', '%' . $search . '%')
-                            ->orWhere('nik', 'like', '%' . $search . '%')
-                            ->orWhere('no_rm', 'like', '%' . $search . '%');
-                    })
+                    $pasien->where(
+                        'nama',
+                        'like',
+                        "%{$search}%"
+                    );
 
+                })
 
-                    ->orWhereHas('dokter', function ($dokter) use ($search) {
-                        $dokter->where('nama', 'like', '%' . $search . '%');
-                    });
+                // Cari nama dokter
+                ->orWhereHas('dokter', function ($dokter) use ($search) {
+
+                    $dokter->where(
+                        'nama',
+                        'like',
+                        "%{$search}%"
+                    );
+
+                });
+
             });
-        } elseif ($request->filled('tanggal')) {
+        }
 
-            $query->whereDate('tanggal_pendaftaran', $request->tanggal);
-       }
+        /*
+        |--------------------------------------------------------------------------
+        | FILTER TANGGAL
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('tanggal')) {
+
+            $query->whereDate(
+                'tanggal_pendaftaran',
+                $request->tanggal
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | FILTER POLI
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('poli_id')) {
-            $query->where('poli_id', $request->poli_id);
+
+            $query->where(
+                'poli_id',
+                $request->poli_id
+            );
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | FILTER STATUS
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+
+            $query->where(
+                'status',
+                $request->status
+            );
         }
 
-       $pendaftarans = $query
-        ->oldest('id')
-        ->paginate(10)
-        ->withQueryString();
+        /*
+        |--------------------------------------------------------------------------
+        | PAGINATION
+        |--------------------------------------------------------------------------
+        */
 
-        $pasiens = MasterPasien::all();
+        $pendaftarans = $query
+            ->orderBy('id', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        /*
+        |--------------------------------------------------------------------------
+        | DATA DROPDOWN
+        |--------------------------------------------------------------------------
+        */
+
+        $pasiens = MasterPasien::orderBy('nama')->get();
 
         $dokters = MasterDokter::with('poli')
             ->orderBy('nama')
@@ -73,139 +160,220 @@ class PendaftaranPasienController extends Controller
 
         $kamars = MasterKamar::all();
 
+        /*
+        |--------------------------------------------------------------------------
+        | STATISTIK PENDAFTARAN HARI INI
+        |--------------------------------------------------------------------------
+        */
 
-       // Total seluruh pendaftaran
-$totalPendaftaran = PendaftaranPasien::count();
-
-// Total pendaftaran menunggu
-$totalMenunggu = PendaftaranPasien::whereRaw(
-    'LOWER(status) = ?', ['menunggu']
-)->count();
-
-// Total pendaftaran diperiksa
-$totalDiperiksa = PendaftaranPasien::whereRaw(
-    'LOWER(status) = ?', ['diperiksa']
-)->count();
-
-// Total pendaftaran selesai
-$totalSelesai = PendaftaranPasien::whereRaw(
-    'LOWER(status) = ?', ['selesai']
-)->count();
-        return view(
-            'pendaftaran.index',
-            compact(
-                'pendaftarans',
-                'pasiens',
-                'dokters',
-                'polis',
-                'kamars',
-                'totalPendaftaran',
-                'totalMenunggu',
-                'totalDiperiksa',
-                'totalSelesai'
-            )
+        $statistik = PendaftaranPasien::whereDate(
+            'tanggal_pendaftaran',
+            $tanggalHariIni
         );
+
+        // Total seluruh pendaftaran hari ini
+        $totalPendaftaran = (clone $statistik)->count();
+
+        // Total menunggu hari ini
+        $totalMenunggu = (clone $statistik)
+            ->whereRaw('LOWER(status) = ?', ['menunggu'])
+            ->count();
+
+        // Total diperiksa hari ini
+        $totalDiperiksa = (clone $statistik)
+            ->whereRaw('LOWER(status) = ?', ['diperiksa'])
+            ->count();
+
+        // Total selesai hari ini
+        $totalSelesai = (clone $statistik)
+            ->whereRaw('LOWER(status) = ?', ['selesai'])
+            ->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | KIRIM DATA KE VIEW
+        |--------------------------------------------------------------------------
+        */
+
+        return view('pendaftaran.index', compact(
+            'pendaftarans',
+            'pasiens',
+            'dokters',
+            'polis',
+            'kamars',
+            'totalPendaftaran',
+            'totalMenunggu',
+            'totalDiperiksa',
+            'totalSelesai',
+            'tanggalHariIni'
+        ));
     }
 
 
-    public function create()
+    /**
+     * Menyimpan pendaftaran pasien.
+     */
+    public function store(Request $request)
     {
-         $pasiens = MasterPasien::orderBy('nama')->get();
+        $request->validate([
+            'pasien_id' => 'required|exists:master_pasiens,id',
+            'dokter_id' => 'required|exists:master_dokters,id',
+            'poli_id' => 'required|exists:master_polis,id',
+            'kamar_id' => 'nullable|exists:master_kamars,id',
+            'tanggal_pendaftaran' => 'required|date',
+        ]);
 
-        $dokters = MasterDokter::with('poli')
-            ->orderBy('nama')
-            ->get();
+        DB::beginTransaction();
 
-         $polis = MasterPoli::orderBy('nama')->get();
+        try {
 
+            $masterPasien = MasterPasien::findOrFail(
+                $request->pasien_id
+            );
 
-        $kamars = MasterKamar::orderBy('nama')->get();
+            $jenisKelamin = $masterPasien->jenis_kelamin;
 
-        return view(
-            'pendaftaran.create',
-            compact(
-                'pasiens',
-                'dokters',
-                'polis',
-                'kamars'
+            if ($jenisKelamin === 'L') {
+                $jenisKelamin = 'Laki-laki';
+            } elseif ($jenisKelamin === 'P') {
+                $jenisKelamin = 'Perempuan';
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | MEMBUAT DATA PASIEN JIKA BELUM ADA
+            |--------------------------------------------------------------------------
+            */
+
+            $pasien = Pasien::where(
+                'nama_pasien',
+                $masterPasien->nama
             )
-        );
+            ->where(
+                'jenis_kelamin',
+                $jenisKelamin
+            )
+            ->first();
+
+            if (!$pasien) {
+
+                $pasien = Pasien::create([
+                    'no_rekam_medis' => 'RM-' . strtoupper(Str::random(6)),
+                    'nama_pasien' => $masterPasien->nama,
+                    'jenis_kelamin' => $jenisKelamin,
+                    'tanggal_masuk' => $request->tanggal_pendaftaran,
+                ]);
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | MEMBUAT NOMOR ANTRIAN
+            |--------------------------------------------------------------------------
+            */
+
+            $jumlahPendaftaran = PendaftaranPasien::whereDate(
+                'tanggal_pendaftaran',
+                $request->tanggal_pendaftaran
+            )->count();
+
+            $nomorAntrian = 'A-' . str_pad(
+                $jumlahPendaftaran + 1,
+                3,
+                '0',
+                STR_PAD_LEFT
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | SIMPAN PENDAFTARAN
+            |--------------------------------------------------------------------------
+            */
+
+            PendaftaranPasien::create([
+
+                // Menggunakan ID dari master pasien
+                'pasien_id' => $masterPasien->id,
+
+                'dokter_id' => $request->dokter_id,
+
+                'poli_id' => $request->poli_id,
+
+                'kamar_id' => $request->kamar_id,
+
+                'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
+
+                'nomor_antrian' => $nomorAntrian,
+
+                'status' => 'menunggu',
+
+            ]);
+
+            DB::commit();
+
+            return redirect()
+                ->route('pendaftaran.index')
+                ->with('success', 'Pendaftaran pasien berhasil disimpan.');
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Gagal menyimpan pendaftaran: ' . $e->getMessage());
+        }
     }
 
 
-
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'pasien_id' => 'required|exists:master_pasiens,id',
-        'dokter_id' => 'required|exists:master_dokters,id',
-        'poli_id' => 'required|exists:master_polis,id',
-        'kamar_id' => 'nullable|exists:master_kamars,id',
-        'tanggal_pendaftaran' => 'required|date',
-    ]);
-
-    // Ambil nomor antrian terakhir berdasarkan tanggal pendaftaran
-    $latestAntrian = PendaftaranPasien::whereDate('tanggal_pendaftaran', $request->tanggal_pendaftaran)
-        ->latest('id')
-        ->first();
-
-    $maxNumber = 0;
-
-    if ($latestAntrian && $latestAntrian->nomor_antrian) {
-        $maxNumber = (int) preg_replace('/[^0-9]/', '', $latestAntrian->nomor_antrian);
-    }
-
-    $nomorAntrian = 'A-' . str_pad($maxNumber + 1, 3, '0', STR_PAD_LEFT);
-
-    PendaftaranPasien::create([
-        'pasien_id' => $request->pasien_id,
-        'dokter_id' => $request->dokter_id,
-        'poli_id' => $request->poli_id,
-        'kamar_id' => $request->kamar_id,
-        'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
-        'nomor_antrian' => $nomorAntrian, // Memastikan string A-00x masuk ke database
-        'status' => 'menunggu',
-    ]);
-
-    return redirect()
-        ->route('pendaftaran.index')
-        ->with('success', 'Pendaftaran pasien berhasil ditambahkan.');
-}
-
-
-    public function show(PendaftaranPasien $pendaftaran)
+    /**
+     * Menampilkan detail pendaftaran.
+     */
+    public function show($id)
     {
-        $pendaftaran->load([
+        $pendaftaran = PendaftaranPasien::with([
             'pasien',
             'dokter',
             'poli',
             'kamar'
-        ]);
-
-        return view('pendaftaran.show', compact('pendaftaran'));
-    }
-
-
-    public function edit(PendaftaranPasien $pendaftaran)
-    {
-        $pasiens = MasterPasien::all();
-        $dokters = MasterDokter::all();
-        $polis = MasterPoli::all();
-        $kamars = MasterKamar::all();
+        ])->findOrFail($id);
 
         return view(
-            'pendaftaran.edit',
-            compact(
-                'pendaftaran',
-                'pasiens',
-                'dokters',
-                'polis',
-                'kamars'
-            )
+            'pendaftaran.show',
+            compact('pendaftaran')
         );
     }
 
-    public function update(Request $request, PendaftaranPasien $pendaftaran)
+
+    /**
+     * Menampilkan form edit.
+     */
+    public function edit($id)
+    {
+        $pendaftaran = PendaftaranPasien::findOrFail($id);
+
+        $pasiens = MasterPasien::orderBy('nama')->get();
+
+        $dokters = MasterDokter::with('poli')->get();
+
+        $polis = MasterPoli::all();
+
+        $kamars = MasterKamar::all();
+
+        return view('pendaftaran.edit', compact(
+            'pendaftaran',
+            'pasiens',
+            'dokters',
+            'polis',
+            'kamars'
+        ));
+    }
+
+
+    /**
+     * Memperbarui pendaftaran.
+     */
+    public function update(Request $request, $id)
     {
         $request->validate([
             'pasien_id' => 'required|exists:master_pasiens,id',
@@ -215,6 +383,8 @@ public function store(Request $request)
             'tanggal_pendaftaran' => 'required|date',
             'status' => 'required|in:menunggu,diperiksa,selesai',
         ]);
+
+        $pendaftaran = PendaftaranPasien::findOrFail($id);
 
         $pendaftaran->update([
             'pasien_id' => $request->pasien_id,
@@ -227,16 +397,21 @@ public function store(Request $request)
 
         return redirect()
             ->route('pendaftaran.index')
-            ->with('success', 'Data pendaftaran berhasil diperbarui!');
+            ->with('success', 'Data pendaftaran berhasil diperbarui.');
     }
 
 
-    public function destroy(PendaftaranPasien $pendaftaran)
+    /**
+     * Menghapus pendaftaran.
+     */
+    public function destroy($id)
     {
+        $pendaftaran = PendaftaranPasien::findOrFail($id);
+
         $pendaftaran->delete();
 
         return redirect()
             ->route('pendaftaran.index')
-            ->with('success', 'Data pendaftaran berhasil dihapus!');
+            ->with('success', 'Data pendaftaran berhasil dihapus.');
     }
 }
