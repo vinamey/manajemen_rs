@@ -17,7 +17,6 @@
             --blue-main: #1877f2;
             --blue-dark: #0f58c6;
             --blue-light: #e7f3ff;
-            --blue-soft: #f4f8ff;
             --text-dark: #1f2937;
             --text-muted: #6b7280;
         }
@@ -33,9 +32,7 @@
             color: var(--text-dark);
         }
 
-        /* =========================================
-           SIDEBAR - SAMA DENGAN DASHBOARD
-        ========================================= */
+        /* SIDEBAR */
 
         .sidebar {
             width: 250px;
@@ -115,9 +112,7 @@
             font-size: 17px;
         }
 
-        /* =========================================
-           LOGOUT - SAMA DENGAN DASHBOARD
-        ========================================= */
+        /* LOGOUT */
 
         .logout-box {
             position: absolute;
@@ -142,9 +137,7 @@
             color: var(--blue-main);
         }
 
-        /* =========================================
-           CONTENT
-        ========================================= */
+        /* CONTENT */
 
         .content {
             margin-left: 250px;
@@ -152,9 +145,7 @@
             min-height: 100vh;
         }
 
-        /* =========================================
-           PAGE HEADER
-        ========================================= */
+        /* HEADER */
 
         .page-header {
             background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
@@ -178,9 +169,7 @@
             font-size: 15px;
         }
 
-        /* =========================================
-           CONTENT CARD
-        ========================================= */
+        /* CARD */
 
         .content-card {
             width: 100%;
@@ -213,9 +202,7 @@
             color: var(--text-muted);
         }
 
-        /* =========================================
-           SEARCH
-        ========================================= */
+        /* SEARCH */
 
         .search-box {
             position: relative;
@@ -244,9 +231,7 @@
             box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
         }
 
-        /* =========================================
-           TABLE
-        ========================================= */
+        /* TABLE */
 
         .table-responsive {
             padding: 0 23px;
@@ -256,7 +241,7 @@
             margin: 0;
             vertical-align: middle;
             font-size: 13px;
-            min-width: 1100px;
+            min-width: 1250px;
         }
 
         .table thead th {
@@ -309,9 +294,47 @@
             margin: 2px 0;
         }
 
-        /* =========================================
-           EMPTY STATE
-        ========================================= */
+        /* STATUS */
+
+        .status-badge {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-menunggu {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-diproses {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        /* PROCESS BUTTON */
+
+        .btn-proses {
+            background: var(--blue-main);
+            color: white;
+            border: none;
+            padding: 9px 13px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+
+        .btn-proses:hover {
+            background: var(--blue-dark);
+            color: white;
+        }
+
+        /* EMPTY */
 
         .empty-state {
             padding: 60px 20px !important;
@@ -360,9 +383,7 @@
             color: white;
         }
 
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
+        /* RESPONSIVE */
 
         @media(max-width: 900px) {
             .sidebar {
@@ -444,9 +465,7 @@
 
 <body>
 
-    <!-- =========================================
-         SIDEBAR
-    ========================================= -->
+    <!-- SIDEBAR -->
 
     <div class="sidebar">
 
@@ -486,8 +505,6 @@
             <span>Resep Dokter</span>
         </a>
 
-        <!-- LOGOUT -->
-
         <div class="logout-box">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -500,17 +517,11 @@
 
     </div>
 
-
-    <!-- =========================================
-         MAIN CONTENT
-    ========================================= -->
+    <!-- MAIN CONTENT -->
 
     <div class="content">
 
-        <!-- HEADER -->
-
         <section class="page-header">
-
             <h3>
                 <i class="fa-solid fa-file-prescription me-2"></i>
                 Resep Dokter
@@ -519,45 +530,31 @@
             <p>
                 Daftar resep obat dari hasil pemeriksaan dokter.
             </p>
-
         </section>
-
 
         <!-- ALERT SUCCESS -->
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-
+                <i class="fa-solid fa-circle-check me-2"></i>
                 {{ session('success') }}
 
-                <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-                </button>
-
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
-
 
         <!-- ALERT ERROR -->
 
         @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-
+                <i class="fa-solid fa-circle-exclamation me-2"></i>
                 {{ session('error') }}
 
-                <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-                </button>
-
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-
-        <!-- =========================================
-             DAFTAR RESEP OBAT
-        ========================================= -->
+        <!-- DAFTAR RESEP -->
 
         <section class="content-card">
 
@@ -565,25 +562,19 @@
 
                 <div>
                     <h5>Daftar Resep Obat</h5>
-
-                    <p>
-                        Informasi pasien, dokter, dan obat yang diresepkan.
-                    </p>
+                    <p>Informasi pasien, dokter, dan obat yang diresepkan.</p>
                 </div>
 
                 <div class="search-box">
-
                     <i class="fa-solid fa-magnifying-glass"></i>
 
                     <input type="text"
                         id="searchResep"
                         placeholder="Cari pasien, dokter, atau obat..."
                         autocomplete="off">
-
                 </div>
 
             </div>
-
 
             <!-- TABLE -->
 
@@ -602,6 +593,8 @@
                             <th>Frekuensi</th>
                             <th>Aturan Pakai</th>
                             <th>Lama</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
 
@@ -687,30 +680,88 @@
                                         {{ trim($lama[1] ?? '-') ?: '-' }}
                                     </td>
 
+                                    <td>
+                                        <span class="status-badge status-menunggu">
+                                            <i class="fa-solid fa-clock me-1"></i>
+                                            Menunggu
+                                        </span>
+                                    </td>
+
+                                    {{-- Tombol proses hanya ditampilkan pada baris pertama resep --}}
+                                    <td>
+                                        @if ($loop->first)
+
+                                            <form
+                                                action="{{ route('apoteker.resep.proses', $resep->id) }}"
+                                                method="POST"
+                                                onsubmit="return konfirmasiProses(this);">
+
+                                                @csrf
+
+                                                <button type="submit" class="btn-proses">
+                                                    <i class="fa-solid fa-check me-1"></i>
+                                                    Proses Resep
+                                                </button>
+
+                                            </form>
+
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+
                                 </tr>
 
                             @empty
-                                {{-- Resep belum memiliki obat --}}
+
+                                <tr class="resep-row">
+
+                                    <td>
+                                        <span class="number-badge">
+                                            {{ $resepObats->firstItem() + $loop->index }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? 'Belum ada data' }}
+                                    </td>
+
+                                    <td>
+                                        {{ $resep->pemeriksaan?->dokter?->nama ?? 'Belum ada data' }}
+                                    </td>
+
+                                    <td colspan="6" class="text-muted">
+                                        Resep belum memiliki detail obat.
+                                    </td>
+
+                                    <td>
+                                        <span class="status-badge status-menunggu">
+                                            Menunggu
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <span class="text-muted">Tidak tersedia</span>
+                                    </td>
+
+                                </tr>
+
                             @endforelse
 
                         @empty
 
                             <tr class="empty-row">
-
-                                <td colspan="9" class="empty-state">
+                                <td colspan="11" class="empty-state">
 
                                     <i class="fa-solid fa-prescription-bottle-medical"></i>
 
-                                    <strong>
-                                        Belum ada resep dokter
-                                    </strong>
+                                    <strong>Belum ada resep dokter</strong>
 
                                     <div>
-                                        Resep yang tersedia akan ditampilkan di sini.
+                                        Resep yang masih menunggu akan ditampilkan di sini.
                                     </div>
 
                                 </td>
-
                             </tr>
 
                         @endforelse
@@ -718,7 +769,6 @@
                     </tbody>
 
                 </table>
-
 
                 <!-- HASIL PENCARIAN KOSONG -->
 
@@ -730,7 +780,6 @@
                 </div>
 
             </div>
-
 
             <!-- FOOTER -->
 
@@ -750,30 +799,20 @@
 
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
-    <!-- =========================================
-         SEARCH RESEP
-    ========================================= -->
+    <!-- SEARCH -->
 
     <script>
-
         const searchInput = document.getElementById('searchResep');
-
         const rows = document.querySelectorAll('#tabelResep tbody .resep-row');
-
         const hasilKosong = document.getElementById('hasilKosong');
 
         searchInput.addEventListener('input', function () {
-
             const keyword = this.value.toLowerCase().trim();
-
             let jumlahTampil = 0;
 
             rows.forEach(function (row) {
-
                 const cocok = row.innerText.toLowerCase().includes(keyword);
 
                 row.style.display = cocok ? '' : 'none';
@@ -781,15 +820,18 @@
                 if (cocok) {
                     jumlahTampil++;
                 }
-
             });
 
             hasilKosong.classList.toggle('d-none', jumlahTampil > 0);
-
         });
 
+        function konfirmasiProses(form) {
+            return confirm(
+                'Apakah kamu yakin ingin memproses resep ini?\n\n' +
+                'Stok obat akan otomatis berkurang sesuai jumlah resep.'
+            );
+        }
     </script>
 
 </body>
-
 </html>

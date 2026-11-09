@@ -320,14 +320,14 @@
 
                         <tr>
                             <td class="nomor">3</td>
-                            <td class="nama-laporan">Apotek</td>
+                            <td class="nama-laporan">Data Obat</td>
                             <td>
-                                <a href="{{ route('laporan.export.excel', 'apotek') }}" class="btn-excel">
+                                <a href="{{ route('laporan.export.excel', 'data-obat') }}" class="btn-excel">
                                     <i class="fas fa-file-excel"></i>
                                     Excel
                                 </a>
 
-                                <a href="{{ route('laporan.export.pdf', 'apotek') }}" class="btn-pdf">
+                                <a href="{{ route('laporan.export.pdf', 'data-obat') }}" class="btn-pdf">
                                     <i class="fas fa-file-pdf"></i>
                                     PDF
                                 </a>
