@@ -253,22 +253,46 @@ class MasterPasienController extends Controller
     }
 
     // HALAMAN PASIEN DOKTER
-    public function indexDokter()
-    {
-        $pasien = MasterPasien::orderByDesc('id')->paginate(10);
+public function indexDokter(Request $request)
+{
+    $pasiens = MasterPasien::query()
+        ->whereIn('id', function ($query) {
+            $query->select('pasien_id')
+                ->from('pendaftaran_pasiens')
+                ->whereNotNull('pasien_id');
+        })
+        ->select(['id', 'nama'])
+        ->orderBy('nama', 'asc');
 
-        return view('dokter.data-pasien', compact('pasien'));
+    if ($request->ajax()) {
+        return DataTables::eloquent($pasiens)
+            ->addIndexColumn()
+            ->toJson();
     }
 
-    // HALAMAN PASIEN PERAWAT
-   // HALAMAN PASIEN PERAWAT
-    public function indexPerawat()
-    {
-        $pasien = MasterPasien::latest('id')->paginate(10);
+    return view('dokter.data-pasien');
+}
 
-        return view('perawat.data-pasien', compact('pasien'));
+
+public function indexPerawat(Request $request)
+{
+    $pasiens = MasterPasien::query()
+        ->whereIn('id', function ($query) {
+            $query->select('pasien_id')
+                ->from('pendaftaran_pasiens')
+                ->whereNotNull('pasien_id');
+        })
+        ->select(['id', 'nama'])
+        ->orderBy('nama', 'asc');
+
+    if ($request->ajax()) {
+        return DataTables::eloquent($pasiens)
+            ->addIndexColumn()
+            ->toJson();
     }
 
+    return view('perawat.data-pasien');
+}
     // DATA PASIEN PERAWAT
     public function dataPerawat()
     {
