@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\MasterObat;
 use App\Models\StokObat;
 use App\Models\LogStokObat;
+use App\Models\HargaJualObat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -44,23 +45,45 @@ class LogStokObatController extends Controller
         try {
             DB::transaction(function () use ($request) {
 
-                // Cari stok berdasarkan obat DAN satuan
+                // Cari stok berdasarkan obat dan satuan
                 $stokObat = StokObat::where('obat_id', $request->obat_id)
                     ->where('satuan_obat_id', $request->satuan_obat_id)
                     ->lockForUpdate()
                     ->first();
 
-                // Jika belum ada, buat stok baru
-                if (!$stokObat) {
-                    $stokObat = StokObat::create([
-                        'obat_id' => $request->obat_id,
-                        'satuan_obat_id' => $request->satuan_obat_id,
-                        'harga_jual' => 0,
-                        'stok_tersedia' => 0,
-                    ]);
+                // Jika stok belum ada atau harganya masih 0,
+                // ambil harga dari tabel harga_jual_obats.
+                if (!$stokObat || (float) $stokObat->harga_jual <= 0) {
+
+                    $hargaJual = HargaJualObat::where('obat_id', $request->obat_id)
+                        ->where('satuan_id', $request->satuan_obat_id)
+                        ->first();
+
+                    // Jangan simpan stok jika harga belum diatur Admin
+                    if (!$hargaJual || (float) $hargaJual->harga <= 0) {
+                        throw new \RuntimeException(
+                            'Harga jual obat dan satuan ini belum diatur Admin di tabel harga_jual_obats.'
+                        );
+                    }
+
+                    $harga = (int) round((float) $hargaJual->harga);
+
+                    // Buat stok baru dengan harga dari tabel harga jual
+                    if (!$stokObat) {
+                        $stokObat = StokObat::create([
+                            'obat_id' => $request->obat_id,
+                            'satuan_obat_id' => $request->satuan_obat_id,
+                            'harga_jual' => $harga,
+                            'stok_tersedia' => 0,
+                        ]);
+                    } else {
+                        // Perbaiki harga stok lama yang masih 0
+                        $stokObat->harga_jual = $harga;
+                        $stokObat->save();
+                    }
                 }
 
-                // Tambahkan stok lama dengan jumlah masuk
+                // Tambahkan jumlah stok masuk
                 $stokObat->stok_tersedia += (int) $request->nilai;
                 $stokObat->save();
 
@@ -105,7 +128,9 @@ class LogStokObatController extends Controller
                 ->withInput()
                 ->with(
                     'error',
-                    'Gagal menyimpan stok obat. Periksa log Laravel untuk detail kesalahan.'
+                    $e instanceof \RuntimeException
+                        ? $e->getMessage()
+                        : 'Gagal menyimpan stok obat. Periksa log Laravel untuk detail kesalahan.'
                 );
         }
     }
