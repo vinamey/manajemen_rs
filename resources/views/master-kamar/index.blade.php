@@ -658,421 +658,161 @@
 </div>
 
 
+
 {{-- =========================================================
      MODAL TAMBAH
 ========================================================= --}}
-<div
-    class="modal fade kamar-modal"
-    id="modalTambahKamar"
-    tabindex="-1"
-    aria-hidden="true"
->
-
+<div class="modal fade kamar-modal" id="modalTambahKamar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <h5 class="modal-title">
-
                     <i class="fas fa-plus-circle me-2"></i>
-
                     Tambah Kamar
-
                 </h5>
-
             </div>
 
-
             <form id="formTambahKamar">
-
                 @csrf
-
 
                 <div class="modal-body">
 
-                    {{-- KODE --}}
                     <div class="mb-3">
-
-                        <label
-                            for="kode"
-                            class="form-label"
-                        >
-                            Kode Kamar
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="kode"
-                            id="kode"
+                        <label for="kode" class="form-label">Kode Kamar</label>
+                        <input type="text" name="kode" id="kode"
                             class="form-control"
-                            placeholder="Contoh: KMR001"
-                            required
-                        >
-
+                            placeholder="Contoh: KMR001" required>
                     </div>
 
-
-                    {{-- NAMA --}}
                     <div class="mb-3">
-
-                        <label
-                            for="nama"
-                            class="form-label"
-                        >
-                            Nama Kamar
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="nama"
-                            id="nama"
+                        <label for="nama" class="form-label">Nama Kamar</label>
+                        <input type="text" name="nama" id="nama"
                             class="form-control"
-                            placeholder="Contoh: Melati"
-                            required
-                        >
-
-                    </div>
-
-
-                    {{-- STATUS --}}
-                    <div class="mb-3">
-
-                        <label
-                            for="status"
-                            class="form-label"
-                        >
-                            Status
-                        </label>
-
-
-                        <select
-                            name="status"
-                            id="status"
-                            class="form-select"
-                            required
-                        >
-
-                            <option value="">
-                                -- Pilih Status --
-                            </option>
-
-                            <option value="tersedia">
-                                Tersedia
-                            </option>
-
-                            <option value="terisi">
-                                Terisi
-                            </option>
-
-                        </select>
-
+                            placeholder="Contoh: Melati" required>
                     </div>
 
                 </div>
 
-
                 <div class="modal-footer">
-
-                    <button
-                        type="button"
-                        class="btn btn-batal-kamar"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-batal-kamar"
+                        data-bs-dismiss="modal">
                         Batal
                     </button>
 
-
-                    <button
-                        type="submit"
-                        class="btn btn-simpan-kamar"
-                    >
-
+                    <button type="submit" class="btn btn-simpan-kamar">
                         <i class="fas fa-save me-1"></i>
-
                         Simpan Data
-
                     </button>
-
                 </div>
-
             </form>
 
         </div>
-
     </div>
-
 </div>
 
 
 {{-- =========================================================
      MODAL LIHAT
 ========================================================= --}}
-<div
-    class="modal fade kamar-modal"
-    id="modalLihatKamar"
-    tabindex="-1"
-    aria-hidden="true"
->
-
+<div class="modal fade kamar-modal" id="modalLihatKamar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <h5 class="modal-title">
-
                     <i class="fas fa-eye me-2"></i>
-
                     Detail Kamar
-
                 </h5>
-
             </div>
-
 
             <div class="modal-body">
 
-                {{-- KODE --}}
                 <div class="detail-box">
-
-                    <div class="detail-label">
-                        Kode Kamar
-                    </div>
-
+                    <div class="detail-label">Kode Kamar</div>
                     <div class="detail-value">
-
-                        <span
-                            class="kode-badge"
-                            id="lihatKode"
-                        >
-                            -
-                        </span>
-
+                        <span class="kode-badge" id="lihatKode">-</span>
                     </div>
-
                 </div>
 
-
-                {{-- NAMA --}}
                 <div class="detail-box">
-
-                    <div class="detail-label">
-                        Nama Kamar
-                    </div>
-
+                    <div class="detail-label">Nama Kamar</div>
                     <div class="detail-value">
-
-                        <span
-                            class="nama-badge"
-                            id="lihatNama"
-                        >
-                            -
-                        </span>
-
+                        <span class="nama-badge" id="lihatNama">-</span>
                     </div>
-
                 </div>
 
-
-                {{-- STATUS --}}
                 <div class="detail-box">
-
-                    <div class="detail-label">
-                        Status
-                    </div>
-
-                    <div
-                        class="detail-value"
-                        id="lihatStatus"
-                    >
-                        -
-                    </div>
-
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value" id="lihatStatus">-</div>
                 </div>
 
             </div>
 
-
             <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="btn btn-batal-kamar"
-                    data-bs-dismiss="modal"
-                >
+                <button type="button" class="btn btn-batal-kamar"
+                    data-bs-dismiss="modal">
                     Tutup
                 </button>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
 
 
 {{-- =========================================================
      MODAL EDIT
 ========================================================= --}}
-<div
-    class="modal fade kamar-modal"
-    id="modalEditKamar"
-    tabindex="-1"
-    aria-hidden="true"
->
-
+<div class="modal fade kamar-modal" id="modalEditKamar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <h5 class="modal-title">
-
                     <i class="fas fa-edit me-2"></i>
-
                     Edit Kamar
-
                 </h5>
-
             </div>
 
-
             <form id="formEditKamar">
-
                 @csrf
                 @method('PUT')
 
-
-                <input
-                    type="hidden"
-                    id="editId"
-                >
-
+                <input type="hidden" id="editId" name="id">
 
                 <div class="modal-body">
 
-                    {{-- KODE --}}
                     <div class="mb-3">
-
-                        <label
-                            for="editKode"
-                            class="form-label"
-                        >
-                            Kode Kamar
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="kode"
-                            id="editKode"
-                            class="form-control"
-                            placeholder="Contoh: KMR001"
-                            required
-                        >
-
+                        <label for="editKode" class="form-label">Kode Kamar</label>
+                        <input type="text" name="kode" id="editKode"
+                            class="form-control" required>
                     </div>
 
-
-                    {{-- NAMA --}}
                     <div class="mb-3">
-
-                        <label
-                            for="editNama"
-                            class="form-label"
-                        >
-                            Nama Kamar
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="nama"
-                            id="editNama"
-                            class="form-control"
-                            placeholder="Contoh: Melati"
-                            required
-                        >
-
-                    </div>
-
-
-                    {{-- STATUS --}}
-                    <div class="mb-3">
-
-                        <label
-                            for="editStatus"
-                            class="form-label"
-                        >
-                            Status
-                        </label>
-
-
-                        <select
-                            name="status"
-                            id="editStatus"
-                            class="form-select"
-                            required
-                        >
-
-                            <option value="">
-                                -- Pilih Status --
-                            </option>
-
-                            <option value="tersedia">
-                                Tersedia
-                            </option>
-
-                            <option value="terisi">
-                                Terisi
-                            </option>
-
-                        </select>
-
+                        <label for="editNama" class="form-label">Nama Kamar</label>
+                        <input type="text" name="nama" id="editNama"
+                            class="form-control" required>
                     </div>
 
                 </div>
 
-
                 <div class="modal-footer">
-
-                    <button
-                        type="button"
-                        class="btn btn-batal-kamar"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-batal-kamar"
+                        data-bs-dismiss="modal">
                         Batal
                     </button>
 
-
-                    <button
-                        type="submit"
-                        class="btn btn-simpan-kamar"
-                    >
-
+                    <button type="submit" class="btn btn-simpan-kamar">
                         <i class="fas fa-save me-1"></i>
-
                         Simpan Perubahan
-
                     </button>
-
                 </div>
-
             </form>
 
         </div>
-
     </div>
-
 </div>
-
 
 
 {{-- SWEETALERT --}}
@@ -1451,54 +1191,26 @@ $(document).ready(function () {
     |--------------------------------------------------------------------------
     */
 
-    $('#kamar-table').on(
-        'click',
-        '.btn-lihat-kamar',
-        function () {
+    
+        $('#kamar-table').on('click', '.btn-lihat-kamar', function (e) {
+            e.preventDefault();
 
-            const data =
-                table
-                    .row(
-                        $(this).closest('tr')
-                    )
-                    .data();
-
+            const data = table.row($(this).closest('tr')).data();
 
             if (!data) {
+                console.error('Data kamar tidak ditemukan.');
                 return;
             }
 
+            $('#lihatKode').text(data.kode || '-');
+            $('#lihatNama').text(data.nama || '-');
+            $('#lihatStatus').html(buatBadgeStatus(data.status));
 
-            $('#lihatKode').text(
-                data.kode || '-'
-            );
+            bootstrap.Modal.getOrCreateInstance(
+                document.getElementById('modalLihatKamar')
+            ).show();
+        });
 
-
-            $('#lihatNama').text(
-                data.nama || '-'
-            );
-
-
-            $('#lihatStatus').html(
-                buatBadgeStatus(
-                    data.status
-                )
-            );
-
-
-            const modal =
-                bootstrap.Modal
-                    .getOrCreateInstance(
-                        document.getElementById(
-                            'modalLihatKamar'
-                        )
-                    );
-
-
-            modal.show();
-
-        }
-    );
 
 
     /*
@@ -1507,57 +1219,25 @@ $(document).ready(function () {
     |--------------------------------------------------------------------------
     */
 
-    $('#kamar-table').on(
-        'click',
-        '.btn-edit-kamar',
-        function () {
+    
+        $('#kamar-table').on('click', '.btn-edit-kamar', function (e) {
+            e.preventDefault();
 
-            const data =
-                table
-                    .row(
-                        $(this).closest('tr')
-                    )
-                    .data();
-
+            const data = table.row($(this).closest('tr')).data();
 
             if (!data) {
+                console.error('Data kamar tidak ditemukan.');
                 return;
             }
 
+            $('#editId').val(data.id);
+            $('#editKode').val(data.kode || '');
+            $('#editNama').val(data.nama || '');
 
-            $('#editId').val(
-                data.id
-            );
-
-
-            $('#editKode').val(
-                data.kode || ''
-            );
-
-
-            $('#editNama').val(
-                data.nama || ''
-            );
-
-
-            $('#editStatus').val(
-                data.status || ''
-            );
-
-
-            const modal =
-                bootstrap.Modal
-                    .getOrCreateInstance(
-                        document.getElementById(
-                            'modalEditKamar'
-                        )
-                    );
-
-
-            modal.show();
-
-        }
-    );
+            bootstrap.Modal.getOrCreateInstance(
+                document.getElementById('modalEditKamar')
+            ).show();
+        });
 
 
     /*

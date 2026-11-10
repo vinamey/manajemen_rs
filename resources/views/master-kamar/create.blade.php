@@ -63,31 +63,6 @@
 
             </div>
 
-            <div class="mb-3">
-
-                <label class="form-label">
-                    Status
-                </label>
-
-                <select name="status"
-                        class="form-control"
-                        required>
-
-                    <option value="">
-                        -- Pilih Status --
-                    </option>
-
-                    <option value="tersedia">
-                        Tersedia
-                    </option>
-
-                    <option value="terisi">
-                        Terisi
-                    </option>
-
-                </select>
-
-            </div>
 
             <button type="submit"
                     class="btn btn-success">
