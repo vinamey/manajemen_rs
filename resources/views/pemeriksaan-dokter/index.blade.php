@@ -1,3 +1,4 @@
+
 @extends('layouts.superadmin')
 
 @section('navbar-title', 'Dashboard Pemeriksaan Dokter')
@@ -339,7 +340,6 @@
     }
 </style>
 
-
 {{-- HEADER --}}
 <div class="page-header">
     <h3>
@@ -348,7 +348,6 @@
     </h3>
     <p>Kelola pemeriksaan pasien dan resep obat dokter.</p>
 </div>
-
 
 {{-- NOTIFIKASI --}}
 @if(session('success'))
@@ -375,7 +374,6 @@
     </div>
 @endif
 
-
 {{-- TABEL PEMERIKSAAN --}}
 <div class="card-main">
 
@@ -398,7 +396,6 @@
 
     <div class="table-responsive">
         <table class="table table-hover mb-0">
-
             <thead>
                 <tr>
                     <th width="60">No</th>
@@ -490,7 +487,6 @@
                     </tr>
                 @endforelse
             </tbody>
-
         </table>
     </div>
 
@@ -501,7 +497,6 @@
     @endif
 
 </div>
-
 
 {{-- MODAL TAMBAH PEMERIKSAAN --}}
 <div
@@ -529,7 +524,6 @@
                 ></button>
             </div>
 
-
             {{-- FORM PEMERIKSAAN --}}
             <form
                 action="{{ route('pemeriksaan-dokter.store') }}"
@@ -544,7 +538,6 @@
 
                         {{-- PILIH PASIEN --}}
                         <div class="col-md-6">
-
                             <label for="pendaftaran_id" class="form-label">
                                 Pasien
                             </label>
@@ -575,20 +568,16 @@
                                         @endif
                                     </option>
                                 @endforeach
-
                             </select>
 
                             <small class="text-muted">
                                 Pilih pasien yang sudah terdaftar.
                                 Data dokter dan poli akan terisi otomatis.
                             </small>
-
                         </div>
-
 
                         {{-- DOKTER --}}
                         <div class="col-md-6">
-
                             <label for="dokter_nama" class="form-label">
                                 Dokter
                             </label>
@@ -600,13 +589,10 @@
                                 placeholder="Dokter terisi otomatis"
                                 readonly
                             >
-
                         </div>
-
 
                         {{-- POLI --}}
                         <div class="col-md-6">
-
                             <label for="poli_nama" class="form-label">
                                 Poli
                             </label>
@@ -618,13 +604,10 @@
                                 placeholder="Poli terisi otomatis"
                                 readonly
                             >
-
                         </div>
-
 
                         {{-- KELUHAN --}}
                         <div class="col-12">
-
                             <label for="keluhan" class="form-label">
                                 Keluhan
                             </label>
@@ -637,14 +620,11 @@
                                 placeholder="Masukkan keluhan pasien..."
                                 required
                             ></textarea>
-
                         </div>
 
                     </div>
 
-
                     <hr class="my-4">
-
 
                     {{-- RESEP OBAT --}}
                     <div class="resep-box">
@@ -660,21 +640,16 @@
                             </small>
                         </div>
 
-
                         {{-- INPUT OBAT --}}
                         <div class="row g-3">
 
                             {{-- NAMA OBAT --}}
                             <div class="col-12">
-
                                 <label for="obat_id" class="form-label">
                                     Obat
                                 </label>
 
-                                <select
-                                    id="obat_id"
-                                    class="form-select"
-                                >
+                                <select id="obat_id" class="form-select">
                                     <option value="">
                                         -- Pilih Obat --
                                     </option>
@@ -688,15 +663,11 @@
                                             @endif
                                         </option>
                                     @endforeach
-
                                 </select>
-
                             </div>
-
 
                             {{-- SATUAN OBAT --}}
                             <div class="col-md-6">
-
                                 <label for="satuan_obat_id" class="form-label">
                                     Satuan Obat
                                 </label>
@@ -714,13 +685,10 @@
                                 <small class="text-muted">
                                     Satuan mengikuti stok obat yang dipilih.
                                 </small>
-
                             </div>
-
 
                             {{-- JUMLAH --}}
                             <div class="col-md-6">
-
                                 <label for="jumlah_obat" class="form-label">
                                     Jumlah Obat
                                 </label>
@@ -733,13 +701,10 @@
                                     step="1"
                                     placeholder="Contoh: 10"
                                 >
-
                             </div>
-
 
                             {{-- DOSIS --}}
                             <div class="col-md-6">
-
                                 <label for="dosis_obat" class="form-label">
                                     Dosis
                                 </label>
@@ -750,13 +715,10 @@
                                     class="form-control"
                                     placeholder="Contoh: 500 mg"
                                 >
-
                             </div>
-
 
                             {{-- FREKUENSI --}}
                             <div class="col-md-6">
-
                                 <label for="frekuensi_obat" class="form-label">
                                     Frekuensi
                                 </label>
@@ -767,13 +729,10 @@
                                     class="form-control"
                                     placeholder="Contoh: 3 kali sehari"
                                 >
-
                             </div>
-
 
                             {{-- LAMA --}}
                             <div class="col-md-6">
-
                                 <label for="lama_obat" class="form-label">
                                     Lama Pemakaian (hari)
                                 </label>
@@ -786,13 +745,10 @@
                                     step="1"
                                     placeholder="Contoh: 5"
                                 >
-
                             </div>
-
 
                             {{-- ATURAN PAKAI --}}
                             <div class="col-12">
-
                                 <label for="aturan_pakai" class="form-label">
                                     Aturan Pakai
                                 </label>
@@ -800,7 +756,6 @@
                                 <div class="aturan-pakai-wrapper">
 
                                     <div class="aturan-pakai-input-wrapper">
-
                                         <input
                                             type="text"
                                             id="aturan_pakai"
@@ -810,7 +765,6 @@
                                         >
 
                                         <span class="aturan-pakai-arrow">▾</span>
-
                                     </div>
 
                                     <div
@@ -842,15 +796,11 @@
 
                                         @endforeach
                                     </div>
-
                                 </div>
-
                             </div>
-
 
                             {{-- TOMBOL TAMBAH OBAT --}}
                             <div class="col-12">
-
                                 <button
                                     type="button"
                                     id="btnTambahkanObat"
@@ -859,14 +809,11 @@
                                     <i class="fa-solid fa-plus me-1"></i>
                                     Tambahkan Obat
                                 </button>
-
                             </div>
 
                         </div>
 
-
                         <hr class="my-4">
-
 
                         {{-- DAFTAR OBAT --}}
                         <h6 class="mb-3">
@@ -875,9 +822,7 @@
                         </h6>
 
                         <div class="table-responsive">
-
                             <table class="table table-bordered table-striped">
-
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -893,19 +838,14 @@
                                 </thead>
 
                                 <tbody id="resepTableBody">
-
                                     <tr>
                                         <td colspan="9" class="empty-resep">
                                             Belum ada obat ditambahkan.
                                         </td>
                                     </tr>
-
                                 </tbody>
-
                             </table>
-
                         </div>
-
 
                         {{-- HIDDEN JSON --}}
                         <input
@@ -917,25 +857,32 @@
 
                         {{-- TOMBOL SIMPAN --}}
                         <div class="d-flex justify-content-end mt-3">
-
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa-solid fa-prescription-bottle-medical me-1"></i>
                                 Simpan Pemeriksaan dan Resep
                             </button>
-
                         </div>
 
                     </div>
 
                 </div>
-
             </form>
 
         </div>
-
     </div>
 </div>
 
+{{-- DATA STOK OBAT DARI LARAVEL --}}
+@php
+    $dataStokObat = ($stokObats ?? collect())->map(function ($stok) {
+        return [
+            'obat_id' => $stok->obat_id,
+            'satuan_obat_id' => $stok->satuan_obat_id,
+            'nama_satuan' => $stok->satuanObat->nama_satuan ?? 'Satuan tidak ditemukan',
+            'stok_tersedia' => $stok->stok_tersedia,
+        ];
+    })->values()->toArray();
+@endphp
 
 {{-- JAVASCRIPT --}}
 <script>
@@ -967,19 +914,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const wrapper = document.querySelector('.aturan-pakai-wrapper');
     const dropdownAturan = document.getElementById('aturanPakaiDropdown');
 
-
     // DATA STOK OBAT DARI LARAVEL
-    const dataStokObat = @json(
-        ($stokObats ?? collect())->map(function ($stok) {
-            return [
-                'obat_id' => $stok->obat_id,
-                'satuan_obat_id' => $stok->satuan_obat_id,
-                'nama_satuan' => $stok->satuanObat->nama_satuan ?? 'Satuan tidak ditemukan',
-                'stok_tersedia' => $stok->stok_tersedia,
-            ];
-        })->values()
-    );
-
+    const dataStokObat = @json($dataStokObat);
 
     // CEK ELEMEN
     if (
@@ -994,7 +930,6 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Elemen form pemeriksaan atau resep tidak ditemukan.');
         return;
     }
-
 
     // FILTER SATUAN BERDASARKAN OBAT YANG DIPILIH
     function filterSatuanObat() {
@@ -1052,14 +987,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
     // KETIKA OBAT DIPILIH
     selectObat.addEventListener('change', function () {
-
         filterSatuanObat();
-
     });
-
 
     // FILTER ATURAN PAKAI
     function filterAturanPakai(keyword) {
@@ -1091,7 +1022,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (ditemukan === 0) {
 
             if (!noResult) {
-
                 noResult = document.createElement('div');
                 noResult.className = 'aturan-pakai-no-result';
                 noResult.textContent = 'Aturan pakai tidak ditemukan';
@@ -1102,28 +1032,21 @@ document.addEventListener('DOMContentLoaded', function () {
             noResult.style.display = 'block';
 
         } else if (noResult) {
-
             noResult.style.display = 'none';
-
         }
     }
-
 
     // DROPDOWN ATURAN PAKAI
     if (aturanInput && wrapper && dropdownAturan) {
 
         aturanInput.addEventListener('focus', function () {
-
             wrapper.classList.add('active');
             filterAturanPakai(this.value);
-
         });
 
         aturanInput.addEventListener('input', function () {
-
             wrapper.classList.add('active');
             filterAturanPakai(this.value);
-
         });
 
         dropdownAturan.addEventListener('click', function (event) {
@@ -1133,9 +1056,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!option) return;
 
             aturanInput.value = option.dataset.value;
-
             wrapper.classList.remove('active');
-
         });
 
         document.addEventListener('click', function (event) {
@@ -1143,16 +1064,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!wrapper.contains(event.target)) {
                 wrapper.classList.remove('active');
             }
-
         });
 
         aturanInput.addEventListener('keydown', function (event) {
 
             if (event.key === 'Escape') {
-
                 wrapper.classList.remove('active');
                 aturanInput.blur();
-
             }
 
             if (
@@ -1167,16 +1085,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 if (visibleOption) {
-
                     event.preventDefault();
                     visibleOption.click();
-
                 }
             }
-
         });
     }
-
 
     // RESET INPUT OBAT
     function resetFormObat() {
@@ -1204,7 +1118,6 @@ document.addEventListener('DOMContentLoaded', function () {
         filterAturanPakai('');
     }
 
-
     // TAMPILKAN DAFTAR OBAT
     function tampilkanObat() {
 
@@ -1227,7 +1140,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-
         daftarObat.forEach(function (obat, index) {
 
             const row = document.createElement('tr');
@@ -1246,17 +1158,13 @@ document.addEventListener('DOMContentLoaded', function () {
             data.forEach(function (value) {
 
                 const cell = document.createElement('td');
-
                 cell.textContent = value;
 
                 row.appendChild(cell);
-
             });
-
 
             // TOMBOL HAPUS
             const actionCell = document.createElement('td');
-
             const tombolHapus = document.createElement('button');
 
             tombolHapus.type = 'button';
@@ -1265,27 +1173,18 @@ document.addEventListener('DOMContentLoaded', function () {
             tombolHapus.title = 'Hapus obat';
 
             tombolHapus.addEventListener('click', function () {
-
                 daftarObat.splice(index, 1);
-
                 tampilkanObat();
-
             });
 
             actionCell.appendChild(tombolHapus);
-
             row.appendChild(actionCell);
-
             tbody.appendChild(row);
-
         });
-
 
         // KIRIM DATA RESEP KE CONTROLLER
         hiddenResep.value = JSON.stringify(daftarObat);
-
     }
-
 
     // TAMBAHKAN OBAT KE DAFTAR
     tombolTambah.addEventListener('click', function () {
@@ -1299,26 +1198,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const lama = lamaInput.value.trim();
         const aturan = aturanInput.value.trim();
 
-
         // VALIDASI OBAT
         if (!obatId) {
-
             alert('Silakan pilih obat terlebih dahulu.');
             selectObat.focus();
-
             return;
         }
-
 
         // VALIDASI SATUAN
         if (!satuanId) {
-
             alert('Silakan pilih satuan obat terlebih dahulu.');
             selectSatuan.focus();
-
             return;
         }
-
 
         // VALIDASI JUMLAH
         if (
@@ -1326,42 +1218,28 @@ document.addEventListener('DOMContentLoaded', function () {
             !Number.isInteger(Number(jumlah)) ||
             Number(jumlah) < 1
         ) {
-
             alert('Jumlah obat harus berupa bilangan bulat minimal 1.');
             jumlahInput.focus();
-
             return;
         }
-
 
         // VALIDASI DOSIS
         if (!dosis) {
-
             alert('Silakan isi dosis obat.');
             dosisInput.focus();
-
             return;
         }
-
 
         // VALIDASI FREKUENSI
         if (!frekuensi) {
-
             alert('Silakan isi frekuensi obat.');
             frekuensiInput.focus();
-
             return;
         }
-
 
         const optionObat = selectObat.options[
             selectObat.selectedIndex
         ];
-
-        const optionSatuan = selectSatuan.options[
-            selectSatuan.selectedIndex
-        ];
-
 
         // CEK OBAT DAN SATUAN YANG DIPILIH
         const stokTerpilih = dataStokObat.find(function (stok) {
@@ -1370,16 +1248,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 String(stok.obat_id) === String(obatId) &&
                 String(stok.satuan_obat_id) === String(satuanId)
             );
-
         });
 
         if (!stokTerpilih) {
-
             alert('Satuan tidak sesuai dengan stok obat yang dipilih.');
-
             return;
         }
 
+        // CEK JUMLAH STOK
+        if (Number(jumlah) > Number(stokTerpilih.stok_tersedia)) {
+            alert(
+                'Jumlah obat melebihi stok yang tersedia. Stok tersedia: ' +
+                stokTerpilih.stok_tersedia
+            );
+            jumlahInput.focus();
+            return;
+        }
 
         // MASUKKAN KE DAFTAR RESEP
         daftarObat.push({
@@ -1401,18 +1285,13 @@ document.addEventListener('DOMContentLoaded', function () {
             lama: lama,
 
             aturan_pakai: aturan
-
         });
 
-
         tampilkanObat();
-
         resetFormObat();
 
         alert('Obat berhasil ditambahkan ke daftar resep.');
-
     });
-
 
     // ISI DOKTER DAN POLI OTOMATIS
     function isiDataPendaftaran() {
@@ -1426,55 +1305,38 @@ document.addEventListener('DOMContentLoaded', function () {
         ];
 
         dokterInput.value = option?.dataset.dokter || '';
-
         poliInput.value = option?.dataset.poli || '';
 
         if (keluhanInput && option?.dataset.keluhan) {
             keluhanInput.value = option.dataset.keluhan;
         }
-
     }
 
-
     if (pasienSelect) {
-
         pasienSelect.addEventListener(
             'change',
             isiDataPendaftaran
         );
-
     }
-
 
     // VALIDASI SEBELUM FORM DIKIRIM
     formPemeriksaan.addEventListener('submit', function (event) {
 
         if (!pasienSelect.value) {
-
             event.preventDefault();
-
             alert('Silakan pilih pasien terlebih dahulu.');
-
             pasienSelect.focus();
-
             return;
         }
-
 
         if (daftarObat.length === 0) {
-
             event.preventDefault();
-
             alert('Silakan tambahkan minimal satu obat ke dalam resep.');
-
             return;
         }
 
-
         hiddenResep.value = JSON.stringify(daftarObat);
-
     });
-
 
     // RESET FORM KETIKA MODAL DITUTUP
     modalPemeriksaanEl.addEventListener(
@@ -1490,18 +1352,13 @@ document.addEventListener('DOMContentLoaded', function () {
             tampilkanObat();
 
             if (dokterInput) dokterInput.value = '';
-
             if (poliInput) poliInput.value = '';
-
         }
     );
 
-
     // TAMPILAN AWAL
     filterSatuanObat();
-
     filterAturanPakai('');
-
     tampilkanObat();
 
 });
