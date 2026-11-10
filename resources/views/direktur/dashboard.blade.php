@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,25 +11,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
-            background: #f1f6ff;
+            background: #f4f6fa;
             font-family: Arial, sans-serif;
             color: #183153;
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 210px;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            background: linear-gradient(180deg, #1877f2, #0860d5);
+            background: linear-gradient(180deg, #1877f2, #0f58c6);
             color: white;
             z-index: 1000;
         }
@@ -43,18 +41,10 @@
             border-bottom: 1px solid rgba(255,255,255,.15);
         }
 
-        .brand i {
-            font-size: 27px;
-        }
+        .brand i { font-size: 27px; }
+        .brand span { font-size: 19px; font-weight: bold; }
 
-        .brand span {
-            font-size: 19px;
-            font-weight: bold;
-        }
-
-        .sidebar-menu {
-            padding: 20px 10px;
-        }
+        .sidebar-menu { padding: 20px 10px; }
 
         .sidebar-menu a {
             display: flex;
@@ -74,7 +64,6 @@
             background: rgba(255,255,255,.22);
         }
 
-        /* MAIN */
         .main-wrapper {
             margin-left: 210px;
             min-height: 100vh;
@@ -114,13 +103,9 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            font-size: 16px;
         }
 
-        .user-role {
-            font-size: 13px;
-            font-weight: 600;
-        }
+        .user-role { font-size: 13px; font-weight: 600; }
 
         .btn-logout {
             background: #e83b50;
@@ -130,21 +115,12 @@
             border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
-            transition: .2s;
         }
 
-        .btn-logout:hover {
-            background: #c9273d;
-            color: white;
-        }
+        .content { padding: 24px; }
 
-        .content {
-            padding: 24px;
-        }
-
-        /* HEADING */
         .heading-card {
-            background: linear-gradient(115deg, #dceaff, #ffffff);
+            background: linear-gradient(115deg, #dceaff, #fff);
             border: 1px solid #e2ecfc;
             border-radius: 16px;
             padding: 18px 23px;
@@ -155,17 +131,21 @@
             gap: 17px;
         }
 
-        .heading-icon {
-            width: 62px;
-            height: 62px;
-            border-radius: 17px;
+        .heading-icon,
+        .income-icon {
             background: linear-gradient(145deg, #58aaff, #0870ed);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
             flex-shrink: 0;
+        }
+
+        .heading-icon {
+            width: 62px;
+            height: 62px;
+            border-radius: 17px;
+            font-size: 26px;
         }
 
         .heading-card h2 {
@@ -180,16 +160,22 @@
             margin: 0;
         }
 
-        /* STATISTIK */
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 16px;
         }
 
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
         .stat-card {
             min-height: 112px;
-            background: linear-gradient(145deg, #fff, #f8fbff);
+            background: white;
             border: 1px solid #e6edfa;
             border-radius: 17px;
             padding: 16px;
@@ -228,49 +214,31 @@
             margin: 0;
         }
 
-        .patient-icon,
-        .medicine-icon {
+        .patient-icon, .medicine-icon {
             background: #dcecff;
             color: #1678f2;
         }
 
-        .patient-info h3,
-        .medicine-info h3 {
-            color: #1678f2;
-        }
+        .patient-info h3, .medicine-info h3 { color: #1678f2; }
 
-        .doctor-icon,
-        .room-icon {
+        .doctor-icon, .room-icon {
             background: #d8f7ed;
             color: #0ba77d;
         }
 
-        .doctor-info h3,
-        .room-info h3 {
-            color: #0ba77d;
-        }
+        .doctor-info h3, .room-info h3 { color: #0ba77d; }
 
         .nurse-icon {
             background: #e9e1ff;
             color: #7045d9;
         }
 
-        .nurse-info h3 {
-            color: #7045d9;
-        }
+        .nurse-info h3 { color: #7045d9; }
 
-        .bottom-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        /* KARTU PENDAPATAN */
         .income-card {
             width: 100%;
             margin-top: 20px;
-            background: #fff;
+            background: white;
             border: 1px solid #e3ecfa;
             border-radius: 18px;
             padding: 22px;
@@ -280,7 +248,7 @@
 
         .income-layout {
             display: grid;
-            grid-template-columns: 0.9fr 1.7fr;
+            grid-template-columns: .9fr 1.7fr;
             gap: 24px;
             align-items: center;
         }
@@ -298,18 +266,11 @@
             width: 55px;
             height: 55px;
             min-width: 55px;
-            background: linear-gradient(145deg, #58aaff, #0870ed);
-            color: white;
             border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-size: 23px;
         }
 
-        .income-info {
-            min-width: 0;
-        }
+        .income-info { min-width: 0; }
 
         .income-info h5 {
             font-size: 19px;
@@ -348,11 +309,7 @@
             font-weight: 700;
         }
 
-        /* GRAFIK BATANG */
-        .income-right {
-            width: 100%;
-            min-width: 0;
-        }
+        .income-right { width: 100%; min-width: 0; }
 
         .chart-header {
             display: flex;
@@ -383,19 +340,12 @@
             border-radius: 9px;
             font-size: 12px;
             font-weight: 600;
-            cursor: pointer;
-            outline: none;
             min-width: 105px;
-        }
-
-        .period-label:focus {
-            border-color: #8bbaff;
-            box-shadow: 0 0 0 3px rgba(23,105,209,.1);
         }
 
         .chart-area {
             width: 100%;
-            height: 180px;
+            height: 210px;
             display: flex;
             align-items: stretch;
             justify-content: space-around;
@@ -420,20 +370,34 @@
             align-items: center;
         }
 
+        .chart-value {
+            font-size: 9px;
+            color: #71829b;
+            margin-bottom: 5px;
+            white-space: nowrap;
+        }
+
+        .chart-value.selected {
+            color: #0860d5;
+            font-weight: 700;
+        }
+
+        .chart-bar-track {
+            width: 100%;
+            height: 145px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
         .chart-bar {
-            position: relative;
             width: 58%;
             max-width: 38px;
             min-width: 9px;
             border-radius: 7px 7px 2px 2px;
             background: linear-gradient(180deg, #a9d1ff, #6daaf1);
             box-shadow: 0 3px 7px rgba(23,105,209,.10);
-            transition: height .3s ease, filter .2s ease;
-            cursor: pointer;
-        }
-
-        .chart-bar:hover {
-            filter: brightness(.94);
+            transition: height .3s ease;
         }
 
         .chart-bar.selected {
@@ -470,16 +434,11 @@
         }
 
         @media (max-width: 1100px) {
-            .stat-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+            .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
 
         @media (max-width: 850px) {
-            .income-layout {
-                grid-template-columns: 1fr;
-            }
-
+            .income-layout { grid-template-columns: 1fr; }
             .income-left {
                 border-right: none;
                 border-bottom: 1px solid #e5edf8;
@@ -488,103 +447,33 @@
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                width: 65px;
-            }
-
-            .brand {
-                height: 75px;
-            }
-
-            .brand span {
-                display: none;
-            }
-
-            .sidebar-menu {
-                padding: 15px 7px;
-            }
-
+            .sidebar { width: 65px; }
+            .brand { height: 75px; }
+            .brand span { display: none; }
+            .sidebar-menu { padding: 15px 7px; }
             .sidebar-menu a {
                 justify-content: center;
                 padding: 13px 5px;
                 font-size: 0;
             }
-
-            .sidebar-menu a i {
-                font-size: 18px;
-            }
-
-            .main-wrapper {
-                margin-left: 65px;
-            }
-
-            .content {
-                padding: 15px;
-            }
-
-            .stat-grid,
-            .bottom-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .topbar {
-                padding: 0 12px;
-            }
-
-            .topbar-title {
-                font-size: 13px;
-            }
-
-            .user-avatar {
-                display: none;
-            }
-
-            .user-role {
-                font-size: 11px;
-            }
-
-            .btn-logout {
-                padding: 7px 9px;
-                font-size: 11px;
-            }
-
-            .heading-card {
-                padding: 15px;
-                gap: 12px;
-            }
-
-            .heading-icon {
-                width: 52px;
-                height: 52px;
-                font-size: 22px;
-            }
-
-            .heading-card h2 {
-                font-size: 19px;
-            }
-
-            .heading-card p {
-                font-size: 11px;
-            }
-
-            .income-card {
-                padding: 17px 14px;
-            }
-
-            .chart-area {
-                height: 155px;
-                gap: 3px;
-                padding: 8px 2px 0;
-            }
-
-            .chart-bar {
-                width: 65%;
-                min-width: 7px;
-            }
-
-            .chart-month {
-                font-size: 9px;
-            }
+            .sidebar-menu a i { font-size: 18px; }
+            .main-wrapper { margin-left: 65px; }
+            .content { padding: 15px; }
+            .stat-grid, .bottom-grid { grid-template-columns: 1fr; }
+            .topbar { padding: 0 12px; }
+            .topbar-title { font-size: 13px; }
+            .user-avatar { display: none; }
+            .user-role { font-size: 11px; }
+            .btn-logout { padding: 7px 9px; font-size: 11px; }
+            .heading-card { padding: 15px; gap: 12px; }
+            .heading-icon { width: 52px; height: 52px; font-size: 22px; }
+            .heading-card h2 { font-size: 19px; }
+            .heading-card p { font-size: 11px; }
+            .income-card { padding: 17px 14px; }
+            .chart-area { gap: 3px; padding: 8px 2px 0; }
+            .chart-value { font-size: 7px; }
+            .chart-bar { width: 65%; min-width: 7px; }
+            .chart-month { font-size: 9px; }
         }
     </style>
 </head>
@@ -619,16 +508,12 @@
         </div>
     </div>
 
-    <!-- MAIN WRAPPER -->
+    <!-- MAIN -->
     <div class="main-wrapper">
 
-        <!-- NAVBAR -->
+        <!-- TOPBAR -->
         <div class="topbar">
-            <div class="topbar-left">
-                <h1 class="topbar-title">
-                    @yield('navbar-title', 'Dashboard Direktur')
-                </h1>
-            </div>
+            <h1 class="topbar-title">Dashboard Direktur</h1>
 
             <div class="topbar-right">
                 <div class="user-avatar">
@@ -654,195 +539,198 @@
         <!-- CONTENT -->
         <div class="content">
 
-            @hasSection('content')
-                @yield('content')
-            @else
+            <!-- HEADING -->
+            <div class="heading-card">
+                <div class="heading-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
 
-                <!-- HEADING -->
-                <div class="heading-card">
-                    <div class="heading-icon">
-                        <i class="fas fa-chart-line"></i>
+                <div>
+                    <h2>Dashboard Direktur</h2>
+                    <p>Ringkasan informasi sistem manajemen rumah sakit</p>
+                </div>
+            </div>
+
+            <!-- STATISTIK -->
+            <div class="stat-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon patient-icon">
+                        <i class="fas fa-bed-pulse"></i>
                     </div>
-
-                    <div>
-                        <h2>Dashboard Direktur</h2>
-                        <p>Ringkasan informasi sistem manajemen rumah sakit</p>
+                    <div class="stat-info patient-info">
+                        <h6>Jumlah Pasien</h6>
+                        <h3>{{ $totalPasien ?? 0 }}</h3>
                     </div>
                 </div>
 
-                <!-- STATISTIK -->
-                <div class="stat-grid">
-
-                    <div class="stat-card">
-                        <div class="stat-icon patient-icon">
-                            <i class="fas fa-bed-pulse"></i>
-                        </div>
-                        <div class="stat-info patient-info">
-                            <h6>Jumlah Pasien</h6>
-                            <h3>{{ $totalPasien ?? 0 }}</h3>
-                        </div>
+                <div class="stat-card">
+                    <div class="stat-icon doctor-icon">
+                        <i class="fas fa-stethoscope"></i>
                     </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon doctor-icon">
-                            <i class="fas fa-stethoscope"></i>
-                        </div>
-                        <div class="stat-info doctor-info">
-                            <h6>Jumlah Dokter</h6>
-                            <h3>{{ $totalDokter ?? 0 }}</h3>
-                        </div>
+                    <div class="stat-info doctor-info">
+                        <h6>Jumlah Dokter</h6>
+                        <h3>{{ $totalDokter ?? 0 }}</h3>
                     </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon nurse-icon">
-                            <i class="fas fa-user-nurse"></i>
-                        </div>
-                        <div class="stat-info nurse-info">
-                            <h6>Jumlah Perawat</h6>
-                            <h3>{{ $totalPerawat ?? 0 }}</h3>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- OBAT DAN KAMAR -->
-                <div class="bottom-grid">
-
-                    <div class="stat-card">
-                        <div class="stat-icon medicine-icon">
-                            <i class="fas fa-pills"></i>
-                        </div>
-                        <div class="stat-info medicine-info">
-                            <h6>Jumlah Obat</h6>
-                            <h3>{{ $totalObat ?? 0 }}</h3>
-                        </div>
+                <div class="stat-card">
+                    <div class="stat-icon nurse-icon">
+                        <i class="fas fa-user-nurse"></i>
                     </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon room-icon">
-                            <i class="fas fa-bed"></i>
-                        </div>
-                        <div class="stat-info room-info">
-                            <h6>Jumlah Kamar</h6>
-                            <h3>{{ $totalKamar ?? 0 }}</h3>
-                        </div>
+                    <div class="stat-info nurse-info">
+                        <h6>Jumlah Perawat</h6>
+                        <h3>{{ $totalPerawat ?? 0 }}</h3>
                     </div>
-
                 </div>
 
-                <!-- PENDAPATAN -->
-                <div class="income-card" id="grafik-pendapatan">
+            </div>
 
-                    <div class="income-layout">
+            <!-- OBAT DAN KAMAR -->
+            <div class="bottom-grid">
 
-                        <!-- RINGKASAN PENDAPATAN -->
-                        <div class="income-left">
+                <div class="stat-card">
+                    <div class="stat-icon medicine-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <div class="stat-info medicine-info">
+                        <h6>Jumlah Obat</h6>
+                        <h3>{{ $totalObat ?? 0 }}</h3>
+                    </div>
+                </div>
 
-                            <div class="income-icon">
-                                <i class="fas fa-briefcase-medical"></i>
+                <div class="stat-card">
+                    <div class="stat-icon room-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="stat-info room-info">
+                        <h6>Jumlah Kamar</h6>
+                        <h3>{{ $totalKamar ?? 0 }}</h3>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PENDAPATAN DAN GRAFIK -->
+            <div class="income-card" id="grafik-pendapatan">
+
+                <div class="income-layout">
+
+                    <!-- RINGKASAN PENDAPATAN -->
+                    <div class="income-left">
+                        <div class="income-icon">
+                            <i class="fas fa-briefcase-medical"></i>
+                        </div>
+
+                        <div class="income-info">
+                            <h5>Pendapatan</h5>
+
+                            <p>
+                                Total pendapatan bulan
+                                {{ $namaBulan[$bulan] ?? '' }}
+                                {{ $tahun ?? '' }}
+                            </p>
+
+                            <div class="income-amount">
+                                Rp {{ number_format($pendapatan ?? 0, 0, ',', '.') }}
                             </div>
 
-                            <div class="income-info">
-                                <h5>Pendapatan</h5>
-
-                                <p>
-                                    Total pendapatan bulan
+                            <div class="income-comparison">
+                                <span class="income-percent">
+                                    <i class="fas fa-calendar-check"></i>
                                     {{ $namaBulan[$bulan] ?? '' }}
-                                    {{ $tahun ?? '' }}
+                                </span>
+
+                                <span>Pendapatan bulan terpilih</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GRAFIK BATANG -->
+                    <div class="income-right">
+
+                        <div class="chart-header">
+                            <div>
+                                <h6 class="chart-title">Grafik Pendapatan</h6>
+                                <p class="chart-subtitle">
+                                    Januari - Desember {{ $tahun }}
                                 </p>
+                            </div>
 
-                                <div class="income-amount">
-                                    Rp {{ number_format($pendapatan ?? 0, 0, ',', '.') }}
-                                </div>
+                            <form action="{{ route('dashboard') }}"
+                                  method="GET"
+                                  id="formPeriode">
 
-                                <div class="income-comparison">
-                                    <span class="income-percent">
-                                        <i class="fas fa-calendar-check"></i>
-                                        {{ $namaBulan[$bulan] ?? '' }}
+                                <select name="bulan"
+                                        class="period-label"
+                                        onchange="document.getElementById('formPeriode').submit()">
+
+                                    @foreach ($namaBulan as $nomor => $nama)
+                                        <option value="{{ $nomor }}"
+                                            {{ $bulan == $nomor ? 'selected' : '' }}>
+                                            {{ $nama }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+
+                                <input type="hidden" name="tahun" value="{{ $tahun }}">
+                                <input type="hidden" name="grafik" value="1">
+                            </form>
+                        </div>
+
+                        <div class="chart-area">
+
+                            @foreach ($grafikPendapatan as $item)
+
+                                <div class="chart-column">
+
+                                    <span class="chart-value {{ $bulan == $item['nomor'] ? 'selected' : '' }}"
+                                          title="Rp {{ number_format($item['total'], 0, ',', '.') }}">
+
+                                        @if ($item['total'] >= 1000000)
+                                            {{ number_format($item['total'] / 1000000, 1, ',', '.') }} jt
+                                        @elseif ($item['total'] >= 1000)
+                                            {{ number_format($item['total'] / 1000, 0, ',', '.') }} rb
+                                        @else
+                                            {{ number_format($item['total'], 0, ',', '.') }}
+                                        @endif
+                                    
                                     </span>
 
-                                    <span>Pendapatan bulan terpilih</span>
+                                    <div class="chart-bar-track">
+                                        <div
+                                            class="chart-bar {{ $bulan == $item['nomor'] ? 'selected' : '' }}"
+                                            style="height: {{ max(5, min(100, $item['tinggi'])) }}%;"
+                                            title="{{ $item['bulan'] }} {{ $tahun }}: Rp {{ number_format($item['total'], 0, ',', '.') }}">
+                                        </div>
+                                    </div>
+
+                                    <span class="chart-month {{ $bulan == $item['nomor'] ? 'selected' : '' }}">
+                                        {{ $item['singkatan'] }}
+                                    </span>
+
                                 </div>
-                            </div>
+
+                            @endforeach
 
                         </div>
 
-                        <!-- GRAFIK BATANG -->
-                        <div class="income-right">
-
-                            <div class="chart-header">
-
-                                <div>
-                                    <h6 class="chart-title">
-                                        Grafik Pendapatan
-                                    </h6>
-                                    <p class="chart-subtitle">
-                                        Januari - Desember {{ $tahun }}
-                                    </p>
-                                </div>
-
-                                <form action="{{ route('dashboard') }}"
-                                      method="GET"
-                                      id="formPeriode">
-
-                                    <select name="bulan"
-                                            class="period-label"
-                                            onchange="document.getElementById('formPeriode').submit()">
-
-                                        @foreach ($namaBulan as $nomor => $nama)
-                                            <option value="{{ $nomor }}"
-                                                {{ $bulan == $nomor ? 'selected' : '' }}>
-                                                {{ $nama }}
-                                            </option>
-                                        @endforeach
-
-                                    </select>
-
-                                    <input type="hidden" name="tahun" value="{{ $tahun }}">
-                                    <input type="hidden" name="grafik" value="1">
-                                </form>
-
-                            </div>
-
-                            <div class="chart-area">
-
-                                @foreach ($grafikPendapatan as $item)
-
-                                    <div class="chart-column">
-
-                                        <div
-                                            class="chart-bar {{ $bulan == $item['nomor'] ? 'selected' : '' }}"
-                                            style="height: {{ max(5, $item['tinggi']) }}%;"
-                                            title="{{ $item['bulan'] }} {{ $tahun }}: Rp {{ number_format($item['total'], 0, ',', '.') }}">
-                                        </div>
-
-                                        <span class="chart-month {{ $bulan == $item['nomor'] ? 'selected' : '' }}">
-                                            {{ $item['singkatan'] }}
-                                        </span>
-
-                                    </div>
-
-                                @endforeach
-
-                            </div>
-
-                            <div class="chart-legend">
-                                <span class="legend-dot"></span>
-                                <span>Bulan yang dipilih</span>
-                            </div>
-
+                        <div class="chart-legend">
+                            <span class="legend-dot"></span>
+                            <span>Bulan yang dipilih</span>
                         </div>
 
                     </div>
-                </div>
 
-            @endif
+                </div>
+            </div>
 
         </div>
     </div>
 
     <!-- SCROLL OTOMATIS KE GRAFIK -->
-    @if(request()->has('grafik'))
+    @if (request()->has('grafik'))
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const grafik = document.getElementById('grafik-pendapatan');
