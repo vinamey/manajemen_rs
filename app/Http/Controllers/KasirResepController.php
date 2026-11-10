@@ -19,7 +19,8 @@ class KasirResepController extends Controller
         $resepObats = ResepObat::with([
             'pemeriksaan.pendaftaran.pasien',
             'pemeriksaan.dokter',
-            'obat',
+            'detailResep.obat',
+            'detailResep.satuan',
         ])
             ->where('status', 'diproses')
             ->latest()
@@ -37,7 +38,8 @@ class KasirResepController extends Controller
         $resepObats = ResepObat::with([
             'pemeriksaan.pendaftaran.pasien',
             'pemeriksaan.dokter',
-            'obat',
+            'detailResep.obat',
+            'detailResep.satuan',
         ])
             ->where('status', 'menunggu')
             ->latest()

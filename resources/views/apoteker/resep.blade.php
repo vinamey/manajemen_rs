@@ -241,7 +241,7 @@
             margin: 0;
             vertical-align: middle;
             font-size: 13px;
-            min-width: 1250px;
+            min-width: 1350px;
         }
 
         .table thead th {
@@ -308,11 +308,6 @@
         .status-menunggu {
             background: #fff3cd;
             color: #856404;
-        }
-
-        .status-diproses {
-            background: #d1e7dd;
-            color: #0f5132;
         }
 
         /* PROCESS BUTTON */
@@ -428,10 +423,6 @@
 
             .logout-btn {
                 font-size: 0;
-            }
-
-            .logout-btn::first-letter {
-                font-size: 15px;
             }
 
             .content {
@@ -588,6 +579,7 @@
                             <th>Nama Pasien</th>
                             <th>Dokter</th>
                             <th>Nama Obat</th>
+                            <th>Satuan</th>
                             <th>Jumlah</th>
                             <th>Dosis</th>
                             <th>Frekuensi</th>
@@ -602,10 +594,17 @@
 
                         @forelse ($resepObats as $resep)
 
-                            @forelse ($resep->obat as $obat)
+                            @php
+                                $detailReseps = $resep->detailResep;
+                            @endphp
+
+                            @forelse ($detailReseps as $detail)
 
                                 @php
-                                    $teks = $obat->pivot->aturan_pakai ?? '';
+                                    $obat = $detail->obat;
+                                    $satuan = $detail->satuan;
+
+                                    $teks = $detail->aturan_pakai ?? '';
 
                                     preg_match(
                                         '/Dosis:\s*(.*?)(?=\s*\|\s*Frekuensi:|$)/i',
@@ -652,13 +651,17 @@
 
                                     <td>
                                         <span class="medicine-name">
-                                            {{ $obat->nama ?? 'Nama obat tidak tersedia' }}
+                                            {{ $obat?->nama ?? 'Nama obat tidak tersedia' }}
                                         </span>
                                     </td>
 
                                     <td>
+                                        {{ $satuan?->nama ?? 'Satuan tidak tersedia' }}
+                                    </td>
+
+                                    <td>
                                         <span class="number-badge">
-                                            {{ $obat->pivot->nilai ?? 0 }}
+                                            {{ $detail->nilai ?? 0 }}
                                         </span>
                                     </td>
 
@@ -687,7 +690,6 @@
                                         </span>
                                     </td>
 
-                                    {{-- Tombol proses hanya ditampilkan pada baris pertama resep --}}
                                     <td>
                                         @if ($loop->first)
 
@@ -718,7 +720,7 @@
 
                                     <td>
                                         <span class="number-badge">
-                                            {{ $resepObats->firstItem() + $loop->index }}
+                                            {{ ($resepObats->firstItem() ?? 1) + $loop->index }}
                                         </span>
                                     </td>
 
@@ -732,6 +734,10 @@
 
                                     <td colspan="6" class="text-muted">
                                         Resep belum memiliki detail obat.
+                                    </td>
+
+                                    <td>
+                                        -
                                     </td>
 
                                     <td>
@@ -751,7 +757,7 @@
                         @empty
 
                             <tr class="empty-row">
-                                <td colspan="11" class="empty-state">
+                                <td colspan="12" class="empty-state">
 
                                     <i class="fa-solid fa-prescription-bottle-medical"></i>
 
@@ -834,4 +840,5 @@
     </script>
 
 </body>
+
 </html>

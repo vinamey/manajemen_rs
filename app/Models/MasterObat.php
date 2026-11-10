@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\MasterKategori;
-use App\Models\HargaJualObat;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MasterObat extends Model
 {
@@ -15,7 +15,7 @@ class MasterObat extends Model
         'kategori_id',
     ];
 
-    public function kategori()
+    public function kategori(): BelongsTo
     {
         return $this->belongsTo(
             MasterKategori::class,
@@ -23,10 +23,26 @@ class MasterObat extends Model
         );
     }
 
-    public function hargaJual()
+    public function hargaJual(): HasMany
     {
         return $this->hasMany(
             HargaJualObat::class,
+            'obat_id'
+        );
+    }
+
+    public function stokObat(): HasMany
+    {
+        return $this->hasMany(
+            StokObat::class,
+            'obat_id'
+        );
+    }
+
+    public function detailResep(): HasMany
+    {
+        return $this->hasMany(
+            PivotResepObat::class,
             'obat_id'
         );
     }
