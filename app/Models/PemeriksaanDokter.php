@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PendaftaranPasien;
-use App\Models\MasterDokter;
-use App\Models\ResepObat;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class PemeriksaanDokter extends Model
 {
@@ -16,10 +15,9 @@ class PemeriksaanDokter extends Model
         'dokter_id',
         'keluhan',
         'resep_obat',
-
     ];
 
-    public function pendaftaran()
+    public function pendaftaran(): BelongsTo
     {
         return $this->belongsTo(
             PendaftaranPasien::class,
@@ -27,7 +25,7 @@ class PemeriksaanDokter extends Model
         );
     }
 
-    public function dokter()
+    public function dokter(): BelongsTo
     {
         return $this->belongsTo(
             MasterDokter::class,
@@ -35,7 +33,7 @@ class PemeriksaanDokter extends Model
         );
     }
 
-    public function resep()
+    public function resep(): HasOne
     {
         return $this->hasOne(
             ResepObat::class,
