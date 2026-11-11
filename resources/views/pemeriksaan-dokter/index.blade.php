@@ -703,32 +703,32 @@
                                 >
                             </div>
 
-                            {{-- DOSIS --}}
-                            <div class="col-md-6">
-                                <label for="dosis_obat" class="form-label">
-                                    Dosis
-                                </label>
 
-                                <input
-                                    type="text"
-                                    id="dosis_obat"
-                                    class="form-control"
-                                    placeholder="Contoh: 500 mg"
-                                >
-                            </div>
-
-                            {{-- FREKUENSI --}}
+                           {{-- FREKUENSI --}}
                             <div class="col-md-6">
                                 <label for="frekuensi_obat" class="form-label">
                                     Frekuensi
                                 </label>
 
-                                <input
-                                    type="text"
+                                <select
                                     id="frekuensi_obat"
-                                    class="form-control"
-                                    placeholder="Contoh: 3 kali sehari"
+                                    class="form-select"
                                 >
+                                    <option value="">
+                                        -- Pilih Frekuensi --
+                                    </option>
+
+                                    @forelse($frekuensis as $frekuensi)
+                                        <option value="{{ $frekuensi->nama }}">
+                                            {{ $frekuensi->nama }}
+                                        </option>
+                                    @empty
+                                        <option value="" disabled>
+                                            Belum ada data frekuensi
+                                        </option>
+                                    @endforelse
+
+                                </select>
                             </div>
 
                             {{-- LAMA --}}
@@ -829,7 +829,6 @@
                                         <th>Nama Obat</th>
                                         <th>Satuan</th>
                                         <th>Jumlah</th>
-                                        <th>Dosis</th>
                                         <th>Frekuensi</th>
                                         <th>Lama</th>
                                         <th>Aturan Pakai</th>
@@ -902,7 +901,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectSatuan = document.getElementById('satuan_obat_id');
 
     const jumlahInput = document.getElementById('jumlah_obat');
-    const dosisInput = document.getElementById('dosis_obat');
     const frekuensiInput = document.getElementById('frekuensi_obat');
     const lamaInput = document.getElementById('lama_obat');
     const aturanInput = document.getElementById('aturan_pakai');
@@ -1106,7 +1104,6 @@ document.addEventListener('DOMContentLoaded', function () {
         selectSatuan.disabled = true;
 
         jumlahInput.value = '';
-        dosisInput.value = '';
         frekuensiInput.value = '';
         lamaInput.value = '';
         aturanInput.value = '';
@@ -1149,7 +1146,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 obat.nama_obat,
                 obat.nama_satuan,
                 obat.jumlah,
-                obat.dosis,
                 obat.frekuensi,
                 obat.lama ? obat.lama + ' hari' : '-',
                 obat.aturan_pakai || '-'
@@ -1193,7 +1189,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const satuanId = selectSatuan.value;
 
         const jumlah = jumlahInput.value.trim();
-        const dosis = dosisInput.value.trim();
         const frekuensi = frekuensiInput.value.trim();
         const lama = lamaInput.value.trim();
         const aturan = aturanInput.value.trim();
@@ -1222,17 +1217,9 @@ document.addEventListener('DOMContentLoaded', function () {
             jumlahInput.focus();
             return;
         }
-
-        // VALIDASI DOSIS
-        if (!dosis) {
-            alert('Silakan isi dosis obat.');
-            dosisInput.focus();
-            return;
-        }
-
         // VALIDASI FREKUENSI
         if (!frekuensi) {
-            alert('Silakan isi frekuensi obat.');
+            alert('Silakan pilih frekuensi obat.');
             frekuensiInput.focus();
             return;
         }
@@ -1277,8 +1264,6 @@ document.addEventListener('DOMContentLoaded', function () {
             nama_satuan: stokTerpilih.nama_satuan,
 
             jumlah: Number(jumlah),
-
-            dosis: dosis,
 
             frekuensi: frekuensi,
 
