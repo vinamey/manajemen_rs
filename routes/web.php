@@ -28,6 +28,7 @@ use App\Http\Controllers\MasterPoliController;
 use App\Http\Controllers\MasterSatuanController;
 use App\Http\Controllers\MasterSupplierController;
 use App\Http\Controllers\MasterTindakanController;
+use App\Http\Controllers\MasterFrekuensiController;
 
 use App\Http\Controllers\PendaftaranPasienController;
 use App\Http\Controllers\PemeriksaanDokterController;
@@ -850,3 +851,21 @@ Route::middleware([
 
     Route::resource('hasil-pemeriksaan', HasilPemeriksaanController::class);
 });
+
+// ==========================================
+// MASTER FREKUENSI
+// ==========================================
+
+Route::prefix('master-frekuensi')
+    ->name('master-frekuensi.')
+    ->controller(MasterFrekuensiController::class)
+    ->group(function () {
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/data', 'data')->name('data');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+
+    });
