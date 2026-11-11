@@ -92,7 +92,7 @@ class PengeluaranController extends Controller
         ]);
     }
 
-   
+
 public function data(Request $request)
 {
     $bulan = $request->input('bulan', now()->month);
