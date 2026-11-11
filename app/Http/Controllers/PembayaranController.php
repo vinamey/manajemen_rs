@@ -10,29 +10,46 @@ use Illuminate\Validation\ValidationException;
 
 class PembayaranController extends Controller
 {
+    /**
+     * Menampilkan resep yang belum dibayar dan riwayat pembayaran.
+     */
     public function index(Request $request)
     {
+        // Resep yang belum memiliki pembayaran
         $queryResep = ResepObat::with([
             'pemeriksaan.pendaftaran.pasien',
             'pemeriksaan.dokter',
-            'obat.hargaJual',
+            'obat.hargaJual.satuan',
         ])->whereDoesntHave('pembayaran');
 
+        // Pencarian berdasarkan nama pasien
         if ($request->filled('search')) {
             $search = $request->search;
 
             $queryResep->whereHas(
                 'pemeriksaan.pendaftaran.pasien',
-                fn ($query) => $query->where('nama', 'like', "%{$search}%")
+                function ($query) use ($search) {
+                    $query->where('nama', 'like', "%{$search}%");
+                }
             );
         }
 
+        // Filter tanggal mulai
         if ($request->filled('tanggal_mulai')) {
-            $queryResep->whereDate('created_at', '>=', $request->tanggal_mulai);
+            $queryResep->whereDate(
+                'created_at',
+                '>=',
+                $request->tanggal_mulai
+            );
         }
 
+        // Filter tanggal selesai
         if ($request->filled('tanggal_selesai')) {
-            $queryResep->whereDate('created_at', '<=', $request->tanggal_selesai);
+            $queryResep->whereDate(
+                'created_at',
+                '<=',
+                $request->tanggal_selesai
+            );
         }
 
         $resepObats = $queryResep
@@ -40,11 +57,13 @@ class PembayaranController extends Controller
             ->paginate(10, ['*'], 'resepPage')
             ->withQueryString();
 
+        // Riwayat pembayaran
         $riwayatPembayaran = Pembayaran::with([
             'resep.pemeriksaan.pendaftaran.pasien',
             'resep.pemeriksaan.dokter',
-            'resep.obat.hargaJual',
-        ])->latest()
+            'resep.obat.hargaJual.satuan',
+        ])
+            ->latest()
             ->paginate(10, ['*'], 'riwayatPage')
             ->withQueryString();
 
@@ -55,8 +74,13 @@ class PembayaranController extends Controller
     }
 
     /**
-     * Menghitung total harga obat dalam resep.
-     * Harga per satuan resep = harga jual / isi.
+     * Menghitung total harga obat berdasarkan satuan resep.
+     *
+     * Contoh:
+     * Harga 1 strip = Rp10.000
+     * Isi 1 strip = 10 tablet
+     * Jumlah resep = 2 tablet
+     * Total = Rp2.000
      */
     private function hitungTotal(ResepObat $resep): float
     {
@@ -69,27 +93,48 @@ class PembayaranController extends Controller
         $total = 0;
 
         foreach ($resep->obat as $obat) {
-            $hargaJual = $obat->hargaJual->first();
 
-            if (!$hargaJual || (int) $hargaJual->isi <= 0) {
+            // Ambil ID satuan dari detail resep
+            $satuanResep = (int) $obat->pivot->satuan_obat_id;
+
+            // Cari harga jual yang satuannya sesuai dengan resep
+            $hargaJual = $obat->hargaJual->firstWhere(
+                'satuan_id',
+                $satuanResep
+            );
+
+            if (!$hargaJual) {
                 throw ValidationException::withMessages([
-                    'pembayaran' => 'Harga jual atau isi obat ' . $obat->nama . ' belum valid.',
+                    'pembayaran' =>
+                        'Harga jual untuk satuan obat ' .
+                        $obat->nama .
+                        ' belum tersedia.',
                 ]);
             }
 
-            $jumlah = (int) ($obat->pivot->nilai ?? 0);
+            $isi = (float) $hargaJual->isi;
+            $harga = (float) $hargaJual->harga;
+            $jumlah = (float) $obat->pivot->nilai;
 
-            if ($jumlah <= 0) {
+            if ($isi <= 0 || $harga <= 0 || $jumlah <= 0) {
                 throw ValidationException::withMessages([
-                    'pembayaran' => 'Jumlah obat ' . $obat->nama . ' tidak valid.',
+                    'pembayaran' =>
+                        'Harga, isi, atau jumlah obat ' .
+                        $obat->nama .
+                        ' tidak valid.',
                 ]);
             }
 
-            $hargaPerSatuan = (float) $hargaJual->harga
-                / (int) $hargaJual->isi;
+            // Harga per satuan terkecil
+            $hargaPerSatuan = $harga / $isi;
 
-            $total += $hargaPerSatuan * $jumlah;
+            // Total harga obat
+            $subtotal = $hargaPerSatuan * $jumlah;
+
+            $total += $subtotal;
         }
+
+        $total = round($total, 2);
 
         if ($total <= 0) {
             throw ValidationException::withMessages([
@@ -100,6 +145,9 @@ class PembayaranController extends Controller
         return $total;
     }
 
+    /**
+     * Memproses pembayaran resep.
+     */
     public function proses(Request $request, $id)
     {
         $data = $request->validate([
@@ -107,6 +155,7 @@ class PembayaranController extends Controller
                 'required',
                 'in:Cash,QRIS,Transfer Bank',
             ],
+
             'uang_diterima' => [
                 'nullable',
                 'numeric',
@@ -115,41 +164,63 @@ class PembayaranController extends Controller
         ]);
 
         DB::transaction(function () use ($data, $id) {
-            $resep = ResepObat::with('obat.hargaJual')
+
+            // Ambil resep dan kunci selama transaksi
+            $resep = ResepObat::with([
+                'obat.hargaJual',
+            ])
                 ->whereKey($id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            $sudahAda = Pembayaran::where('resep_id', $resep->id)
+            // Cegah pembayaran ganda
+            $sudahAda = Pembayaran::where(
+                'resep_id',
+                $resep->id
+            )
                 ->lockForUpdate()
                 ->exists();
 
             if ($sudahAda) {
                 throw ValidationException::withMessages([
-                    'pembayaran' => 'Resep ini sudah memiliki catatan pembayaran.',
+                    'pembayaran' =>
+                        'Resep ini sudah memiliki catatan pembayaran.',
                 ]);
             }
 
+            // Hitung total harga resep
             $totalPembayaran = $this->hitungTotal($resep);
 
+            // Validasi pembayaran tunai
             if ($data['metode_pembayaran'] === 'Cash') {
-                if (!isset($data['uang_diterima']) || $data['uang_diterima'] === '') {
+
+                if (
+                    !isset($data['uang_diterima']) ||
+                    $data['uang_diterima'] === ''
+                ) {
                     throw ValidationException::withMessages([
-                        'uang_diterima' => 'Masukkan jumlah uang yang diterima.',
+                        'uang_diterima' =>
+                            'Masukkan jumlah uang yang diterima.',
                     ]);
                 }
 
-                if ((float) $data['uang_diterima'] < $totalPembayaran) {
+                if (
+                    (float) $data['uang_diterima']
+                    < $totalPembayaran
+                ) {
                     throw ValidationException::withMessages([
-                        'uang_diterima' => 'Uang yang diterima kurang dari total pembayaran.',
+                        'uang_diterima' =>
+                            'Uang yang diterima kurang dari total pembayaran.',
                     ]);
                 }
             }
 
+            // Tentukan status pembayaran
             $status = $data['metode_pembayaran'] === 'Cash'
                 ? 'LUNAS'
                 : 'MENUNGGU VERIFIKASI';
 
+            // Simpan pembayaran
             Pembayaran::create([
                 'resep_id' => $resep->id,
                 'total_pembayaran' => $totalPembayaran,
@@ -167,9 +238,13 @@ class PembayaranController extends Controller
             ->with('success', $pesan);
     }
 
+    /**
+     * Menghapus riwayat pembayaran.
+     */
     public function destroy($id)
     {
         $pembayaran = Pembayaran::findOrFail($id);
+
         $pembayaran->delete();
 
         return redirect()
