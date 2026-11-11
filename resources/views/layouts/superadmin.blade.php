@@ -502,6 +502,15 @@
                                     </a>
                                 </li>
 
+                                {{-- MASTER FREKUENSI --}}
+                                <li>
+                                    <a href="{{ route('master-frekuensi.index') }}"
+                                        class="master-item {{ request()->routeIs('master-frekuensi.*') ? 'active' : '' }}">
+                                        <i class="fa-solid fa-clock"></i>
+                                        <span>Master Frekuensi</span>
+                                    </a>
+                                </li>
+
                             </ul>
                         </div>
                     </li>
@@ -645,6 +654,7 @@
                         'master-asuransi.*' => 'master asuransi',
                         'master-tindakan.*' => 'master tindakan',
                         'master-apoteker.*' => 'master apoteker',
+                        'master-frekuensi.*' => 'master frekuensi',
 
                         // APOTEKER
                         'apoteker.dashboard' => 'master apoteker',
