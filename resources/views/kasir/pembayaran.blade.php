@@ -1,4 +1,4 @@
-{{-- resources/views/kasir/pembayaran.blade.php --}}
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -17,7 +17,7 @@
             --blue: #1877f2;
             --blue-dark: #0f58c6;
             --blue-light: #e7f3ff;
-            --bg: #f1f5fd;
+            --bg: #f4f6fa;
             --navy: #10266d;
             --border: #dce6f6;
             --text: #172b63;
@@ -36,158 +36,133 @@
         }
 
         /* SIDEBAR */
+
         .sidebar {
-            width: 232px;
+            width: 250px;
             height: 100vh;
             position: fixed;
-            top: 0;
             left: 0;
-            z-index: 100;
+            top: 0;
+            background: var(--blue);
+            color: white;
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            color: #fff;
-            background: linear-gradient(180deg, #0864d8 0%, #1478f4 100%);
-            box-shadow: 3px 0 15px rgba(20, 80, 170, .12);
         }
 
         .brand {
-            min-height: 105px;
-            padding: 18px 20px;
+            height: 65px;
+            min-height: 65px;
             display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            border-bottom: 1px solid rgba(255,255,255,.18);
+            align-items: center;
+            padding: 0 25px;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,.15);
         }
 
         .brand-icon {
-            font-size: 43px;
+            font-size: 20px;
             line-height: 1;
         }
 
         .brand-name {
-            font-size: 21px;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .brand-subtitle {
-            font-size: 12px;
-            line-height: 1.5;
-            opacity: .9;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
         }
 
         .sidebar-menu {
-            padding: 14px 9px;
+            padding: 25px 12px;
+            flex: 1;
+        }
+
+        .sidebar-menu::before {
+            content: "MENU KASIR";
+            display: block;
+            font-size: 11px;
+            opacity: .75;
+            padding: 0 13px;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         .sidebar-link {
             display: flex;
             align-items: center;
-            gap: 17px;
-            min-height: 55px;
-            padding: 12px 17px;
-            margin-bottom: 7px;
-            color: #fff;
+            gap: 12px;
+            color: white;
             text-decoration: none;
+            padding: 13px 14px;
+            margin-bottom: 7px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
-            border-radius: 10px;
             transition: .2s;
         }
 
         .sidebar-link i {
-            width: 24px;
+            width: 20px;
             text-align: center;
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .sidebar-link:hover,
         .sidebar-link.active {
-            color: #fff;
-            background: rgba(255,255,255,.17);
-        }
-
-        .sidebar-link.active {
-            background: rgba(255,255,255,.2);
+            color: white;
+            background: rgba(255,255,255,.20);
         }
 
         .sidebar-bottom {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,.15);
             margin-top: auto;
-            padding: 16px 17px 22px;
         }
 
         .logout-button {
             width: 100%;
-            border: 0;
-            border-radius: 9px;
-            padding: 13px;
-            color: #ed3030;
-            background: #fff;
-            font-weight: 700;
-            font-size: 14px;
+            border: none;
+            background: white;
+            color: #dc3545;
+            padding: 11px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: .2s;
         }
 
-        /* MAIN */
+        .logout-button:hover {
+            background: #fce7e7;
+        }
+
+        /* MAIN CONTENT */
+
         .main-content {
             min-height: 100vh;
-            margin-left: 232px;
+            margin-left: 250px;
             padding: 0 25px 30px;
         }
 
         .topbar {
-            height: 55px;
+            height: 65px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            gap: 27px;
-            border-bottom: 1px solid #dce5f3;
+            justify-content: space-between;
+            padding: 0 28px;
             margin-bottom: 20px;
         }
 
-        .topbar-icon {
-            color: var(--navy);
-            font-size: 21px;
-            position: relative;
+        .topbar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
         }
 
-        .notification-count {
-            position: absolute;
-            top: -9px;
-            right: -8px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            color: #fff;
-            background: #ed3030;
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .profile-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            color: #fff;
-            background: var(--blue);
-            font-size: 23px;
-        }
-
-        .breadcrumb-area {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            color: #64769c;
-            margin-bottom: 20px;
+        .user-info {
             font-size: 13px;
-        }
-
-        .breadcrumb-area strong {
-            color: #344c84;
+            color: #555;
         }
 
         .page-heading {
@@ -198,14 +173,15 @@
         }
 
         .heading-icon {
-            width: 88px;
+            width: 78px;
             height: 78px;
             border-radius: 50%;
             display: grid;
             place-items: center;
             color: var(--blue);
             background: #d6e8ff;
-            font-size: 48px;
+            font-size: 42px;
+            flex-shrink: 0;
         }
 
         .page-heading h1 {
@@ -222,6 +198,7 @@
         }
 
         /* BANNER */
+
         .banner {
             min-height: 88px;
             padding: 18px 24px;
@@ -251,6 +228,7 @@
         }
 
         /* FILTER */
+
         .filter-card {
             padding: 17px;
             margin-bottom: 17px;
@@ -314,6 +292,7 @@
         }
 
         /* TABLE CARD */
+
         .table-card {
             overflow: hidden;
             margin-bottom: 22px;
@@ -474,13 +453,14 @@
         }
 
         /* MODAL */
+
         .modal-backdrop.show {
             opacity: .48;
         }
 
         .payment-modal .modal-dialog,
         .detail-modal .modal-dialog {
-            max-width: 920px;
+            max-width: 1100px;
         }
 
         .payment-modal .modal-content,
@@ -598,24 +578,33 @@
 
         .medicine-table {
             width: 100%;
+            min-width: 1050px;
             margin: 0;
             vertical-align: middle;
         }
 
         .medicine-table th {
-            padding: 11px 10px;
+            padding: 12px 11px;
             color: #10266d;
             background: #e5f0ff;
             border: 1px solid #d4e2f7;
             white-space: nowrap;
+            text-align: center;
             font-size: 12px;
+            font-weight: 800;
         }
 
         .medicine-table td {
-            padding: 10px;
+            padding: 12px 11px;
             color: #172b63;
             border: 1px solid #e0e8f5;
             font-size: 12px;
+            text-align: center;
+        }
+
+        .medicine-table td:nth-child(2) {
+            text-align: left;
+            font-weight: 700;
         }
 
         .total-bar {
@@ -798,6 +787,7 @@
         }
 
         /* DETAIL HISTORY */
+
         .detail-total {
             padding: 15px;
             border-radius: 10px;
@@ -808,15 +798,21 @@
             font-weight: 800;
         }
 
-        @media (max-width: 1000px) {
+        /* RESPONSIVE */
+
+        @media (max-width: 768px) {
             .sidebar {
-                width: 200px;
+                width: 210px;
             }
 
             .main-content {
-                margin-left: 200px;
+                margin-left: 210px;
                 padding-left: 17px;
                 padding-right: 17px;
+            }
+
+            .topbar {
+                padding: 0 18px;
             }
 
             .patient-summary {
@@ -834,25 +830,34 @@
             }
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 576px) {
             .sidebar {
-                width: 68px;
+                width: 65px;
             }
 
             .brand {
                 justify-content: center;
-                padding: 15px 5px;
+                padding: 0;
             }
 
-            .brand > div:last-child,
+            .brand-name,
+            .sidebar-menu::before,
             .sidebar-link span,
             .sidebar-bottom {
                 display: none;
             }
 
+            .brand-icon {
+                font-size: 21px;
+            }
+
+            .sidebar-menu {
+                padding: 20px 8px;
+            }
+
             .sidebar-link {
                 justify-content: center;
-                padding: 13px 5px;
+                padding: 14px 5px;
             }
 
             .sidebar-link i {
@@ -860,8 +865,16 @@
             }
 
             .main-content {
-                margin-left: 68px;
+                margin-left: 65px;
                 padding: 0 12px 20px;
+            }
+
+            .topbar {
+                padding: 0 12px;
+            }
+
+            .topbar-title {
+                font-size: 12px;
             }
 
             .page-heading h1 {
@@ -913,10 +926,10 @@
 @php
     /*
     |--------------------------------------------------------------------------
-    | Helper harga obat
+    | HELPER HARGA OBAT
     |--------------------------------------------------------------------------
-    | Harga jual dipilih berdasarkan satuan yang dipakai pada detail resep.
     */
+
     $ambilHargaObat = function ($obat) {
         $satuanId = (int) ($obat->pivot->satuan_obat_id ?? 0);
 
@@ -933,6 +946,85 @@
         return (float) $harga->harga / (float) $harga->isi;
     };
 
+    /*
+    |--------------------------------------------------------------------------
+    | HELPER DETAIL DOSIS, FREKUENSI, ATURAN, DAN LAMA
+    |--------------------------------------------------------------------------
+    */
+
+    $ambilDetailAturan = function ($pivot) {
+
+        $hasil = [
+            'dosis' => '-',
+            'frekuensi' => '-',
+            'aturan' => '-',
+            'lama' => '-',
+        ];
+
+        /*
+         * Ambil dari kolom pivot jika kolom tersebut tersedia.
+         */
+        foreach (array_keys($hasil) as $key) {
+            $nilai = data_get($pivot, $key);
+
+            if ($nilai !== null && trim((string) $nilai) !== '') {
+                $hasil[$key] = trim((string) $nilai);
+            }
+        }
+
+        /*
+         * Jika data masih tersimpan dalam aturan_pakai,
+         * coba pisahkan berdasarkan label.
+         */
+        $teks = trim((string) data_get($pivot, 'aturan_pakai', ''));
+
+        if ($teks !== '') {
+
+            $label = 'Dosis|Frekuensi|Aturan(?:\s+Pakai)?|Lama';
+
+            $pola = '/(?:^|[|;,\n])\s*(Dosis|Frekuensi|Aturan(?:\s+Pakai)?|Lama)\s*:\s*(.*?)(?=\s*[|;,\n]\s*(?:' . $label . ')\s*:|$)/iu';
+
+            if (preg_match_all($pola, $teks, $cocok, PREG_SET_ORDER)) {
+
+                foreach ($cocok as $item) {
+
+                    $namaLabel = strtolower(trim($item[1]));
+                    $nilai = trim($item[2]);
+
+                    if (str_starts_with($namaLabel, 'dosis')) {
+                        $key = 'dosis';
+                    } elseif (str_starts_with($namaLabel, 'frekuensi')) {
+                        $key = 'frekuensi';
+                    } elseif (str_starts_with($namaLabel, 'aturan')) {
+                        $key = 'aturan';
+                    } elseif (str_starts_with($namaLabel, 'lama')) {
+                        $key = 'lama';
+                    } else {
+                        continue;
+                    }
+
+                    if ($hasil[$key] === '-' && $nilai !== '') {
+                        $hasil[$key] = $nilai;
+                    }
+                }
+            } elseif ($hasil['aturan'] === '-') {
+                /*
+                 * Jika hanya berisi teks aturan biasa,
+                 * tampilkan pada kolom Aturan Pakai.
+                 */
+                $hasil['aturan'] = $teks;
+            }
+        }
+
+        return $hasil;
+    };
+
+    /*
+    |--------------------------------------------------------------------------
+    | HELPER TOTAL RESEP
+    |--------------------------------------------------------------------------
+    */
+
     $hitungTotalResep = function ($resep) use ($ambilHargaObat) {
         $total = 0;
 
@@ -943,6 +1035,12 @@
 
         return $total;
     };
+
+    /*
+    |--------------------------------------------------------------------------
+    | HELPER NAMA PASIEN DAN DOKTER
+    |--------------------------------------------------------------------------
+    */
 
     $namaPasien = function ($resep) {
         return data_get($resep, 'pemeriksaan.pendaftaran.pasien.nama', '-');
@@ -956,88 +1054,100 @@
 @endphp
 
 {{-- SIDEBAR --}}
+
 <aside class="sidebar">
+
     <div class="brand">
         <div class="brand-icon">
-            <i class="fa-solid fa-plus"></i>
+            <i class="fa-solid fa-hospital"></i>
         </div>
-        <div>
-            <div class="brand-name">SIM RS</div>
-            <div class="brand-subtitle">Sistem Informasi<br>Rumah Sakit</div>
-        </div>
+
+        <div class="brand-name">SIM RS</div>
     </div>
 
     <nav class="sidebar-menu">
+
         <a href="{{ route('kasir.dashboard') }}" class="sidebar-link">
             <i class="fa-solid fa-house"></i>
             <span>Dashboard</span>
         </a>
 
         <a href="{{ route('kasir.pembayaran') }}" class="sidebar-link active">
-            <i class="fa-solid fa-capsules"></i>
-            <span>Resep &amp; Pembayaran Obat</span>
+            <i class="fa-solid fa-money-bill-wave"></i>
+            <span>Pembayaran Obat</span>
         </a>
+
     </nav>
 
     <div class="sidebar-bottom">
         <form action="{{ route('logout') }}" method="POST">
             @csrf
+
             <button type="submit" class="logout-button">
                 <i class="fa-solid fa-right-from-bracket me-2"></i>
                 Logout
             </button>
         </form>
     </div>
+
 </aside>
 
 {{-- MAIN CONTENT --}}
+
 <main class="main-content">
 
     <div class="topbar">
-        <div class="topbar-icon">
-            <i class="fa-regular fa-bell"></i>
-            <span class="notification-count">1</span>
-        </div>
-        <div class="profile-icon">
-            <i class="fa-solid fa-user"></i>
-        </div>
-    </div>
 
-    {{-- BREADCRUMB --}}
-    <div class="breadcrumb-area">
-        <i class="fa-solid fa-house"></i>
-        <span>/</span>
-        <span>Transaksi</span>
-        <span>/</span>
-        <strong>Resep &amp; Pembayaran Obat</strong>
+        <div class="topbar-title">
+            Pembayaran Obat
+        </div>
+
+        <div class="user-info">
+            <i class="fa-solid fa-user me-2"></i>
+            {{ auth()->user()->name }}
+        </div>
+
     </div>
 
     {{-- JUDUL HALAMAN --}}
+
     <div class="page-heading">
+
         <div class="heading-icon">
             <i class="fa-solid fa-capsules"></i>
         </div>
+
         <div>
             <h1>Pembayaran Obat</h1>
             <p>Kelola resep obat dan lakukan pembayaran obat pasien</p>
         </div>
+
     </div>
 
     {{-- BANNER --}}
+
     <div class="banner">
+
         <i class="fa-solid fa-wallet"></i>
+
         <div>
             <h3>Pembayaran Obat Pasien</h3>
             <p>Cari pasien dan pilih resep yang akan dibayarkan</p>
         </div>
+
     </div>
 
     {{-- FILTER PENCARIAN --}}
+
     <div class="filter-card">
+
         <form action="{{ route('kasir.pembayaran') }}" method="GET">
+
             <div class="row align-items-end">
+
                 <div class="col-lg-5">
                     <label class="filter-label">Cari Pasien (Nama / No. RM)</label>
+
                     <input
                         type="text"
                         name="search"
@@ -1049,6 +1159,7 @@
 
                 <div class="col-lg-3">
                     <label class="filter-label">Tanggal Resep</label>
+
                     <input
                         type="date"
                         name="tanggal_mulai"
@@ -1059,6 +1170,7 @@
 
                 <div class="col-lg-3">
                     <label class="filter-label">Sampai Tanggal</label>
+
                     <input
                         type="date"
                         name="tanggal_selesai"
@@ -1072,28 +1184,41 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
+
             </div>
 
             <div class="text-end mt-2">
                 <a href="{{ route('kasir.pembayaran') }}" class="btn btn-sm btn-outline-blue">
-                    <i class="fa-solid fa-rotate-right me-1"></i> Reset Filter
+                    <i class="fa-solid fa-rotate-right me-1"></i>
+                    Reset Filter
                 </a>
             </div>
+
         </form>
+
     </div>
 
     {{-- DAFTAR RESEP --}}
+
     <section class="table-card">
+
         <div class="table-card-header">
+
             <h4>
                 <i class="fa-solid fa-rectangle-list"></i>
                 Daftar Resep untuk Pembayaran
             </h4>
-            <span class="count-badge">{{ $resepObats->total() }} Data</span>
+
+            <span class="count-badge">
+                {{ $resepObats->total() }} Data
+            </span>
+
         </div>
 
         <div class="table-responsive">
+
             <table class="main-table">
+
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -1109,21 +1234,31 @@
                 </thead>
 
                 <tbody>
+
                     @forelse ($resepObats as $index => $resep)
+
                         @php
                             $totalResep = $hitungTotalResep($resep);
                             $daftarObat = $resep->obat;
+
                             $jumlahObat = $daftarObat->sum(function ($obat) {
                                 return (int) ($obat->pivot->nilai ?? 0);
                             });
                         @endphp
 
                         <tr>
-                            <td>{{ $resepObats->firstItem() + $index }}</td>
 
-                            <td>{{ $namaPasien($resep) }}</td>
+                            <td>
+                                {{ $resepObats->firstItem() + $index }}
+                            </td>
 
-                            <td>{{ $namaDokter($resep) }}</td>
+                            <td>
+                                {{ $namaPasien($resep) }}
+                            </td>
+
+                            <td>
+                                {{ $namaDokter($resep) }}
+                            </td>
 
                             <td>
                                 @forelse ($daftarObat as $obat)
@@ -1170,32 +1305,49 @@
                                     Proses Bayar
                                 </button>
                             </td>
+
                         </tr>
+
                     @empty
+
                         <tr>
                             <td colspan="9" class="empty-state">
                                 <i class="fa-solid fa-folder-open fa-2x mb-2 d-block"></i>
                                 Belum ada resep yang menunggu pembayaran.
                             </td>
                         </tr>
+
                     @endforelse
+
                 </tbody>
+
             </table>
+
         </div>
+
     </section>
 
     {{-- RIWAYAT PEMBAYARAN --}}
+
     <section class="table-card">
+
         <div class="table-card-header">
+
             <h4>
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 Riwayat Pembayaran
             </h4>
-            <span class="count-badge">{{ $riwayatPembayaran->total() }} Data</span>
+
+            <span class="count-badge">
+                {{ $riwayatPembayaran->total() }} Data
+            </span>
+
         </div>
 
         <div class="table-responsive">
+
             <table class="main-table">
+
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -1210,13 +1362,18 @@
                 </thead>
 
                 <tbody>
+
                     @forelse ($riwayatPembayaran as $index => $bayar)
+
                         @php
                             $resepRiwayat = $bayar->resep;
                         @endphp
 
                         <tr>
-                            <td>{{ $riwayatPembayaran->firstItem() + $index }}</td>
+
+                            <td>
+                                {{ $riwayatPembayaran->firstItem() + $index }}
+                            </td>
 
                             <td>
                                 {{ $resepRiwayat ? $namaPasien($resepRiwayat) : '-' }}
@@ -1259,43 +1416,56 @@
                                     Detail
                                 </button>
                             </td>
+
                         </tr>
+
                     @empty
+
                         <tr>
                             <td colspan="8" class="empty-state">
                                 <i class="fa-solid fa-clock-rotate-left fa-2x mb-2 d-block"></i>
                                 Belum ada riwayat pembayaran.
                             </td>
                         </tr>
+
                     @endforelse
+
                 </tbody>
+
             </table>
+
         </div>
+
     </section>
 
     {{-- PAGINATION --}}
+
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+
         <div class="pagination-info">
             Menampilkan
             {{ $riwayatPembayaran->firstItem() ?? 0 }}
             -
             {{ $riwayatPembayaran->lastItem() ?? 0 }}
             dari
-            {{ $riwayatPembayaran->total() }} data riwayat pembayaran
+            {{ $riwayatPembayaran->total() }}
+            data riwayat pembayaran
         </div>
 
         <div>
             {{ $riwayatPembayaran->links('pagination::bootstrap-5') }}
         </div>
+
     </div>
 
 </main>
 
-{{-- =========================================================
+{{-- =====================================================
      MODAL PROSES PEMBAYARAN
-     DILETAKKAN DI LUAR TABEL
-========================================================= --}}
+===================================================== --}}
+
 @foreach ($resepObats as $resep)
+
     @php
         $totalResep = $hitungTotalResep($resep);
         $daftarObat = $resep->obat;
@@ -1308,10 +1478,13 @@
         aria-labelledby="paymentModalLabel{{ $resep->id }}"
         aria-hidden="true"
     >
+
         <div class="modal-dialog modal-dialog-centered modal-xl">
+
             <div class="modal-content">
 
                 <div class="modal-header">
+
                     <h5 class="modal-title" id="paymentModalLabel{{ $resep->id }}">
                         <i class="fa-solid fa-wallet"></i>
                         Proses Pembayaran Resep
@@ -1323,6 +1496,7 @@
                         data-bs-dismiss="modal"
                         aria-label="Close"
                     ></button>
+
                 </div>
 
                 <form
@@ -1331,68 +1505,90 @@
                     class="payment-form"
                     data-total="{{ $totalResep }}"
                 >
+
                     @csrf
 
                     <div class="modal-body">
 
                         {{-- INFORMASI PASIEN --}}
+
                         <div class="patient-summary">
+
                             <div class="summary-item">
+
                                 <div class="summary-icon">
                                     <i class="fa-solid fa-user"></i>
                                 </div>
+
                                 <div>
                                     <div class="summary-label">Pasien</div>
+
                                     <div class="summary-value">
                                         {{ $namaPasien($resep) }}
                                     </div>
+
                                     <div class="summary-small">
                                         No. Resep: {{ $resep->id }}
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="summary-item">
+
                                 <div class="summary-icon">
                                     <i class="fa-solid fa-user-doctor"></i>
                                 </div>
+
                                 <div>
                                     <div class="summary-label">Dokter</div>
+
                                     <div class="summary-value">
                                         {{ $namaDokter($resep) }}
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="summary-item">
+
                                 <div class="summary-icon">
                                     <i class="fa-regular fa-calendar-days"></i>
                                 </div>
+
                                 <div>
                                     <div class="summary-label">Tanggal Resep</div>
+
                                     <div class="summary-value">
                                         {{ $resep->created_at ? $resep->created_at->format('d/m/Y') : '-' }}
                                     </div>
                                 </div>
+
                             </div>
+
                         </div>
 
                         {{-- DETAIL OBAT --}}
+
                         <div class="modal-section">
+
                             <div class="modal-section-title">
                                 <i class="fa-solid fa-capsules"></i>
                                 Detail Resep Obat
                             </div>
 
                             <div class="table-responsive">
+
                                 <table class="medicine-table">
+
                                     <thead>
                                         <tr>
                                             <th>No.</th>
                                             <th>Nama Obat</th>
                                             <th>Jumlah</th>
+                                            <th>Dosis</th>
                                             <th>Frekuensi</th>
-                                            <th>Aturan</th>
+                                            <th>Aturan Pakai</th>
                                             <th>Lama</th>
                                             <th>Harga</th>
                                             <th>Subtotal</th>
@@ -1400,15 +1596,19 @@
                                     </thead>
 
                                     <tbody>
+
                                         @forelse ($daftarObat as $index => $obat)
+
                                             @php
                                                 $jumlah = (int) ($obat->pivot->nilai ?? 0);
                                                 $hargaSatuan = $ambilHargaObat($obat);
                                                 $subtotal = $hargaSatuan * $jumlah;
-                                                $aturanPakai = $obat->pivot->aturan_pakai ?? '-';
+
+                                                $detailAturan = $ambilDetailAturan($obat->pivot);
                                             @endphp
 
                                             <tr>
+
                                                 <td>{{ $index + 1 }}</td>
 
                                                 <td>
@@ -1417,11 +1617,13 @@
 
                                                 <td>{{ $jumlah }}</td>
 
-                                                <td>-</td>
+                                                <td>{{ $detailAturan['dosis'] }}</td>
 
-                                                <td>{{ $aturanPakai }}</td>
+                                                <td>{{ $detailAturan['frekuensi'] }}</td>
 
-                                                <td>-</td>
+                                                <td>{{ $detailAturan['aturan'] }}</td>
+
+                                                <td>{{ $detailAturan['lama'] }}</td>
 
                                                 <td>
                                                     Rp {{ number_format($hargaSatuan, 0, ',', '.') }}
@@ -1432,36 +1634,52 @@
                                                         Rp {{ number_format($subtotal, 0, ',', '.') }}
                                                     </strong>
                                                 </td>
+
                                             </tr>
+
                                         @empty
+
                                             <tr>
-                                                <td colspan="8" class="text-center">
+                                                <td colspan="9" class="text-center">
                                                     Tidak ada detail obat.
                                                 </td>
                                             </tr>
+
                                         @endforelse
+
                                     </tbody>
+
                                 </table>
+
                             </div>
+
                         </div>
 
                         {{-- TOTAL --}}
+
                         <div class="total-bar">
+
                             <span>Total Pembayaran:</span>
+
                             <span class="total-value">
                                 Rp {{ number_format($totalResep, 0, ',', '.') }}
                             </span>
+
                         </div>
 
                         {{-- METODE PEMBAYARAN --}}
+
                         <div class="payment-method-title">
                             <i class="fa-solid fa-wallet"></i>
                             Metode Pembayaran
                         </div>
 
                         <div class="row g-3">
+
                             <div class="col-md-4">
+
                                 <label class="payment-method-option cash selected">
+
                                     <input
                                         type="radio"
                                         name="metode_pembayaran"
@@ -1469,53 +1687,82 @@
                                         checked
                                         required
                                     >
+
                                     <i class="fa-solid fa-money-bill-wave"></i>
+
                                     <div>
                                         <div class="method-name">Tunai</div>
-                                        <div class="method-description">Bayar dengan uang tunai</div>
+                                        <div class="method-description">
+                                            Bayar dengan uang tunai
+                                        </div>
                                     </div>
+
                                     <i class="fa-solid fa-circle-check method-check"></i>
+
                                 </label>
+
                             </div>
 
                             <div class="col-md-4">
+
                                 <label class="payment-method-option">
+
                                     <input
                                         type="radio"
                                         name="metode_pembayaran"
                                         value="QRIS"
                                         required
                                     >
+
                                     <i class="fa-solid fa-qrcode"></i>
+
                                     <div>
                                         <div class="method-name">QRIS</div>
-                                        <div class="method-description">Scan QR Code</div>
+                                        <div class="method-description">
+                                            Scan QR Code
+                                        </div>
                                     </div>
+
                                     <i class="fa-solid fa-circle-check method-check"></i>
+
                                 </label>
+
                             </div>
 
                             <div class="col-md-4">
+
                                 <label class="payment-method-option">
+
                                     <input
                                         type="radio"
                                         name="metode_pembayaran"
                                         value="Transfer Bank"
                                         required
                                     >
+
                                     <i class="fa-solid fa-building-columns"></i>
+
                                     <div>
                                         <div class="method-name">Transfer</div>
-                                        <div class="method-description">Transfer via Bank</div>
+                                        <div class="method-description">
+                                            Transfer via Bank
+                                        </div>
                                     </div>
+
                                     <i class="fa-solid fa-circle-check method-check"></i>
+
                                 </label>
+
                             </div>
+
                         </div>
 
                         {{-- INPUT TUNAI --}}
+
                         <div class="payment-extra show cash-panel">
+
                             <label>Uang Diterima</label>
+
                             <input
                                 type="number"
                                 name="uang_diterima"
@@ -1529,12 +1776,18 @@
                                 Kembalian:
                                 <strong class="change-value">Rp 0</strong>
                             </div>
+
                         </div>
 
                         {{-- PANEL QRIS --}}
+
                         <div class="payment-extra qris-panel">
+
                             <div class="text-center">
-                                <strong class="text-primary">Silakan scan QRIS berikut</strong>
+
+                                <strong class="text-primary">
+                                    Silakan scan QRIS berikut
+                                </strong>
 
                                 <img
                                     src="{{ asset('images/qris.jpeg') }}"
@@ -1551,29 +1804,41 @@
                                 <div class="small text-muted">
                                     Total: Rp {{ number_format($totalResep, 0, ',', '.') }}
                                 </div>
+
                             </div>
+
                         </div>
 
                         {{-- PANEL TRANSFER --}}
+
                         <div class="payment-extra transfer-panel">
+
                             <label>Informasi Transfer Bank</label>
+
                             <div class="small text-muted">
                                 Silakan lakukan transfer sesuai total pembayaran dan ikuti
                                 prosedur verifikasi pembayaran yang berlaku.
                             </div>
+
                         </div>
 
-                        {{-- CATATAN --}}
+                        {{-- CATATAN DAN TOMBOL --}}
+
                         <div class="modal-footer-custom">
+
                             <div class="info-note flex-grow-1">
+
                                 <i class="fa-solid fa-circle-info"></i>
+
                                 <span>
                                     Pastikan pembayaran sesuai dengan total sebelum
                                     melanjutkan proses.
                                 </span>
+
                             </div>
 
                             <div class="modal-footer-buttons">
+
                                 <button
                                     type="button"
                                     class="btn btn-outline-blue"
@@ -1587,24 +1852,35 @@
                                     <i class="fa-solid fa-check me-1"></i>
                                     Bayar Sekarang
                                 </button>
+
                             </div>
+
                         </div>
 
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
 @endforeach
 
-{{-- =========================================================
+{{-- =====================================================
      MODAL DETAIL RIWAYAT PEMBAYARAN
-     DILETAKKAN DI LUAR TABEL
-========================================================= --}}
+===================================================== --}}
+
 @foreach ($riwayatPembayaran as $bayar)
+
     @php
         $resepRiwayat = $bayar->resep;
-        $detailObatRiwayat = $resepRiwayat ? $resepRiwayat->obat : collect();
+
+        $detailObatRiwayat = $resepRiwayat
+            ? $resepRiwayat->obat
+            : collect();
     @endphp
 
     <div
@@ -1614,10 +1890,13 @@
         aria-labelledby="detailRiwayatLabel{{ $bayar->id }}"
         aria-hidden="true"
     >
+
         <div class="modal-dialog modal-dialog-centered modal-xl">
+
             <div class="modal-content">
 
                 <div class="modal-header">
+
                     <h5 class="modal-title" id="detailRiwayatLabel{{ $bayar->id }}">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
                         Detail Pembayaran
@@ -1629,101 +1908,161 @@
                         data-bs-dismiss="modal"
                         aria-label="Close"
                     ></button>
+
                 </div>
 
                 <div class="modal-body">
 
+                    {{-- INFORMASI PASIEN --}}
+
                     <div class="patient-summary">
+
                         <div class="summary-item">
+
                             <div class="summary-icon">
                                 <i class="fa-solid fa-user"></i>
                             </div>
+
                             <div>
                                 <div class="summary-label">Pasien</div>
+
                                 <div class="summary-value">
                                     {{ $resepRiwayat ? $namaPasien($resepRiwayat) : '-' }}
                                 </div>
+
                                 <div class="summary-small">
                                     No. Resep: {{ $bayar->resep_id }}
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="summary-item">
+
                             <div class="summary-icon">
                                 <i class="fa-solid fa-user-doctor"></i>
                             </div>
+
                             <div>
                                 <div class="summary-label">Dokter</div>
+
                                 <div class="summary-value">
                                     {{ $resepRiwayat ? $namaDokter($resepRiwayat) : '-' }}
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="summary-item">
+
                             <div class="summary-icon">
                                 <i class="fa-regular fa-calendar-days"></i>
                             </div>
+
                             <div>
                                 <div class="summary-label">Tanggal Pembayaran</div>
+
                                 <div class="summary-value">
                                     {{ $bayar->created_at ? $bayar->created_at->format('d/m/Y') : '-' }}
                                 </div>
                             </div>
+
                         </div>
+
                     </div>
 
+                    {{-- DETAIL OBAT --}}
+
                     <div class="modal-section">
+
                         <div class="modal-section-title">
                             <i class="fa-solid fa-capsules"></i>
                             Detail Obat
                         </div>
 
                         <div class="table-responsive">
+
                             <table class="medicine-table">
+
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama Obat</th>
                                         <th>Jumlah</th>
+                                        <th>Dosis</th>
+                                        <th>Frekuensi</th>
                                         <th>Aturan Pakai</th>
+                                        <th>Lama</th>
                                         <th>Harga</th>
                                         <th>Subtotal</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
+
                                     @forelse ($detailObatRiwayat as $index => $obat)
+
                                         @php
                                             $jumlah = (int) ($obat->pivot->nilai ?? 0);
                                             $hargaSatuan = $ambilHargaObat($obat);
                                             $subtotal = $hargaSatuan * $jumlah;
+
+                                            $detailAturan = $ambilDetailAturan($obat->pivot);
                                         @endphp
 
                                         <tr>
+
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $obat->nama_obat ?? $obat->nama ?? 'Obat' }}</td>
+
+                                            <td>
+                                                {{ $obat->nama_obat ?? $obat->nama ?? 'Obat' }}
+                                            </td>
+
                                             <td>{{ $jumlah }}</td>
-                                            <td>{{ $obat->pivot->aturan_pakai ?? '-' }}</td>
-                                            <td>Rp {{ number_format($hargaSatuan, 0, ',', '.') }}</td>
-                                            <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
+
+                                            <td>{{ $detailAturan['dosis'] }}</td>
+
+                                            <td>{{ $detailAturan['frekuensi'] }}</td>
+
+                                            <td>{{ $detailAturan['aturan'] }}</td>
+
+                                            <td>{{ $detailAturan['lama'] }}</td>
+
+                                            <td>
+                                                Rp {{ number_format($hargaSatuan, 0, ',', '.') }}
+                                            </td>
+
+                                            <td>
+                                                Rp {{ number_format($subtotal, 0, ',', '.') }}
+                                            </td>
+
                                         </tr>
+
                                     @empty
+
                                         <tr>
-                                            <td colspan="6" class="text-center">
+                                            <td colspan="9" class="text-center">
                                                 Detail obat tidak tersedia.
                                             </td>
                                         </tr>
+
                                     @endforelse
+
                                 </tbody>
+
                             </table>
+
                         </div>
+
                     </div>
 
+                    {{-- INFORMASI PEMBAYARAN --}}
+
                     <div class="row g-3 mb-3">
+
                         <div class="col-md-6">
                             <div class="summary-label">Metode Pembayaran</div>
+
                             <div class="summary-value">
                                 {{ $bayar->metode_pembayaran }}
                             </div>
@@ -1731,10 +2070,12 @@
 
                         <div class="col-md-6">
                             <div class="summary-label">Status Pembayaran</div>
+
                             <div class="summary-value">
                                 {{ $bayar->status }}
                             </div>
                         </div>
+
                     </div>
 
                     <div class="detail-total">
@@ -1743,6 +2084,7 @@
                     </div>
 
                     <div class="text-end mt-3">
+
                         <button
                             type="button"
                             class="btn btn-outline-blue px-4"
@@ -1750,27 +2092,38 @@
                         >
                             Tutup
                         </button>
+
                     </div>
 
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 @endforeach
+
+{{-- JAVASCRIPT BOOTSTRAP --}}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Pilih metode pembayaran dan tampilkan panel yang sesuai.
     document.querySelectorAll('.payment-modal').forEach(function (modal) {
 
         function updatePaymentMethod() {
+
             const form = modal.querySelector('.payment-form');
+
             if (!form) return;
 
-            const selected = form.querySelector('input[name="metode_pembayaran"]:checked');
+            const selected = form.querySelector(
+                'input[name="metode_pembayaran"]:checked'
+            );
+
             const cashPanel = form.querySelector('.cash-panel');
             const qrisPanel = form.querySelector('.qris-panel');
             const transferPanel = form.querySelector('.transfer-panel');
@@ -1808,24 +2161,30 @@ document.addEventListener('DOMContentLoaded', function () {
             radio.addEventListener('change', updatePaymentMethod);
         });
 
-        // Hitung uang kembalian untuk pembayaran tunai.
         const cashInput = modal.querySelector('.cash-input');
         const changeValue = modal.querySelector('.change-value');
         const form = modal.querySelector('.payment-form');
 
         if (cashInput && changeValue && form) {
+
             cashInput.addEventListener('input', function () {
+
                 const total = Number(form.dataset.total || 0);
                 const diterima = Number(cashInput.value || 0);
                 const kembalian = Math.max(0, diterima - total);
 
-                changeValue.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(kembalian);
+                changeValue.textContent =
+                    'Rp ' + new Intl.NumberFormat('id-ID').format(kembalian);
+
             });
+
         }
 
-        // Reset pilihan ketika modal dibuka.
         modal.addEventListener('show.bs.modal', function () {
-            const cashRadio = modal.querySelector('input[name="metode_pembayaran"][value="Cash"]');
+
+            const cashRadio = modal.querySelector(
+                'input[name="metode_pembayaran"][value="Cash"]'
+            );
 
             if (cashRadio) {
                 cashRadio.checked = true;
@@ -1840,9 +2199,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             updatePaymentMethod();
+
         });
 
         updatePaymentMethod();
+
     });
 
 });
