@@ -695,19 +695,21 @@
                     }
                 @endphp
 
-                            {{-- PENGECEKAN PERMISSION --}}
-                @if (
-                    request()->routeIs('roles.*', 'permissions.*') ||
-                    (
-                        $requiredPermission !== null &&
-                        auth()->user()?->hasPermissionTo($requiredPermission)
-                    )
-                )
+                           {{-- PENGECEKAN PERMISSION --}}
 
-                    @yield('content')
-
-                @endif
-
+                        @if (
+                            request()->routeIs('roles.*', 'permissions.*') ||
+                            (
+                                $requiredPermission !== null &&
+                                auth()->user()?->hasPermissionTo($requiredPermission)
+                            )
+                        )
+                            @yield('content')
+                       @else
+    @php
+        abort(404);
+    @endphp
+@endif
             </div>
 
         </div>
