@@ -12,6 +12,8 @@
 
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    @stack('styles')
+
 
     <style>
         body {
@@ -263,56 +265,60 @@
             <hr>
 
             {{-- SIDEBAR ADMIN RUMAH SAKIT --}}
-            @if (auth()->user()?->hasRole('admin rumah sakit'))
 
-                <ul class="nav flex-column">
+@if (auth()->user()?->hasRole('admin rumah sakit'))
 
-                    {{-- DATA DOKTER --}}
-                    <li class="nav-item">
-                        <a href="{{ route('admin.dokter.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-user-doctor me-2"></i>
-                            Data Dokter
-                        </a>
-                    </li>
+    <ul class="nav flex-column">
 
-                    {{-- DATA PERAWAT --}}
-                    <li class="nav-item">
-                        <a href="{{ route('admin.perawat.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.perawat.*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-user-nurse me-2"></i>
-                            Data Perawat
-                        </a>
-                    </li>
+        <li class="nav-item">
+            <a href="{{ url('/admin/dashboard') }}"
+                class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-house me-2"></i>
+                Dashboard
+            </a>
+        </li>
 
-                    {{-- DATA PASIEN --}}
-                    <li class="nav-item">
-                        <a href="{{ route('admin.pasien.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.pasien.*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-hospital-user me-2"></i>
-                            Data Pasien
-                        </a>
-                    </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.pasien.index') }}"
+                class="nav-link {{ request()->routeIs('admin.pasien.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-hospital-user me-2"></i>
+                Data Pasien
+            </a>
+        </li>
 
-                    {{-- DATA APOTEKER --}}
-                    <li class="nav-item">
-                        <a href="{{ route('apoteker.dashboard') }}"
-                            class="nav-link {{ request()->routeIs('apoteker.*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
-                            Data Apoteker
-                        </a>
-                    </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.dokter.index') }}"
+                class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-user-doctor me-2"></i>
+                Data Dokter
+            </a>
+        </li>
 
-                    {{-- DATA KASIR --}}
-                    <li class="nav-item">
-                        <a href="{{ route('kasir.dashboard') }}"
-                            class="nav-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
-                            <i class="fa-solid fa-cash-register me-2"></i>
-                            Data Kasir
-                        </a>
-                    </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.perawat.index') }}"
+                class="nav-link {{ request()->routeIs('admin.perawat.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-user-nurse me-2"></i>
+                Data Perawat
+            </a>
+        </li>
 
-                </ul>
+        <li class="nav-item">
+            <a href="{{ route('apoteker.dashboard') }}"
+                class="nav-link {{ request()->routeIs('apoteker.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
+                Data Apoteker
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('kasir.dashboard') }}"
+                class="nav-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-cash-register me-2"></i>
+                Data Kasir
+            </a>
+        </li>
+
+    </ul>
 
             @else
 
@@ -717,7 +723,10 @@
     </div>
 
     {{-- JS BOOTSTRAP --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{{-- SCRIPT TAMBAHAN SETIAP HALAMAN --}}
+@stack('scripts')
 
 </body>
 
