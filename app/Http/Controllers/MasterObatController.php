@@ -163,47 +163,99 @@ class MasterObatController extends Controller
 
         $satuans = MasterSatuanObat::orderBy('nama', 'asc')->get();
 
+        $obats = MasterObat::orderBy('nama', 'asc')->get();
+
         return view(
             'apoteker.data-obat',
-            compact('kategoris', 'satuans')
+            compact('kategoris', 'satuans', 'obats')
         );
     }
 
-    // DATA YAJRA APOTEKER
-    public function dataApoteker()
-    {
-        $obats = MasterObat::with([
-                'kategori',
-                'hargaJual.satuan'
+    
+// DATA YAJRA APOTEKER
+public function dataApoteker()
+{
+    // Mengambil data konfigurasi obat dari tabel harga_jual_obats
+    $hargaObats = HargaJualObat::with([
+        'obat.kategori',
+        'satuan'
+    ])
+    ->select('harga_jual_obats.*')
+    ->orderBy('id', 'desc');
+
+    // Menampilkan data menggunakan Yajra DataTables
+    return DataTables::of($hargaObats)
+        ->addIndexColumn()
+
+        // Nama obat dari Master Obat
+        ->addColumn('nama', function ($hargaObat) {
+            return $hargaObat->obat?->nama ?? '-';
+        })
+
+        // Kategori obat
+        ->addColumn('kategori_nama', function ($hargaObat) {
+            return $hargaObat->obat?->kategori?->nama ?? '-';
+        })
+
+        // Nama satuan obat
+        ->addColumn('satuan_nama', function ($hargaObat) {
+            return $hargaObat->satuan?->nama ?? '-';
+        })
+
+        // Isi kemasan
+        ->addColumn('isi', function ($hargaObat) {
+            return $hargaObat->isi ?? '-';
+        })
+
+        // Harga jual
+        ->addColumn('harga', function ($hargaObat) {
+            $harga = $hargaObat->harga;
+
+            return $harga !== null
+                ? 'Rp ' . number_format((float) $harga, 0, ',', '.')
+                : '-';
+        })
+
+        ->make(true);
+}
+
+
+    // SIMPAN SATUAN DAN HARGA JUAL OBAT YANG SUDAH ADA
+public function storeHarga(Request $request)
+{
+    $validated = $request->validate([
+        'obat_id' => 'required|exists:master_obats,id',
+        'satuan_id' => 'required|exists:master_satuan_obats,id',
+        'isi' => 'required|integer|min:1',
+        'harga' => 'required|numeric|min:1',
+    ]);
+
+    // Cek apakah obat sudah memiliki konfigurasi satuan tersebut
+    $sudahAda = HargaJualObat::where('obat_id', $validated['obat_id'])
+        ->where('satuan_id', $validated['satuan_id'])
+        ->exists();
+
+    if ($sudahAda) {
+        return redirect()->back()
+            ->withErrors([
+                'satuan_id' => 'Satuan untuk obat ini sudah terdaftar.'
             ])
-            ->select('master_obats.*')
-            ->orderBy('id', 'desc');
-
-        return DataTables::of($obats)
-            ->addIndexColumn()
-
-            ->addColumn('kategori_nama', function ($obat) {
-                return $obat->kategori?->nama ?? '-';
-            })
-
-            ->addColumn('satuan_nama', function ($obat) {
-                return $obat->hargaJual->first()?->satuan?->nama ?? '-';
-            })
-
-            ->addColumn('isi', function ($obat) {
-                return $obat->hargaJual->first()?->isi ?? '-';
-            })
-
-            ->addColumn('harga', function ($obat) {
-                $harga = $obat->hargaJual->first()?->harga;
-
-                return $harga !== null
-                    ? 'Rp ' . number_format((float) $harga, 0, ',', '.')
-                    : '-';
-            })
-
-            ->make(true);
+            ->withInput();
     }
+
+    DB::transaction(function () use ($validated) {
+        HargaJualObat::create([
+            'obat_id' => $validated['obat_id'],
+            'satuan_id' => $validated['satuan_id'],
+            'isi' => $validated['isi'],
+            'harga' => $validated['harga'],
+        ]);
+    });
+
+    return redirect()
+        ->route('apoteker.obat.index')
+        ->with('success', 'Satuan dan harga jual obat berhasil ditambahkan.');
+}
 
     // HAPUS OBAT
     public function destroy(string $id)
