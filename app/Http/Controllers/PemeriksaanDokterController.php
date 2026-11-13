@@ -8,6 +8,7 @@ use App\Models\MasterDokter;
 use App\Models\MasterObat;
 use App\Models\StokObat;
 use App\Models\ResepObat;
+use App\Models\MasterFrekuensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,42 +18,45 @@ class PemeriksaanDokterController extends Controller
      * Halaman Pemeriksaan Dokter untuk Super Admin.
      */
     public function index()
-    {
-        $pemeriksaans = PemeriksaanDokter::with([
-            'pendaftaran.pasien',
-            'dokter',
-            'resep.obat',
-        ])->latest()->paginate(10);
+{
+    $pemeriksaans = PemeriksaanDokter::with([
+        'pendaftaran.pasien',
+        'dokter',
+        'resep.obat',
+    ])->latest()->paginate(10);
 
-        $pendaftarans = PendaftaranPasien::with([
-            'pasien',
-            'dokter',
-            'poli',
-        ])
-            ->whereDoesntHave('pemeriksaan')
-            ->whereNotNull('dokter_id')
-            ->latest()
-            ->get();
+    $pendaftarans = PendaftaranPasien::with([
+        'pasien',
+        'dokter',
+        'poli',
+    ])
+        ->whereDoesntHave('pemeriksaan')
+        ->whereNotNull('dokter_id')
+        ->latest()
+        ->get();
 
-        $dokters = MasterDokter::orderBy('nama', 'ASC')->get();
+    $dokters = MasterDokter::orderBy('nama', 'ASC')->get();
 
-        $obats = MasterObat::with('kategori')
-            ->orderBy('nama', 'ASC')
-            ->get();
+    $obats = MasterObat::with('kategori')
+        ->orderBy('nama', 'ASC')
+        ->get();
 
-        // Ambil satuan berdasarkan data stok obat.
-        $stokObats = StokObat::with(['obat', 'satuanObat'])
-            ->orderBy('obat_id')
-            ->get();
+    $stokObats = StokObat::with(['obat', 'satuanObat'])
+        ->orderBy('obat_id')
+        ->get();
 
-        return view('pemeriksaan-dokter.index', compact(
-            'pemeriksaans',
-            'pendaftarans',
-            'dokters',
-            'obats',
-            'stokObats'
-        ));
-    }
+    // Ambil data Master Frekuensi
+    $frekuensis = MasterFrekuensi::orderBy('nama', 'ASC')->get();
+
+    return view('pemeriksaan-dokter.index', compact(
+        'pemeriksaans',
+        'pendaftarans',
+        'dokters',
+        'obats',
+        'stokObats',
+        'frekuensis'
+    ));
+}
 
     /**
      * Halaman Pemeriksaan Dokter khusus akun Dokter.

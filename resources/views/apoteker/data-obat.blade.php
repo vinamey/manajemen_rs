@@ -521,9 +521,12 @@
                     <table id="tabelObat" class="table table-bordered table-hover w-100">
                         <thead>
                             <tr>
-                                <th width="80">ID</th>
+                                <th width="60">ID</th>
                                 <th>Nama Obat</th>
                                 <th>Kategori</th>
+                                <th>Satuan</th>
+                                <th>Isi</th>
+                                <th>Harga Jual</th>
                             </tr>
                         </thead>
 
@@ -541,103 +544,173 @@
 
     </main>
 
-    <!-- MODAL TAMBAH OBAT -->
-    <div
-        class="modal fade"
-        id="modalTambahObat"
-        tabindex="-1"
-        aria-labelledby="judulModalObat"
-        aria-hidden="true">
+    <!-- MODAL TAMBAH SATUAN DAN HARGA OBAT -->
+<div
+    class="modal fade"
+    id="modalTambahObat"
+    tabindex="-1"
+    aria-labelledby="judulModalObat"
+    aria-hidden="true">
 
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title" id="judulModalObat">
-                        <i class="fa-solid fa-circle-plus me-2"></i>
-                        Tambah Data Obat
-                    </h5>
+            <div class="modal-header">
+                <h5 class="modal-title" id="judulModalObat">
+                    <i class="fa-solid fa-circle-plus me-2"></i>
+                    Tambah Satuan dan Harga Obat
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close">
+                </button>
+            </div>
+
+            <form
+                action="{{ route('apoteker.obat.harga.store') }}"
+                method="POST">
+
+                @csrf
+
+                <div class="modal-body">
+
+                    <!-- PILIH OBAT -->
+                    <div class="mb-3">
+                        <label for="obat_id" class="form-label">
+                            Nama Obat <span class="text-danger">*</span>
+                        </label>
+
+                        <select
+                            class="form-select @error('obat_id') is-invalid @enderror"
+                            id="obat_id"
+                            name="obat_id"
+                            required>
+
+                            <option value="">-- Pilih Obat --</option>
+
+                            @foreach($obats as $obat)
+                                <option
+                                    value="{{ $obat->id }}"
+                                    {{ old('obat_id') == $obat->id ? 'selected' : '' }}>
+                                    {{ $obat->nama }}
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                        @error('obat_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- PILIH SATUAN -->
+                    <div class="mb-3">
+                        <label for="satuan_id" class="form-label">
+                            Satuan Obat <span class="text-danger">*</span>
+                        </label>
+
+                        <select
+                            class="form-select @error('satuan_id') is-invalid @enderror"
+                            id="satuan_id"
+                            name="satuan_id"
+                            required>
+
+                            <option value="">-- Pilih Satuan --</option>
+
+                            @foreach($satuans as $satuan)
+                                <option
+                                    value="{{ $satuan->id }}"
+                                    {{ old('satuan_id') == $satuan->id ? 'selected' : '' }}>
+                                    {{ $satuan->nama }}
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                        @error('satuan_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- ISI SATUAN -->
+                    <div class="mb-3">
+                        <label for="isi" class="form-label">
+                            Isi Satuan <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control @error('isi') is-invalid @enderror"
+                            id="isi"
+                            name="isi"
+                            value="{{ old('isi') }}"
+                            min="1"
+                            placeholder="Contoh: 10"
+                            required>
+
+                        @error('isi')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- HARGA JUAL -->
+                    <div class="mb-3">
+                        <label for="harga" class="form-label">
+                            Harga Jual <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control @error('harga') is-invalid @enderror"
+                            id="harga"
+                            name="harga"
+                            value="{{ old('harga') }}"
+                            min="1"
+                            step="1"
+                            placeholder="Contoh: 5000"
+                            required>
+
+                        @error('harga')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
 
                     <button
                         type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
+                        class="btn-modal-cancel"
+                        data-bs-dismiss="modal">
+                        Batal
                     </button>
+
+                    <button
+                        type="submit"
+                        class="btn-modal-save">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>
+                        Simpan
+                    </button>
+
                 </div>
 
-                <form action="{{ route('apoteker.obat.store') }}" method="POST">
-                    @csrf
+            </form>
 
-                    <div class="modal-body">
-
-                        <div class="mb-3">
-                            <label for="nama" class="form-label">
-                                Nama Obat <span class="text-danger">*</span>
-                            </label>
-
-                            <input
-                                type="text"
-                                class="form-control @error('nama') is-invalid @enderror"
-                                id="nama"
-                                name="nama"
-                                value="{{ old('nama') }}"
-                                placeholder="Masukkan nama obat"
-                                required>
-
-                            @error('nama')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="kategori_id" class="form-label">
-                                Kategori Obat <span class="text-danger">*</span>
-                            </label>
-
-                            <select
-                                class="form-select @error('kategori_id') is-invalid @enderror"
-                                id="kategori_id"
-                                name="kategori_id"
-                                required>
-
-                                <option value="">-- Pilih Kategori --</option>
-
-                                @foreach($kategoris as $kategori)
-                                    <option
-                                        value="{{ $kategori->id }}"
-                                        {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
-                                        {{ $kategori->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-
-                            @error('kategori_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn-modal-cancel"
-                            data-bs-dismiss="modal">
-                            Batal
-                        </button>
-
-                        <button type="submit" class="btn-modal-save">
-                            <i class="fa-solid fa-floppy-disk me-1"></i>
-                            Simpan Obat
-                        </button>
-                    </div>
-
-                </form>
-
-            </div>
         </div>
     </div>
+</div>
 
     <!-- JAVASCRIPT -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -665,7 +738,7 @@
                     }
                 },
 
-                columns: [
+               columns: [
                     {
                         data: 'id',
                         name: 'id'
@@ -678,6 +751,21 @@
                     {
                         data: 'kategori_nama',
                         name: 'kategori_nama',
+                        defaultContent: '-'
+                    },
+                    {
+                        data: 'satuan_nama',
+                        name: 'satuan_nama',
+                        defaultContent: '-'
+                    },
+                    {
+                        data: 'isi',
+                        name: 'isi',
+                        defaultContent: '-'
+                    },
+                    {
+                        data: 'harga',
+                        name: 'harga',
                         defaultContent: '-'
                     }
                 ],

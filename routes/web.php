@@ -339,10 +339,12 @@ Route::middleware([
         'dataApoteker'
     ])->name('obat.data');
 
-    Route::post('/data-obat', [
+   // Simpan satuan dan harga untuk obat yang sudah tersedia
+    Route::post('/obat/harga', [
         MasterObatController::class,
-        'storeApoteker'
-    ])->name('obat.store');
+        'storeHarga'
+    ])->name('obat.harga.store');
+
 });
 
 
