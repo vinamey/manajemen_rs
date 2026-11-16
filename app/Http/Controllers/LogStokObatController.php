@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Models\MasterObat;
 use App\Models\StokObat;
 use App\Models\LogStokObat;
 use App\Models\HargaJualObat;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class LogStokObatController extends Controller
 {
@@ -16,122 +16,141 @@ class LogStokObatController extends Controller
     {
         $obats = MasterObat::orderBy('nama', 'asc')->get();
 
-        $stokObats = StokObat::with(['obat', 'satuanObat'])->get();
+        $satuans = DB::table('master_satuan_obats')
+            ->orderBy('id')
+            ->get();
 
-        $logStokObats = LogStokObat::with(['obat', 'stokObat'])
+        $stokObats = StokObat::with(['obat', 'satuanObat'])
             ->latest()
             ->get();
 
-        $satuans = DB::table('master_satuan_obats')->get();
+        $logStokObats = LogStokObat::with([
+            'obat',
+            'stokObat.satuanObat'
+        ])->latest()->get();
 
         return view('log-stok-obat.index', compact(
             'obats',
+            'satuans',
             'stokObats',
-            'logStokObats',
-            'satuans'
+            'logStokObats'
         ));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'obat_id' => 'required|integer|exists:master_obats,id',
-            'satuan_obat_id' => 'required|integer|exists:master_satuan_obats,id',
+        $validated = $request->validate([
+            'obat_id' => [
+                'required',
+                'integer',
+                'exists:master_obats,id'
+            ],
+            'satuan_obat_id' => [
+                'required',
+                'integer',
+                'exists:master_satuan_obats,id'
+            ],
             'nilai' => 'required|integer|min:1',
             'expired_date' => 'nullable|date',
-            'keterangan' => 'nullable|string|max:1000',
+        ], [
+            'obat_id.required' => 'Nama obat wajib dipilih.',
+            'obat_id.exists' => 'Obat yang dipilih tidak ditemukan.',
+            'satuan_obat_id.required' => 'Satuan obat wajib dipilih.',
+            'satuan_obat_id.exists' => 'Satuan obat tidak ditemukan.',
+            'nilai.required' => 'Jumlah stok wajib diisi.',
+            'nilai.integer' => 'Jumlah stok harus berupa angka.',
+            'nilai.min' => 'Jumlah stok minimal 1.',
         ]);
 
         try {
-            DB::transaction(function () use ($request) {
+            DB::transaction(function () use ($validated) {
 
-                // Cari stok berdasarkan obat dan satuan
-                $stokObat = StokObat::where('obat_id', $request->obat_id)
-                    ->where('satuan_obat_id', $request->satuan_obat_id)
-                    ->lockForUpdate()
-                    ->first();
+                // Cari stok berdasarkan obat dan satuannya
+                $stokObat = StokObat::where(
+                    'obat_id',
+                    $validated['obat_id']
+                )->where(
+                    'satuan_obat_id',
+                    $validated['satuan_obat_id']
+                )->lockForUpdate()->first();
 
-                // Jika stok belum ada atau harganya masih 0,
-                // ambil harga dari tabel harga_jual_obats.
+                // Ambil harga jual jika stok belum ada
+                // atau harga jual stok masih kosong
                 if (!$stokObat || (float) $stokObat->harga_jual <= 0) {
 
-                    $hargaJual = HargaJualObat::where('obat_id', $request->obat_id)
-                        ->where('satuan_id', $request->satuan_obat_id)
-                        ->first();
+                    $hargaJual = HargaJualObat::where(
+                        'obat_id',
+                        $validated['obat_id']
+                    )->where(
+                        'satuan_id',
+                        $validated['satuan_obat_id']
+                    )->first();
 
-                    // Jangan simpan stok jika harga belum diatur Admin
                     if (!$hargaJual || (float) $hargaJual->harga <= 0) {
                         throw new \RuntimeException(
-                            'Harga jual obat dan satuan ini belum diatur Admin di tabel harga_jual_obats.'
+                            'Harga jual obat untuk satuan ini belum tersedia di tabel harga_jual_obats.'
                         );
                     }
 
-                    $harga = (int) round((float) $hargaJual->harga);
+                    $harga = (int) round($hargaJual->harga);
 
-                    // Buat stok baru dengan harga dari tabel harga jual
                     if (!$stokObat) {
                         $stokObat = StokObat::create([
-                            'obat_id' => $request->obat_id,
-                            'satuan_obat_id' => $request->satuan_obat_id,
+                            'obat_id' => $validated['obat_id'],
+                            'satuan_obat_id' => $validated['satuan_obat_id'],
                             'harga_jual' => $harga,
                             'stok_tersedia' => 0,
                         ]);
                     } else {
-                        // Perbaiki harga stok lama yang masih 0
                         $stokObat->harga_jual = $harga;
                         $stokObat->save();
                     }
                 }
 
-                // Tambahkan jumlah stok masuk
-                $stokObat->stok_tersedia += (int) $request->nilai;
+                // Tambahkan jumlah stok
+                $stokObat->stok_tersedia =
+                    (int) $stokObat->stok_tersedia
+                    + (int) $validated['nilai'];
+
                 $stokObat->save();
 
-                // Simpan riwayat stok masuk
+                // Siapkan data riwayat stok
                 $dataLog = [
                     'obat_id' => $stokObat->obat_id,
                     'stok_obat_id' => $stokObat->id,
-                    'nilai' => (int) $request->nilai,
-                    'tanggal_update' => now(),
+                    'nilai' => (int) $validated['nilai'],
+                    'tanggal_update' => now()->toDateString(),
                 ];
 
+                // Tambahkan status jika kolomnya tersedia
                 if (Schema::hasColumn('log_stok_obats', 'status')) {
                     $dataLog['status'] = 'masuk';
                 }
 
+                // Tambahkan tanggal kedaluwarsa jika kolom tersedia
                 if (
-                    $request->filled('expired_date') &&
+                    !empty($validated['expired_date']) &&
                     Schema::hasColumn('log_stok_obats', 'expired_date')
                 ) {
-                    $dataLog['expired_date'] = $request->expired_date;
+                    $dataLog['expired_date'] = $validated['expired_date'];
                 }
 
-                if (
-                    $request->filled('keterangan') &&
-                    Schema::hasColumn('log_stok_obats', 'keterangan')
-                ) {
-                    $dataLog['keterangan'] = $request->keterangan;
-                }
-
+                // Simpan riwayat log
                 LogStokObat::create($dataLog);
             });
 
-            return redirect()->back()->with(
-                'success',
-                'Stok obat berhasil ditambahkan.'
-            );
+            return redirect()
+                ->route('log-stok-obat.index')
+                ->with('success', 'Stok obat berhasil ditambahkan.');
 
         } catch (\Throwable $e) {
+
             report($e);
 
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->withInput()
-                ->with(
-                    'error',
-                    $e instanceof \RuntimeException
-                        ? $e->getMessage()
-                        : 'Gagal menyimpan stok obat. Periksa log Laravel untuk detail kesalahan.'
-                );
+                ->with('error', $e->getMessage());
         }
     }
 }
