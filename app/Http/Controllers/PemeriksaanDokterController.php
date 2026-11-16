@@ -225,6 +225,11 @@ class PemeriksaanDokterController extends Controller
                 'resep_obat' => 0,
             ]);
 
+            // Ubah status pendaftaran setelah pemeriksaan dibuat
+            $pendaftaran->update([
+                'status' => 'diperiksa',
+            ]);
+
             if (empty($obatValid)) {
                 return;
             }
