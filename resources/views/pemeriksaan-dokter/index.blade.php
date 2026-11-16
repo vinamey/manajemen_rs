@@ -877,7 +877,10 @@
         return [
             'obat_id' => $stok->obat_id,
             'satuan_obat_id' => $stok->satuan_obat_id,
-            'nama_satuan' => $stok->satuanObat->nama_satuan ?? 'Satuan tidak ditemukan',
+
+            // Ambil nama satuan dari kolom "nama"
+            'nama_satuan' => $stok->satuanObat->nama ?? 'Satuan tidak ditemukan',
+
             'stok_tersedia' => $stok->stok_tersedia,
         ];
     })->values()->toArray();

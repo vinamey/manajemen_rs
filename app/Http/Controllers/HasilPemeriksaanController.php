@@ -44,6 +44,7 @@ class HasilPemeriksaanController extends Controller
         );
     }
 
+
 public function store(Request $request)
 {
     $validated = $request->validate([
@@ -97,12 +98,13 @@ public function store(Request $request)
         $validated,
         $pemeriksaan
     ) {
+        // Simpan hasil pemeriksaan
         HasilPemeriksaan::create($validated);
 
-        // Ubah status pendaftaran pasien menjadi Selesai.
+        // Ubah status pendaftaran menjadi selesai
         if ($pemeriksaan->pendaftaran) {
             $pemeriksaan->pendaftaran->update([
-                'status' => 'Selesai',
+                'status' => 'selesai',
             ]);
         }
     });
@@ -111,9 +113,10 @@ public function store(Request $request)
         ->route('hasil-pemeriksaan.index')
         ->with(
             'success',
-            'Hasil pemeriksaan berhasil disimpan dan status pendaftaran pasien diperbarui menjadi Selesai.'
+            'Hasil pemeriksaan berhasil disimpan dan status pasien menjadi selesai.'
         );
 }
+
 
     public function show(HasilPemeriksaan $hasilPemeriksaan)
     {
