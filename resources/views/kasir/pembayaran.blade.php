@@ -1262,9 +1262,9 @@
 
                             <td>
                                 @forelse ($daftarObat as $obat)
-                                    <span class="medicine-badge mb-1">
-                                        {{ $obat->nama_obat ?? $obat->nama ?? 'Obat' }}
-                                    </span>
+                                    <div>
+                                        {{ $obat->nama ?? $obat->nama_obat ?? 'Obat' }}
+                                    </div>
                                 @empty
                                     -
                                 @endforelse
@@ -1274,8 +1274,11 @@
 
                             <td>
                                 @forelse ($daftarObat as $obat)
+                                    @php
+                                        $detailAturan = $ambilDetailAturan($obat->pivot);
+                                    @endphp
                                     <div>
-                                        {{ $obat->bentuk_obat ?? $obat->jenis_obat ?? '-' }}
+                                        {{ $detailAturan['aturan'] }}
                                     </div>
                                 @empty
                                     -
@@ -1393,19 +1396,26 @@
                                 </span>
                             </td>
 
-                            <td>
-                                <span class="status-success">
-                                    {{ $bayar->status }}
-                                </span>
-                            </td>
+                                            <td>
+                    @if ($bayar->status === 'LUNAS')
+                        <span class="status-success">
+                            {{ $bayar->status }}
+                        </span>
+                    @else
+                        <span class="status-waiting">
+                            {{ $bayar->status }}
+                        </span>
+                    @endif
+                </td>
 
                             <td>
                                 <strong>
                                     Rp {{ number_format($bayar->total_pembayaran, 0, ',', '.') }}
                                 </strong>
                             </td>
+                        <td>
+                            <div class="d-flex gap-2 align-items-center">
 
-                            <td>
                                 <button
                                     type="button"
                                     class="detail-button"
@@ -1415,7 +1425,24 @@
                                     <i class="fa-solid fa-eye me-1"></i>
                                     Detail
                                 </button>
-                            </td>
+
+                                @if ($bayar->status === 'MENUNGGU VERIFIKASI')
+                                    <form
+                                        action="{{ route('kasir.pembayaran.verifikasi', $bayar->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Pastikan pembayaran sudah diterima sebelum melakukan verifikasi. Lanjutkan?')"
+                                    >
+                                        @csrf
+
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fa-solid fa-check me-1"></i>
+                                            Verifikasi
+                                        </button>
+                                    </form>
+                                @endif
+
+                            </div>
+                        </td>
 
                         </tr>
 
@@ -1586,7 +1613,6 @@
                                             <th>No.</th>
                                             <th>Nama Obat</th>
                                             <th>Jumlah</th>
-                                            <th>Dosis</th>
                                             <th>Frekuensi</th>
                                             <th>Aturan Pakai</th>
                                             <th>Lama</th>
@@ -1617,8 +1643,6 @@
 
                                                 <td>{{ $jumlah }}</td>
 
-                                                <td>{{ $detailAturan['dosis'] }}</td>
-
                                                 <td>{{ $detailAturan['frekuensi'] }}</td>
 
                                                 <td>{{ $detailAturan['aturan'] }}</td>
@@ -1640,7 +1664,7 @@
                                         @empty
 
                                             <tr>
-                                                <td colspan="9" class="text-center">
+                                                <td colspan="8" class="text-center">
                                                     Tidak ada detail obat.
                                                 </td>
                                             </tr>
@@ -1989,7 +2013,6 @@
                                         <th>No.</th>
                                         <th>Nama Obat</th>
                                         <th>Jumlah</th>
-                                        <th>Dosis</th>
                                         <th>Frekuensi</th>
                                         <th>Aturan Pakai</th>
                                         <th>Lama</th>
@@ -2020,8 +2043,6 @@
 
                                             <td>{{ $jumlah }}</td>
 
-                                            <td>{{ $detailAturan['dosis'] }}</td>
-
                                             <td>{{ $detailAturan['frekuensi'] }}</td>
 
                                             <td>{{ $detailAturan['aturan'] }}</td>
@@ -2041,7 +2062,7 @@
                                     @empty
 
                                         <tr>
-                                            <td colspan="9" class="text-center">
+                                            <td colspan="8" class="text-center">
                                                 Detail obat tidak tersedia.
                                             </td>
                                         </tr>
