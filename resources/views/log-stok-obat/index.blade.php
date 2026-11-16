@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -8,10 +9,7 @@
 
     <title>Log Stok Obat - Apoteker | SIM RS</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -33,8 +31,6 @@
             font-family: Arial, sans-serif;
             color: var(--text-dark);
         }
-
-        /* SIDEBAR */
 
         .sidebar {
             width: 250px;
@@ -114,8 +110,6 @@
             font-size: 17px;
         }
 
-        /* LOGOUT */
-
         .logout-box {
             position: absolute;
             bottom: 20px;
@@ -139,15 +133,11 @@
             color: var(--blue-main);
         }
 
-        /* CONTENT */
-
         .content {
             margin-left: 250px;
             padding: 30px;
             min-height: 100vh;
         }
-
-        /* HEADER */
 
         .page-header {
             display: flex;
@@ -170,31 +160,6 @@
             color: var(--text-muted);
             margin-bottom: 0;
         }
-
-        .btn-dashboard {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            background: var(--blue-main);
-            color: white;
-            text-decoration: none;
-            padding: 11px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            transition: .2s;
-            white-space: nowrap;
-        }
-
-        .btn-dashboard:hover {
-            background: var(--blue-dark);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* CARD */
 
         .card {
             border: none;
@@ -219,8 +184,6 @@
             flex-shrink: 0;
         }
 
-        /* BUTTON */
-
         .btn-primary {
             background: var(--blue-main);
             border-color: var(--blue-main);
@@ -230,8 +193,6 @@
             background: var(--blue-dark);
             border-color: var(--blue-dark);
         }
-
-        /* TABLE */
 
         .table {
             margin-bottom: 0;
@@ -256,8 +217,6 @@
             background: #f8fbff;
         }
 
-        /* EMPTY STATE */
-
         .empty-state {
             padding: 45px 20px !important;
             text-align: center;
@@ -278,8 +237,6 @@
             margin-bottom: 5px;
         }
 
-        /* MODAL */
-
         .modal-content {
             border-radius: 12px;
         }
@@ -295,9 +252,7 @@
             box-shadow: 0 0 0 .2rem rgba(24, 119, 242, .15);
         }
 
-        /* RESPONSIVE */
-
-        @media(max-width: 900px) {
+        @media (max-width: 900px) {
             .sidebar {
                 width: 210px;
             }
@@ -307,7 +262,7 @@
             }
         }
 
-        @media(max-width: 600px) {
+        @media (max-width: 600px) {
             .sidebar {
                 width: 75px;
             }
@@ -358,18 +313,13 @@
             .page-header p {
                 font-size: 13px;
             }
-
-            .btn-dashboard {
-                padding: 10px 14px;
-            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
-
+    {{-- SIDEBAR --}}
     <div class="sidebar">
 
         <div class="logo">
@@ -408,12 +358,9 @@
             <span>Resep Dokter</span>
         </a>
 
-        <!-- LOGOUT -->
-
         <div class="logout-box">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-
                 <button type="submit" class="logout-btn">
                     🚪 &nbsp; Logout
                 </button>
@@ -422,104 +369,78 @@
 
     </div>
 
-    <!-- MAIN CONTENT -->
-
+    {{-- MAIN CONTENT --}}
     <main class="content">
 
-        <!-- HEADER HALAMAN -->
-
         <div class="page-header">
-
             <div>
                 <h2>Log Stok Obat</h2>
-
-                <p>
-                    Riwayat perubahan stok obat dan informasi stok tersedia.
-                </p>
+                <p>Riwayat perubahan stok obat dan informasi stok tersedia.</p>
             </div>
-
         </div>
 
-        <!-- PESAN BERHASIL -->
-
+        {{-- PESAN BERHASIL --}}
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show">
-
                 {{ session('success') }}
-
-                <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"></button>
-
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-        <!-- PESAN ERROR -->
+        {{-- PESAN ERROR --}}
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show">
+                <strong>Gagal menyimpan data:</strong>
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
 
+        {{-- VALIDASI --}}
         @if ($errors->any())
             <div class="alert alert-danger alert-dismissible fade show">
-
-                <strong>Data belum berhasil disimpan.</strong>
-
+                <strong>Data belum berhasil disimpan:</strong>
                 <ul class="mb-0 mt-2">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-
-                <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"></button>
-
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-        <!-- CARD STOK OBAT -->
-
+        {{-- CARD STOK OBAT --}}
         <div class="card shadow-sm">
 
-            <!-- HEADER CARD -->
-
             <div class="card-header bg-white border-0">
-
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
 
                     <div class="d-flex align-items-center">
-
                         <div class="section-icon bg-primary bg-opacity-10 text-primary">
                             <i class="fas fa-boxes-stacked"></i>
                         </div>
 
                         <div>
-                            <h5 class="mb-1 fw-bold text-dark">
-                                Stok Obat
-                            </h5>
-
+                            <h5 class="mb-1 fw-bold text-dark">Stok Obat</h5>
                             <small class="text-muted">
                                 Riwayat perubahan jumlah dan satuan obat.
                             </small>
                         </div>
-
                     </div>
 
                     <button type="button"
                         class="btn btn-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#modalTambahStok">
-
                         <i class="fas fa-plus me-1"></i>
                         Tambah Stok Obat
-
                     </button>
 
                 </div>
-
             </div>
 
-            <!-- TABEL DATA STOK -->
-
+            {{-- TABEL DATA --}}
             <div class="card-body p-0">
-
                 <div class="table-responsive">
 
                     <table class="table table-hover align-middle mb-0">
@@ -538,12 +459,13 @@
 
                         <tbody>
 
-                            @forelse (($logStokObats ?? $logStok ?? $logsLama ?? $logs ?? []) as $index => $log)
+                            @forelse ($logStokObats as $index => $log)
 
                                 @php
-                                    $nilai = (int) ($log->nilai ?? $log->jumlah ?? 0);
+                                    $nilai = (int) ($log->nilai ?? 0);
 
-                                    $tanggal = $log->tanggal_update ?? $log->created_at;
+                                    $tanggal = $log->tanggal_update
+                                        ?? $log->created_at;
 
                                     $namaObat = $log->obat?->nama
                                         ?? $log->obat?->nama_obat
@@ -553,42 +475,21 @@
                                         ?? $log->stokObat?->satuanObat?->nama
                                         ?? '-';
 
-                                    $stokTersedia = $log->stokObat?->stok_tersedia
-                                        ?? $log->stok_tersedia
-                                        ?? $log->nilai
-                                        ?? $log->jumlah
-                                        ?? 0;
+                                    $stokTersedia = $log->stokObat?->stok_tersedia ?? 0;
 
-                                    $status = $log->status ?? null;
-
-                                    if (!$status) {
-                                        $status = $nilai > 0
-                                            ? 'Bertambah'
-                                            : ($nilai < 0 ? 'Berkurang' : 'Tetap');
-                                    }
+                                    $status = $log->status
+                                        ?? ($nilai > 0 ? 'Masuk' : 'Tetap');
                                 @endphp
 
                                 <tr>
-
-                                    <!-- NOMOR -->
-
                                     <td class="fw-semibold">
                                         {{ $index + 1 }}
                                     </td>
 
-                                    <!-- TANGGAL -->
-
                                     <td>
                                         <i class="far fa-clock text-muted me-1"></i>
-
-                                        @if ($tanggal)
-                                            {{ \Carbon\Carbon::parse($tanggal)->format('d/m/Y H:i') }}
-                                        @else
-                                            -
-                                        @endif
+                                        {{ $tanggal ? \Carbon\Carbon::parse($tanggal)->format('d/m/Y H:i') : '-' }}
                                     </td>
-
-                                    <!-- NAMA OBAT -->
 
                                     <td>
                                         <span class="fw-bold text-dark">
@@ -596,81 +497,51 @@
                                         </span>
                                     </td>
 
-                                    <!-- SATUAN -->
-
                                     <td>
                                         <span class="text-secondary fw-semibold">
                                             {{ $namaSatuan }}
                                         </span>
                                     </td>
 
-                                    <!-- STATUS -->
-
                                     <td>
-
                                         @if (in_array(strtolower($status), ['masuk', 'bertambah']))
-
                                             <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">
                                                 <i class="fas fa-arrow-up me-1"></i>
                                                 {{ ucfirst($status) }}
                                             </span>
-
                                         @elseif (in_array(strtolower($status), ['keluar', 'berkurang']))
-
                                             <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2">
                                                 <i class="fas fa-arrow-down me-1"></i>
                                                 {{ ucfirst($status) }}
                                             </span>
-
                                         @else
-
                                             <span class="badge bg-secondary px-3 py-2">
                                                 {{ ucfirst($status) }}
                                             </span>
-
                                         @endif
-
                                     </td>
-
-                                    <!-- NILAI -->
 
                                     <td class="fw-bold">
-
                                         @if ($nilai > 0)
-
-                                            <span class="text-success">
-                                                +{{ $nilai }}
-                                            </span>
-
+                                            <span class="text-success">+{{ $nilai }}</span>
                                         @elseif ($nilai < 0)
-
-                                            <span class="text-danger">
-                                                {{ $nilai }}
-                                            </span>
-
+                                            <span class="text-danger">{{ $nilai }}</span>
                                         @else
-
-                                            <span>0</span>
-
+                                            0
                                         @endif
-
                                     </td>
-
-                                    <!-- STOK TERSEDIA -->
 
                                     <td>
                                         <span class="badge bg-primary px-3 py-2 fs-6">
                                             {{ $stokTersedia }}
                                         </span>
                                     </td>
-
                                 </tr>
 
                             @empty
 
                                 <tr>
                                     <td colspan="7" class="empty-state">
-
                                         <i class="fas fa-box-open"></i>
 
                                         <div class="empty-title">
@@ -680,7 +551,6 @@
                                         <small>
                                             Riwayat stok obat akan ditampilkan di bagian ini.
                                         </small>
-
                                     </td>
                                 </tr>
 
@@ -691,15 +561,12 @@
                     </table>
 
                 </div>
-
             </div>
-
         </div>
 
     </main>
 
-    <!-- MODAL TAMBAH STOK OBAT -->
-
+    {{-- MODAL TAMBAH STOK --}}
     <div class="modal fade" id="modalTambahStok" tabindex="-1"
         aria-labelledby="modalTambahStokLabel" aria-hidden="true">
 
@@ -708,18 +575,14 @@
             <div class="modal-content border-0 shadow-lg">
 
                 <form action="{{ route('log-stok-obat.store') }}" method="POST">
-
                     @csrf
 
-                    <!-- HEADER MODAL -->
-
+                    {{-- HEADER MODAL --}}
                     <div class="modal-header py-3">
 
                         <h5 class="modal-title fw-bold" id="modalTambahStokLabel">
-
                             <i class="fas fa-plus-circle me-2"></i>
                             Tambah Stok Obat
-
                         </h5>
 
                         <button type="button"
@@ -729,12 +592,10 @@
 
                     </div>
 
-                    <!-- BODY MODAL -->
-
+                    {{-- BODY MODAL --}}
                     <div class="modal-body p-4">
 
-                        <!-- NAMA OBAT -->
-
+                        {{-- NAMA OBAT --}}
                         <div class="mb-3">
 
                             <label for="obat_id" class="form-label fw-semibold">
@@ -742,54 +603,55 @@
                             </label>
 
                             <select name="obat_id" id="obat_id"
-                                class="form-select" required>
+                                class="form-select @error('obat_id') is-invalid @enderror"
+                                required>
 
                                 <option value="">-- Pilih Obat --</option>
 
-                                @foreach ($obats ?? [] as $obat)
-
+                                @foreach ($obats as $obat)
                                     <option value="{{ $obat->id }}"
                                         {{ old('obat_id') == $obat->id ? 'selected' : '' }}>
-
                                         {{ $obat->nama ?? $obat->nama_obat }}
-
                                     </option>
-
                                 @endforeach
 
                             </select>
 
+                            @error('obat_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
                         </div>
-<!-- SATUAN OBAT -->
 
-<div class="mb-3">
+                        {{-- SATUAN OBAT --}}
+                        <div class="mb-3">
 
-    <label for="satuan_obat_id" class="form-label fw-semibold">
-        Satuan Obat
-    </label>
+                            <label for="satuan_obat_id" class="form-label fw-semibold">
+                                Satuan Obat
+                            </label>
 
-    <select name="satuan_obat_id"
-        id="satuan_obat_id"
-        class="form-select"
-        required>
+                            <select name="satuan_obat_id" id="satuan_obat_id"
+                                class="form-select @error('satuan_obat_id') is-invalid @enderror"
+                                required>
 
-        <option value="">-- Pilih Satuan Obat --</option>
+                                <option value="">-- Pilih Satuan Obat --</option>
 
-        @foreach ($satuans as $satuan)
+                                @foreach ($satuans as $satuan)
+                                    <option value="{{ $satuan->id }}"
+                                        {{ old('satuan_obat_id') == $satuan->id ? 'selected' : '' }}>
+                                        {{ $satuan->nama_satuan ?? $satuan->nama ?? $satuan->satuan ?? '-' }}
+                                    </option>
+                                @endforeach
 
-            <option value="{{ $satuan->id }}"
-                {{ old('satuan_obat_id') == $satuan->id ? 'selected' : '' }}>
-{{ $satuan->nama_satuan ?? $satuan->nama ?? $satuan->satuan ?? '-' }}
+                            </select>
 
-            </option>
+                            @error('satuan_obat_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
 
-        @endforeach
+                        </div>
 
-    </select>
-
-</div>
-                        <!-- JUMLAH STOK -->
-
+                        {{-- JUMLAH STOK --}}
                         <div class="mb-3">
 
                             <label for="nilai" class="form-label fw-semibold">
@@ -799,16 +661,19 @@
                             <input type="number"
                                 name="nilai"
                                 id="nilai"
-                                class="form-control"
+                                class="form-control @error('nilai') is-invalid @enderror"
                                 min="1"
                                 value="{{ old('nilai') }}"
                                 placeholder="Masukkan jumlah stok..."
                                 required>
 
+                            @error('nilai')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
                         </div>
 
-                        <!-- KEDALUWARSA -->
-
+                        {{-- TANGGAL KEDALUWARSA --}}
                         <div class="mb-3">
 
                             <label for="expired_date" class="form-label fw-semibold">
@@ -823,26 +688,21 @@
 
                         </div>
 
+                    </div>
 
-
-                    <!-- FOOTER MODAL -->
-
+                    {{-- FOOTER MODAL --}}
                     <div class="modal-footer bg-light px-4 py-3">
 
                         <button type="button"
                             class="btn btn-outline-secondary px-4"
                             data-bs-dismiss="modal">
-
                             Batal
-
                         </button>
 
                         <button type="submit"
                             class="btn btn-primary px-4 fw-semibold">
-
                             <i class="fas fa-save me-1"></i>
                             Simpan Stok
-
                         </button>
 
                     </div>
@@ -850,33 +710,23 @@
                 </form>
 
             </div>
-
         </div>
-
     </div>
-
-    <!-- BOOTSTRAP JAVASCRIPT -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- BUKA MODAL KEMBALI JIKA VALIDASI GAGAL -->
-
+    {{-- BUKA MODAL KEMBALI JIKA VALIDASI GAGAL --}}
     @if ($errors->any())
-
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-
                 const modal = document.getElementById('modalTambahStok');
 
                 if (modal) {
                     bootstrap.Modal.getOrCreateInstance(modal).show();
                 }
-
             });
         </script>
-
     @endif
 
 </body>
 </html>
-
