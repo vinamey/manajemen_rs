@@ -1,4 +1,4 @@
- @php
+@php
     $user = auth()->user();
     $isApoteker = $user->hasRole('apoteker');
     $isDokter = $user->hasRole('dokter');
@@ -401,7 +401,6 @@
                             <th>Dokter</th>
                             <th>Nama Obat</th>
                             <th>Jumlah</th>
-                            <th>Dosis</th>
                             <th>Frekuensi</th>
                             <th>Aturan Pakai</th>
                             <th>Lama</th>
@@ -413,14 +412,9 @@
                                 @php
                                     $teks = $obat->pivot->aturan_pakai ?? '';
 
-                                    $dosis = '-';
                                     $frekuensi = '-';
                                     $aturan = '-';
                                     $lama = '-';
-
-                                    if (preg_match('/Dosis:\s*(.*?)(?=\s*\|\s*Frekuensi:|$)/i', $teks, $m)) {
-                                        $dosis = trim($m[1]);
-                                    }
 
                                     if (preg_match('/Frekuensi:\s*(.*?)(?=\s*\|\s*Aturan:|$)/i', $teks, $m)) {
                                         $frekuensi = trim($m[1]);
@@ -450,7 +444,6 @@
                                     </td>
                                     <td><span class="medicine-badge">{{ $obat->nama ?? '-' }}</span></td>
                                     <td><span class="quantity-badge">{{ $obat->pivot->nilai ?? '-' }}</span></td>
-                                    <td class="instruction-cell"><span class="instruction-value">{{ $dosis }}</span></td>
                                     <td class="instruction-cell"><span class="instruction-value">{{ $frekuensi }}</span></td>
                                     <td class="instruction-cell"><span class="instruction-value">{{ $aturan }}</span></td>
                                     <td class="instruction-cell"><span class="instruction-value">{{ $lama }}</span></td>
@@ -460,12 +453,12 @@
                                     <td>{{ $resepObats->firstItem() + $index }}</td>
                                     <td>{{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? '-' }}</td>
                                     <td>{{ $resep->pemeriksaan?->dokter?->nama ?? '-' }}</td>
-                                    <td colspan="6" class="text-muted">Belum ada obat pada resep ini.</td>
+                                    <td colspan="5" class="text-muted">Belum ada obat pada resep ini.</td>
                                 </tr>
                             @endforelse
                         @empty
                             <tr>
-                                <td colspan="9">
+                                <td colspan="8">
                                     <div class="empty-state">
                                         <i class="fa-solid fa-file-prescription d-block"></i>
                                         <h6>Belum Ada Resep</h6>
@@ -489,3 +482,4 @@
 
 </body>
 </html>
+
