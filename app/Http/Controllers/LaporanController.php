@@ -113,7 +113,6 @@ class LaporanController extends Controller
     {
         $totalPasien = DB::table('pasiens')->count();
 
-        // Total pendapatan hanya dari pembayaran LUNAS
         $totalPendapatan = $this->getPendapatanLunas()->sum('jumlah');
 
         $totalObat = DB::table('master_obats')->count();
