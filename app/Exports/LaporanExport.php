@@ -138,7 +138,7 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
                     "UPPER(TRIM(`{$statusColumn}`)) = ?",
                     ['LUNAS']
                 )
-                ->orderByDesc('id')
+               ->orderBy('id', 'asc')
                 ->get();
 
             return $payments->map(function ($item) use (

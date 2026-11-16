@@ -110,8 +110,8 @@
     {{-- KOP LAPORAN --}}
     <div class="header">
         <h2>
-            Laporan Data
-            {{ $type == 'data-obat' ? 'Data Obat' : ucfirst($type) }}
+            LAPORAN DATA
+            {{ $type == 'data-obat' ? 'OBAT' : strtoupper($type) }}
         </h2>
 
         <p>
@@ -130,33 +130,39 @@
                 <th width="5%" class="text-center">No</th>
 
                 @if($type == 'data-obat')
+
                     <th width="35%">Nama Obat</th>
                     <th width="20%" class="text-center">Stok</th>
                     <th width="20%" class="text-right">Harga</th>
 
                 @elseif($type == 'pasien')
+
                     <th width="20%">No. Rekam Medis</th>
                     <th width="35%">Nama Pasien</th>
                     <th width="20%" class="text-center">Jenis Kelamin</th>
                     <th width="20%" class="text-center">Tanggal Masuk</th>
 
                 @elseif($type == 'pendapatan')
+
                     <th width="15%">ID Transaksi</th>
                     <th width="45%">Keterangan</th>
                     <th width="20%" class="text-right">Jumlah</th>
                     <th width="15%" class="text-center">Tanggal</th>
+
                 @endif
             </tr>
         </thead>
 
         <tbody>
+
             @forelse($data as $index => $item)
+
                 <tr>
                     <td class="text-center">
                         {{ $index + 1 }}
                     </td>
 
-                    {{-- LAPORAN DATA OBAT --}}
+                    {{-- DATA OBAT --}}
                     @if($type == 'data-obat')
 
                         @php
@@ -186,7 +192,7 @@
                             Rp {{ number_format($harga, 0, ',', '.') }}
                         </td>
 
-                    {{-- LAPORAN PASIEN --}}
+                    {{-- DATA PASIEN --}}
                     @elseif($type == 'pasien')
 
                         <td>
@@ -202,12 +208,12 @@
                         </td>
 
                         <td class="text-center">
-                            {{ $item->created_at
-                                ? date('d/m/Y', strtotime($item->created_at))
+                            {{ !empty($item->tanggal_masuk)
+                                ? date('d/m/Y', strtotime($item->tanggal_masuk))
                                 : '-' }}
                         </td>
 
-                    {{-- LAPORAN PENDAPATAN --}}
+                    {{-- DATA PENDAPATAN --}}
                     @elseif($type == 'pendapatan')
 
                         <td>
@@ -223,21 +229,28 @@
                         </td>
 
                         <td class="text-center">
-                            {{ $item->created_at
-                                ? date('d/m/Y', strtotime($item->created_at))
-                                : '-' }}
+                            {{ $item->tanggal ?? '-' }}
                         </td>
 
                     @endif
+
                 </tr>
 
             @empty
+
                 <tr>
-                    <td colspan="5" class="empty-data">
-                        Tidak ada data {{ $type == 'data-obat' ? 'obat' : $type }} yang tersedia.
+                    <td colspan="{{ $type == 'data-obat' ? 4 : 5 }}"
+                        class="empty-data">
+
+                        Tidak ada data
+                        {{ $type == 'data-obat' ? 'obat' : $type }}
+                        yang tersedia.
+
                     </td>
                 </tr>
+
             @endforelse
+
         </tbody>
     </table>
 
