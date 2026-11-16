@@ -15,14 +15,13 @@ class PembayaranController extends Controller
      */
     public function index(Request $request)
     {
-        // Resep yang belum memiliki pembayaran
         $queryResep = ResepObat::with([
             'pemeriksaan.pendaftaran.pasien',
             'pemeriksaan.dokter',
             'obat.hargaJual.satuan',
         ])->whereDoesntHave('pembayaran');
 
-        // Pencarian berdasarkan nama pasien
+        // Pencarian nama pasien
         if ($request->filled('search')) {
             $search = $request->search;
 
@@ -75,12 +74,6 @@ class PembayaranController extends Controller
 
     /**
      * Menghitung total harga obat berdasarkan satuan resep.
-     *
-     * Contoh:
-     * Harga 1 strip = Rp10.000
-     * Isi 1 strip = 10 tablet
-     * Jumlah resep = 2 tablet
-     * Total = Rp2.000
      */
     private function hitungTotal(ResepObat $resep): float
     {
@@ -93,11 +86,8 @@ class PembayaranController extends Controller
         $total = 0;
 
         foreach ($resep->obat as $obat) {
-
-            // Ambil ID satuan dari detail resep
             $satuanResep = (int) $obat->pivot->satuan_obat_id;
 
-            // Cari harga jual yang satuannya sesuai dengan resep
             $hargaJual = $obat->hargaJual->firstWhere(
                 'satuan_id',
                 $satuanResep
@@ -125,10 +115,7 @@ class PembayaranController extends Controller
                 ]);
             }
 
-            // Harga per satuan terkecil
             $hargaPerSatuan = $harga / $isi;
-
-            // Total harga obat
             $subtotal = $hargaPerSatuan * $jumlah;
 
             $total += $subtotal;
@@ -164,8 +151,6 @@ class PembayaranController extends Controller
         ]);
 
         DB::transaction(function () use ($data, $id) {
-
-            // Ambil resep dan kunci selama transaksi
             $resep = ResepObat::with([
                 'obat.hargaJual',
             ])
@@ -188,26 +173,20 @@ class PembayaranController extends Controller
                 ]);
             }
 
-            // Hitung total harga resep
             $totalPembayaran = $this->hitungTotal($resep);
 
-            // Validasi pembayaran tunai
+            // Validasi khusus pembayaran Cash
             if ($data['metode_pembayaran'] === 'Cash') {
+                $uangDiterima = $data['uang_diterima'] ?? null;
 
-                if (
-                    !isset($data['uang_diterima']) ||
-                    $data['uang_diterima'] === ''
-                ) {
+                if ($uangDiterima === null || $uangDiterima === '') {
                     throw ValidationException::withMessages([
                         'uang_diterima' =>
                             'Masukkan jumlah uang yang diterima.',
                     ]);
                 }
 
-                if (
-                    (float) $data['uang_diterima']
-                    < $totalPembayaran
-                ) {
+                if ((float) $uangDiterima < $totalPembayaran) {
                     throw ValidationException::withMessages([
                         'uang_diterima' =>
                             'Uang yang diterima kurang dari total pembayaran.',
@@ -220,7 +199,6 @@ class PembayaranController extends Controller
                 ? 'LUNAS'
                 : 'MENUNGGU VERIFIKASI';
 
-            // Simpan pembayaran
             Pembayaran::create([
                 'resep_id' => $resep->id,
                 'total_pembayaran' => $totalPembayaran,
@@ -236,6 +214,50 @@ class PembayaranController extends Controller
         return redirect()
             ->route('kasir.pembayaran')
             ->with('success', $pesan);
+    }
+
+    /**
+     * Memverifikasi pembayaran QRIS atau Transfer Bank.
+     */
+    public function verifikasi($id)
+    {
+        $berhasil = DB::transaction(function () use ($id) {
+            $pembayaran = Pembayaran::whereKey($id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if (
+                $pembayaran->status !== 'MENUNGGU VERIFIKASI' ||
+                !in_array(
+                    $pembayaran->metode_pembayaran,
+                    ['QRIS', 'Transfer Bank']
+                )
+            ) {
+                return false;
+            }
+
+            $pembayaran->update([
+                'status' => 'LUNAS',
+            ]);
+
+            return true;
+        });
+
+        if (!$berhasil) {
+            return redirect()
+                ->route('kasir.pembayaran')
+                ->with(
+                    'error',
+                    'Pembayaran sudah diverifikasi atau tidak dapat diproses.'
+                );
+        }
+
+        return redirect()
+            ->route('kasir.pembayaran')
+            ->with(
+                'success',
+                'Pembayaran berhasil diverifikasi dan berstatus LUNAS.'
+            );
     }
 
     /**
