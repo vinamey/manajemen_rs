@@ -14,6 +14,7 @@ class Pembayaran extends Model
         'total_pembayaran',
         'metode_pembayaran',
         'status',
+        'bukti_transfer',
     ];
 
     public function resep()

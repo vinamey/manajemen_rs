@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -417,11 +416,17 @@ Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
         'proses'
     ])->name('kasir.pembayaran.proses');
 
+    Route::post('/kasir/pembayaran/{id}/verifikasi', [
+    PembayaranController::class,
+    'verifikasi'
+])->name('kasir.pembayaran.verifikasi');
+
     Route::delete('/kasir/pembayaran/{id}/hapus', [
         PembayaranController::class,
         'destroy'
     ])->name('kasir.pembayaran.hapus');
 });
+
 
 
 // ==================================================
