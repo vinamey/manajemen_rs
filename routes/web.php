@@ -799,7 +799,7 @@ Route::middleware([
     ])->name('master-obat.kurangi-stok');
 });
 
-
+   
 // ==================================================
 // LOG STOK OBAT
 // ==================================================
@@ -809,16 +809,26 @@ Route::middleware([
     'role:super admin|admin rumah sakit|apoteker'
 ])->group(function () {
 
+    // Halaman utama
     Route::get('/log-stok-obat', [
         LogStokObatController::class,
         'index'
     ])->name('log-stok-obat.index');
 
+    // Data AJAX DataTables
+    Route::get('/log-stok-obat/data', [
+        LogStokObatController::class,
+        'data'
+    ])->name('log-stok-obat.data');
+
+    // Simpan stok obat
     Route::post('/log-stok-obat', [
         LogStokObatController::class,
         'store'
     ])->name('log-stok-obat.store');
+
 });
+
 
 
 // ==================================================
