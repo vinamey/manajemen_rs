@@ -6,7 +6,9 @@ use App\Models\ResepObat;
 use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class PembayaranController extends Controller
 {
@@ -148,64 +150,110 @@ class PembayaranController extends Controller
                 'numeric',
                 'min:0',
             ],
+
+            'bukti_transfer' => [
+                'required_if:metode_pembayaran,Transfer Bank',
+                'nullable',
+                'file',
+                'mimes:jpg,jpeg,png,pdf',
+                'max:2048',
+            ],
+        ], [
+            'bukti_transfer.required_if' =>
+                'Silakan unggah bukti transfer terlebih dahulu.',
+
+            'bukti_transfer.file' =>
+                'Bukti transfer harus berupa file.',
+
+            'bukti_transfer.mimes' =>
+                'Bukti transfer harus berformat JPG, JPEG, PNG, atau PDF.',
+
+            'bukti_transfer.max' =>
+                'Ukuran bukti transfer maksimal 2 MB.',
         ]);
 
-        DB::transaction(function () use ($data, $id) {
-            $resep = ResepObat::with([
-                'obat.hargaJual',
-            ])
-                ->whereKey($id)
-                ->lockForUpdate()
-                ->firstOrFail();
+        $pathBukti = null;
 
-            // Cegah pembayaran ganda
-            $sudahAda = Pembayaran::where(
-                'resep_id',
-                $resep->id
-            )
-                ->lockForUpdate()
-                ->exists();
+        try {
+            DB::transaction(function () use (
+                $data,
+                $request,
+                $id,
+                &$pathBukti
+            ) {
+                $resep = ResepObat::with([
+                    'obat.hargaJual',
+                ])
+                    ->whereKey($id)
+                    ->lockForUpdate()
+                    ->firstOrFail();
 
-            if ($sudahAda) {
-                throw ValidationException::withMessages([
-                    'pembayaran' =>
-                        'Resep ini sudah memiliki catatan pembayaran.',
+                // Cegah pembayaran ganda
+                $sudahAda = Pembayaran::where(
+                    'resep_id',
+                    $resep->id
+                )
+                    ->lockForUpdate()
+                    ->exists();
+
+                if ($sudahAda) {
+                    throw ValidationException::withMessages([
+                        'pembayaran' =>
+                            'Resep ini sudah memiliki catatan pembayaran.',
+                    ]);
+                }
+
+                $totalPembayaran = $this->hitungTotal($resep);
+
+                // Validasi khusus pembayaran Cash
+                if ($data['metode_pembayaran'] === 'Cash') {
+                    $uangDiterima = $data['uang_diterima'] ?? null;
+
+                    if ($uangDiterima === null || $uangDiterima === '') {
+                        throw ValidationException::withMessages([
+                            'uang_diterima' =>
+                                'Masukkan jumlah uang yang diterima.',
+                        ]);
+                    }
+
+                    if ((float) $uangDiterima < $totalPembayaran) {
+                        throw ValidationException::withMessages([
+                            'uang_diterima' =>
+                                'Uang yang diterima kurang dari total pembayaran.',
+                        ]);
+                    }
+                }
+
+                // Simpan bukti transfer jika metode Transfer Bank
+                if (
+                    $data['metode_pembayaran'] === 'Transfer Bank' &&
+                    $request->hasFile('bukti_transfer')
+                ) {
+                    $pathBukti = $request->file('bukti_transfer')
+                        ->store('bukti-transfer', 'public');
+                }
+
+                // Tentukan status pembayaran
+                $status = $data['metode_pembayaran'] === 'Cash'
+                    ? 'LUNAS'
+                    : 'MENUNGGU VERIFIKASI';
+
+                Pembayaran::create([
+                    'resep_id' => $resep->id,
+                    'total_pembayaran' => $totalPembayaran,
+                    'metode_pembayaran' => $data['metode_pembayaran'],
+                    'status' => $status,
+                    'bukti_transfer' => $pathBukti,
                 ]);
+            });
+        } catch (Throwable $e) {
+            // Hapus file jika transaksi database gagal
+            if ($pathBukti) {
+                Storage::disk('public')->delete($pathBukti);
             }
 
-            $totalPembayaran = $this->hitungTotal($resep);
-
-            // Validasi khusus pembayaran Cash
-            if ($data['metode_pembayaran'] === 'Cash') {
-                $uangDiterima = $data['uang_diterima'] ?? null;
-
-                if ($uangDiterima === null || $uangDiterima === '') {
-                    throw ValidationException::withMessages([
-                        'uang_diterima' =>
-                            'Masukkan jumlah uang yang diterima.',
-                    ]);
-                }
-
-                if ((float) $uangDiterima < $totalPembayaran) {
-                    throw ValidationException::withMessages([
-                        'uang_diterima' =>
-                            'Uang yang diterima kurang dari total pembayaran.',
-                    ]);
-                }
-            }
-
-            // Tentukan status pembayaran
-            $status = $data['metode_pembayaran'] === 'Cash'
-                ? 'LUNAS'
-                : 'MENUNGGU VERIFIKASI';
-
-            Pembayaran::create([
-                'resep_id' => $resep->id,
-                'total_pembayaran' => $totalPembayaran,
-                'metode_pembayaran' => $data['metode_pembayaran'],
-                'status' => $status,
-            ]);
-        });
+            throw $e;
+        }
 
         $pesan = $data['metode_pembayaran'] === 'Cash'
             ? 'Pembayaran tunai berhasil dicatat.'
@@ -266,6 +314,12 @@ class PembayaranController extends Controller
     public function destroy($id)
     {
         $pembayaran = Pembayaran::findOrFail($id);
+
+        if ($pembayaran->bukti_transfer) {
+            Storage::disk('public')->delete(
+                $pembayaran->bukti_transfer
+            );
+        }
 
         $pembayaran->delete();
 

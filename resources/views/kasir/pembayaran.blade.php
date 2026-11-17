@@ -1525,13 +1525,13 @@
                     ></button>
 
                 </div>
-
-                <form
-                    action="{{ route('kasir.pembayaran.proses', $resep->id) }}"
-                    method="POST"
-                    class="payment-form"
-                    data-total="{{ $totalResep }}"
-                >
+                        <form
+                            action="{{ route('kasir.pembayaran.proses', $resep->id) }}"
+                            method="POST"
+                            class="payment-form"
+                            data-total="{{ $totalResep }}"
+                            enctype="multipart/form-data"
+                        >
 
                     @csrf
 
@@ -1832,19 +1832,63 @@
                             </div>
 
                         </div>
+{{-- BUKTI TRANSFER --}}
 
-                        {{-- PANEL TRANSFER --}}
+@if ($bayar->metode_pembayaran === 'Transfer Bank')
 
-                        <div class="payment-extra transfer-panel">
+    <div class="modal-section mt-3">
 
-                            <label>Informasi Transfer Bank</label>
+        <div class="modal-section-title">
+            <i class="fa-solid fa-receipt"></i>
+            Bukti Transfer
+        </div>
 
-                            <div class="small text-muted">
-                                Silakan lakukan transfer sesuai total pembayaran dan ikuti
-                                prosedur verifikasi pembayaran yang berlaku.
-                            </div>
+        <div class="p-3">
 
-                        </div>
+            @if ($bayar->bukti_transfer)
+
+                @php
+                    $ekstensi = strtolower(
+                        pathinfo($bayar->bukti_transfer, PATHINFO_EXTENSION)
+                    );
+                @endphp
+
+                @if (in_array($ekstensi, ['jpg', 'jpeg', 'png']))
+
+                    <img
+                        src="{{ asset('storage/' . $bayar->bukti_transfer) }}"
+                        alt="Bukti Transfer"
+                        class="img-fluid rounded"
+                        style="max-width:420px;"
+                    >
+
+                @elseif ($ekstensi === 'pdf')
+
+                    <a
+                        href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
+                        target="_blank"
+                        rel="noopener"
+                        class="btn btn-outline-primary"
+                    >
+                        <i class="fa-solid fa-file-pdf me-2"></i>
+                        Lihat Bukti Transfer PDF
+                    </a>
+
+                @endif
+
+            @else
+
+                <span class="text-muted">
+                    Bukti transfer belum tersedia.
+                </span>
+
+            @endif
+
+        </div>
+
+    </div>
+
+@endif
 
                         {{-- CATATAN DAN TOMBOL --}}
 
@@ -2149,6 +2193,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const qrisPanel = form.querySelector('.qris-panel');
             const transferPanel = form.querySelector('.transfer-panel');
             const cashInput = form.querySelector('.cash-input');
+            const transferInput = form.querySelector('.transfer-input');
 
             form.querySelectorAll('.payment-method-option').forEach(function (option) {
                 option.classList.remove('selected');
@@ -2173,9 +2218,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 qrisPanel.classList.add('show');
             }
 
-            if (selected && selected.value === 'Transfer Bank') {
-                transferPanel.classList.add('show');
-            }
+           if (selected && selected.value === 'Transfer Bank') {
+    transferPanel.classList.add('show');
+}
+
+if (transferInput) {
+    transferInput.required =
+        !!selected && selected.value === 'Transfer Bank';
+}
         }
 
         modal.querySelectorAll('input[name="metode_pembayaran"]').forEach(function (radio) {
