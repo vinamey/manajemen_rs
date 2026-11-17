@@ -20,9 +20,8 @@ class PemeriksaanDokterController extends Controller
     {
         // Dokter tidak boleh melihat seluruh data pemeriksaan.
         if (auth()->user()->hasRole('dokter')) {
-            return redirect()->route('dokter.resep.index');
-        }
-
+    return redirect()->route('dokter.resep.index');
+}
         $pemeriksaans = PemeriksaanDokter::with([
             'pendaftaran.pasien',
             'dokter',
@@ -244,7 +243,7 @@ class PemeriksaanDokterController extends Controller
 
             $dataObat = $validator->validated();
 
-            // Pastikan satuan tersedia untuk obat tersebut.
+            // Pastikan satuan yang dipilih tersedia untuk obat tersebut.
             $stokTersedia = StokObat::where('obat_id', $dataObat['obat_id'])
                 ->where('satuan_obat_id', $dataObat['satuan_obat_id'])
                 ->exists();
@@ -266,6 +265,11 @@ class PemeriksaanDokterController extends Controller
                 'dokter_id' => $pendaftaran->dokter_id,
                 'keluhan' => $validated['keluhan'],
                 'resep_obat' => 0,
+            ]);
+
+            // Ubah status pendaftaran setelah pemeriksaan dibuat
+            $pendaftaran->update([
+                'status' => 'diperiksa',
             ]);
 
             if (empty($obatValid)) {

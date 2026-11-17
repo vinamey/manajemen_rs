@@ -1,4 +1,3 @@
-
 @php
     $user = auth()->user();
     $isApoteker = $user->hasRole('apoteker');
@@ -1027,3 +1026,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </body>
 </html>
+
