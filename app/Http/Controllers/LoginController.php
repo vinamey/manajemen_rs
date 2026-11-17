@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\MasterDokter;
 
 class LoginController extends Controller
 {
@@ -31,6 +32,9 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
+        // Hapus pilihan dokter dari sesi login sebelumnya
+        $request->session()->forget('dokter_aktif_id');
+
         $user = Auth::user();
 
         // SUPER ADMIN
@@ -53,8 +57,8 @@ class LoginController extends Controller
         // DOKTER
         if ($user->hasRole('dokter')) {
             return redirect()
-                ->route('dokter.dashboard')
-                ->with('success', 'Selamat datang Dokter!');
+                ->route('dokter.pilih')
+                ->with('success', 'Silakan pilih nama dokter.');
         }
 
         // PERAWAT
@@ -64,13 +68,12 @@ class LoginController extends Controller
                 ->with('success', 'Selamat datang Perawat!');
         }
 
-       // APOTEKER: MASUK KE DASHBOARD
-if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
-    return redirect()
-        ->route('apoteker.dashboard')
-        ->with('success', 'Selamat datang Apoteker!');
-}
-
+        // APOTEKER
+        if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
+            return redirect()
+                ->route('apoteker.dashboard')
+                ->with('success', 'Selamat datang Apoteker!');
+        }
 
         // KASIR
         if ($user->hasRole('kasir')) {
@@ -102,6 +105,32 @@ if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
             ]);
     }
 
+    // Menampilkan halaman pilihan dokter
+    public function pilihDokter()
+    {
+        $dokters = MasterDokter::orderBy('nama')->get();
+
+        return view('dokter.pilih-dokter', compact('dokters'));
+    }
+
+    // Menyimpan dokter yang dipilih ke session
+    public function simpanDokter(Request $request)
+    {
+        $request->validate([
+            'dokter_id' => 'required|exists:master_dokters,id',
+        ]);
+
+        $dokter = MasterDokter::findOrFail($request->dokter_id);
+
+        session([
+            'dokter_aktif_id' => $dokter->id,
+        ]);
+
+        return redirect()
+            ->route('dokter.dashboard')
+            ->with('success', 'Selamat datang, ' . $dokter->nama . '!');
+    }
+
     // Logout pengguna
     public function logout(Request $request)
     {
@@ -111,7 +140,7 @@ if ($user->hasAnyRole(['apoteker', 'Apoteker'])) {
         $request->session()->regenerateToken();
 
         return redirect()
-            ->route('login')
+            ->route('landing')
             ->with('success', 'Berhasil logout.');
     }
 }
