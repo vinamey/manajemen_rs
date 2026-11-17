@@ -457,7 +457,7 @@
                 processing: true,
                 serverSide: true,
 
-                ajax: "{{ route('dokter.pasien.index') }}",
+                ajax: "{{ route('dokter.pasien.data') }}",
 
                 columns: [
                     {
