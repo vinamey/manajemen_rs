@@ -4,21 +4,25 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Log Stok Obat - Apoteker | SIM RS</title>
+    <title>Log Stok Obat - Apoteker</title>
 
+    <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- FONT AWESOME -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+    <!-- DATATABLES -->
+    <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
     <style>
         :root {
             --blue-main: #1877f2;
             --blue-dark: #0f58c6;
-            --blue-light: #e7f3ff;
             --text-dark: #1f2937;
-            --text-muted: #6b7280;
         }
 
         * {
@@ -32,6 +36,7 @@
             color: var(--text-dark);
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -41,7 +46,7 @@
             background: linear-gradient(180deg, var(--blue-main), var(--blue-dark));
             color: white;
             padding-top: 20px;
-            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 3px 0 15px rgba(0,0,0,.08);
             z-index: 1000;
         }
 
@@ -67,7 +72,7 @@
 
         .sidebar-line {
             border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-top: 1px solid rgba(255,255,255,.25);
             margin: 0 18px 15px;
         }
 
@@ -75,7 +80,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            opacity: 0.7;
+            opacity: .7;
             padding: 0 20px;
             margin-bottom: 7px;
         }
@@ -90,12 +95,13 @@
             margin: 4px 12px;
             border-radius: 10px;
             font-size: 14px;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .sidebar a:hover {
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(255,255,255,.18);
             transform: translateX(3px);
+            color: white;
         }
 
         .sidebar a.active {
@@ -119,13 +125,13 @@
 
         .logout-btn {
             border: none;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255,255,255,.15);
             color: white;
             width: 100%;
             padding: 11px;
             border-radius: 10px;
             font-weight: 600;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .logout-btn:hover {
@@ -133,185 +139,367 @@
             color: var(--blue-main);
         }
 
+        /* CONTENT */
         .content {
             margin-left: 250px;
             padding: 30px;
             min-height: 100vh;
         }
 
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .page-header h2 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #172b4d;
-            margin-bottom: 8px;
-        }
-
-        .page-header p {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 0;
-        }
-
-        .card {
+        /* WELCOME */
+        .welcome-card {
+            background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
+            color: white;
             border: none;
-            border-radius: 10px;
-            overflow: hidden;
-            background: white;
+            border-radius: 18px;
+            padding: 23px 27px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(24,119,242,.16);
         }
 
-        .card-header {
-            padding: 20px;
+        .welcome-card h3 {
+            font-size: 23px;
+            font-weight: 700;
+            margin-bottom: 7px;
         }
 
-        .section-icon {
-            width: 42px;
-            height: 42px;
+        .welcome-card p {
+            font-size: 14px;
+            margin: 0;
+            opacity: .9;
+        }
+
+        .welcome-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255,255,255,.17);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 9px;
-            font-size: 18px;
-            margin-right: 12px;
-            flex-shrink: 0;
+            font-size: 25px;
         }
 
-        .btn-primary {
-            background: var(--blue-main);
-            border-color: var(--blue-main);
+        /* CONTENT CARD */
+        .content-card {
+            background: white;
+            border: 1px solid #e9eef5;
+            border-radius: 17px;
+            box-shadow: 0 4px 15px rgba(25,50,90,.045);
+            overflow: hidden;
         }
 
-        .btn-primary:hover {
-            background: var(--blue-dark);
-            border-color: var(--blue-dark);
+        .card-header-custom {
+            padding: 20px 23px;
+            border-bottom: 1px solid #edf0f5;
         }
 
-        .table {
+        .content-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 0;
+            color: #243247;
+        }
+
+        .content-title i {
+            color: var(--blue-main);
+            margin-right: 9px;
+        }
+
+        .content-subtitle {
+            color: #7a879a;
+            font-size: 13px;
+            margin-top: 6px;
             margin-bottom: 0;
         }
 
-        .table thead th {
-            background: #0d6efd !important;
-            color: white !important;
-            padding: 15px;
-            white-space: nowrap;
-            font-size: 13px;
-            border: none;
+        .card-body-custom {
+            padding: 22px;
         }
 
-        .table tbody td {
-            padding: 15px;
+        /* BUTTON */
+        .btn-add {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue-main);
+            border: none;
+            color: white;
+            padding: 10px 17px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .btn-add:hover {
+            background: var(--blue-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* TABLE */
+        table.dataTable {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin-top: 12px !important;
+        }
+
+        table.dataTable thead th {
+            background: var(--blue-main) !important;
+            color: white !important;
+            border-bottom: none !important;
+            padding: 14px 13px !important;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        table.dataTable tbody td {
+            padding: 13px !important;
             vertical-align: middle;
             font-size: 13px;
+            color: #344054;
         }
 
-        .table tbody tr:hover {
-            background: #f8fbff;
+        table.dataTable tbody tr:hover {
+            background: #f3f8ff !important;
         }
 
-        .empty-state {
-            padding: 45px 20px !important;
+        .dataTables_wrapper {
+            font-size: 13px;
+            color: #59677b;
+        }
+
+        .dataTables_wrapper .dataTables_filter input,
+        .dataTables_wrapper .dataTables_length select {
+            border: 1px solid #dce3ed;
+            border-radius: 8px;
+            padding: 7px 10px;
+            outline: none;
+            background: white;
+            font-size: 13px;
+            margin-left: 7px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input:focus,
+        .dataTables_wrapper .dataTables_length select:focus {
+            border-color: var(--blue-main);
+            box-shadow: 0 0 0 3px rgba(24,119,242,.1);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 5px 11px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: var(--blue-main) !important;
+            border: 1px solid var(--blue-main) !important;
+            color: white !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #eaf2ff !important;
+            border: 1px solid #dce3ed !important;
+            color: var(--blue-main) !important;
+        }
+
+        .dataTables_empty {
+            padding: 25px !important;
+            text-align: center !important;
+            color: #7a879a !important;
+        }
+
+        /* STATUS */
+        .status-masuk {
+            display: inline-block;
+            background: #e6f4ee;
+            color: #198754;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            min-width: 75px;
             text-align: center;
-            color: var(--text-muted);
         }
 
-        .empty-state i {
-            font-size: 38px;
-            margin-bottom: 15px;
-            color: #7b8794;
-            display: block;
+        .status-keluar {
+            display: inline-block;
+            background: #fce9eb;
+            color: #dc3545;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            min-width: 75px;
+            text-align: center;
         }
 
-        .empty-title {
-            color: #111827;
-            font-size: 14px;
+        .stok-badge {
+            display: inline-block;
+            background: var(--blue-main);
+            color: white;
+            padding: 6px 13px;
+            border-radius: 7px;
+            font-size: 13px;
             font-weight: 700;
-            margin-bottom: 5px;
+        }
+
+        /* FOOTER */
+        .footer-text {
+            text-align: center;
+            color: #8a95a7;
+            font-size: 11px;
+            padding: 25px 0 10px;
+        }
+
+        /* MODAL */
+        .modal-dialog {
+            max-width: 460px;
         }
 
         .modal-content {
-            border-radius: 12px;
+            border: none;
+            border-radius: 9px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(0,0,0,.18);
         }
 
         .modal-header {
             background: var(--blue-main);
             color: white;
+            padding: 12px 15px;
+            border: none;
         }
 
-        .form-control:focus,
-        .form-select:focus {
+        .modal-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+            opacity: .8;
+            box-shadow: none;
+        }
+
+        .modal-body {
+            padding: 20px 18px;
+        }
+
+        .modal-body .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #344054;
+            margin-bottom: 7px;
+        }
+
+        .modal-body .form-control,
+        .modal-body .form-select {
+            border: 1px solid #dce3ed;
+            border-radius: 7px;
+            padding: 9px 10px;
+            font-size: 12px;
+        }
+
+        .modal-body .form-control:focus,
+        .modal-body .form-select:focus {
             border-color: var(--blue-main);
-            box-shadow: 0 0 0 .2rem rgba(24, 119, 242, .15);
+            box-shadow: 0 0 0 3px rgba(24,119,242,.1);
         }
 
-        @media (max-width: 900px) {
+        .modal-footer {
+            padding: 12px 18px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9eef5;
+        }
+
+        .btn-modal-cancel {
+            background: white;
+            border: 1px solid #adb5bd;
+            color: #59677b;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .btn-modal-save {
+            background: var(--blue-main);
+            border: none;
+            color: white;
+            padding: 8px 17px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-modal-save:hover {
+            background: var(--blue-dark);
+            color: white;
+        }
+
+        /* FOOTER RESPONSIVE */
+        @media(max-width: 900px) {
             .sidebar {
                 width: 210px;
             }
 
             .content {
                 margin-left: 210px;
+                padding: 22px;
             }
         }
 
-        @media (max-width: 600px) {
+        @media(max-width: 600px) {
             .sidebar {
                 width: 75px;
             }
 
             .logo {
-                font-size: 12px;
-            }
-
-            .logo-icon {
-                width: 40px;
-                height: 40px;
+                font-size: 0;
             }
 
             .menu-title {
-                font-size: 0;
+                display: none;
+            }
+
+            .sidebar-line {
+                margin: 0 10px 15px;
             }
 
             .sidebar a {
                 justify-content: center;
-                padding: 12px 5px;
+                padding: 13px 5px;
+                font-size: 0;
             }
 
-            .sidebar a span:not(.menu-icon) {
-                display: none;
-            }
-
-            .sidebar a .menu-icon {
-                font-size: 18px;
+            .menu-icon {
+                font-size: 19px;
             }
 
             .logout-btn {
                 font-size: 0;
             }
 
-            .logout-btn::first-letter {
-                font-size: 15px;
-            }
-
             .content {
                 margin-left: 75px;
-                padding: 20px 12px;
+                padding: 15px;
             }
 
-            .page-header h2 {
-                font-size: 21px;
+            .welcome-card {
+                padding: 18px;
             }
 
-            .page-header p {
-                font-size: 13px;
+            .welcome-card h3 {
+                font-size: 19px;
+            }
+
+            .card-body-custom {
+                padding: 14px;
+            }
+
+            .modal-dialog {
+                margin: 15px;
             }
         }
     </style>
@@ -319,7 +507,7 @@
 
 <body>
 
-    {{-- SIDEBAR --}}
+    <!-- SIDEBAR -->
     <div class="sidebar">
 
         <div class="logo">
@@ -333,34 +521,35 @@
 
         <a href="{{ route('apoteker.dashboard') }}">
             <span class="menu-icon">🏠</span>
-            <span>Dashboard</span>
+            Dashboard
         </a>
 
         <a href="{{ route('apoteker.obat.index') }}">
             <span class="menu-icon">💊</span>
-            <span>Data Obat</span>
+            Data Obat
         </a>
 
         <a href="{{ route('log-stok-obat.index') }}" class="active">
             <span class="menu-icon">🛒</span>
-            <span>Log Stok Obat</span>
+            Log Stok Obat
         </a>
 
         <a href="{{ route('apoteker.supplier.index') }}">
             <span class="menu-icon">🏢</span>
-            <span>Supplier Obat</span>
+            Supplier Obat
         </a>
 
         <a href="{{ route('apoteker.resep.index') }}">
             <span class="menu-icon">
                 <i class="fa-solid fa-file-prescription"></i>
             </span>
-            <span>Resep Dokter</span>
+            Resep Dokter
         </a>
 
         <div class="logout-box">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
+
                 <button type="submit" class="logout-btn">
                     🚪 &nbsp; Logout
                 </button>
@@ -369,85 +558,94 @@
 
     </div>
 
-    {{-- MAIN CONTENT --}}
+    <!-- MAIN CONTENT -->
     <main class="content">
 
-        <div class="page-header">
-            <div>
-                <h2>Log Stok Obat</h2>
-                <p>Riwayat perubahan stok obat dan informasi stok tersedia.</p>
+        <!-- WELCOME -->
+        <div class="welcome-card">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div class="welcome-icon">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+
+                <div>
+                    <h3>Log Stok Obat Apoteker</h3>
+                    <p>Riwayat perubahan stok obat dan informasi stok tersedia.</p>
+                </div>
+
             </div>
+
         </div>
 
-        {{-- PESAN BERHASIL --}}
-        @if (session('success'))
+        <!-- AJAX MESSAGE -->
+        <div id="ajaxMessage"></div>
+
+        <!-- SESSION MESSAGE -->
+        @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show">
+                <i class="fa-solid fa-circle-check me-2"></i>
                 {{ session('success') }}
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-        {{-- PESAN ERROR --}}
-        @if (session('error'))
+        @if(session('error'))
             <div class="alert alert-danger alert-dismissible fade show">
-                <strong>Gagal menyimpan data:</strong>
                 {{ session('error') }}
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-        {{-- VALIDASI --}}
-        @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show">
-                <strong>Data belum berhasil disimpan:</strong>
-                <ul class="mb-0 mt-2">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
+        <!-- CONTENT CARD -->
+        <div class="content-card">
 
-        {{-- CARD STOK OBAT --}}
-        <div class="card shadow-sm">
+            <!-- CARD HEADER -->
+            <div class="card-header-custom">
 
-            <div class="card-header bg-white border-0">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
 
-                    <div class="d-flex align-items-center">
-                        <div class="section-icon bg-primary bg-opacity-10 text-primary">
-                            <i class="fas fa-boxes-stacked"></i>
-                        </div>
+                    <div>
 
-                        <div>
-                            <h5 class="mb-1 fw-bold text-dark">Stok Obat</h5>
-                            <small class="text-muted">
-                                Riwayat perubahan jumlah dan satuan obat.
-                            </small>
-                        </div>
+                        <h5 class="content-title">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                            Stok Obat
+                        </h5>
+
+                        <p class="content-subtitle">
+                            Riwayat perubahan jumlah dan satuan obat.
+                        </p>
+
                     </div>
 
-                    <button type="button"
-                        class="btn btn-primary"
+                    <button
+                        type="button"
+                        class="btn-add"
                         data-bs-toggle="modal"
                         data-bs-target="#modalTambahStok">
-                        <i class="fas fa-plus me-1"></i>
+
+                        <i class="fa-solid fa-plus"></i>
                         Tambah Stok Obat
+
                     </button>
 
                 </div>
+
             </div>
 
-            {{-- TABEL DATA --}}
-            <div class="card-body p-0">
+            <!-- TABLE -->
+            <div class="card-body-custom">
+
                 <div class="table-responsive">
 
-                    <table class="table table-hover align-middle mb-0">
+                    <table id="logStokTable" class="table table-bordered table-hover w-100">
 
                         <thead>
                             <tr>
-                                <th style="width: 7%;">No</th>
+                                <th width="55">No</th>
                                 <th>Tanggal Update</th>
                                 <th>Nama Obat</th>
                                 <th>Satuan</th>
@@ -457,252 +655,160 @@
                             </tr>
                         </thead>
 
-                        <tbody>
-
-                            @forelse ($logStokObats as $index => $log)
-
-                                @php
-                                    $nilai = (int) ($log->nilai ?? 0);
-
-                                    $tanggal = $log->tanggal_update
-                                        ?? $log->created_at;
-
-                                    $namaObat = $log->obat?->nama
-                                        ?? $log->obat?->nama_obat
-                                        ?? '-';
-
-                                    $namaSatuan = $log->stokObat?->satuanObat?->nama_satuan
-                                        ?? $log->stokObat?->satuanObat?->nama
-                                        ?? '-';
-
-                                    $stokTersedia = $log->stokObat?->stok_tersedia ?? 0;
-
-                                    $status = $log->status
-                                        ?? ($nilai > 0 ? 'Masuk' : 'Tetap');
-                                @endphp
-
-                                <tr>
-                                    <td class="fw-semibold">
-                                        {{ $index + 1 }}
-                                    </td>
-
-                                    <td>
-                                        <i class="far fa-clock text-muted me-1"></i>
-                                        {{ $tanggal ? \Carbon\Carbon::parse($tanggal)->format('d/m/Y H:i') : '-' }}
-                                    </td>
-
-                                    <td>
-                                        <span class="fw-bold text-dark">
-                                            {{ $namaObat }}
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <span class="text-secondary fw-semibold">
-                                            {{ $namaSatuan }}
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        @if (in_array(strtolower($status), ['masuk', 'bertambah']))
-                                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">
-                                                <i class="fas fa-arrow-up me-1"></i>
-                                                {{ ucfirst($status) }}
-                                            </span>
-                                        @elseif (in_array(strtolower($status), ['keluar', 'berkurang']))
-                                            <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2">
-                                                <i class="fas fa-arrow-down me-1"></i>
-                                                {{ ucfirst($status) }}
-                                            </span>
-                                        @else
-                                            <span class="badge bg-secondary px-3 py-2">
-                                                {{ ucfirst($status) }}
-                                            </span>
-                                        @endif
-                                    </td>
-
-                                    <td class="fw-bold">
-                                        @if ($nilai > 0)
-                                            <span class="text-success">+{{ $nilai }}</span>
-                                        @elseif ($nilai < 0)
-                                            <span class="text-danger">{{ $nilai }}</span>
-                                        @else
-                                            0
-                                        @endif
-                                    </td>
-
-                                    <td>
-                                        <span class="badge bg-primary px-3 py-2 fs-6">
-                                            {{ $stokTersedia }}
-                                        </span>
-                                    </td>
-                                </tr>
-
-                            @empty
-
-                                <tr>
-                                    <td colspan="7" class="empty-state">
-                                        <i class="fas fa-box-open"></i>
-
-                                        <div class="empty-title">
-                                            Belum Ada Data Log Stok Obat
-                                        </div>
-
-                                        <small>
-                                            Riwayat stok obat akan ditampilkan di bagian ini.
-                                        </small>
-                                    </td>
-                                </tr>
-
-                            @endforelse
-
-                        </tbody>
+                        <tbody></tbody>
 
                     </table>
 
                 </div>
+
             </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-text">
+            SIM RS © {{ date('Y') }} — Apoteker
         </div>
 
     </main>
 
-    {{-- MODAL TAMBAH STOK --}}
-    <div class="modal fade" id="modalTambahStok" tabindex="-1"
-        aria-labelledby="modalTambahStokLabel" aria-hidden="true">
+
+    <!-- ==================================
+         MODAL TAMBAH STOK
+    =================================== -->
+
+    <div class="modal fade"
+        id="modalTambahStok"
+        tabindex="-1"
+        aria-labelledby="judulModalStok"
+        aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered">
 
-            <div class="modal-content border-0 shadow-lg">
+            <div class="modal-content">
 
-                <form action="{{ route('log-stok-obat.store') }}" method="POST">
+                <form id="formTambahStok"
+                    action="{{ route('log-stok-obat.store') }}"
+                    method="POST">
+
                     @csrf
 
-                    {{-- HEADER MODAL --}}
-                    <div class="modal-header py-3">
+                    <!-- HEADER MODAL -->
+                    <div class="modal-header">
 
-                        <h5 class="modal-title fw-bold" id="modalTambahStokLabel">
-                            <i class="fas fa-plus-circle me-2"></i>
+                        <h5 class="modal-title" id="judulModalStok">
+                            <i class="fa-solid fa-circle-plus me-2"></i>
                             Tambah Stok Obat
                         </h5>
 
                         <button type="button"
-                            class="btn-close btn-close-white"
+                            class="btn-close"
                             data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                            aria-label="Close">
+                        </button>
 
                     </div>
 
-                    {{-- BODY MODAL --}}
-                    <div class="modal-body p-4">
+                    <!-- BODY MODAL -->
+                    <div class="modal-body">
 
-                        {{-- NAMA OBAT --}}
+                        <!-- NAMA OBAT -->
                         <div class="mb-3">
 
-                            <label for="obat_id" class="form-label fw-semibold">
-                                Nama Obat
+                            <label for="obat_id" class="form-label">
+                                Nama Obat <span class="text-danger">*</span>
                             </label>
 
-                            <select name="obat_id" id="obat_id"
-                                class="form-select @error('obat_id') is-invalid @enderror"
+                            <select name="obat_id"
+                                id="obat_id"
+                                class="form-select"
                                 required>
 
                                 <option value="">-- Pilih Obat --</option>
 
-                                @foreach ($obats as $obat)
-                                    <option value="{{ $obat->id }}"
-                                        {{ old('obat_id') == $obat->id ? 'selected' : '' }}>
+                                @foreach($obats as $obat)
+                                    <option value="{{ $obat->id }}">
                                         {{ $obat->nama ?? $obat->nama_obat }}
                                     </option>
                                 @endforeach
 
                             </select>
 
-                            @error('obat_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-
                         </div>
 
-                        {{-- SATUAN OBAT --}}
+                        <!-- SATUAN OBAT -->
                         <div class="mb-3">
 
-                            <label for="satuan_obat_id" class="form-label fw-semibold">
-                                Satuan Obat
+                            <label for="satuan_obat_id" class="form-label">
+                                Satuan Obat <span class="text-danger">*</span>
                             </label>
 
-                            <select name="satuan_obat_id" id="satuan_obat_id"
-                                class="form-select @error('satuan_obat_id') is-invalid @enderror"
+                            <select name="satuan_obat_id"
+                                id="satuan_obat_id"
+                                class="form-select"
                                 required>
 
                                 <option value="">-- Pilih Satuan Obat --</option>
 
-                                @foreach ($satuans as $satuan)
-                                    <option value="{{ $satuan->id }}"
-                                        {{ old('satuan_obat_id') == $satuan->id ? 'selected' : '' }}>
+                                @foreach($satuans as $satuan)
+                                    <option value="{{ $satuan->id }}">
                                         {{ $satuan->nama_satuan ?? $satuan->nama ?? $satuan->satuan ?? '-' }}
                                     </option>
                                 @endforeach
 
                             </select>
 
-                            @error('satuan_obat_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-
                         </div>
 
-                        {{-- JUMLAH STOK --}}
+                        <!-- JUMLAH STOK -->
                         <div class="mb-3">
 
-                            <label for="nilai" class="form-label fw-semibold">
-                                Jumlah Stok
+                            <label for="nilai" class="form-label">
+                                Jumlah Stok <span class="text-danger">*</span>
                             </label>
 
                             <input type="number"
                                 name="nilai"
                                 id="nilai"
-                                class="form-control @error('nilai') is-invalid @enderror"
+                                class="form-control"
                                 min="1"
-                                value="{{ old('nilai') }}"
                                 placeholder="Masukkan jumlah stok..."
                                 required>
 
-                            @error('nilai')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-
                         </div>
 
-                        {{-- TANGGAL KEDALUWARSA --}}
+                        <!-- TANGGAL KEDALUWARSA -->
                         <div class="mb-3">
 
-                            <label for="expired_date" class="form-label fw-semibold">
+                            <label for="expired_date" class="form-label">
                                 Tanggal Kedaluwarsa
                             </label>
 
                             <input type="date"
                                 name="expired_date"
                                 id="expired_date"
-                                class="form-control"
-                                value="{{ old('expired_date') }}">
+                                class="form-control">
 
                         </div>
 
                     </div>
 
-                    {{-- FOOTER MODAL --}}
-                    <div class="modal-footer bg-light px-4 py-3">
+                    <!-- FOOTER MODAL -->
+                    <div class="modal-footer">
 
                         <button type="button"
-                            class="btn btn-outline-secondary px-4"
+                            class="btn-modal-cancel"
                             data-bs-dismiss="modal">
                             Batal
                         </button>
 
                         <button type="submit"
-                            class="btn btn-primary px-4 fw-semibold">
-                            <i class="fas fa-save me-1"></i>
-                            Simpan Stok
+                            class="btn-modal-save"
+                            id="btnSimpan">
+
+                            <i class="fa-solid fa-floppy-disk me-1"></i>
+                            Simpan
+
                         </button>
 
                     </div>
@@ -710,23 +816,387 @@
                 </form>
 
             </div>
+
         </div>
+
     </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    {{-- BUKA MODAL KEMBALI JIKA VALIDASI GAGAL --}}
-    @if ($errors->any())
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const modal = document.getElementById('modalTambahStok');
+    <!-- DATATABLES 1.13.8 -->
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 
-                if (modal) {
-                    bootstrap.Modal.getOrCreateInstance(modal).show();
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            // ==============================
+            // ESCAPE HTML
+            // ==============================
+
+            function escapeHtml(value) {
+                return $('<div>').text(value ?? '-').html();
+            }
+
+
+            // ==============================
+            // FORMAT TANGGAL
+            // ==============================
+
+            function formatTanggal(data) {
+
+                if (!data) return '-';
+
+                return `
+                    <i class="far fa-clock me-2 text-primary"></i>
+                    ${escapeHtml(data)}
+                `;
+
+            }
+
+
+            // ==============================
+            // DATATABLES AJAX
+            // ==============================
+
+            let table = $('#logStokTable').DataTable({
+
+                processing: true,
+                serverSide: false,
+                autoWidth: false,
+
+                pageLength: 10,
+
+                lengthMenu: [
+                    [5, 10, 25, 50, 100],
+                    [5, 10, 25, 50, 100]
+                ],
+
+                order: [],
+
+                ajax: {
+
+                    url: "{{ route('log-stok-obat.data') }}",
+
+                    type: "GET",
+
+                    dataSrc: "data",
+
+                    error: function (xhr) {
+
+                        console.error(
+                            'Gagal mengambil data:',
+                            xhr.responseText
+                        );
+
+                        $('#ajaxMessage').html(`
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                Gagal memuat data log stok obat.
+                                <button type="button" class="btn-close"
+                                    data-bs-dismiss="alert"></button>
+                            </div>
+                        `);
+
+                    }
+
+                },
+
+                columns: [
+
+                    // NOMOR
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+
+                    // TANGGAL UPDATE
+                    {
+                        data: 'tanggal',
+                        defaultContent: '-',
+
+                        render: function (data) {
+                            return formatTanggal(data);
+                        }
+                    },
+
+                    // NAMA OBAT
+                    {
+                        data: 'nama_obat',
+                        defaultContent: '-',
+
+                        render: function (data) {
+                            return `
+                                <span class="fw-semibold text-dark">
+                                    ${escapeHtml(data)}
+                                </span>
+                            `;
+                        }
+                    },
+
+                    // SATUAN
+                    {
+                        data: 'satuan',
+                        defaultContent: '-',
+
+                        render: function (data) {
+                            return `
+                                <span class="text-secondary">
+                                    ${escapeHtml(data)}
+                                </span>
+                            `;
+                        }
+                    },
+
+                    // STATUS
+                    {
+                        data: 'status',
+                        defaultContent: '-',
+
+                        render: function (data) {
+
+                            let status = String(data || '').toLowerCase();
+
+                            if (['masuk', 'bertambah'].includes(status)) {
+
+                                return `
+                                    <span class="status-masuk">
+                                        <i class="fas fa-arrow-up me-1"></i>
+                                        ${escapeHtml(data)}
+                                    </span>
+                                `;
+
+                            }
+
+                            if (['keluar', 'berkurang'].includes(status)) {
+
+                                return `
+                                    <span class="status-keluar">
+                                        <i class="fas fa-arrow-down me-1"></i>
+                                        ${escapeHtml(data)}
+                                    </span>
+                                `;
+
+                            }
+
+                            return escapeHtml(data);
+
+                        }
+                    },
+
+                    // NILAI
+                    {
+                        data: 'nilai',
+                        defaultContent: 0,
+
+                        render: function (data) {
+
+                            let nilai = Number(data) || 0;
+
+                            if (nilai > 0) {
+                                return `
+                                    <span class="fw-bold text-success">
+                                        +${nilai}
+                                    </span>
+                                `;
+                            }
+
+                            if (nilai < 0) {
+                                return `
+                                    <span class="fw-bold text-danger">
+                                        ${nilai}
+                                    </span>
+                                `;
+                            }
+
+                            return '0';
+
+                        }
+                    },
+
+                    // STOK TERSEDIA
+                    {
+                        data: 'stok_tersedia',
+                        defaultContent: 0,
+
+                        render: function (data) {
+
+                            return `
+                                <span class="stok-badge">
+                                    ${Number(data) || 0}
+                                </span>
+                            `;
+
+                        }
+                    }
+
+                ],
+
+                language: {
+
+                    processing: "Memuat data...",
+
+                    search: "Cari:",
+
+                    lengthMenu: "Tampilkan _MENU_ data",
+
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+
+                    infoEmpty: "Tidak ada data",
+
+                    infoFiltered: "(disaring dari _MAX_ total data)",
+
+                    zeroRecords: "Data tidak ditemukan",
+
+                    emptyTable: "Belum ada data log stok obat",
+
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Berikutnya",
+                        previous: "Sebelumnya"
+                    }
+
                 }
+
             });
-        </script>
-    @endif
+
+
+            // ==============================
+            // AJAX SIMPAN STOK
+            // ==============================
+
+            $('#formTambahStok').on('submit', function (e) {
+
+                e.preventDefault();
+
+                let form = this;
+                let button = $('#btnSimpan');
+                let buttonAwal = button.html();
+
+                button.prop('disabled', true);
+
+                button.html(`
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Menyimpan...
+                `);
+
+                $.ajax({
+
+                    url: $(form).attr('action'),
+
+                    type: 'POST',
+
+                    data: new FormData(form),
+
+                    processData: false,
+
+                    contentType: false,
+
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+
+                    success: function (response) {
+
+                        // TUTUP MODAL
+                        bootstrap.Modal.getOrCreateInstance(
+                            document.getElementById('modalTambahStok')
+                        ).hide();
+
+                        // RESET FORM
+                        form.reset();
+
+                        // UPDATE TABEL
+                        table.ajax.reload(null, false);
+
+                        // PESAN BERHASIL
+                        $('#ajaxMessage').html(`
+                            <div class="alert alert-success alert-dismissible fade show">
+                                <i class="fas fa-check-circle me-2"></i>
+                                ${escapeHtml(response.message || 'Stok obat berhasil disimpan.')}
+                                <button type="button" class="btn-close"
+                                    data-bs-dismiss="alert"></button>
+                            </div>
+                        `);
+
+                        // SCROLL KE ATAS PESAN
+                        $('html, body').animate({
+                            scrollTop: $('#ajaxMessage').offset().top - 20
+                        }, 300);
+
+                    },
+
+                    error: function (xhr) {
+
+                        let message = 'Terjadi kesalahan saat menyimpan data.';
+
+                        if (xhr.responseJSON) {
+
+                            if (xhr.responseJSON.errors) {
+
+                                message = Object.values(xhr.responseJSON.errors)
+                                    .flat()
+                                    .map(escapeHtml)
+                                    .join('<br>');
+
+                            } else if (xhr.responseJSON.message) {
+
+                                message = escapeHtml(xhr.responseJSON.message);
+
+                            }
+
+                        }
+
+                        // PESAN GAGAL
+                        $('#ajaxMessage').html(`
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                ${message}
+                                <button type="button" class="btn-close"
+                                    data-bs-dismiss="alert"></button>
+                            </div>
+                        `);
+
+                    },
+
+                    complete: function () {
+
+                        button.prop('disabled', false);
+
+                        button.html(buttonAwal);
+
+                    }
+
+                });
+
+            });
+
+
+            // ==============================
+            // RESET MODAL
+            // ==============================
+
+            $('#modalTambahStok').on('hidden.bs.modal', function () {
+
+                $('#formTambahStok')[0].reset();
+
+            });
+
+        });
+    </script>
 
 </body>
 </html>
