@@ -200,20 +200,47 @@ Route::middleware(['auth', 'admin.rs'])
 // ==================================================
 // DASHBOARD DOKTER
 // ==================================================
-
 Route::get('/dokter/dashboard', function () {
     return view('dokter.dashboard');
 })->middleware([
     'auth',
-    'role:dokter'
+    'role:dokter',
+    \App\Http\Middleware\PastikanDokterDipilih::class
 ])->name('dokter.dashboard');
+
+
+// ==================================================
+// PILIH DOKTER
+// ==================================================
+
+Route::middleware(['auth', 'role:dokter'])
+    ->prefix('dokter')
+    ->name('dokter.')
+    ->group(function () {
+
+        // Menampilkan daftar dokter
+        Route::get('/pilih-dokter', [
+            LoginController::class,
+            'pilihDokter'
+        ])->name('pilih');
+
+        // Menyimpan dokter yang dipilih
+        Route::post('/pilih-dokter', [
+            LoginController::class,
+            'simpanDokter'
+        ])->name('simpan');
+    });
 
 
 // ==================================================
 // FITUR KHUSUS DOKTER
 // ==================================================
 
-Route::middleware(['auth', 'role:dokter'])
+Route::middleware([
+    'auth',
+    'role:dokter',
+    \App\Http\Middleware\PastikanDokterDipilih::class
+])
     ->prefix('dokter')
     ->name('dokter.')
     ->group(function () {
@@ -223,10 +250,10 @@ Route::middleware(['auth', 'role:dokter'])
             'indexDokter'
         ])->name('pasien.index');
 
-        Route::get('/data-pasien/data', [
-            MasterPasienController::class,
-            'data'
-        ])->name('pasien.data');
+     Route::get('/data-pasien/data', [
+    MasterPasienController::class,
+    'dataDokter'
+])->name('pasien.data');
 
         Route::get('/resep-obat', [
             PemeriksaanDokterController::class,
@@ -242,6 +269,7 @@ Route::middleware(['auth', 'role:dokter'])
             return redirect()->route('dokter.resep.index');
         })->name('pemeriksaan.index');
     });
+
 
 
 // ==================================================
@@ -767,7 +795,7 @@ Route::middleware([
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit|dokter|apoteker'
+    'role:super admin|admin rumah sakit|apoteker'
 ])->group(function () {
 
     Route::resource(

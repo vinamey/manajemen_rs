@@ -251,7 +251,6 @@
                             <th style="width: 55px;">No.</th>
                             <th>Nama Obat</th>
                             <th>Jumlah</th>
-                            <th>Dosis</th>
                             <th>Frekuensi</th>
                             <th>Aturan Pakai</th>
                             <th>Lama Pemakaian</th>
@@ -259,11 +258,12 @@
                     </thead>
 
                     <tbody>
+                       
+                        
                         @forelse($daftarObat as $index => $obat)
                             @php
                                 $teksAturan = $obat->pivot->aturan_pakai ?? '';
 
-                                $dosis = '-';
                                 $frekuensi = '-';
                                 $aturanPakai = '-';
                                 $lama = '-';
@@ -273,16 +273,12 @@
                                 foreach ($bagianAturan as $bagian) {
                                     $bagian = trim($bagian);
 
-                                    if (stripos($bagian, 'Dosis:') === 0) {
-                                        $dosis = trim(substr($bagian, strlen('Dosis:')));
-                                    } elseif (stripos($bagian, 'Frekuensi:') === 0) {
+                                    if (stripos($bagian, 'Frekuensi:') === 0) {
                                         $frekuensi = trim(substr($bagian, strlen('Frekuensi:')));
                                     } elseif (stripos($bagian, 'Aturan:') === 0) {
                                         $aturanPakai = trim(substr($bagian, strlen('Aturan:')));
                                     } elseif (stripos($bagian, 'Lama:') === 0) {
                                         $lama = trim(substr($bagian, strlen('Lama:')));
-                                    } elseif ($bagian !== '') {
-                                        $aturanPakai = $bagian;
                                     }
                                 }
 
@@ -295,6 +291,8 @@
                                 }
                             @endphp
 
+
+
                             <tr>
                                 <td>{{ $index + 1 }}</td>
 
@@ -304,7 +302,6 @@
 
                                 <td>{{ $obat->pivot->nilai ?? '-' }}</td>
 
-                                <td>{{ $dosis }}</td>
 
                                 <td>{{ $frekuensi }}</td>
 

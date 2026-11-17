@@ -252,25 +252,31 @@ class MasterPasienController extends Controller
         return view('admin.show-pasien', compact('pasien'));
     }
 
-    // HALAMAN PASIEN DOKTER
-public function indexDokter(Request $request)
+   // HALAMAN PASIEN DOKTER
+public function indexDokter()
 {
+    return view('dokter.data-pasien');
+}
+
+// DATA PASIEN KHUSUS DOKTER
+public function dataDokter()
+{
+    $dokterId = session('dokter_aktif_id');
+
     $pasiens = MasterPasien::query()
-        ->whereIn('id', function ($query) {
+        ->whereIn('id', function ($query) use ($dokterId) {
             $query->select('pasien_id')
                 ->from('pendaftaran_pasiens')
+                ->where('dokter_id', $dokterId)
                 ->whereNotNull('pasien_id');
         })
         ->select(['id', 'nama'])
+        ->distinct()
         ->orderBy('nama', 'asc');
 
-    if ($request->ajax()) {
-        return DataTables::eloquent($pasiens)
-            ->addIndexColumn()
-            ->toJson();
-    }
-
-    return view('dokter.data-pasien');
+    return DataTables::eloquent($pasiens)
+        ->addIndexColumn()
+        ->toJson();
 }
 
 

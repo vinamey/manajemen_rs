@@ -367,7 +367,6 @@
                                         <th style="width: 55px;">No.</th>
                                         <th>Nama Obat</th>
                                         <th style="width: 85px;">Jumlah</th>
-                                        <th>Dosis</th>
                                         <th>Frekuensi</th>
                                         <th>Aturan Pakai</th>
                                         <th>Lama Pemakaian</th>
@@ -376,9 +375,9 @@
 
                                 <tbody>
                                     @foreach ($daftarObat as $index => $obat)
+                                        
                                         @php
                                             $aturan = $obat->pivot->aturan_pakai ?? '';
-                                            $dosis = '-';
                                             $frekuensi = '-';
                                             $aturanPakai = '-';
                                             $lama = '-';
@@ -386,19 +385,24 @@
                                             foreach (explode('|', $aturan) as $item) {
                                                 $item = trim($item);
 
-                                                if (str_starts_with($item, 'Dosis:')) {
-                                                    $dosis = trim(substr($item, strlen('Dosis:')));
-                                                } elseif (str_starts_with($item, 'Frekuensi:')) {
+                                                if (str_starts_with($item, 'Frekuensi:')) {
                                                     $frekuensi = trim(substr($item, strlen('Frekuensi:')));
                                                 } elseif (str_starts_with($item, 'Aturan:')) {
                                                     $aturanPakai = trim(substr($item, strlen('Aturan:')));
                                                 } elseif (str_starts_with($item, 'Lama:')) {
                                                     $lama = trim(substr($item, strlen('Lama:')));
-                                                } elseif ($item !== '') {
-                                                    $aturanPakai = $item;
                                                 }
                                             }
+
+                                            if ($frekuensi !== '-' && is_numeric($frekuensi)) {
+                                                $frekuensi .= ' kali sehari';
+                                            }
+
+                                            if ($lama !== '-' && is_numeric($lama)) {
+                                                $lama .= ' hari';
+                                            }
                                         @endphp
+
 
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
@@ -406,7 +410,6 @@
                                                 {{ $obat->nama ?? '-' }}
                                             </td>
                                             <td>{{ $obat->pivot->nilai ?? '-' }}</td>
-                                            <td>{{ $dosis }}</td>
                                             <td>
                                                 {{ $frekuensi !== '-' && is_numeric($frekuensi)
                                                     ? $frekuensi . ' kali sehari'
