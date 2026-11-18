@@ -440,7 +440,7 @@ HTML;
                 }
 
                 // Buat catatan pembayaran
-                $pembayaran = Pembayaran::create([
+                $pembayaran = Pembayaran::createa([
                     'resep_id' => $resep->id,
                     'total_pembayaran' => $totalPembayaran,
                     'metode_pembayaran' => $data['metode_pembayaran'],
