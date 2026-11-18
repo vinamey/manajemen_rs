@@ -343,47 +343,50 @@ class PemeriksaanDokterController extends Controller
     }
 
     // Dokter tidak diperbolehkan mengedit pemeriksaan.
-    public function edit($id)
-    {
-        if (auth()->user()->hasRole('dokter')) {
-            abort(403, 'Dokter tidak memiliki akses untuk mengedit pemeriksaan.');
-        }
+    
+// Form edit pemeriksaan.
+public function edit($id)
+{
+    $pemeriksaan = PemeriksaanDokter::with([
+        'pendaftaran.pasien',
+        'dokter',
+        'resep.obat',
+    ])->findOrFail($id);
 
-        $pemeriksaan = PemeriksaanDokter::with([
-            'pendaftaran.pasien',
-            'dokter',
-            'resep.obat',
-        ])->findOrFail($id);
+    $pendaftarans = PendaftaranPasien::with('pasien')
+    ->whereNotNull('pasien_id')
+    ->whereHas('pasien')
+    ->where(function ($query) use ($pemeriksaan) {
+        $query->whereDoesntHave('pemeriksaan')
+              ->orWhere('id', $pemeriksaan->pendaftaran_id);
+    })
+    ->latest()
+    ->get();
 
-        $pendaftarans = PendaftaranPasien::with('pasien')
-            ->whereDoesntHave('pemeriksaan')
-            ->latest()
-            ->get();
+    $dokters = MasterDokter::orderBy('nama', 'ASC')->get();
 
-        $dokters = MasterDokter::orderBy('nama', 'ASC')->get();
+    $obats = MasterObat::with('kategori')
+        ->orderBy('nama', 'ASC')
+        ->get();
 
-        $obats = MasterObat::with('kategori')
-            ->orderBy('nama', 'ASC')
-            ->get();
+    $stokObats = StokObat::with([
+        'obat',
+        'satuanObat',
+    ])
+        ->orderBy('obat_id')
+        ->get();
 
-        $stokObats = StokObat::with([
-            'obat',
-            'satuanObat',
-        ])
-            ->orderBy('obat_id')
-            ->get();
+    $frekuensis = MasterFrekuensi::orderBy('nama', 'ASC')->get();
 
-        $frekuensis = MasterFrekuensi::orderBy('nama', 'ASC')->get();
-
-        return view('pemeriksaan-dokter.edit', compact(
-            'pemeriksaan',
-            'pendaftarans',
-            'dokters',
-            'obats',
-            'stokObats',
-            'frekuensis'
-        ));
-    }
+    return view('pemeriksaan-dokter.edit', compact(
+        'pemeriksaan',
+        'pendaftarans',
+        'dokters',
+        'obats',
+        'stokObats',
+        'frekuensis'
+    ));
+}
 
     // Memperbarui pemeriksaan.
     public function update(Request $request, $id)
