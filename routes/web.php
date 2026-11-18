@@ -427,7 +427,6 @@ Route::get('/kasir/resep', [
     'role:kasir|admin rumah sakit'
 ])->name('kasir.resep');
 
-
 // ==================================================
 // KASIR - PEMBAYARAN OBAT
 // ==================================================
@@ -444,10 +443,16 @@ Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
         'proses'
     ])->name('kasir.pembayaran.proses');
 
+    // Upload bukti transfer setelah pembayaran dibuat
+    Route::post('/kasir/pembayaran/{id}/upload-bukti', [
+        PembayaranController::class,
+        'uploadBukti'
+    ])->name('kasir.pembayaran.upload-bukti');
+
     Route::post('/kasir/pembayaran/{id}/verifikasi', [
-    PembayaranController::class,
-    'verifikasi'
-])->name('kasir.pembayaran.verifikasi');
+        PembayaranController::class,
+        'verifikasi'
+    ])->name('kasir.pembayaran.verifikasi');
 
     Route::delete('/kasir/pembayaran/{id}/hapus', [
         PembayaranController::class,
@@ -827,7 +832,7 @@ Route::middleware([
     ])->name('master-obat.kurangi-stok');
 });
 
-   
+
 // ==================================================
 // LOG STOK OBAT
 // ==================================================

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 
@@ -23,15 +22,18 @@
             --text: #172b63;
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
-       body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-}
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -56,8 +58,14 @@
             border-bottom: 1px solid rgba(255,255,255,.15);
         }
 
-        .brand-icon { font-size: 20px; }
-        .brand-name { font-size: 20px; font-weight: 700; }
+        .brand-icon {
+            font-size: 20px;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
 
         .sidebar-menu {
             padding: 25px 12px;
@@ -81,14 +89,17 @@
             gap: 12px;
             color: white;
             text-decoration: none;
-            padding: 13px 14px;
+            padding: 15px;
             margin-bottom: 7px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
         }
 
-        .sidebar-link i { width: 20px; text-align: center; }
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+        }
 
         .sidebar-link:hover,
         .sidebar-link.active {
@@ -113,23 +124,32 @@
 
         .main-content {
             min-height: 100vh;
+            height: auto;
             margin-left: 250px;
-            padding: 0 25px 30px;
+            padding: 0 30px 30px;
+            overflow: visible;
         }
 
         .topbar {
-            height: 65px;
+            height: 75px;
             background: white;
             border-bottom: 1px solid #e5e7eb;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 28px;
-            margin-bottom: 20px;
+            padding: 0 32px;
+            margin-bottom: 25px;
         }
 
-        .topbar-title { font-weight: 600; color: #333; }
-        .user-info { font-size: 13px; color: #555; }
+        .topbar-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-info {
+            font-size: 13px;
+            color: #555;
+        }
 
         .page-heading {
             display: flex;
@@ -152,15 +172,19 @@
         .page-heading h1 {
             margin: 0 0 6px;
             color: var(--navy);
-            font-size: 29px;
+            font-size: 34px;
             font-weight: 800;
         }
 
-        .page-heading p { margin: 0; color: #64769c; }
+        .page-heading p {
+            margin: 0;
+            color: #64769c;
+            font-size: 16px;
+        }
 
         .banner {
-            min-height: 88px;
-            padding: 18px 24px;
+            min-height: 105px;
+            padding: 22px 28px;
             margin-bottom: 17px;
             display: flex;
             align-items: center;
@@ -170,29 +194,56 @@
             background: linear-gradient(105deg, #0869e5, #2183fb);
         }
 
-        .banner i { font-size: 38px; }
-        .banner h3 { margin: 0 0 7px; font-size: 20px; font-weight: 800; }
-        .banner p { margin: 0; }
+        .banner i {
+            font-size: 38px;
+        }
 
-        .filter-card, .table-card {
+        .banner h3 {
+            margin: 0 0 7px;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .banner p {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .filter-card,
+        .table-card {
             border: 1px solid var(--border);
             border-radius: 13px;
             background: white;
             box-shadow: 0 2px 5px rgba(30,70,130,.04);
         }
 
-        .filter-card { padding: 17px; margin-bottom: 17px; }
-        .filter-label { display: block; margin-bottom: 8px; font-weight: 700; }
+        .filter-card {
+            padding: 22px;
+            margin-bottom: 17px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 700;
+        }
 
         .filter-control {
             width: 100%;
-            height: 47px;
+            height: 52px;
             border: 1px solid #cdd9ec;
             border-radius: 9px;
             padding: 0 14px;
+            font-size: 15px;
         }
 
-        .filter-button { width: 100%; height: 47px; border-radius: 9px; }
+        .filter-button {
+            width: 100%;
+            height: 52px;
+            border-radius: 9px;
+            font-size: 15px;
+        }
 
         .btn-blue {
             color: white;
@@ -200,7 +251,10 @@
             border: 1px solid var(--blue);
         }
 
-        .btn-blue:hover { color: white; background: var(--blue-dark); }
+        .btn-blue:hover {
+            color: white;
+            background: var(--blue-dark);
+        }
 
         .btn-outline-blue {
             color: var(--blue);
@@ -213,11 +267,14 @@
             background: var(--blue-light);
         }
 
-        .table-card { overflow: hidden; margin-bottom: 22px; }
+        .table-card {
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
 
         .table-card-header {
-            min-height: 56px;
-            padding: 12px 17px;
+            min-height: 65px;
+            padding: 16px 22px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -227,7 +284,7 @@
         .table-card-header h4 {
             margin: 0;
             color: var(--navy);
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 800;
         }
 
@@ -248,11 +305,12 @@
             width: 100%;
             margin: 0;
             color: #14265d;
+            font-size: 15px;
             vertical-align: middle;
         }
 
         .main-table thead th {
-            padding: 14px 13px;
+            padding: 17px 15px;
             white-space: nowrap;
             color: var(--navy);
             background: #e4efff;
@@ -261,11 +319,12 @@
         }
 
         .main-table tbody td {
-            padding: 11px 13px;
+            padding: 15px;
             border: 1px solid #e0e8f5;
         }
 
-        .medicine-badge, .method-badge {
+        .medicine-badge,
+        .method-badge {
             display: inline-block;
             padding: 5px 10px;
             border: 1px solid #a9ceff;
@@ -297,15 +356,19 @@
         }
 
         .action-button {
-            padding: 8px 12px;
+            padding: 10px 15px;
             border-radius: 8px;
             color: white;
             background: var(--blue);
             border: 0;
             font-weight: 700;
+            font-size: 14px;
         }
 
-        .action-button:hover { color: white; background: var(--blue-dark); }
+        .action-button:hover {
+            color: white;
+            background: var(--blue-dark);
+        }
 
         .detail-button {
             padding: 7px 12px;
@@ -323,7 +386,9 @@
         }
 
         .payment-modal .modal-dialog,
-        .detail-modal .modal-dialog { max-width: 1100px; }
+        .detail-modal .modal-dialog {
+            max-width: 1250px;
+        }
 
         .payment-modal .modal-content,
         .detail-modal .modal-content {
@@ -335,7 +400,7 @@
 
         .payment-modal .modal-header,
         .detail-modal .modal-header {
-            min-height: 83px;
+            min-height: 90px;
             padding: 18px 30px;
             color: white;
             background: linear-gradient(110deg, #0869e5, #2183fb);
@@ -346,16 +411,23 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            font-size: 21px;
+            font-size: 24px;
             font-weight: 800;
         }
 
-        .modal-title i { font-size: 32px; }
-        .modal-close { color: white !important; opacity: 1; font-size: 25px; }
+        .modal-title i {
+            font-size: 32px;
+        }
+
+        .modal-close {
+            color: white !important;
+            opacity: 1;
+            font-size: 25px;
+        }
 
         .payment-modal .modal-body,
         .detail-modal .modal-body {
-            padding: 18px 30px 25px;
+            padding: 25px 35px 30px;
             background: white;
         }
 
@@ -364,7 +436,7 @@
             grid-template-columns: 1fr 1fr 1fr;
             align-items: center;
             gap: 15px;
-            padding: 17px 20px;
+            padding: 22px;
             margin-bottom: 17px;
             border-radius: 12px;
             background: #e5f0ff;
@@ -379,7 +451,9 @@
             border-right: 1px solid #a9c9fb;
         }
 
-        .summary-item:last-child { border-right: 0; }
+        .summary-item:last-child {
+            border-right: 0;
+        }
 
         .summary-icon {
             width: 54px;
@@ -393,9 +467,21 @@
             font-size: 26px;
         }
 
-        .summary-label { color: #526a9c; font-size: 13px; }
-        .summary-value { color: var(--navy); font-size: 15px; font-weight: 800; }
-        .summary-small { color: var(--navy); font-size: 12px; }
+        .summary-label {
+            color: #526a9c;
+            font-size: 13px;
+        }
+
+        .summary-value {
+            color: var(--navy);
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .summary-small {
+            color: var(--navy);
+            font-size: 12px;
+        }
 
         .modal-section {
             overflow: hidden;
@@ -411,17 +497,21 @@
             font-weight: 800;
         }
 
-        .modal-section-title i { margin-right: 9px; color: var(--blue); }
+        .modal-section-title i {
+            margin-right: 9px;
+            color: var(--blue);
+        }
 
         .medicine-table {
             width: 100%;
             min-width: 900px;
             margin: 0;
+            font-size: 15px;
             vertical-align: middle;
         }
 
         .medicine-table th {
-            padding: 12px 11px;
+            padding: 15px;
             color: var(--navy);
             background: #e5f0ff;
             border: 1px solid #d4e2f7;
@@ -431,7 +521,7 @@
         }
 
         .medicine-table td {
-            padding: 12px 11px;
+            padding: 15px;
             color: var(--text);
             border: 1px solid #e0e8f5;
             text-align: center;
@@ -471,10 +561,13 @@
             font-weight: 800;
         }
 
-        .payment-method-title i { margin-right: 8px; color: var(--blue); }
+        .payment-method-title i {
+            margin-right: 8px;
+            color: var(--blue);
+        }
 
         .payment-method-option {
-            height: 83px;
+            height: 95px;
             position: relative;
             display: flex;
             align-items: center;
@@ -507,10 +600,21 @@
             font-size: 30px;
         }
 
-        .payment-method-option.cash > i { color: #42a878; }
+        .payment-method-option.cash > i {
+            color: #42a878;
+        }
 
-        .method-name { color: var(--navy); font-size: 15px; font-weight: 800; }
-        .method-description { margin-top: 3px; color: #64769c; font-size: 11px; }
+        .method-name {
+            color: var(--navy);
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .method-description {
+            margin-top: 3px;
+            color: #64769c;
+            font-size: 11px;
+        }
 
         .method-check {
             position: absolute;
@@ -521,28 +625,36 @@
             display: none;
         }
 
-        .payment-method-option.selected .method-check { display: block; }
+        .payment-method-option.selected .method-check {
+            display: block;
+        }
 
         .payment-extra {
             display: none;
-            padding: 15px;
+            padding: 20px;
             margin-top: 13px;
             border: 1px solid #dce7f7;
             border-radius: 10px;
             background: #f7faff;
         }
 
-        .payment-extra.show { display: block; }
+        .payment-extra.show {
+            display: block;
+        }
 
         .payment-extra label {
             display: block;
             margin-bottom: 7px;
             color: var(--navy);
             font-weight: 700;
+            font-size: 15px;
         }
 
         .payment-extra input,
-        .payment-extra select { border-radius: 8px; }
+        .payment-extra select {
+            border-radius: 8px;
+            font-size: 15px;
+        }
 
         .qris-image {
             display: block;
@@ -579,26 +691,25 @@
             border-bottom: 1px solid #e8eef8;
         }
 
-        .bank-info-row:last-child { border-bottom: 0; }
+        .bank-info-row:last-child {
+            border-bottom: 0;
+        }
 
-        .bank-info-label { color: #64769c; }
-        .bank-info-value { color: var(--navy); font-weight: 800; text-align: right; }
+        .bank-info-label {
+            color: #64769c;
+        }
+
+        .bank-info-value {
+            color: var(--navy);
+            font-weight: 800;
+            text-align: right;
+        }
 
         .account-number {
             font-size: 19px;
             letter-spacing: 1px;
             color: #0869e5;
         }
-
-        .upload-box {
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px dashed #8bb8f5;
-            border-radius: 10px;
-            background: white;
-        }
-
-
 
         .info-note {
             min-height: 60px;
@@ -612,7 +723,10 @@
             line-height: 1.5;
         }
 
-        .info-note i { font-size: 23px; }
+        .info-note i {
+            font-size: 23px;
+            flex-shrink: 0;
+        }
 
         .modal-footer-custom {
             display: flex;
@@ -622,13 +736,17 @@
             margin-top: 16px;
         }
 
-        .modal-footer-buttons { display: flex; gap: 10px; }
+        .modal-footer-buttons {
+            display: flex;
+            gap: 10px;
+        }
 
         .modal-footer-buttons .btn {
             min-width: 125px;
-            min-height: 48px;
+            min-height: 52px;
             border-radius: 9px;
             font-weight: 700;
+            font-size: 15px;
         }
 
         .modal-footer-buttons .btn-primary {
@@ -655,180 +773,134 @@
             border-radius: 10px;
         }
 
-        /* MEMPERBESAR KESELURUHAN TAMPILAN PEMBAYARAN */
+        /* SCROLL MODAL PEMBAYARAN */
 
-.main-content {
-    padding-left: 30px;
-    padding-right: 30px;
-}
+        .payment-modal .modal-dialog {
+            height: calc(100% - 2rem);
+            max-height: calc(100% - 2rem);
+        }
 
-.topbar {
-    height: 75px;
-    padding: 0 32px;
-    margin-bottom: 25px;
-}
+        .payment-modal .modal-content {
+            height: 100%;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-.sidebar {
-    width: 250px;
-}
+        .payment-modal .payment-form {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
 
-.main-content {
-    margin-left: 250px;
-}
+        .payment-modal .modal-body {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto !important;
+            overflow-x: auto;
+            overscroll-behavior: contain;
+        }
 
-.sidebar-link {
-    font-size: 15px;
-    padding: 15px;
-}
+        .payment-modal .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
 
-.page-heading h1 {
-    font-size: 34px;
-}
+        .payment-modal .modal-body::-webkit-scrollbar-track {
+            background: #e7f3ff;
+            border-radius: 10px;
+        }
 
-.page-heading p {
-    font-size: 16px;
-}
-
-.banner {
-    min-height: 105px;
-    padding: 22px 28px;
-}
-
-.banner h3 {
-    font-size: 23px;
-}
-
-.banner p {
-    font-size: 15px;
-}
-
-.filter-card {
-    padding: 22px;
-}
-
-.filter-label {
-    font-size: 15px;
-}
-
-.filter-control,
-.filter-button {
-    height: 52px;
-    font-size: 15px;
-}
-
-.table-card-header {
-    min-height: 65px;
-    padding: 16px 22px;
-}
-
-.table-card-header h4 {
-    font-size: 20px;
-}
-
-.main-table {
-    font-size: 15px;
-}
-
-.main-table thead th {
-    padding: 17px 15px;
-}
-
-.main-table tbody td {
-    padding: 15px;
-}
-
-.action-button,
-.detail-button {
-    padding: 10px 15px;
-    font-size: 14px;
-}
-
-.payment-modal .modal-dialog,
-.detail-modal .modal-dialog {
-    max-width: 1250px;
-}
-
-.payment-modal .modal-header,
-.detail-modal .modal-header {
-    min-height: 90px;
-}
-
-.payment-modal .modal-body,
-.detail-modal .modal-body {
-    padding: 25px 35px 30px;
-}
-
-.modal-title {
-    font-size: 24px;
-}
-
-.patient-summary {
-    padding: 22px;
-}
-
-.summary-value {
-    font-size: 17px;
-}
-
-.medicine-table {
-    font-size: 15px;
-}
-
-.medicine-table th,
-.medicine-table td {
-    padding: 15px;
-}
-
-.payment-method-option {
-    height: 95px;
-}
-
-.method-name {
-    font-size: 17px;
-}
-
-.payment-extra {
-    padding: 20px;
-}
-
-.payment-extra label,
-.payment-extra input,
-.payment-extra select {
-    font-size: 15px;
-}
-
-.modal-footer-buttons .btn {
-    min-height: 52px;
-    font-size: 15px;
-}
+        .payment-modal .modal-body::-webkit-scrollbar-thumb {
+            background: #1877f2;
+            border-radius: 10px;
+        }
 
         @media (max-width: 768px) {
-            .sidebar { width: 210px; }
-            .main-content { margin-left: 210px; padding-left: 17px; padding-right: 17px; }
-            .topbar { padding: 0 18px; }
-            .patient-summary { grid-template-columns: 1fr; }
+            .sidebar {
+                width: 210px;
+            }
+
+            .main-content {
+                margin-left: 210px;
+                padding-left: 17px;
+                padding-right: 17px;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .patient-summary {
+                grid-template-columns: 1fr;
+            }
+
             .summary-item {
                 border-right: 0;
                 border-bottom: 1px solid #a9c9fb;
                 padding-bottom: 10px;
             }
-            .summary-item:last-child { border-bottom: 0; }
+
+            .summary-item:last-child {
+                border-bottom: 0;
+            }
         }
 
         @media (max-width: 576px) {
-            .sidebar { width: 65px; }
-            .brand { justify-content: center; padding: 0; }
-            .brand-name, .sidebar-menu::before,
-            .sidebar-link span, .sidebar-bottom { display: none; }
-            .sidebar-menu { padding: 20px 8px; }
-            .sidebar-link { justify-content: center; padding: 14px 5px; }
-            .main-content { margin-left: 65px; padding: 0 12px 20px; }
-            .topbar { padding: 0 12px; }
-            .topbar-title { font-size: 12px; }
-            .page-heading h1 { font-size: 22px; }
-            .heading-icon { width: 60px; height: 60px; font-size: 32px; }
+            .sidebar {
+                width: 65px;
+            }
+
+            .brand {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .brand-name,
+            .sidebar-menu::before,
+            .sidebar-link span,
+            .sidebar-bottom {
+                display: none;
+            }
+
+            .sidebar-menu {
+                padding: 20px 8px;
+            }
+
+            .sidebar-link {
+                justify-content: center;
+                padding: 14px 5px;
+            }
+
+            .main-content {
+                margin-left: 65px;
+                padding: 0 12px 20px;
+            }
+
+            .topbar {
+                padding: 0 12px;
+            }
+
+            .topbar-title {
+                font-size: 12px;
+            }
+
+            .page-heading h1 {
+                font-size: 22px;
+            }
+
+            .heading-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 32px;
+            }
+
             .payment-modal .modal-dialog,
-            .detail-modal .modal-dialog { margin: 10px; }
+            .detail-modal .modal-dialog {
+                margin: 10px;
+            }
+
             .payment-modal .modal-header,
             .detail-modal .modal-header,
             .payment-modal .modal-body,
@@ -836,86 +908,31 @@
                 padding-left: 16px;
                 padding-right: 16px;
             }
+
+            .payment-modal .modal-dialog {
+                height: calc(100% - 1rem);
+                max-height: calc(100% - 1rem);
+                margin: 8px;
+            }
+
+            .payment-modal .modal-body {
+                padding: 16px;
+            }
+
             .modal-footer-custom {
                 align-items: stretch;
                 flex-direction: column;
             }
-            .modal-footer-buttons { width: 100%; }
-            .modal-footer-buttons .btn { flex: 1; min-width: 0; }
+
+            .modal-footer-buttons {
+                width: 100%;
+            }
+
+            .modal-footer-buttons .btn {
+                flex: 1;
+                min-width: 0;
+            }
         }
-
-    /* =========================================
-   PERBAIKAN SCROLL MODAL PROSES PEMBAYARAN
-========================================= */
-
-/* Halaman utama tetap mengikuti tinggi konten */
-.main-content {
-    min-height: 100vh;
-    height: auto;
-    overflow: visible;
-    padding-bottom: 30px;
-}
-
-/* Mengatur tinggi modal pembayaran */
-.payment-modal .modal-dialog {
-    height: calc(100% - 2rem);
-    max-height: calc(100% - 2rem);
-}
-
-/* Modal menggunakan susunan flex */
-.payment-modal .modal-content {
-    height: 100%;
-    max-height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-/* Form mengisi ruang di bawah header */
-.payment-modal .payment-form {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    min-height: 0;
-}
-
-/* Hanya isi modal yang bisa di-scroll */
-.payment-modal .modal-body {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto !important;
-    overflow-x: auto;
-    padding: 25px 35px 30px;
-    overscroll-behavior: contain;
-}
-
-/* Tampilan scrollbar */
-.payment-modal .modal-body::-webkit-scrollbar {
-    width: 8px;
-}
-
-.payment-modal .modal-body::-webkit-scrollbar-track {
-    background: #e7f3ff;
-    border-radius: 10px;
-}
-
-.payment-modal .modal-body::-webkit-scrollbar-thumb {
-    background: #1877f2;
-    border-radius: 10px;
-}
-
-/* Tampilan layar kecil */
-@media (max-width: 576px) {
-    .payment-modal .modal-dialog {
-        height: calc(100% - 1rem);
-        max-height: calc(100% - 1rem);
-        margin: 8px;
-    }
-
-    .payment-modal .modal-body {
-        padding: 16px;
-    }
-}
     </style>
 </head>
 
@@ -1014,14 +1031,17 @@
 {{-- SIDEBAR --}}
 
 <aside class="sidebar">
+
     <div class="brand">
         <div class="brand-icon">
             <i class="fa-solid fa-hospital"></i>
         </div>
+
         <div class="brand-name">SIM RS</div>
     </div>
 
     <nav class="sidebar-menu">
+
         <a href="{{ route('kasir.dashboard') }}" class="sidebar-link">
             <i class="fa-solid fa-house"></i>
             <span>Dashboard</span>
@@ -1031,17 +1051,20 @@
             <i class="fa-solid fa-money-bill-wave"></i>
             <span>Pembayaran Obat</span>
         </a>
+
     </nav>
 
     <div class="sidebar-bottom">
         <form action="{{ route('logout') }}" method="POST">
             @csrf
+
             <button type="submit" class="logout-button">
                 <i class="fa-solid fa-right-from-bracket me-2"></i>
                 Logout
             </button>
         </form>
     </div>
+
 </aside>
 
 {{-- KONTEN UTAMA --}}
@@ -1049,15 +1072,20 @@
 <main class="main-content">
 
     <div class="topbar">
-        <div class="topbar-title">Pembayaran Obat</div>
+
+        <div class="topbar-title">
+            Pembayaran Obat
+        </div>
 
         <div class="user-info">
             <i class="fa-solid fa-user me-2"></i>
             {{ auth()->user()->name }}
         </div>
+
     </div>
 
     <div class="page-heading">
+
         <div class="heading-icon">
             <i class="fa-solid fa-capsules"></i>
         </div>
@@ -1066,24 +1094,30 @@
             <h1>Pembayaran Obat</h1>
             <p>Kelola resep obat dan lakukan pembayaran obat pasien</p>
         </div>
+
     </div>
 
     <div class="banner">
+
         <i class="fa-solid fa-wallet"></i>
+
         <div>
             <h3>Pembayaran Obat Pasien</h3>
             <p>Cari pasien dan pilih resep yang akan dibayarkan</p>
         </div>
+
     </div>
 
     {{-- FILTER --}}
 
     <div class="filter-card">
+
         <form action="{{ route('kasir.pembayaran') }}" method="GET">
 
             <div class="row align-items-end">
 
                 <div class="col-lg-5">
+
                     <label class="filter-label">
                         Cari Pasien (Nama / No. RM)
                     </label>
@@ -1093,71 +1127,110 @@
                         class="filter-control"
                         value="{{ request('search') }}"
                         placeholder="Masukkan nama pasien atau No. RM...">
+
                 </div>
 
                 <div class="col-lg-3">
-                    <label class="filter-label">Tanggal Resep</label>
+
+                    <label class="filter-label">
+                        Tanggal Resep
+                    </label>
 
                     <input type="date"
                         name="tanggal_mulai"
                         class="filter-control"
                         value="{{ request('tanggal_mulai') }}">
+
                 </div>
 
                 <div class="col-lg-3">
-                    <label class="filter-label">Sampai Tanggal</label>
+
+                    <label class="filter-label">
+                        Sampai Tanggal
+                    </label>
 
                     <input type="date"
                         name="tanggal_selesai"
                         class="filter-control"
                         value="{{ request('tanggal_selesai') }}">
+
                 </div>
 
                 <div class="col-lg-1 d-grid">
+
                     <button type="submit" class="btn btn-blue filter-button">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
+
                 </div>
 
             </div>
 
             <div class="text-end mt-2">
+
                 <a href="{{ route('kasir.pembayaran') }}"
                     class="btn btn-sm btn-outline-blue">
+
                     <i class="fa-solid fa-rotate-right me-1"></i>
                     Reset Filter
+
                 </a>
+
             </div>
 
         </form>
+
     </div>
 
     {{-- PESAN NOTIFIKASI --}}
 
     @if (session('success'))
+
         <div class="alert alert-success alert-dismissible fade show">
+
             <i class="fa-solid fa-circle-check me-2"></i>
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+            <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
+
         </div>
+
     @endif
 
     @if (session('error'))
+
         <div class="alert alert-danger alert-dismissible fade show">
+
             {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+            <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
+
         </div>
+
     @endif
 
     @if ($errors->any())
+
         <div class="alert alert-danger">
-            <strong>Pembayaran gagal diproses:</strong>
+
+            <strong>Terjadi kesalahan:</strong>
+
             <ul class="mb-0 mt-2">
+
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
+
             </ul>
+
         </div>
+
     @endif
 
     {{-- DAFTAR RESEP --}}
@@ -1165,6 +1238,7 @@
     <section class="table-card">
 
         <div class="table-card-header">
+
             <h4>
                 <i class="fa-solid fa-rectangle-list"></i>
                 Daftar Resep untuk Pembayaran
@@ -1173,9 +1247,11 @@
             <span class="count-badge">
                 {{ $resepObats->total() }} Data
             </span>
+
         </div>
 
         <div class="table-responsive">
+
             <table class="main-table">
 
                 <thead>
@@ -1206,34 +1282,53 @@
                         @endphp
 
                         <tr>
-                            <td>{{ $resepObats->firstItem() + $index }}</td>
-
-                            <td>{{ $namaPasien($resep) }}</td>
-
-                            <td>{{ $namaDokter($resep) }}</td>
 
                             <td>
+                                {{ $resepObats->firstItem() + $index }}
+                            </td>
+
+                            <td>
+                                {{ $namaPasien($resep) }}
+                            </td>
+
+                            <td>
+                                {{ $namaDokter($resep) }}
+                            </td>
+
+                            <td>
+
                                 @forelse ($daftarObat as $obat)
+
                                     <div>
                                         {{ $obat->nama ?? $obat->nama_obat ?? 'Obat' }}
                                     </div>
+
                                 @empty
                                     -
                                 @endforelse
+
                             </td>
 
-                            <td>{{ $jumlahObat }}</td>
+                            <td>
+                                {{ $jumlahObat }}
+                            </td>
 
                             <td>
+
                                 @forelse ($daftarObat as $obat)
+
                                     @php
                                         $detailAturan = $ambilDetailAturan($obat->pivot);
                                     @endphp
 
-                                    <div>{{ $detailAturan['aturan'] }}</div>
+                                    <div>
+                                        {{ $detailAturan['aturan'] }}
+                                    </div>
+
                                 @empty
                                     -
                                 @endforelse
+
                             </td>
 
                             <td>
@@ -1249,6 +1344,7 @@
                             </td>
 
                             <td>
+
                                 <button type="button"
                                     class="action-button"
                                     data-bs-toggle="modal"
@@ -1256,24 +1352,35 @@
 
                                     <i class="fa-solid fa-wallet me-1"></i>
                                     Proses Bayar
+
                                 </button>
+
                             </td>
+
                         </tr>
 
                     @empty
 
                         <tr>
+
                             <td colspan="9" class="empty-state">
+
                                 <i class="fa-solid fa-folder-open fa-2x mb-2 d-block"></i>
+
                                 Belum ada resep yang menunggu pembayaran.
+
                             </td>
+
                         </tr>
 
                     @endforelse
 
                 </tbody>
+
             </table>
+
         </div>
+
     </section>
 
     {{-- RIWAYAT PEMBAYARAN --}}
@@ -1281,6 +1388,7 @@
     <section class="table-card">
 
         <div class="table-card-header">
+
             <h4>
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 Riwayat Pembayaran
@@ -1289,9 +1397,11 @@
             <span class="count-badge">
                 {{ $riwayatPembayaran->total() }} Data
             </span>
+
         </div>
 
         <div class="table-responsive">
+
             <table class="main-table">
 
                 <thead>
@@ -1316,7 +1426,10 @@
                         @endphp
 
                         <tr>
-                            <td>{{ $riwayatPembayaran->firstItem() + $index }}</td>
+
+                            <td>
+                                {{ $riwayatPembayaran->firstItem() + $index }}
+                            </td>
 
                             <td>
                                 {{ $resepRiwayat ? $namaPasien($resepRiwayat) : '-' }}
@@ -1337,15 +1450,27 @@
                             </td>
 
                             <td>
+
                                 @if ($bayar->status === 'LUNAS')
+
                                     <span class="status-success">
-                                        {{ $bayar->status }}
+                                        LUNAS
                                     </span>
+
+                                @elseif ($bayar->status === 'MENUNGGU VERIFIKASI')
+
+                                    <span class="status-waiting">
+                                        MENUNGGU VERIFIKASI
+                                    </span>
+
                                 @else
+
                                     <span class="status-waiting">
                                         {{ $bayar->status }}
                                     </span>
+
                                 @endif
+
                             </td>
 
                             <td>
@@ -1355,7 +1480,10 @@
                             </td>
 
                             <td>
-                                <div class="d-flex gap-2 align-items-center">
+
+                                <div class="d-flex gap-2 align-items-center flex-wrap">
+
+                                    {{-- DETAIL --}}
 
                                     <button type="button"
                                         class="detail-button"
@@ -1364,7 +1492,26 @@
 
                                         <i class="fa-solid fa-eye me-1"></i>
                                         Detail
+
                                     </button>
+
+                                    {{-- LIHAT BUKTI TRANSFER OTOMATIS --}}
+
+                                    @if ($bayar->metode_pembayaran === 'Transfer Bank' && $bayar->bukti_transfer)
+
+                                        <button type="button"
+                                            class="btn btn-primary btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#buktiTransferModal{{ $bayar->id }}">
+
+                                            <i class="fa-solid fa-receipt me-1"></i>
+                                            Lihat Bukti
+
+                                        </button>
+
+                                    @endif
+
+                                    {{-- VERIFIKASI --}}
 
                                     @if ($bayar->status === 'MENUNGGU VERIFIKASI')
 
@@ -1384,31 +1531,45 @@
                                     @endif
 
                                 </div>
+
                             </td>
+
                         </tr>
 
                     @empty
 
                         <tr>
+
                             <td colspan="8" class="empty-state">
+
                                 <i class="fa-solid fa-clock-rotate-left fa-2x mb-2 d-block"></i>
+
                                 Belum ada riwayat pembayaran.
+
                             </td>
+
                         </tr>
 
                     @endforelse
 
                 </tbody>
+
             </table>
+
         </div>
+
     </section>
+
+    {{-- PAGINATION --}}
 
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
 
         <div class="pagination-info">
+
             Menampilkan {{ $riwayatPembayaran->firstItem() ?? 0 }}
             - {{ $riwayatPembayaran->lastItem() ?? 0 }}
             dari {{ $riwayatPembayaran->total() }} data riwayat pembayaran
+
         </div>
 
         <div>
@@ -1441,8 +1602,10 @@
                 <div class="modal-header">
 
                     <h5 class="modal-title" id="paymentModalLabel{{ $resep->id }}">
+
                         <i class="fa-solid fa-wallet"></i>
                         Proses Pembayaran Resep
+
                     </h5>
 
                     <button type="button"
@@ -1456,8 +1619,7 @@
                 <form action="{{ route('kasir.pembayaran.proses', $resep->id) }}"
                     method="POST"
                     class="payment-form"
-                    data-total="{{ $totalResep }}"
-                    enctype="multipart/form-data">
+                    data-total="{{ $totalResep }}">
 
                     @csrf
 
@@ -1468,12 +1630,16 @@
                         <div class="patient-summary">
 
                             <div class="summary-item">
+
                                 <div class="summary-icon">
                                     <i class="fa-solid fa-user"></i>
                                 </div>
 
                                 <div>
-                                    <div class="summary-label">Pasien</div>
+
+                                    <div class="summary-label">
+                                        Pasien
+                                    </div>
 
                                     <div class="summary-value">
                                         {{ $namaPasien($resep) }}
@@ -1482,35 +1648,49 @@
                                     <div class="summary-small">
                                         No. Resep: {{ $resep->id }}
                                     </div>
+
                                 </div>
+
                             </div>
 
                             <div class="summary-item">
+
                                 <div class="summary-icon">
                                     <i class="fa-solid fa-user-doctor"></i>
                                 </div>
 
                                 <div>
-                                    <div class="summary-label">Dokter</div>
+
+                                    <div class="summary-label">
+                                        Dokter
+                                    </div>
 
                                     <div class="summary-value">
                                         {{ $namaDokter($resep) }}
                                     </div>
+
                                 </div>
+
                             </div>
 
                             <div class="summary-item">
+
                                 <div class="summary-icon">
                                     <i class="fa-regular fa-calendar-days"></i>
                                 </div>
 
                                 <div>
-                                    <div class="summary-label">Tanggal Resep</div>
+
+                                    <div class="summary-label">
+                                        Tanggal Resep
+                                    </div>
 
                                     <div class="summary-value">
                                         {{ $resep->created_at ? $resep->created_at->format('d/m/Y') : '-' }}
                                     </div>
+
                                 </div>
+
                             </div>
 
                         </div>
@@ -1529,6 +1709,7 @@
                                 <table class="medicine-table">
 
                                     <thead>
+
                                         <tr>
                                             <th>No.</th>
                                             <th>Nama Obat</th>
@@ -1539,6 +1720,7 @@
                                             <th>Harga</th>
                                             <th>Subtotal</th>
                                         </tr>
+
                                     </thead>
 
                                     <tbody>
@@ -1553,19 +1735,30 @@
                                             @endphp
 
                                             <tr>
-                                                <td>{{ $index + 1 }}</td>
+
+                                                <td>
+                                                    {{ $index + 1 }}
+                                                </td>
 
                                                 <td>
                                                     {{ $obat->nama_obat ?? $obat->nama ?? 'Obat' }}
                                                 </td>
 
-                                                <td>{{ $jumlah }}</td>
+                                                <td>
+                                                    {{ $jumlah }}
+                                                </td>
 
-                                                <td>{{ $detailAturan['frekuensi'] }}</td>
+                                                <td>
+                                                    {{ $detailAturan['frekuensi'] }}
+                                                </td>
 
-                                                <td>{{ $detailAturan['aturan'] }}</td>
+                                                <td>
+                                                    {{ $detailAturan['aturan'] }}
+                                                </td>
 
-                                                <td>{{ $detailAturan['lama'] }}</td>
+                                                <td>
+                                                    {{ $detailAturan['lama'] }}
+                                                </td>
 
                                                 <td>
                                                     Rp {{ number_format($hargaSatuan, 0, ',', '.') }}
@@ -1576,42 +1769,53 @@
                                                         Rp {{ number_format($subtotal, 0, ',', '.') }}
                                                     </strong>
                                                 </td>
+
                                             </tr>
 
                                         @empty
 
                                             <tr>
+
                                                 <td colspan="8" class="text-center">
                                                     Tidak ada detail obat.
                                                 </td>
+
                                             </tr>
 
                                         @endforelse
 
                                     </tbody>
+
                                 </table>
 
                             </div>
+
                         </div>
 
                         {{-- TOTAL --}}
 
                         <div class="total-bar">
+
                             <span>Total Pembayaran:</span>
 
                             <span class="total-value">
                                 Rp {{ number_format($totalResep, 0, ',', '.') }}
                             </span>
+
                         </div>
 
                         {{-- METODE PEMBAYARAN --}}
 
                         <div class="payment-method-title">
+
                             <i class="fa-solid fa-wallet"></i>
                             Metode Pembayaran
+
                         </div>
 
                         <div class="row g-3">
+
+                            {{-- CASH --}}
 
                             <div class="col-md-4">
 
@@ -1626,10 +1830,15 @@
                                     <i class="fa-solid fa-money-bill-wave"></i>
 
                                     <div>
-                                        <div class="method-name">Tunai</div>
+
+                                        <div class="method-name">
+                                            Tunai
+                                        </div>
+
                                         <div class="method-description">
                                             Bayar dengan uang tunai
                                         </div>
+
                                     </div>
 
                                     <i class="fa-solid fa-circle-check method-check"></i>
@@ -1637,6 +1846,8 @@
                                 </label>
 
                             </div>
+
+                            {{-- QRIS --}}
 
                             <div class="col-md-4">
 
@@ -1650,10 +1861,15 @@
                                     <i class="fa-solid fa-qrcode"></i>
 
                                     <div>
-                                        <div class="method-name">QRIS</div>
+
+                                        <div class="method-name">
+                                            QRIS
+                                        </div>
+
                                         <div class="method-description">
                                             Scan QR Code
                                         </div>
+
                                     </div>
 
                                     <i class="fa-solid fa-circle-check method-check"></i>
@@ -1661,6 +1877,8 @@
                                 </label>
 
                             </div>
+
+                            {{-- TRANSFER --}}
 
                             <div class="col-md-4">
 
@@ -1674,10 +1892,15 @@
                                     <i class="fa-solid fa-building-columns"></i>
 
                                     <div>
-                                        <div class="method-name">Transfer</div>
+
+                                        <div class="method-name">
+                                            Transfer
+                                        </div>
+
                                         <div class="method-description">
                                             Transfer via Bank
                                         </div>
+
                                     </div>
 
                                     <i class="fa-solid fa-circle-check method-check"></i>
@@ -1692,7 +1915,9 @@
 
                         <div class="payment-extra show cash-panel">
 
-                            <label>Uang Diterima</label>
+                            <label>
+                                Uang Diterima
+                            </label>
 
                             <input type="number"
                                 name="uang_diterima"
@@ -1702,8 +1927,12 @@
                                 placeholder="Masukkan jumlah uang yang diterima">
 
                             <div class="mt-2 small text-muted">
+
                                 Kembalian:
-                                <strong class="change-value">Rp 0</strong>
+                                <strong class="change-value">
+                                    Rp 0
+                                </strong>
+
                             </div>
 
                         </div>
@@ -1724,23 +1953,29 @@
                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
 
                                 <div class="text-danger small" style="display:none">
+
                                     Gambar QRIS tidak ditemukan.
                                     Pastikan file tersedia di
                                     <strong>public/images/qris.jpeg</strong>.
+
                                 </div>
 
                                 <div class="small text-muted">
+
                                     Total:
                                     Rp {{ number_format($totalResep, 0, ',', '.') }}
+
                                 </div>
 
                                 <div class="info-note mt-3 text-start">
+
                                     <i class="fa-solid fa-circle-info"></i>
 
                                     <div>
                                         Setelah pembayaran QRIS dilakukan,
-                                        pembayaran akan menunggu verifikasi kasir.
+                                        pembayaran akan menunggu verifikasi.
                                     </div>
+
                                 </div>
 
                             </div>
@@ -1752,13 +1987,17 @@
                         <div class="payment-extra transfer-panel">
 
                             <div class="bank-info-title">
+
                                 <i class="fa-solid fa-building-columns me-2"></i>
                                 Informasi Transfer Bank
+
                             </div>
 
                             <div class="mb-3">
 
-                                <label>Pilih Bank Tujuan</label>
+                                <label>
+                                    Pilih Bank Tujuan
+                                </label>
 
                                 <select class="form-select bank-select">
 
@@ -1805,14 +2044,19 @@
                                 </div>
 
                                 <div class="bank-info-row">
-                                    <span class="bank-info-label">Bank</span>
+
+                                    <span class="bank-info-label">
+                                        Bank
+                                    </span>
 
                                     <span class="bank-info-value bank-name">
                                         BCA
                                     </span>
+
                                 </div>
 
                                 <div class="bank-info-row">
+
                                     <span class="bank-info-label">
                                         Nama Pemilik Rekening
                                     </span>
@@ -1820,9 +2064,11 @@
                                     <span class="bank-info-value bank-owner">
                                         SIM RS
                                     </span>
+
                                 </div>
 
                                 <div class="bank-info-row">
+
                                     <span class="bank-info-label">
                                         Nomor Rekening
                                     </span>
@@ -1830,9 +2076,11 @@
                                     <span class="bank-info-value account-number bank-account">
                                         1234567890
                                     </span>
+
                                 </div>
 
                                 <div class="bank-info-row">
+
                                     <span class="bank-info-label">
                                         Jumlah Pembayaran
                                     </span>
@@ -1840,51 +2088,36 @@
                                     <span class="bank-info-value text-primary">
                                         Rp {{ number_format($totalResep, 0, ',', '.') }}
                                     </span>
+
                                 </div>
 
                             </div>
 
                             <div class="info-note mb-3">
+
                                 <i class="fa-solid fa-circle-info"></i>
 
                                 <div>
-                                    Silakan lakukan simulasi transfer sesuai informasi
-                                    rekening di atas. Setelah itu unggah bukti transfer.
+                                    Ini adalah simulasi pembayaran. Setelah pembayaran dicatat,
+                                    bukti transfer digital akan dibuat otomatis dan dapat dilihat
+                                    serta dicetak dari riwayat pembayaran.
                                 </div>
+
                             </div>
 
-                            {{-- UPLOAD BUKTI TRANSFER --}}
+                        </div>
 
-                          <div class="upload-box">
-
-    <label for="buktiTransfer{{ $resep->id }}">
-        <i class="fa-solid fa-cloud-arrow-up me-2"></i>
-        Upload Bukti Transfer
-    </label>
-
-    <input type="file"
-        name="bukti_transfer"
-        id="buktiTransfer{{ $resep->id }}"
-        class="form-control transfer-input"
-        accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf">
-
-    <small class="text-muted d-block mt-2">
-        Format JPG, JPEG, PNG, atau PDF.
-        Maksimal 2 MB.
-    </small>
-
-    <div class="file-name small mt-2 text-primary"></div>
-
-</div>
-</div>
+                        {{-- PANEL TRANSFER BANK SELESAI --}}
 
                         {{-- TOMBOL PEMBAYARAN --}}
 
                         <div class="modal-footer-custom">
 
                             <div class="small text-muted">
+
                                 <i class="fa-solid fa-circle-info me-1"></i>
                                 Periksa kembali pembayaran sebelum diproses.
+
                             </div>
 
                             <div class="modal-footer-buttons">
@@ -1892,12 +2125,16 @@
                                 <button type="button"
                                     class="btn btn-outline-secondary"
                                     data-bs-dismiss="modal">
+
                                     Batal
+
                                 </button>
 
                                 <button type="submit" class="btn btn-primary">
+
                                     <i class="fa-solid fa-check me-2"></i>
                                     Proses Pembayaran
+
                                 </button>
 
                             </div>
@@ -1913,6 +2150,55 @@
         </div>
 
     </div>
+
+@endforeach
+
+{{-- MODAL BUKTI TRANSFER DIGITAL OTOMATIS --}}
+
+@foreach ($riwayatPembayaran as $bayar)
+
+    @if ($bayar->metode_pembayaran === 'Transfer Bank' && $bayar->bukti_transfer)
+
+        <div class="modal fade"
+            id="buktiTransferModal{{ $bayar->id }}"
+            tabindex="-1"
+            aria-labelledby="buktiTransferModalLabel{{ $bayar->id }}"
+            aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+
+                <div class="modal-content border-0 shadow" style="border-radius: 18px; overflow: hidden;">
+
+                    <div class="modal-header text-white" style="background: linear-gradient(110deg, #0869e5, #2183fb);">
+
+                        <h5 class="modal-title fw-bold" id="buktiTransferModalLabel{{ $bayar->id }}">
+                            <i class="fa-solid fa-receipt me-2"></i>
+                            Bukti Transfer Digital
+                        </h5>
+
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+
+                    </div>
+
+                    <div class="modal-body p-0" style="height: 75vh;">
+                        <iframe src="{{ asset('storage/' . $bayar->bukti_transfer) }}"
+                            title="Bukti Transfer Digital"
+                            style="width:100%; height:100%; border:0;"
+                            loading="lazy"></iframe>
+                    </div>
+
+                    <div class="modal-footer">
+                       
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    @endif
 
 @endforeach
 
@@ -1967,7 +2253,10 @@
                             </div>
 
                             <div>
-                                <div class="summary-label">Pasien</div>
+
+                                <div class="summary-label">
+                                    Pasien
+                                </div>
 
                                 <div class="summary-value">
                                     {{ $resepRiwayat ? $namaPasien($resepRiwayat) : '-' }}
@@ -1976,6 +2265,7 @@
                                 <div class="summary-small">
                                     No. Resep: {{ $bayar->resep_id }}
                                 </div>
+
                             </div>
 
                         </div>
@@ -1987,11 +2277,15 @@
                             </div>
 
                             <div>
-                                <div class="summary-label">Dokter</div>
+
+                                <div class="summary-label">
+                                    Dokter
+                                </div>
 
                                 <div class="summary-value">
                                     {{ $resepRiwayat ? $namaDokter($resepRiwayat) : '-' }}
                                 </div>
+
                             </div>
 
                         </div>
@@ -2003,6 +2297,7 @@
                             </div>
 
                             <div>
+
                                 <div class="summary-label">
                                     Tanggal Pembayaran
                                 </div>
@@ -2010,6 +2305,7 @@
                                 <div class="summary-value">
                                     {{ $bayar->created_at ? $bayar->created_at->format('d/m/Y') : '-' }}
                                 </div>
+
                             </div>
 
                         </div>
@@ -2030,6 +2326,7 @@
                             <table class="medicine-table">
 
                                 <thead>
+
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama Obat</th>
@@ -2040,6 +2337,7 @@
                                         <th>Harga</th>
                                         <th>Subtotal</th>
                                     </tr>
+
                                 </thead>
 
                                 <tbody>
@@ -2054,19 +2352,30 @@
                                         @endphp
 
                                         <tr>
-                                            <td>{{ $index + 1 }}</td>
+
+                                            <td>
+                                                {{ $index + 1 }}
+                                            </td>
 
                                             <td>
                                                 {{ $obat->nama_obat ?? $obat->nama ?? 'Obat' }}
                                             </td>
 
-                                            <td>{{ $jumlah }}</td>
+                                            <td>
+                                                {{ $jumlah }}
+                                            </td>
 
-                                            <td>{{ $detailAturan['frekuensi'] }}</td>
+                                            <td>
+                                                {{ $detailAturan['frekuensi'] }}
+                                            </td>
 
-                                            <td>{{ $detailAturan['aturan'] }}</td>
+                                            <td>
+                                                {{ $detailAturan['aturan'] }}
+                                            </td>
 
-                                            <td>{{ $detailAturan['lama'] }}</td>
+                                            <td>
+                                                {{ $detailAturan['lama'] }}
+                                            </td>
 
                                             <td>
                                                 Rp {{ number_format($hargaSatuan, 0, ',', '.') }}
@@ -2075,14 +2384,17 @@
                                             <td>
                                                 Rp {{ number_format($subtotal, 0, ',', '.') }}
                                             </td>
+
                                         </tr>
 
                                     @empty
 
                                         <tr>
+
                                             <td colspan="8" class="text-center">
                                                 Detail obat tidak tersedia.
                                             </td>
+
                                         </tr>
 
                                     @endforelse
@@ -2100,6 +2412,7 @@
                     <div class="row g-3 mb-3">
 
                         <div class="col-md-6">
+
                             <div class="summary-label">
                                 Metode Pembayaran
                             </div>
@@ -2107,9 +2420,11 @@
                             <div class="summary-value">
                                 {{ $bayar->metode_pembayaran }}
                             </div>
+
                         </div>
 
                         <div class="col-md-6">
+
                             <div class="summary-label">
                                 Status Pembayaran
                             </div>
@@ -2117,13 +2432,16 @@
                             <div class="summary-value">
                                 {{ $bayar->status }}
                             </div>
+
                         </div>
 
                     </div>
 
                     <div class="detail-total">
+
                         Total Pembayaran:
                         Rp {{ number_format($bayar->total_pembayaran, 0, ',', '.') }}
+
                     </div>
 
                     {{-- BUKTI TRANSFER --}}
@@ -2133,42 +2451,33 @@
                         <div class="modal-section mt-3">
 
                             <div class="modal-section-title">
+
                                 <i class="fa-solid fa-receipt"></i>
                                 Bukti Transfer
+
                             </div>
 
                             <div class="p-3">
 
                                 @if ($bayar->bukti_transfer)
 
-                                    @php
-                                        $ekstensi = strtolower(
-                                            pathinfo(
-                                                $bayar->bukti_transfer,
-                                                PATHINFO_EXTENSION
-                                            )
-                                        );
-                                    @endphp
+                                    <div class="alert alert-success mb-3">
+                                        <i class="fa-solid fa-circle-check me-2"></i>
+                                        Bukti transfer simulasi sudah dibuat otomatis oleh sistem.
+                                    </div>
 
-                                    @if (in_array($ekstensi, ['jpg', 'jpeg', 'png']))
+                                    <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
+                                        target="_blank" rel="noopener" class="btn btn-primary">
 
-                                        <img src="{{ asset('storage/' . $bayar->bukti_transfer) }}"
-                                            alt="Bukti Transfer"
-                                            class="img-fluid proof-image">
+                                        <i class="fa-solid fa-receipt me-2"></i>
+                                        Lihat Bukti Transfer Digital
 
-                                    @elseif ($ekstensi === 'pdf')
+                                    </a>
 
-                                        <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
-                                            target="_blank"
-                                            rel="noopener"
-                                            class="btn btn-outline-primary">
-
-                                            <i class="fa-solid fa-file-pdf me-2"></i>
-                                            Lihat Bukti Transfer PDF
-
-                                        </a>
-
-                                    @endif
+                                    <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
+                                        target="_blank" rel="noopener" class="btn btn-outline-primary ms-2">
+                                        <i class="fa-solid fa-print me-1"></i> Buka / Cetak
+                                    </a>
 
                                 @else
 
@@ -2224,18 +2533,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const transferPanel = form.querySelector('.transfer-panel');
 
         const cashInput = form.querySelector('.cash-input');
-        const transferInput = form.querySelector('.transfer-input');
+        const changeValue = form.querySelector('.change-value');
 
         const bankSelect = form.querySelector('.bank-select');
         const bankOwner = form.querySelector('.bank-owner');
         const bankAccount = form.querySelector('.bank-account');
         const bankName = form.querySelector('.bank-name');
-
-        const changeValue = form.querySelector('.change-value');
-
-        const previewImage = form.querySelector('.upload-preview');
-        const fileName = form.querySelector('.file-name');
-        const pdfPreview = form.querySelector('.pdf-preview');
 
         // MENGGANTI INFORMASI BANK
 
@@ -2246,16 +2549,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const option = bankSelect.options[bankSelect.selectedIndex];
 
             if (bankOwner) {
-                bankOwner.textContent = option.dataset.owner;
+                bankOwner.textContent = option.dataset.owner || '-';
             }
 
             if (bankAccount) {
-                bankAccount.textContent = option.dataset.account;
+                bankAccount.textContent = option.dataset.account || '-';
             }
 
             if (bankName) {
-                bankName.textContent = option.value;
+                bankName.textContent = option.value || '-';
             }
+
         }
 
         if (bankSelect) {
@@ -2270,42 +2574,68 @@ document.addEventListener('DOMContentLoaded', function () {
                 'input[name="metode_pembayaran"]:checked'
             );
 
-            if (cashPanel) cashPanel.classList.remove('show');
-            if (qrisPanel) qrisPanel.classList.remove('show');
-            if (transferPanel) transferPanel.classList.remove('show');
+            if (cashPanel) {
+                cashPanel.classList.remove('show');
+            }
+
+            if (qrisPanel) {
+                qrisPanel.classList.remove('show');
+            }
+
+            if (transferPanel) {
+                transferPanel.classList.remove('show');
+            }
 
             form.querySelectorAll('.payment-method-option').forEach(function (option) {
                 option.classList.remove('selected');
             });
 
             if (selected) {
-                selected.closest('.payment-method-option').classList.add('selected');
+
+                const selectedLabel = selected.closest('.payment-method-option');
+
+                if (selectedLabel) {
+                    selectedLabel.classList.add('selected');
+                }
+
             }
 
             if (selected && selected.value === 'Cash') {
-                cashPanel.classList.add('show');
+
+                if (cashPanel) {
+                    cashPanel.classList.add('show');
+                }
+
             }
 
             if (selected && selected.value === 'QRIS') {
-                qrisPanel.classList.add('show');
+
+                if (qrisPanel) {
+                    qrisPanel.classList.add('show');
+                }
+
             }
 
             if (selected && selected.value === 'Transfer Bank') {
-                transferPanel.classList.add('show');
+
+                if (transferPanel) {
+                    transferPanel.classList.add('show');
+                }
+
             }
+
+            // Uang diterima hanya wajib untuk Cash
 
             if (cashInput) {
                 cashInput.required = !!selected && selected.value === 'Cash';
             }
 
-            if (transferInput) {
-                transferInput.required =
-                    !!selected && selected.value === 'Transfer Bank';
-            }
         }
 
         form.querySelectorAll('input[name="metode_pembayaran"]').forEach(function (radio) {
+
             radio.addEventListener('change', updatePaymentMethod);
+
         });
 
         // MENGHITUNG KEMBALIAN CASH
@@ -2326,50 +2656,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-  // UPLOAD BUKTI TRANSFER TANPA PREVIEW FOTO
-
-if (transferInput) {
-
-    transferInput.addEventListener('change', function () {
-
-        const file = this.files[0];
-
-        if (fileName) {
-            fileName.textContent = '';
-        }
-
-        if (!file) return;
-
-        if (file.size > 2 * 1024 * 1024) {
-
-            alert('Ukuran file maksimal 2 MB.');
-
-            this.value = '';
-            return;
-        }
-
-        const tipeValid = [
-            'image/jpeg',
-            'image/png',
-            'application/pdf'
-        ];
-
-        if (!tipeValid.includes(file.type)) {
-
-            alert('Format file harus JPG, JPEG, PNG, atau PDF.');
-
-            this.value = '';
-            return;
-        }
-
-        if (fileName) {
-            fileName.textContent = 'File dipilih: ' + file.name;
-        }
-
-    });
-
-}
-
         // RESET MODAL SAAT DIBUKA
 
         modal.addEventListener('show.bs.modal', function () {
@@ -2386,25 +2672,8 @@ if (transferInput) {
                 cashInput.value = '';
             }
 
-            if (transferInput) {
-                transferInput.value = '';
-            }
-
             if (changeValue) {
                 changeValue.textContent = 'Rp 0';
-            }
-
-            if (previewImage) {
-                previewImage.src = '';
-                previewImage.style.display = 'none';
-            }
-
-            if (fileName) {
-                fileName.textContent = '';
-            }
-
-            if (pdfPreview) {
-                pdfPreview.style.display = 'none';
             }
 
             if (bankSelect) {
@@ -2420,6 +2689,31 @@ if (transferInput) {
         updatePaymentMethod();
 
     });
+
+});
+</script>
+
+{{-- OTOMATIS MEMBUKA BUKTI TRANSFER DIGITAL SETELAH PEMBAYARAN --}}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const buktiTransferId = @json(session('bukti_transfer_id'));
+
+    if (buktiTransferId) {
+
+        const modalElement = document.getElementById(
+            'buktiTransferModal' + buktiTransferId
+        );
+
+        if (modalElement) {
+
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+
+        }
+
+    }
 
 });
 </script>
