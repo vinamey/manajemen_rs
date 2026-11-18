@@ -581,7 +581,6 @@
                             <th>Nama Obat</th>
                             <th>Satuan</th>
                             <th>Jumlah</th>
-                            <th>Dosis</th>
                             <th>Frekuensi</th>
                             <th>Aturan Pakai</th>
                             <th>Lama</th>
@@ -605,12 +604,6 @@
                                     $satuan = $detail->satuan;
 
                                     $teks = $detail->aturan_pakai ?? '';
-
-                                    preg_match(
-                                        '/Dosis:\s*(.*?)(?=\s*\|\s*Frekuensi:|$)/i',
-                                        $teks,
-                                        $dosis
-                                    );
 
                                     preg_match(
                                         '/Frekuensi:\s*(.*?)(?=\s*\|\s*Aturan:|$)/i',
@@ -663,10 +656,6 @@
                                         <span class="number-badge">
                                             {{ $detail->nilai ?? 0 }}
                                         </span>
-                                    </td>
-
-                                    <td>
-                                        {{ trim($dosis[1] ?? '-') ?: '-' }}
                                     </td>
 
                                     <td>
