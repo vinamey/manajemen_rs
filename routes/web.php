@@ -463,7 +463,7 @@ Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
 
 
 // ==================================================
-// DIREKTUR - LAPORAN DAN PENGELOLAAN PENGELUARAN
+// DIREKTUR 
 // ==================================================
 
 Route::middleware(['auth', 'role:direktur'])->group(function () {
@@ -482,15 +482,6 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
         LaporanController::class,
         'exportPdf'
     ])->name('laporan.export.pdf');
-
-    Route::get('/direktur/pengeluaran/data', [
-        PengeluaranController::class,
-        'data'
-    ])->name('direktur.pengeluaran.data');
-
-    Route::resource('/direktur/pengeluaran', PengeluaranController::class)
-        ->except(['show'])
-        ->names('direktur.pengeluaran');
 });
 
 
