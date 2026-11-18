@@ -33,7 +33,6 @@ use App\Http\Controllers\PendaftaranPasienController;
 use App\Http\Controllers\PemeriksaanDokterController;
 use App\Http\Controllers\LogStokObatController;
 use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ApotekerDashboardController;
 use App\Http\Controllers\ApotekerController;
 use App\Http\Controllers\KasirController;
@@ -463,7 +462,7 @@ Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
 
 
 // ==================================================
-// DIREKTUR - LAPORAN DAN PENGELOLAAN PENGELUARAN
+// DIREKTUR 
 // ==================================================
 
 Route::middleware(['auth', 'role:direktur'])->group(function () {
@@ -482,15 +481,6 @@ Route::middleware(['auth', 'role:direktur'])->group(function () {
         LaporanController::class,
         'exportPdf'
     ])->name('laporan.export.pdf');
-
-    Route::get('/direktur/pengeluaran/data', [
-        PengeluaranController::class,
-        'data'
-    ])->name('direktur.pengeluaran.data');
-
-    Route::resource('/direktur/pengeluaran', PengeluaranController::class)
-        ->except(['show'])
-        ->names('direktur.pengeluaran');
 });
 
 
