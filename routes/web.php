@@ -33,7 +33,6 @@ use App\Http\Controllers\PendaftaranPasienController;
 use App\Http\Controllers\PemeriksaanDokterController;
 use App\Http\Controllers\LogStokObatController;
 use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ApotekerDashboardController;
 use App\Http\Controllers\ApotekerController;
 use App\Http\Controllers\KasirController;
