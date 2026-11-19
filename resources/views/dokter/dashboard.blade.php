@@ -521,7 +521,7 @@
 
         {{-- TOMBOL LOGOUT --}}
         <div class="logout-area">
-            <form action="{{ route('logout') }}" method="POST">
+           <form action="{{ route('dokter.logout') }}" method="POST">
                 @csrf
 
                 <button type="submit" class="logout-btn">

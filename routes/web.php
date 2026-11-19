@@ -228,6 +228,17 @@ Route::middleware(['auth', 'role:dokter'])
             LoginController::class,
             'simpanDokter'
         ])->name('simpan');
+
+        // KEMBALI KE PILIH DOKTER
+        Route::post('/logout', function () {
+
+            session()->forget('dokter_aktif_id');
+
+            return redirect()->route('dokter.pilih')
+                ->with('success', 'Silakan pilih dokter kembali.');
+
+        })->name('logout');
+
     });
 
 
@@ -462,7 +473,7 @@ Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
 
 
 // ==================================================
-// DIREKTUR 
+// DIREKTUR
 // ==================================================
 
 Route::middleware(['auth', 'role:direktur'])->group(function () {
