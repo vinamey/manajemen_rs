@@ -171,7 +171,7 @@ class MasterObatController extends Controller
         );
     }
 
-    
+
 // DATA YAJRA APOTEKER
 public function dataApoteker()
 {
@@ -181,7 +181,7 @@ public function dataApoteker()
         'satuan'
     ])
     ->select('harga_jual_obats.*')
-    ->orderBy('id', 'desc');
+    ->orderBy('id', 'asc');
 
     // Menampilkan data menggunakan Yajra DataTables
     return DataTables::of($hargaObats)
@@ -218,6 +218,7 @@ public function dataApoteker()
 
         ->make(true);
 }
+
 
 
     // SIMPAN SATUAN DAN HARGA JUAL OBAT YANG SUDAH ADA
