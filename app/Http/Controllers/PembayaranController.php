@@ -23,7 +23,6 @@ class PembayaranController extends Controller
             'obat.hargaJual.satuan',
         ])->whereDoesntHave('pembayaran');
 
-        // Pencarian nama pasien
         if ($request->filled('search')) {
             $search = $request->search;
 
@@ -35,7 +34,6 @@ class PembayaranController extends Controller
             );
         }
 
-        // Filter tanggal mulai
         if ($request->filled('tanggal_mulai')) {
             $queryResep->whereDate(
                 'created_at',
@@ -44,7 +42,6 @@ class PembayaranController extends Controller
             );
         }
 
-        // Filter tanggal selesai
         if ($request->filled('tanggal_selesai')) {
             $queryResep->whereDate(
                 'created_at',
@@ -58,7 +55,6 @@ class PembayaranController extends Controller
             ->paginate(10, ['*'], 'resepPage')
             ->withQueryString();
 
-        // Riwayat pembayaran
         $riwayatPembayaran = Pembayaran::with([
             'resep.pemeriksaan.pendaftaran.pasien',
             'resep.pemeriksaan.dokter',
@@ -74,9 +70,10 @@ class PembayaranController extends Controller
         ));
     }
 
-
     /**
-     * Menghitung total harga obat berdasarkan satuan resep.
+     * Menghitung total harga berdasarkan satuan obat dalam resep.
+     *
+     * Harga diambil dari tabel harga_jual_obats.
      */
     private function hitungTotal(ResepObat $resep): float
     {
@@ -89,8 +86,17 @@ class PembayaranController extends Controller
         $total = 0;
 
         foreach ($resep->obat as $obat) {
-            $satuanResep = (int) $obat->pivot->satuan_obat_id;
+            $satuanResep = (int) ($obat->pivot->satuan_obat_id ?? 0);
 
+            if ($satuanResep <= 0) {
+                throw ValidationException::withMessages([
+                    'pembayaran' =>
+                        'Satuan resep obat ' . $obat->nama . ' tidak valid.',
+                ]);
+            }
+
+            // Harus cocok dengan satuan yang dipilih pada resep.
+            // Tidak menggunakan harga satuan lain sebagai pengganti.
             $hargaJual = $obat->hargaJual->firstWhere(
                 'satuan_id',
                 $satuanResep
@@ -101,13 +107,13 @@ class PembayaranController extends Controller
                     'pembayaran' =>
                         'Harga jual untuk satuan obat ' .
                         $obat->nama .
-                        ' belum tersedia.',
+                        ' belum tersedia. Silakan periksa harga di data Apoteker.',
                 ]);
             }
 
             $isi = (float) $hargaJual->isi;
             $harga = (float) $hargaJual->harga;
-            $jumlah = (float) $obat->pivot->nilai;
+            $jumlah = (float) ($obat->pivot->nilai ?? 0);
 
             if ($isi <= 0 || $harga <= 0 || $jumlah <= 0) {
                 throw ValidationException::withMessages([
@@ -118,7 +124,10 @@ class PembayaranController extends Controller
                 ]);
             }
 
+            // Harga per satuan = harga jual / isi
             $hargaPerSatuan = $harga / $isi;
+
+            // Subtotal = harga per satuan x jumlah resep
             $subtotal = $hargaPerSatuan * $jumlah;
 
             $total += $subtotal;
@@ -134,7 +143,6 @@ class PembayaranController extends Controller
 
         return $total;
     }
-
 
     /**
      * Membuat bukti transfer simulasi otomatis.
@@ -163,7 +171,6 @@ class PembayaranController extends Controller
             '.'
         );
 
-        // Amankan teks agar tidak merusak HTML
         $namaPasien = htmlspecialchars(
             $namaPasien,
             ENT_QUOTES,
@@ -334,9 +341,7 @@ class PembayaranController extends Controller
         dan bukan konfirmasi transaksi dari bank sungguhan.
     </div>
 
-    <button onclick="window.print()">
-        Cetak Bukti Transfer
-    </button>
+   
 
 </div>
 
@@ -352,7 +357,6 @@ HTML;
 
         return $namaFile;
     }
-
 
     /**
      * Memproses pembayaran resep.
@@ -396,7 +400,6 @@ HTML;
                     ->lockForUpdate()
                     ->firstOrFail();
 
-                // Cegah pembayaran ganda
                 $sudahAda = Pembayaran::where(
                     'resep_id',
                     $resep->id
@@ -413,7 +416,6 @@ HTML;
 
                 $totalPembayaran = $this->hitungTotal($resep);
 
-                // Validasi Cash
                 if ($data['metode_pembayaran'] === 'Cash') {
                     $uangDiterima = $data['uang_diterima'] ?? null;
 
@@ -432,14 +434,10 @@ HTML;
                     }
                 }
 
-                // Tentukan status awal
-                if ($data['metode_pembayaran'] === 'Cash') {
-                    $status = 'LUNAS';
-                } else {
-                    $status = 'MENUNGGU VERIFIKASI';
-                }
+                $status = $data['metode_pembayaran'] === 'Cash'
+                    ? 'LUNAS'
+                    : 'MENUNGGU VERIFIKASI';
 
-                // Buat catatan pembayaran
                 $pembayaran = Pembayaran::create([
                     'resep_id' => $resep->id,
                     'total_pembayaran' => $totalPembayaran,
@@ -448,7 +446,6 @@ HTML;
                     'bukti_transfer' => null,
                 ]);
 
-                // Jika Transfer Bank, buat bukti otomatis
                 if ($data['metode_pembayaran'] === 'Transfer Bank') {
                     $bank = $data['bank_tujuan'] ?? 'Bank tujuan';
 
@@ -467,7 +464,6 @@ HTML;
                 $idPembayaran = $pembayaran->id;
             });
         } catch (Throwable $e) {
-            // Bersihkan file jika proses pembayaran gagal
             if ($pathBukti) {
                 Storage::disk('public')->delete($pathBukti);
             }
@@ -475,7 +471,6 @@ HTML;
             throw $e;
         }
 
-        // Pesan sesuai metode pembayaran
         if ($data['metode_pembayaran'] === 'Cash') {
             $pesan = 'Pembayaran tunai berhasil dicatat.';
         } elseif ($data['metode_pembayaran'] === 'QRIS') {
@@ -490,12 +485,8 @@ HTML;
             ->with('bukti_transfer_id', $idPembayaran);
     }
 
-
     /**
      * Memverifikasi pembayaran QRIS atau Transfer Bank.
-     *
-     * Transfer Bank lama yang belum memiliki bukti otomatis
-     * akan dibuatkan bukti simulasi sebelum diverifikasi.
      */
     public function verifikasi($id)
     {
@@ -513,7 +504,6 @@ HTML;
                     ->lockForUpdate()
                     ->firstOrFail();
 
-                // Pastikan status masih menunggu verifikasi
                 if (
                     $pembayaran->status !== 'MENUNGGU VERIFIKASI' ||
                     !in_array(
@@ -524,7 +514,6 @@ HTML;
                     return false;
                 }
 
-                // Transfer Bank wajib memiliki bukti
                 if (
                     $pembayaran->metode_pembayaran === 'Transfer Bank' &&
                     empty($pembayaran->bukti_transfer)
@@ -535,7 +524,6 @@ HTML;
                         return false;
                     }
 
-                    // Buat bukti otomatis untuk data pembayaran lama
                     $pathBukti = $this->buatBuktiTransfer(
                         $pembayaran,
                         $resep,
@@ -545,14 +533,12 @@ HTML;
                     $pembayaran->bukti_transfer = $pathBukti;
                 }
 
-                // Ubah status menjadi LUNAS
                 $pembayaran->status = 'LUNAS';
                 $pembayaran->save();
 
                 return true;
             });
         } catch (Throwable $e) {
-            // Hapus bukti yang baru dibuat jika proses gagal
             if ($pathBukti) {
                 Storage::disk('public')->delete($pathBukti);
             }
@@ -576,7 +562,6 @@ HTML;
                 'Pembayaran berhasil diverifikasi dan berstatus LUNAS.'
             );
     }
-
 
     /**
      * Menghapus riwayat pembayaran.

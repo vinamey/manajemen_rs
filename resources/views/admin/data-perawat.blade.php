@@ -13,7 +13,6 @@
         font-family: Arial, sans-serif;
     }
 
-
     .perawat-page .main-container {
         max-width: 1400px;
         margin: 22px auto 0;
@@ -288,23 +287,14 @@
 
 <div class="perawat-page">
 
-
-
     <main class="main-container">
 
         <!-- HEADER HALAMAN -->
         <div class="page-heading d-flex justify-content-between align-items-center flex-wrap gap-3">
-
             <div>
                 <h2>Data Perawat</h2>
                 <p>Informasi perawat yang terdaftar di rumah sakit.</p>
             </div>
-
-            <a href="{{ url('/admin/dashboard') }}" class="btn-dashboard">
-                <i class="fa-solid fa-arrow-left"></i>
-                Kembali ke Dashboard
-            </a>
-
         </div>
 
         <!-- NOTIFIKASI -->
@@ -341,10 +331,8 @@
                         class="btn btn-primary btn-sm"
                         data-bs-toggle="modal"
                         data-bs-target="#modalTambah">
-
                     <i class="fa-solid fa-plus me-1"></i>
                     Tambah Perawat
-
                 </button>
 
             </div>
@@ -387,11 +375,9 @@
     <div class="modal fade" id="modalLihat" tabindex="-1" aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered">
-
             <div class="modal-content">
 
                 <div class="modal-header">
-
                     <h5 class="modal-title">
                         <i class="fa-solid fa-user-nurse me-2"></i>
                         Detail Perawat
@@ -402,7 +388,6 @@
                             data-bs-dismiss="modal"
                             aria-label="Tutup">
                     </button>
-
                 </div>
 
                 <div class="modal-body">
@@ -432,34 +417,27 @@
                 </div>
 
                 <div class="modal-footer">
-
                     <button type="button"
                             class="btn-close-modal"
                             data-bs-dismiss="modal">
                         Tutup
                     </button>
-
                 </div>
 
             </div>
-
         </div>
-
     </div>
 
     <!-- MODAL TAMBAH PERAWAT -->
     <div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered">
-
             <div class="modal-content">
 
                 <form action="{{ route('admin.perawat.store') }}" method="POST">
-
                     @csrf
 
                     <div class="modal-header">
-
                         <h5 class="modal-title">
                             <i class="fa-solid fa-user-plus me-2"></i>
                             Tambah Perawat
@@ -470,14 +448,12 @@
                                 data-bs-dismiss="modal"
                                 aria-label="Tutup">
                         </button>
-
                     </div>
 
                     <div class="modal-body">
 
                         <div class="mb-3">
                             <label class="form-label">Nama Perawat</label>
-
                             <input type="text"
                                    name="nama"
                                    class="form-control"
@@ -487,7 +463,6 @@
 
                         <div class="mb-3">
                             <label class="form-label">Jenis Kelamin</label>
-
                             <select name="jenis_kelamin" class="form-select" required>
                                 <option value="">-- Pilih Jenis Kelamin --</option>
                                 <option value="laki-laki">Laki-laki</option>
@@ -497,7 +472,6 @@
 
                         <div class="mb-3">
                             <label class="form-label">Tanggal Lahir</label>
-
                             <input type="date"
                                    name="tanggal_lahir"
                                    class="form-control"
@@ -507,7 +481,6 @@
 
                         <div class="mb-3">
                             <label class="form-label">Alamat</label>
-
                             <textarea name="alamat"
                                       class="form-control"
                                       rows="3"
@@ -517,7 +490,6 @@
                     </div>
 
                     <div class="modal-footer">
-
                         <button type="button"
                                 class="btn btn-light"
                                 data-bs-dismiss="modal">
@@ -528,15 +500,97 @@
                             <i class="fa-solid fa-save me-1"></i>
                             Simpan
                         </button>
-
                     </div>
 
                 </form>
 
             </div>
-
         </div>
+    </div>
 
+    <!-- MODAL EDIT PERAWAT -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <form id="formEditPerawat" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fa-solid fa-pen-to-square me-2"></i>
+                            Edit Data Perawat
+                        </h5>
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Tutup">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label class="form-label">Nama Perawat</label>
+                            <input type="text"
+                                   name="nama"
+                                   id="editNama"
+                                   class="form-control"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Jenis Kelamin</label>
+                            <select name="jenis_kelamin"
+                                    id="editJenisKelamin"
+                                    class="form-select"
+                                    required>
+                                <option value="">-- Pilih Jenis Kelamin --</option>
+                                <option value="laki-laki">Laki-laki</option>
+                                <option value="perempuan">Perempuan</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tanggal Lahir</label>
+                            <input type="date"
+                                   name="tanggal_lahir"
+                                   id="editTanggalLahir"
+                                   class="form-control"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Alamat</label>
+                            <textarea name="alamat"
+                                      id="editAlamat"
+                                      class="form-control"
+                                      rows="3"
+                                      required></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-light"
+                                data-bs-dismiss="modal">
+                            Batal
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-save me-1"></i>
+                            Simpan Perubahan
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
     </div>
 
 </div>
@@ -644,7 +698,7 @@ $(document).ready(function () {
                                 <i class="fa-solid fa-pen"></i>
                             </button>
 
-                            <form action="/admin/data-perawat/${row.id}"
+                            <form action="{{ url('/admin/data-perawat') }}/${row.id}"
                                   method="POST"
                                   onsubmit="return confirm('Yakin ingin menghapus data perawat ini?')">
 
@@ -726,6 +780,53 @@ $(document).ready(function () {
 
         bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalLihat')
+        ).show();
+
+    });
+
+    // TOMBOL EDIT PERAWAT
+    $('#tabelPerawat').on('click', '.btn-edit', function () {
+
+        const row = tabel.row($(this).closest('tr')).data();
+
+        if (!row) {
+            alert('Data perawat tidak ditemukan.');
+            return;
+        }
+
+        if (!row.id) {
+            alert('ID perawat tidak ditemukan. Periksa data dari controller.');
+            console.error(row);
+            return;
+        }
+
+        // Mengisi form edit dengan data perawat
+        $('#editNama').val(row.nama || '');
+
+        const gender = String(
+            row.jenis_kelamin_raw || row.jenis_kelamin || ''
+        ).toLowerCase();
+
+        $('#editJenisKelamin').val(
+            gender === 'laki_laki' ? 'laki-laki' : gender
+        );
+
+        $('#editTanggalLahir').val(
+            row.tanggal_lahir_raw || ''
+        );
+
+        $('#editAlamat').val(
+            row.alamat_raw || row.alamat || ''
+        );
+
+        // Mengatur URL update berdasarkan ID perawat
+        const urlUpdate = "{{ url('/admin/data-perawat') }}/" + row.id;
+
+        $('#formEditPerawat').attr('action', urlUpdate);
+
+        // Menampilkan modal edit
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalEdit')
         ).show();
 
     });
