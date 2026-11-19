@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -939,19 +940,38 @@
 <body>
 
 @php
+    /*
+    |--------------------------------------------------------------------------
+    | MENGAMBIL HARGA JUAL OBAT
+    |--------------------------------------------------------------------------
+    | Harga hanya boleh diambil jika satuan harga sama dengan satuan resep.
+    | Tidak ada fallback ke satuan lain.
+    */
+
     $ambilHargaObat = function ($obat) {
         $satuanId = (int) ($obat->pivot->satuan_obat_id ?? 0);
-        $harga = $obat->hargaJual->firstWhere('satuan_id', $satuanId);
 
-        if (!$harga) {
-            $harga = $obat->hargaJual->first();
-        }
-
-        if (!$harga || (float) $harga->isi <= 0) {
+        if ($satuanId <= 0) {
             return 0;
         }
 
-        return (float) $harga->harga / (float) $harga->isi;
+        $harga = $obat->hargaJual->firstWhere(
+            'satuan_id',
+            $satuanId
+        );
+
+        if (!$harga) {
+            return 0;
+        }
+
+        $isi = (float) $harga->isi;
+        $nominal = (float) $harga->harga;
+
+        if ($isi <= 0 || $nominal <= 0) {
+            return 0;
+        }
+
+        return $nominal / $isi;
     };
 
     $ambilDetailAturan = function ($pivot) {
@@ -1006,12 +1026,25 @@
         return $hasil;
     };
 
+    /*
+    |--------------------------------------------------------------------------
+    | MENGHITUNG TOTAL RESEP
+    |--------------------------------------------------------------------------
+    | Rumus harus sama dengan PembayaranController:
+    | harga jual / isi x jumlah resep.
+    */
+
     $hitungTotalResep = function ($resep) use ($ambilHargaObat) {
         $total = 0;
 
         foreach ($resep->obat as $obat) {
-            $jumlah = (int) ($obat->pivot->nilai ?? 0);
-            $total += $ambilHargaObat($obat) * $jumlah;
+            $jumlah = (float) ($obat->pivot->nilai ?? 0);
+
+            $hargaSatuan = $ambilHargaObat($obat);
+
+            $subtotal = $hargaSatuan * $jumlah;
+
+            $total += $subtotal;
         }
 
         return round($total, 2);
@@ -1277,7 +1310,7 @@
                             $daftarObat = $resep->obat;
 
                             $jumlahObat = $daftarObat->sum(function ($obat) {
-                                return (int) ($obat->pivot->nilai ?? 0);
+                                return (float) ($obat->pivot->nilai ?? 0);
                             });
                         @endphp
 
@@ -1483,8 +1516,6 @@
 
                                 <div class="d-flex gap-2 align-items-center flex-wrap">
 
-                                    {{-- DETAIL --}}
-
                                     <button type="button"
                                         class="detail-button"
                                         data-bs-toggle="modal"
@@ -1494,8 +1525,6 @@
                                         Detail
 
                                     </button>
-
-                                    {{-- LIHAT BUKTI TRANSFER OTOMATIS --}}
 
                                     @if ($bayar->metode_pembayaran === 'Transfer Bank' && $bayar->bukti_transfer)
 
@@ -1510,8 +1539,6 @@
                                         </button>
 
                                     @endif
-
-                                    {{-- VERIFIKASI --}}
 
                                     @if ($bayar->status === 'MENUNGGU VERIFIKASI')
 
@@ -1728,7 +1755,7 @@
                                         @forelse ($daftarObat as $index => $obat)
 
                                             @php
-                                                $jumlah = (int) ($obat->pivot->nilai ?? 0);
+                                                $jumlah = (float) ($obat->pivot->nilai ?? 0);
                                                 $hargaSatuan = $ambilHargaObat($obat);
                                                 $subtotal = $hargaSatuan * $jumlah;
                                                 $detailAturan = $ambilDetailAturan($obat->pivot);
@@ -1999,7 +2026,7 @@
                                     Pilih Bank Tujuan
                                 </label>
 
-                                <select class="form-select bank-select">
+                                <select name="bank_tujuan" class="form-select bank-select">
 
                                     <option value="BCA"
                                         data-owner="SIM RS"
@@ -2107,8 +2134,6 @@
 
                         </div>
 
-                        {{-- PANEL TRANSFER BANK SELESAI --}}
-
                         {{-- TOMBOL PEMBAYARAN --}}
 
                         <div class="modal-footer-custom">
@@ -2188,8 +2213,9 @@
                     </div>
 
                     <div class="modal-footer">
-                       
+
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+
                     </div>
 
                 </div>
@@ -2345,7 +2371,7 @@
                                     @forelse ($detailObatRiwayat as $index => $obat)
 
                                         @php
-                                            $jumlah = (int) ($obat->pivot->nilai ?? 0);
+                                            $jumlah = (float) ($obat->pivot->nilai ?? 0);
                                             $hargaSatuan = $ambilHargaObat($obat);
                                             $subtotal = $hargaSatuan * $jumlah;
                                             $detailAturan = $ambilDetailAturan($obat->pivot);
