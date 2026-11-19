@@ -178,12 +178,6 @@
                 Laporan
             </a>
 
-            <a href="{{ route('direktur.pengeluaran.index') }}"
-               class="{{ request()->routeIs('direktur.pengeluaran.*') ? 'active' : '' }}">
-                <i class="fas fa-wallet"></i>
-                Pengeluaran
-            </a>
-
         </div>
     </div>
 
