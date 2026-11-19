@@ -2086,24 +2086,6 @@
                             <div class="p-3">
 
                                 @if ($bayar->bukti_transfer)
-
-
-
-
-
-
-                                    <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
-                                        target="_blank" rel="noopener" class="btn btn-primary">
-                                        <i class="fa-solid fa-receipt me-2"></i>
-                                        Lihat Bukti Transfer Digital
-                                    </a>
-
-                                    <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
-                                        target="_blank" rel="noopener" class="btn btn-outline-primary ms-2">
-                                        <i class="fa-solid fa-print me-1"></i> Buka / Cetak
-                                    </a>
-
-
                                 @else
 
                                     <span class="text-muted">
