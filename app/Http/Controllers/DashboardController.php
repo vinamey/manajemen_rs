@@ -9,7 +9,6 @@ use App\Models\MasterObat;
 use App\Models\MasterKamar;
 use App\Models\PendaftaranPasien;
 use App\Models\Pembayaran;
-use App\Models\Pengeluaran;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,8 +49,15 @@ class DashboardController extends Controller
             ];
 
             // Mengambil bulan dan tahun yang dipilih
-            $bulan = (int) $request->query('bulan', Carbon::now()->month);
-            $tahun = (int) $request->query('tahun', Carbon::now()->year);
+            $bulan = (int) $request->query(
+                'bulan',
+                Carbon::now()->month
+            );
+
+            $tahun = (int) $request->query(
+                'tahun',
+                Carbon::now()->year
+            );
 
             if ($bulan < 1 || $bulan > 12) {
                 $bulan = Carbon::now()->month;
@@ -66,14 +72,6 @@ class DashboardController extends Controller
                 ->whereYear('created_at', $tahun)
                 ->whereMonth('created_at', $bulan)
                 ->sum('total_pembayaran');
-
-            // Total pengeluaran dari database
-            $pengeluaran = Pengeluaran::whereYear(
-                    'tanggal_pengeluaran',
-                    $tahun
-                )
-                ->whereMonth('tanggal_pengeluaran', $bulan)
-                ->sum('nominal');
 
             // Grafik pendapatan
             $grafikPendapatan = [];
@@ -120,7 +118,6 @@ class DashboardController extends Controller
                 'totalKamar',
                 'totalPendaftaran',
                 'pendapatan',
-                'pengeluaran',
                 'bulan',
                 'tahun',
                 'namaBulan',
