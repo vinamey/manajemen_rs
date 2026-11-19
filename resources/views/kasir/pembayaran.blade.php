@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -891,19 +892,38 @@
 <body>
 
 @php
+    /*
+    |--------------------------------------------------------------------------
+    | MENGAMBIL HARGA JUAL OBAT
+    |--------------------------------------------------------------------------
+    | Harga hanya boleh diambil jika satuan harga sama dengan satuan resep.
+    | Tidak ada fallback ke satuan lain.
+    */
+
     $ambilHargaObat = function ($obat) {
         $satuanId = (int) ($obat->pivot->satuan_obat_id ?? 0);
-        $harga = $obat->hargaJual->firstWhere('satuan_id', $satuanId);
 
-        if (!$harga) {
-            $harga = $obat->hargaJual->first();
-        }
-
-        if (!$harga || (float) $harga->isi <= 0) {
+        if ($satuanId <= 0) {
             return 0;
         }
 
-        return (float) $harga->harga / (float) $harga->isi;
+        $harga = $obat->hargaJual->firstWhere(
+            'satuan_id',
+            $satuanId
+        );
+
+        if (!$harga) {
+            return 0;
+        }
+
+        $isi = (float) $harga->isi;
+        $nominal = (float) $harga->harga;
+
+        if ($isi <= 0 || $nominal <= 0) {
+            return 0;
+        }
+
+        return $nominal / $isi;
     };
 
     $ambilDetailAturan = function ($pivot) {
@@ -958,12 +978,25 @@
         return $hasil;
     };
 
+    /*
+    |--------------------------------------------------------------------------
+    | MENGHITUNG TOTAL RESEP
+    |--------------------------------------------------------------------------
+    | Rumus harus sama dengan PembayaranController:
+    | harga jual / isi x jumlah resep.
+    */
+
     $hitungTotalResep = function ($resep) use ($ambilHargaObat) {
         $total = 0;
 
         foreach ($resep->obat as $obat) {
-            $jumlah = (int) ($obat->pivot->nilai ?? 0);
-            $total += $ambilHargaObat($obat) * $jumlah;
+            $jumlah = (float) ($obat->pivot->nilai ?? 0);
+
+            $hargaSatuan = $ambilHargaObat($obat);
+
+            $subtotal = $hargaSatuan * $jumlah;
+
+            $total += $subtotal;
         }
 
         return round($total, 2);
@@ -1174,7 +1207,7 @@
                             $daftarObat = $resep->obat;
 
                             $jumlahObat = $daftarObat->sum(function ($obat) {
-                                return (int) ($obat->pivot->nilai ?? 0);
+                                return (float) ($obat->pivot->nilai ?? 0);
                             });
                         @endphp
 
@@ -1324,8 +1357,6 @@
                             <td>
                                 <div class="d-flex gap-2 align-items-center flex-wrap">
 
-                                    {{-- DETAIL --}}
-
                                     <button type="button"
                                         class="detail-button"
                                         data-bs-toggle="modal"
@@ -1334,6 +1365,7 @@
                                         <i class="fa-solid fa-eye me-1"></i>
                                         Detail
                                     </button>
+
 
                                     {{-- LIHAT BUKTI TRANSFER --}}
 
@@ -1347,8 +1379,6 @@
                                             Lihat Bukti
                                         </button>
                                     @endif
-
-                                    {{-- VERIFIKASI --}}
 
                                     @if ($bayar->status === 'MENUNGGU VERIFIKASI')
                                         <form action="{{ route('kasir.pembayaran.verifikasi', $bayar->id) }}"
@@ -1516,7 +1546,7 @@
                                         @forelse ($daftarObat as $index => $obat)
 
                                             @php
-                                                $jumlah = (int) ($obat->pivot->nilai ?? 0);
+                                                $jumlah = (float) ($obat->pivot->nilai ?? 0);
                                                 $hargaSatuan = $ambilHargaObat($obat);
                                                 $subtotal = $hargaSatuan * $jumlah;
                                                 $detailAturan = $ambilDetailAturan($obat->pivot);
@@ -1708,71 +1738,68 @@
                         </div>
 
                         {{-- PANEL TRANSFER BANK --}}
+                    <div class="payment-extra transfer-panel">
 
-                        <div class="payment-extra transfer-panel">
+                        <div class="bank-info-title">
+                            <i class="fa-solid fa-building-columns me-2"></i>
+                            Informasi Transfer Bank
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>Pilih Bank Tujuan</label>
+
+                            <select name="bank_tujuan" class="form-select bank-select">
+                                <option value="BCA" data-owner="SIM RS" data-account="1234567890">BCA</option>
+                                <option value="BRI" data-owner="SIM RS" data-account="9876543210">BRI</option>
+                                <option value="BNI" data-owner="SIM RS" data-account="1122334455">BNI</option>
+                                <option value="Mandiri" data-owner="SIM RS" data-account="5566778899">Mandiri</option>
+                                <option value="BTN" data-owner="SIM RS" data-account="2233445566">BTN</option>
+                            </select>
+
+                        </div>
+
+                        {{-- INFORMASI REKENING --}}
+                        <div class="bank-info-card">
 
                             <div class="bank-info-title">
-                                <i class="fa-solid fa-building-columns me-2"></i>
-                                Informasi Transfer Bank
+                                Detail Rekening Tujuan
                             </div>
 
-                            <div class="mb-3">
-
-                                <label>Pilih Bank Tujuan</label>
-
-                                <select name="bank_tujuan" class="form-select bank-select">
-                                    <option value="BCA" data-owner="SIM RS" data-account="1234567890">BCA</option>
-                                    <option value="BRI" data-owner="SIM RS" data-account="9876543210">BRI</option>
-                                    <option value="BNI" data-owner="SIM RS" data-account="1122334455">BNI</option>
-                                    <option value="Mandiri" data-owner="SIM RS" data-account="5566778899">Mandiri</option>
-                                    <option value="BTN" data-owner="SIM RS" data-account="2233445566">BTN</option>
-                                </select>
-
+                            <div class="bank-info-row">
+                                <span class="bank-info-label">Bank</span>
+                                <span class="bank-info-value bank-name">BCA</span>
                             </div>
 
-                            {{-- INFORMASI REKENING --}}
-
-                            <div class="bank-info-card">
-
-                                <div class="bank-info-title">
-                                    Detail Rekening Tujuan
-                                </div>
-
-                                <div class="bank-info-row">
-                                    <span class="bank-info-label">Bank</span>
-                                    <span class="bank-info-value bank-name">BCA</span>
-                                </div>
-
-                                <div class="bank-info-row">
-                                    <span class="bank-info-label">Nama Pemilik Rekening</span>
-                                    <span class="bank-info-value bank-owner">SIM RS</span>
-                                </div>
-
-                                <div class="bank-info-row">
-                                    <span class="bank-info-label">Nomor Rekening</span>
-                                    <span class="bank-info-value account-number bank-account">1234567890</span>
-                                </div>
-
-                                <div class="bank-info-row">
-                                    <span class="bank-info-label">Jumlah Pembayaran</span>
-                                    <span class="bank-info-value text-primary">
-                                        Rp {{ number_format($totalResep, 0, ',', '.') }}
-                                    </span>
-                                </div>
-
+                            <div class="bank-info-row">
+                                <span class="bank-info-label">Nama Pemilik Rekening</span>
+                                <span class="bank-info-value bank-owner">SIM RS</span>
                             </div>
 
-                            <div class="info-note mb-3">
-                                <i class="fa-solid fa-circle-info"></i>
+                            <div class="bank-info-row">
+                                <span class="bank-info-label">Nomor Rekening</span>
+                                <span class="bank-info-value account-number bank-account">1234567890</span>
+                            </div>
 
-                                <div>
-                                    Ini adalah simulasi pembayaran. Setelah pembayaran dicatat,
-                                    bukti transfer digital akan dibuat otomatis dan dapat dilihat
-                                    serta dicetak dari riwayat pembayaran.
-                                </div>
+                            <div class="bank-info-row">
+                                <span class="bank-info-label">Jumlah Pembayaran</span>
+                                <span class="bank-info-value text-primary">
+                                    Rp {{ number_format($totalResep, 0, ',', '.') }}
+                                </span>
                             </div>
 
                         </div>
+
+                        <div class="info-note mb-3">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <div>
+                                Ini adalah simulasi pembayaran. Setelah pembayaran dicatat,
+                                bukti transfer digital akan dibuat otomatis dan dapat dilihat
+                                serta dicetak dari riwayat pembayaran.
+                            </div>
+                        </div>
+
+                    </div>
 
                         {{-- TOMBOL PEMBAYARAN --}}
 
@@ -1847,7 +1874,10 @@
                     </div>
 
                     <div class="modal-footer">
+
+
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+
                     </div>
 
                 </div>
@@ -1977,7 +2007,7 @@
                                     @forelse ($detailObatRiwayat as $index => $obat)
 
                                         @php
-                                            $jumlah = (int) ($obat->pivot->nilai ?? 0);
+                                            $jumlah = (float) ($obat->pivot->nilai ?? 0);
                                             $hargaSatuan = $ambilHargaObat($obat);
                                             $subtotal = $hargaSatuan * $jumlah;
                                             $detailAturan = $ambilDetailAturan($obat->pivot);
@@ -2046,31 +2076,16 @@
 
                         <div class="modal-section mt-3">
 
+
                             <div class="modal-section-title">
                                 <i class="fa-solid fa-receipt"></i>
                                 Bukti Transfer
                             </div>
 
+
                             <div class="p-3">
 
                                 @if ($bayar->bukti_transfer)
-
-                                    <div class="alert alert-success mb-3">
-                                        <i class="fa-solid fa-circle-check me-2"></i>
-                                        Bukti transfer simulasi sudah dibuat otomatis oleh sistem.
-                                    </div>
-
-                                    <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
-                                        target="_blank" rel="noopener" class="btn btn-primary">
-                                        <i class="fa-solid fa-receipt me-2"></i>
-                                        Lihat Bukti Transfer Digital
-                                    </a>
-
-                                    <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
-                                        target="_blank" rel="noopener" class="btn btn-outline-primary ms-2">
-                                        <i class="fa-solid fa-print me-1"></i> Buka / Cetak
-                                    </a>
-
                                 @else
 
                                     <span class="text-muted">
