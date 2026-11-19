@@ -2476,34 +2476,14 @@
 
                         <div class="modal-section mt-3">
 
-                            <div class="modal-section-title">
-
-                                <i class="fa-solid fa-receipt"></i>
-                                Bukti Transfer
-
-                            </div>
 
                             <div class="p-3">
 
                                 @if ($bayar->bukti_transfer)
 
-                                    <div class="alert alert-success mb-3">
-                                        <i class="fa-solid fa-circle-check me-2"></i>
-                                        Bukti transfer simulasi sudah dibuat otomatis oleh sistem.
-                                    </div>
 
-                                    <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
-                                        target="_blank" rel="noopener" class="btn btn-primary">
 
-                                        <i class="fa-solid fa-receipt me-2"></i>
-                                        Lihat Bukti Transfer Digital
 
-                                    </a>
-
-                                    <a href="{{ asset('storage/' . $bayar->bukti_transfer) }}"
-                                        target="_blank" rel="noopener" class="btn btn-outline-primary ms-2">
-                                        <i class="fa-solid fa-print me-1"></i> Buka / Cetak
-                                    </a>
 
                                 @else
 

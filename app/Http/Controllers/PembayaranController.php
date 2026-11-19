@@ -341,9 +341,7 @@ class PembayaranController extends Controller
         dan bukan konfirmasi transaksi dari bank sungguhan.
     </div>
 
-    <button onclick="window.print()">
-        Cetak Bukti Transfer
-    </button>
+   
 
 </div>
 
