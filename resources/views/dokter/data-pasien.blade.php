@@ -9,168 +9,235 @@
 
     <title>Data Pasien - Dokter | SIM RS</title>
 
-    <!-- Bootstrap -->
+    <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Font Awesome -->
+    <!-- FONT AWESOME -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
           rel="stylesheet">
 
-    <!-- DataTables Bootstrap 5 -->
+    <!-- DATATABLES -->
     <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
           rel="stylesheet">
 
     <style>
+        :root {
+            --primary: #1877f2;
+            --primary-dark: #1048a7;
+            --background: #f4f7fc;
+            --text: #24334b;
+            --muted: #7d8ba1;
+        }
+
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            background: #f4f6fa;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
             font-size: 13px;
         }
 
-        /* SIDEBAR */
+        /* SIDEBAR - SAMA DENGAN DASHBOARD DOKTER */
         .sidebar {
-            width: 187px;
+            width: 255px;
             height: 100vh;
-            background: #1877f2;
             position: fixed;
-            top: 0;
-            left: 0;
-            display: flex;
-            flex-direction: column;
+            inset: 0 auto 0 0;
             z-index: 1000;
+            padding: 27px 18px;
+            color: white;
+            background: linear-gradient(165deg, #176de0, #1048a7);
+            box-shadow: 5px 0 25px rgba(18, 75, 160, .12);
+            overflow-y: auto;
         }
 
-        .sidebar-brand {
-            height: 55px;
+        .brand {
             display: flex;
             align-items: center;
-            padding: 0 16px;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            border-bottom: 1px solid rgba(255,255,255,.15);
+            gap: 12px;
+            padding: 0 10px 25px;
+            border-bottom: 1px solid rgba(255,255,255,.18);
         }
 
-        .sidebar-menu {
-            padding: 15px 9px;
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,.18);
+            border-radius: 14px;
+            font-size: 22px;
         }
 
-        .sidebar-label {
-            color: #dceaff;
+        .brand h5 {
+            margin: 0;
+            font-weight: 750;
+            letter-spacing: .3px;
+        }
+
+        .brand small {
+            color: #d9e9ff;
             font-size: 10px;
-            margin: 0 10px 12px;
         }
 
-        .sidebar-menu a {
+        .menu-label {
+            margin: 28px 12px 12px;
+            color: #b9d7ff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .menu-link {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            margin-bottom: 5px;
-            color: white;
+            gap: 13px;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            color: #e4efff;
             text-decoration: none;
-            border-radius: 6px;
-            font-size: 12px;
-            transition: .2s;
+            border-radius: 12px;
+            transition: .2s ease;
+            font-size: 13px;
+            font-weight: 500;
         }
 
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: rgba(255,255,255,.22);
-        }
-
-        .sidebar-menu a i {
-            width: 13px;
+        .menu-link i {
+            width: 20px;
             text-align: center;
+            font-size: 16px;
+        }
+
+        .menu-link:hover,
+        .menu-link.active {
+            color: white;
+            background: rgba(255,255,255,.17);
+        }
+
+        .menu-link.active {
+            box-shadow: inset 3px 0 white;
+        }
+
+        /* INFORMASI SIDEBAR */
+        .sidebar-note {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 85px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,.16);
+            border-radius: 14px;
+            background: rgba(255,255,255,.09);
+            font-size: 11px;
+            color: #e4efff;
+            line-height: 1.7;
         }
 
         /* LOGOUT */
-        .logout {
-            margin: auto 11px 7px;
+        .logout-area {
+            position: absolute;
+            bottom: 22px;
+            left: 18px;
+            right: 18px;
         }
 
-        .logout button {
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 12px;
             background: white;
             color: #dc3545;
-            border: none;
-            border-radius: 6px;
-            padding: 10px;
-            font-weight: bold;
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
         }
 
-        /* MAIN CONTENT */
+        .logout-btn:hover {
+            background: #ffe8eb;
+            color: #b02a37;
+        }
+
+        /* KONTEN UTAMA */
         .main-content {
-            margin-left: 187px;
+            margin-left: 255px;
             min-height: 100vh;
         }
 
         /* NAVBAR */
         .top-navbar {
-            height: 55px;
+            height: 65px;
             background: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 21px;
-            border-bottom: 1px solid #eee;
+            padding: 0 25px;
+            border-bottom: 1px solid #e9eef6;
         }
 
         .navbar-title {
-            font-weight: bold;
-            color: #26344a;
+            font-size: 16px;
+            font-weight: 750;
+            color: #24334b;
         }
 
         .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             color: #555;
             font-size: 12px;
         }
 
-        /* CONTENT */
+        /* KONTEN HALAMAN */
         .page-content {
-            padding: 22px;
+            padding: 30px 34px;
         }
 
         .page-header {
             background: linear-gradient(110deg, #1877f2, #1058c7);
             color: white;
-            padding: 19px;
-            border-radius: 11px;
-            margin-bottom: 18px;
+            padding: 22px;
+            border-radius: 15px;
+            margin-bottom: 22px;
             box-shadow: 0 4px 12px rgba(24,119,242,.15);
         }
 
         .page-header h4 {
-            font-size: 19px;
-            font-weight: bold;
-            margin-bottom: 6px;
+            font-size: 20px;
+            font-weight: 750;
+            margin-bottom: 7px;
         }
 
         .page-header p {
-            font-size: 11px;
+            font-size: 12px;
             margin-bottom: 0;
+            color: #e4efff;
         }
 
-        /* TABLE CARD */
+        /* TABEL */
         .card-table {
             background: white;
             border: 1px solid #e8edf4;
-            border-radius: 11px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,.04);
+            box-shadow: 0 6px 24px rgba(34,60,100,.035);
         }
 
         .card-heading {
-            padding: 15px;
-            font-weight: bold;
+            padding: 17px 20px;
+            font-weight: 750;
             color: #26344a;
             border-bottom: 1px solid #eee;
         }
@@ -183,14 +250,14 @@
         .table thead th {
             background: #1877f2 !important;
             color: white !important;
-            padding: 13px 15px;
+            padding: 14px 15px;
             font-size: 11px;
             font-weight: 600;
             border-bottom: none;
         }
 
         .table tbody td {
-            padding: 13px 15px;
+            padding: 14px 15px;
             vertical-align: middle;
             color: #344054;
         }
@@ -205,8 +272,8 @@
         }
 
         .patient-icon {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             background: #e7f3ff;
             color: #1877f2;
             display: inline-flex;
@@ -218,7 +285,7 @@
 
         /* DATATABLES */
         .dataTables_wrapper {
-            padding: 15px;
+            padding: 18px;
         }
 
         .dataTables_wrapper .dataTables_filter input,
@@ -260,54 +327,58 @@
             color: #1877f2 !important;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
+        /* RESPONSIVE - MENGIKUTI DASHBOARD DOKTER */
+        @media (max-width: 900px) {
             .sidebar {
-                width: 65px;
-            }
-
-            .sidebar-brand {
-                font-size: 0;
-                justify-content: center;
-                padding: 0;
-            }
-
-            .sidebar-brand i {
-                font-size: 19px;
-            }
-
-            .sidebar-label {
-                display: none;
-            }
-
-            .sidebar-menu {
-                padding: 15px 7px;
-            }
-
-            .sidebar-menu a {
-                justify-content: center;
-                font-size: 0;
-                padding: 12px 5px;
-            }
-
-            .sidebar-menu a i {
-                font-size: 15px;
-            }
-
-            .logout {
-                margin: auto 5px 7px;
-            }
-
-            .logout button {
-                font-size: 0;
+                width: 215px;
             }
 
             .main-content {
-                margin-left: 65px;
+                margin-left: 215px;
             }
 
             .page-content {
-                padding: 12px;
+                padding: 24px 20px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                min-height: 0;
+                padding: 18px;
+                overflow: visible;
+            }
+
+            .brand {
+                padding-bottom: 17px;
+            }
+
+            .menu-label {
+                margin-top: 17px;
+            }
+
+            .sidebar-note {
+                display: none;
+            }
+
+            .logout-area {
+                position: static;
+                margin-top: 18px;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .top-navbar {
+                padding: 0 16px;
+            }
+
+            .page-content {
+                padding: 22px 16px;
             }
 
             .dataTables_wrapper {
@@ -322,49 +393,58 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-        <div class="sidebar-brand">
-            <i class="fa-solid fa-hospital me-2"></i>
-            SIM RS
-        </div>
-
-        <div class="sidebar-menu">
-
-            <div class="sidebar-label">
-                MENU DOKTER
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-hospital"></i>
             </div>
 
-            <a href="{{ route('dokter.dashboard') }}">
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </a>
+            <div>
+                <h5>SIM RS</h5>
+                <small>Sistem Informasi Rumah Sakit</small>
+            </div>
+        </div>
 
-            <a href="{{ route('dokter.pasien.index') }}" class="active">
-    <i class="fa-solid fa-hospital-user"></i>
-    Data Pasien
-</a>
-            <a href="{{ url('/dokter/resep-obat') }}">
-                <i class="fa-solid fa-file-prescription"></i>
-                Resep Obat
-            </a>
+        <div class="menu-label">MENU DOKTER</div>
 
+        <a href="{{ route('dokter.dashboard') }}"
+           class="menu-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ route('dokter.pasien.index') }}"
+           class="menu-link active">
+            <i class="fa-solid fa-hospital-user"></i>
+            <span>Data Pasien</span>
+        </a>
+
+        <a href="{{ route('dokter.resep.index') }}"
+           class="menu-link">
+            <i class="fa-solid fa-prescription"></i>
+            <span>Resep Obat</span>
+        </a>
+
+        <!-- INFORMASI SIDEBAR -->
+        <div class="sidebar-note">
+            <i class="fa-solid fa-shield-heart me-1"></i>
+            <strong>Pelayanan Kesehatan</strong>
+            <br>
+            Gunakan data pasien dengan teliti dan jaga kerahasiaan informasi medis.
         </div>
 
         <!-- LOGOUT -->
-        <div class="logout">
-
-            <form action="{{ route('logout') }}" method="POST">
+        <div class="logout-area">
+            <form action="{{ route('dokter.logout') }}" method="POST">
                 @csrf
 
-                <button type="submit">
-                    <i class="fa-solid fa-right-from-bracket me-2"></i>
-                    Logout
+                <button type="submit" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
                 </button>
             </form>
-
         </div>
 
     </aside>
-
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
@@ -377,12 +457,11 @@
             </div>
 
             <div class="navbar-user">
-                <i class="fa-solid fa-user me-1"></i>
+                <i class="fa-solid fa-user-doctor"></i>
                 Dokter
             </div>
 
         </nav>
-
 
         <!-- PAGE CONTENT -->
         <div class="page-content">
@@ -400,7 +479,6 @@
                 </p>
 
             </div>
-
 
             <!-- TABLE -->
             <div class="card-table">
@@ -435,7 +513,6 @@
 
     </main>
 
-
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -446,7 +523,6 @@
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
-
 
     <!-- DATATABLES CONFIGURATION -->
     <script>
