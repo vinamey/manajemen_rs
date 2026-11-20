@@ -206,6 +206,18 @@ Route::get('/dokter/dashboard', function () {
     'role:dokter'
 ])->name('dokter.dashboard');
 
+// LOGOUT DOKTER
+Route::post('/dokter/logout', function () {
+
+    Auth::logout();
+
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect()->route('landing');
+
+})->middleware('auth')->name('dokter.logout');
+
 /// ==================================================
 // FITUR KHUSUS DOKTER
 // ==================================================
