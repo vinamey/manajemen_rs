@@ -180,6 +180,7 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
             });
         }
 
+
         // LAPORAN DATA OBAT
         elseif ($this->type == 'data-obat') {
             return DB::table('stok_obats')
@@ -194,7 +195,8 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
                     'stok_obats.stok_tersedia as stok',
                     'stok_obats.harga_jual as harga'
                 )
-                ->orderBy('master_obats.nama')
+                // Urutkan berdasarkan ID stok dari terkecil ke terbesar
+                ->orderBy('stok_obats.id', 'asc')
                 ->get()
                 ->map(function ($item, $key) {
                     return [
