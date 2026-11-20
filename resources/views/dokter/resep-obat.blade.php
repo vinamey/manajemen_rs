@@ -1,3 +1,4 @@
+
 @php
     $user = auth()->user();
     $isApoteker = $user->hasRole('apoteker');
@@ -19,91 +20,155 @@
             --blue-main: #1877f2;
             --blue-dark: #0f58c6;
             --blue-light: #e7f3ff;
-            --background: #f4f6fa;
+            --background: #f4f7fc;
             --border: #e5eaf2;
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
             background: var(--background);
-            font-family: Arial, sans-serif;
-            color: #1f2937;
+            color: #24334b;
         }
 
+        /* SIDEBAR SAMA DENGAN DASHBOARD DOKTER */
         .sidebar {
-            width: 250px;
+            width: 255px;
             height: 100vh;
             position: fixed;
             inset: 0 auto 0 0;
-            background: var(--blue-main);
-            color: white;
             z-index: 1000;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo {
-            min-height: 65px;
-            display: flex;
-            align-items: center;
-            padding: 0 22px;
-            font-size: 20px;
-            font-weight: 700;
-            border-bottom: 1px solid rgba(255,255,255,.15);
-        }
-
-        .menu {
-            padding: 20px 12px;
-            flex: 1;
+            padding: 27px 18px;
+            color: white;
+            background: linear-gradient(165deg, #176de0, #1048a7);
+            box-shadow: 5px 0 25px rgba(18, 75, 160, .12);
             overflow-y: auto;
         }
 
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 25px;
+            border-bottom: 1px solid rgba(255,255,255,.18);
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,.18);
+            border-radius: 14px;
+            font-size: 22px;
+        }
+
+        .logo h5 {
+            margin: 0;
+            font-weight: 750;
+            letter-spacing: .3px;
+        }
+
+        .logo small {
+            color: #d9e9ff;
+            font-size: 10px;
+        }
+
+        .menu {
+            padding: 0;
+            margin-top: 28px;
+        }
+
         .menu-title {
-            font-size: 12px;
-            opacity: .75;
-            padding: 0 13px;
-            margin-bottom: 10px;
+            margin: 0 12px 12px;
+            color: #b9d7ff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .menu a {
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: white;
+            gap: 13px;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            color: #e4efff;
             text-decoration: none;
-            padding: 12px 14px;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 12px;
+            transition: .2s ease;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .menu a i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
         }
 
         .menu a:hover,
         .menu a.active {
-            background: rgba(255,255,255,.18);
+            color: white;
+            background: rgba(255,255,255,.17);
         }
 
-        .menu a i {
-            width: 18px;
-            text-align: center;
+        .menu a.active {
+            box-shadow: inset 3px 0 white;
         }
 
-        .logout-area { padding: 15px; }
+        .sidebar-note {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 85px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,.16);
+            border-radius: 14px;
+            background: rgba(255,255,255,.09);
+            font-size: 11px;
+            color: #e4efff;
+            line-height: 1.7;
+        }
+
+        .logout-area {
+            position: absolute;
+            bottom: 22px;
+            left: 18px;
+            right: 18px;
+        }
 
         .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             width: 100%;
-            border: none;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 12px;
             background: white;
             color: #dc3545;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
         }
 
+        .logout-btn:hover {
+            background: #ffe8eb;
+            color: #b02a37;
+        }
+
+        /* KONTEN */
         .content {
-            margin-left: 250px;
+            margin-left: 255px;
             min-height: 100vh;
         }
 
@@ -128,7 +193,9 @@
             color: #555;
         }
 
-        .page { padding: 28px; }
+        .page {
+            padding: 28px;
+        }
 
         .page-header {
             background: linear-gradient(135deg, #1877f2, #0f58c6);
@@ -175,7 +242,9 @@
             font-weight: 700;
         }
 
-        .table-responsive { width: 100%; }
+        .table-responsive {
+            width: 100%;
+        }
 
         .recipe-table {
             width: 100%;
@@ -205,7 +274,9 @@
             border-bottom: 1px solid #e9edf4;
         }
 
-        .recipe-table tbody tr:hover td { background: #f4f8ff; }
+        .recipe-table tbody tr:hover td {
+            background: #f4f8ff;
+        }
 
         .patient-name {
             font-weight: 700;
@@ -239,7 +310,9 @@
             font-weight: 700;
         }
 
-        .instruction-cell { min-width: 140px; }
+        .instruction-cell {
+            min-width: 140px;
+        }
 
         .instruction-value {
             display: inline-block;
@@ -280,9 +353,13 @@
             border-top: 1px solid #edf0f4;
         }
 
-        .pagination { margin-bottom: 0; }
+        .pagination {
+            margin-bottom: 0;
+        }
 
-        .pagination .page-link { color: var(--blue-main); }
+        .pagination .page-link {
+            color: var(--blue-main);
+        }
 
         .pagination .active .page-link {
             background: var(--blue-main);
@@ -331,37 +408,63 @@
             font-size: 13px;
         }
 
-        @media (max-width: 768px) {
-            .sidebar { width: 200px; }
-            .content { margin-left: 200px; }
-            .page { padding: 15px; }
-            .topbar { padding: 15px; flex-wrap: wrap; }
-            .page-header { padding: 18px; }
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 215px;
+            }
+
+            .content {
+                margin-left: 215px;
+            }
+
+            .page {
+                padding: 24px 20px;
+            }
         }
 
-        @media (max-width: 480px) {
-            .sidebar { width: 65px; }
+        @media (max-width: 650px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                min-height: 0;
+                padding: 18px;
+                overflow: visible;
+            }
+
             .logo {
-                justify-content: center;
-                padding: 0;
-                font-size: 0;
+                padding-bottom: 17px;
             }
-            .logo i {
-                font-size: 22px;
-                margin: 0 !important;
+
+            .menu {
+                margin-top: 17px;
             }
-            .menu { padding: 15px 7px; }
-            .menu-title, .menu a span { display: none; }
-            .menu a {
-                justify-content: center;
-                padding: 13px 5px;
+
+            .sidebar-note {
+                display: none;
             }
-            .content { margin-left: 65px; }
-            .logout-area { padding: 8px; }
-            .logout-btn { font-size: 0; }
-            .logout-btn i {
-                font-size: 16px;
-                margin: 0 !important;
+
+            .logout-area {
+                position: static;
+                margin-top: 18px;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .page {
+                padding: 22px 16px;
+            }
+
+            .topbar {
+                padding: 15px;
+                flex-wrap: wrap;
+            }
+
+            .page-header {
+                padding: 18px;
             }
         }
     </style>
@@ -370,58 +473,92 @@
 <body>
 
 <aside class="sidebar">
+
     <div class="logo">
-        <i class="fa-solid fa-hospital me-2"></i>
-        SIM RS
+        <div class="logo-icon">
+            <i class="fa-solid fa-hospital"></i>
+        </div>
+
+        <div>
+            <h5>SIM RS</h5>
+            <small>Sistem Informasi Rumah Sakit</small>
+        </div>
     </div>
 
     <nav class="menu">
+
         <div class="menu-title">
-            Menu {{ $isDokter ? 'Dokter' : ($isApoteker ? 'Apoteker' : 'Kasir') }}
+            MENU {{ $isDokter ? 'DOKTER' : ($isApoteker ? 'APOTEKER' : 'KASIR') }}
         </div>
 
         @if($isDokter)
+
             <a href="{{ route('dokter.dashboard') }}">
-                <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
             </a>
 
             <a href="{{ route('dokter.pasien.index') }}">
-                <i class="fa-solid fa-hospital-user"></i><span>Data Pasien</span>
+                <i class="fa-solid fa-hospital-user"></i>
+                <span>Data Pasien</span>
             </a>
 
             <a href="{{ route('dokter.resep.index') }}" class="active">
-                <i class="fa-solid fa-stethoscope"></i><span>Pemeriksaan & Resep</span>
+                <i class="fa-solid fa-prescription"></i>
+                <span>Pemeriksan dan Resep Obat</span>
             </a>
 
         @elseif($isApoteker)
+
             <a href="{{ route('apoteker.dashboard') }}">
-                <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
             </a>
+
             <a href="{{ route('kasir.resep') }}" class="active">
-                <i class="fa-solid fa-file-prescription"></i><span>Resep Dokter</span>
+                <i class="fa-solid fa-file-prescription"></i>
+                <span>Resep Dokter</span>
             </a>
 
         @else
+
             <a href="{{ route('kasir.dashboard') }}">
-                <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
             </a>
+
             <a href="{{ route('kasir.resep') }}" class="active">
-                <i class="fa-solid fa-file-prescription"></i><span>Resep dari Dokter</span>
+                <i class="fa-solid fa-file-prescription"></i>
+                <span>Resep dari Dokter</span>
             </a>
+
             <a href="{{ route('kasir.pembayaran') }}">
-                <i class="fa-solid fa-money-bill-wave"></i><span>Pembayaran Obat</span>
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>Pembayaran Obat</span>
             </a>
+
         @endif
+
     </nav>
 
+    <div class="sidebar-note">
+        <i class="fa-solid fa-shield-heart me-1"></i>
+        <strong>Pelayanan Kesehatan</strong>
+        <br>
+        Gunakan data pasien dengan teliti dan jaga kerahasiaan informasi medis.
+    </div>
+
     <div class="logout-area">
-        <form action="{{ route('logout') }}" method="POST">
+        <form action="{{ $isDokter ? route('dokter.logout') : route('logout') }}" method="POST">
             @csrf
+
             <button type="submit" class="logout-btn">
-                <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
             </button>
         </form>
     </div>
+
 </aside>
 
 <main class="content">
@@ -1026,4 +1163,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </body>
 </html>
-

@@ -508,7 +508,7 @@
         <a href="{{ route('dokter.resep.index') }}"
            class="menu-link">
             <i class="fa-solid fa-prescription"></i>
-            <span>Resep Obat</span>
+            <span>Pemeriksaan dan Resep Obat</span>
         </a>
 
         {{-- INFORMASI SIDEBAR --}}
