@@ -195,50 +195,24 @@ Route::middleware(['auth', 'admin.rs'])
         ])->whereNumber('id')->name('dokter.destroy');
     });
 
-
 // ==================================================
 // DASHBOARD DOKTER
 // ==================================================
+
 Route::get('/dokter/dashboard', function () {
     return view('dokter.dashboard');
 })->middleware([
     'auth',
-    'role:dokter',
-    \App\Http\Middleware\PastikanDokterDipilih::class
+    'role:dokter'
 ])->name('dokter.dashboard');
 
-
-// ==================================================
-// PILIH DOKTER
-// ==================================================
-
-Route::middleware(['auth', 'role:dokter'])
-    ->prefix('dokter')
-    ->name('dokter.')
-    ->group(function () {
-
-        // Menampilkan daftar dokter
-        Route::get('/pilih-dokter', [
-            LoginController::class,
-            'pilihDokter'
-        ])->name('pilih');
-
-        // Menyimpan dokter yang dipilih
-        Route::post('/pilih-dokter', [
-            LoginController::class,
-            'simpanDokter'
-        ])->name('simpan');
-    });
-
-
-// ==================================================
+/// ==================================================
 // FITUR KHUSUS DOKTER
 // ==================================================
 
 Route::middleware([
     'auth',
-    'role:dokter',
-    \App\Http\Middleware\PastikanDokterDipilih::class
+    'role:dokter'
 ])
     ->prefix('dokter')
     ->name('dokter.')
@@ -249,10 +223,10 @@ Route::middleware([
             'indexDokter'
         ])->name('pasien.index');
 
-     Route::get('/data-pasien/data', [
-    MasterPasienController::class,
-    'dataDokter'
-])->name('pasien.data');
+        Route::get('/data-pasien/data', [
+            MasterPasienController::class,
+            'dataDokter'
+        ])->name('pasien.data');
 
         Route::get('/resep-obat', [
             PemeriksaanDokterController::class,
