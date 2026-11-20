@@ -206,46 +206,7 @@ Route::get('/dokter/dashboard', function () {
     'role:dokter'
 ])->name('dokter.dashboard');
 
-
-
-// ==================================================
-// PILIH DOKTER
-// ==================================================
-
-Route::middleware(['auth', 'role:dokter'])
-    ->prefix('dokter')
-    ->name('dokter.')
-    ->group(function () {
-
-        // Menampilkan daftar dokter
-        Route::get('/pilih-dokter', [
-            LoginController::class,
-            'pilihDokter'
-        ])->name('pilih');
-
-        // Menyimpan dokter yang dipilih
-        Route::post('/pilih-dokter', [
-            LoginController::class,
-            'simpanDokter'
-        ])->name('simpan');
-
-        // KEMBALI KE PILIH DOKTER
-        Route::post('/logout', function () {
-
-            session()->forget('dokter_aktif_id');
-
-            return redirect()->route('dokter.pilih')
-                ->with('success', 'Silakan pilih dokter kembali.');
-
-        })->name('logout');
-
-    });
-
-
-// ==================================================
-
 /// ==================================================
-
 // FITUR KHUSUS DOKTER
 // ==================================================
 
