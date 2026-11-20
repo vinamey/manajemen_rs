@@ -28,125 +28,136 @@ class MasterPerawatController extends Controller
     /**
      * Data Perawat untuk Yajra DataTables
      */
-    public function data()
-    {
-        $perawats = MasterPerawat::query()
-            ->orderBy('id', 'desc');
+   
+public function data()
+{
+    $perawats = MasterPerawat::query()
+        ->orderBy('id', 'desc');
 
-        return DataTables::of($perawats)
-            ->addIndexColumn()
+    return DataTables::of($perawats)
+        ->addIndexColumn()
 
-            ->addColumn('jenis_kelamin_raw', function ($perawat) {
-                return $perawat->jenis_kelamin;
-            })
+        ->addColumn('jenis_kelamin_raw', function ($perawat) {
+            return $perawat->jenis_kelamin;
+        })
 
-            ->addColumn('tanggal_lahir_raw', function ($perawat) {
-                return $perawat->tanggal_lahir
-                    ? Carbon::parse($perawat->tanggal_lahir)->format('Y-m-d')
-                    : '';
-            })
+        ->addColumn('tanggal_lahir_raw', function ($perawat) {
+            return $perawat->tanggal_lahir
+                ? Carbon::parse($perawat->tanggal_lahir)->format('Y-m-d')
+                : '';
+        })
 
-            ->addColumn('alamat_raw', function ($perawat) {
-                return $perawat->alamat;
-            })
+        ->addColumn('alamat_raw', function ($perawat) {
+            return $perawat->alamat;
+        })
 
-            ->editColumn('jenis_kelamin', function ($perawat) {
-                if (
-                    $perawat->jenis_kelamin === 'laki-laki' ||
-                    $perawat->jenis_kelamin === 'laki_laki'
-                ) {
-                    return '
-                        <span class="badge-gender">
-                            <i class="fas fa-mars"></i>
-                            Laki-laki
-                        </span>
-                    ';
-                }
+        ->editColumn('jenis_kelamin', function ($perawat) {
+            $gender = strtolower($perawat->jenis_kelamin ?? '');
 
+            if ($gender === 'laki-laki' || $gender === 'laki_laki') {
+                return '
+                    <span class="badge-gender">
+                        <i class="fas fa-mars"></i>
+                        Laki-laki
+                    </span>
+                ';
+            }
+
+            if ($gender === 'perempuan') {
                 return '
                     <span class="badge-gender">
                         <i class="fas fa-venus"></i>
                         Perempuan
                     </span>
                 ';
-            })
+            }
 
-            ->editColumn('tanggal_lahir', function ($perawat) {
-                return $perawat->tanggal_lahir
-                    ? Carbon::parse($perawat->tanggal_lahir)->format('d-m-Y')
-                    : '-';
-            })
+            return '-';
+        })
 
-            ->editColumn('alamat', function ($perawat) {
-                return $perawat->alamat
-                    ? e($perawat->alamat)
-                    : '-';
-            })
+        ->editColumn('tanggal_lahir', function ($perawat) {
+            return $perawat->tanggal_lahir
+                ? Carbon::parse($perawat->tanggal_lahir)->format('d-m-Y')
+                : '-';
+        })
 
-            ->addColumn('aksi', function ($perawat) {
-                $isAdmin = request()->routeIs('admin.perawat.data');
+        ->editColumn('alamat', function ($perawat) {
+            return $perawat->alamat
+                ? e($perawat->alamat)
+                : '-';
+        })
 
-                $deleteUrl = $isAdmin
-                    ? route('admin.perawat.destroy', $perawat->id)
-                    : route('master-perawat.destroy', $perawat->id);
+        ->addColumn('aksi', function ($perawat) {
 
-                $csrf = csrf_token();
+            $isAdmin = request()->routeIs('admin.perawat.data');
 
-                return '
-                    <div class="action-buttons">
+            $deleteUrl = $isAdmin
+                ? route('admin.perawat.destroy', $perawat->id)
+                : route('master-perawat.destroy', $perawat->id);
+
+            $csrf = csrf_token();
+
+            return '
+                <div class="action-buttons">
+
+                    <button
+                        type="button"
+                        class="btn-action btn-view"
+                        title="Lihat"
+                    >
+                        <i class="fas fa-eye"></i>
+                        Lihat
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-action btn-edit"
+                        title="Edit"
+                    >
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+
+                    <form
+                        action="' . $deleteUrl . '"
+                        method="POST"
+                        class="d-inline"
+                        onsubmit="return confirm(\'Yakin ingin menghapus data perawat ini?\');"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="' . $csrf . '"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="_method"
+                            value="DELETE"
+                        >
+
                         <button
-                            type="button"
-                            class="btn-action btn-view"
-                            title="Lihat"
+                            type="submit"
+                            class="btn-action btn-delete"
+                            title="Hapus"
                         >
-                            <i class="fas fa-eye"></i>
+                            <i class="fas fa-trash"></i>
+                            Hapus
                         </button>
+                    </form>
 
-                        <button
-                            type="button"
-                            class="btn-action btn-edit"
-                            title="Edit"
-                        >
-                            <i class="fas fa-edit"></i>
-                        </button>
+                </div>
+            ';
+        })
 
-                        <form
-                            action="' . $deleteUrl . '"
-                            method="POST"
-                            class="d-inline"
-                            onsubmit="return confirm(\'Yakin ingin menghapus data perawat ini?\');"
-                        >
-                            <input
-                                type="hidden"
-                                name="_token"
-                                value="' . $csrf . '"
-                            >
+        ->rawColumns([
+            'jenis_kelamin',
+            'aksi'
+        ])
 
-                            <input
-                                type="hidden"
-                                name="_method"
-                                value="DELETE"
-                            >
+        ->make(true);
+}
 
-                            <button
-                                type="submit"
-                                class="btn-action btn-delete"
-                                title="Hapus"
-                            >
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                    </div>
-                ';
-            })
-
-            ->rawColumns([
-                'jenis_kelamin',
-                'aksi'
-            ])
-
-            ->make(true);
-    }
 
     /**
      * Form tambah Superadmin
