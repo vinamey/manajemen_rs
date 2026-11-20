@@ -32,7 +32,7 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        // Hapus pilihan dokter dari sesi login sebelumnya
+        // Hapus session dokter sebelumnya
         $request->session()->forget('dokter_aktif_id');
 
         $user = Auth::user();
@@ -56,9 +56,31 @@ class LoginController extends Controller
 
         // DOKTER
         if ($user->hasRole('dokter')) {
+
+            // Cari data dokter berdasarkan akun yang sedang login
+            $dokter = MasterDokter::where('users_id', $user->id)
+                ->first();
+
+            // Jika akun belum terhubung dengan data dokter
+            if (!$dokter) {
+                Auth::logout();
+
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return redirect()
+                    ->route('login')
+                    ->withErrors([
+                        'email' => 'Akun dokter belum terhubung dengan data Master Dokter. Hubungi Admin Rumah Sakit.',
+                    ]);
+            }
+
+            // Simpan ID dokter secara otomatis ke session
+            $request->session()->put('dokter_aktif_id', $dokter->id);
+
             return redirect()
-                ->route('dokter.pilih')
-                ->with('success', 'Silakan pilih nama dokter.');
+                ->route('dokter.dashboard')
+                ->with('success', 'Selamat datang, ' . $dokter->nama . '!');
         }
 
         // PERAWAT
@@ -83,10 +105,7 @@ class LoginController extends Controller
         }
 
         // DIREKTUR
-        if (
-            strtolower($user->getRoleNames()->first() ?? '')
-            === 'direktur'
-        ) {
+        if (strtolower($user->getRoleNames()->first() ?? '') === 'direktur') {
             return redirect()
                 ->route('dashboard')
                 ->with('success', 'Selamat datang Direktur!');
@@ -103,32 +122,6 @@ class LoginController extends Controller
             ->withErrors([
                 'email' => 'Role pengguna tidak dikenali.',
             ]);
-    }
-
-    // Menampilkan halaman pilihan dokter
-    public function pilihDokter()
-    {
-        $dokters = MasterDokter::orderBy('nama')->get();
-
-        return view('dokter.pilih-dokter', compact('dokters'));
-    }
-
-    // Menyimpan dokter yang dipilih ke session
-    public function simpanDokter(Request $request)
-    {
-        $request->validate([
-            'dokter_id' => 'required|exists:master_dokters,id',
-        ]);
-
-        $dokter = MasterDokter::findOrFail($request->dokter_id);
-
-        session([
-            'dokter_aktif_id' => $dokter->id,
-        ]);
-
-        return redirect()
-            ->route('dokter.dashboard')
-            ->with('success', 'Selamat datang, ' . $dokter->nama . '!');
     }
 
     // Logout pengguna

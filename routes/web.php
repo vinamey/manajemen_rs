@@ -195,17 +195,17 @@ Route::middleware(['auth', 'admin.rs'])
         ])->whereNumber('id')->name('dokter.destroy');
     });
 
-
 // ==================================================
 // DASHBOARD DOKTER
 // ==================================================
+
 Route::get('/dokter/dashboard', function () {
     return view('dokter.dashboard');
 })->middleware([
     'auth',
-    'role:dokter',
-    \App\Http\Middleware\PastikanDokterDipilih::class
+    'role:dokter'
 ])->name('dokter.dashboard');
+
 
 
 // ==================================================
@@ -243,13 +243,15 @@ Route::middleware(['auth', 'role:dokter'])
 
 
 // ==================================================
+
+/// ==================================================
+
 // FITUR KHUSUS DOKTER
 // ==================================================
 
 Route::middleware([
     'auth',
-    'role:dokter',
-    \App\Http\Middleware\PastikanDokterDipilih::class
+    'role:dokter'
 ])
     ->prefix('dokter')
     ->name('dokter.')
@@ -260,10 +262,10 @@ Route::middleware([
             'indexDokter'
         ])->name('pasien.index');
 
-     Route::get('/data-pasien/data', [
-    MasterPasienController::class,
-    'dataDokter'
-])->name('pasien.data');
+        Route::get('/data-pasien/data', [
+            MasterPasienController::class,
+            'dataDokter'
+        ])->name('pasien.data');
 
         Route::get('/resep-obat', [
             PemeriksaanDokterController::class,

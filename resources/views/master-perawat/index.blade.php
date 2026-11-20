@@ -16,7 +16,6 @@
         padding: 12px 0;
     }
 
-    /* HEADER */
     .page-header-perawat {
         margin-bottom: 22px;
     }
@@ -48,7 +47,6 @@
         margin: 3px 0 0;
     }
 
-    /* BUTTON TAMBAH */
     .btn-blue-primary-perawat {
         background: var(--blue-main) !important;
         border: none !important;
@@ -65,7 +63,6 @@
         transform: translateY(-1px);
     }
 
-    /* ALERT */
     .alert-perawat {
         border: none;
         border-left: 3px solid var(--blue-main);
@@ -76,7 +73,6 @@
         margin-bottom: 18px;
     }
 
-    /* CARD */
     .card-table-perawat {
         border: none !important;
         border-radius: 12px !important;
@@ -85,7 +81,6 @@
         padding: 18px;
     }
 
-    /* DATATABLE */
     #perawat-table {
         width: 100% !important;
         margin-bottom: 0 !important;
@@ -113,7 +108,6 @@
         background: var(--blue-soft) !important;
     }
 
-    /* BADGE GENDER */
     .badge-gender {
         display: inline-flex;
         align-items: center;
@@ -127,7 +121,6 @@
         white-space: nowrap;
     }
 
-    /* ACTION */
     .action-buttons {
         display: flex;
         align-items: center;
@@ -177,7 +170,6 @@
         color: white;
     }
 
-    /* DATATABLE CONTROLS */
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter {
         margin-bottom: 16px;
@@ -185,21 +177,17 @@
         color: #64748b;
     }
 
-    .dataTables_wrapper .dataTables_length select {
+    .dataTables_wrapper .dataTables_length select,
+    .dataTables_wrapper .dataTables_filter input {
         border: 1px solid #d7e0ea;
         border-radius: 7px;
-        padding: 5px 28px 5px 8px;
+        padding: 7px 10px;
         font-size: 12px;
         outline: none;
     }
 
     .dataTables_wrapper .dataTables_filter input {
-        border: 1px solid #d7e0ea;
-        border-radius: 7px;
-        padding: 7px 10px;
         margin-left: 6px;
-        font-size: 12px;
-        outline: none;
     }
 
     .dataTables_wrapper .dataTables_filter input:focus {
@@ -229,7 +217,6 @@
         border: none !important;
     }
 
-    /* MODAL */
     .modal-perawat .modal-dialog {
         max-width: 470px;
     }
@@ -265,7 +252,6 @@
         padding: 12px 18px;
     }
 
-    /* FORM */
     .form-group-perawat {
         margin-bottom: 14px;
     }
@@ -302,6 +288,35 @@
         resize: vertical;
     }
 
+    .account-heading-perawat {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 20px 0 13px;
+        padding: 11px;
+        background: #f0f7ff;
+        border-radius: 9px;
+    }
+
+    .account-heading-perawat i {
+        color: var(--blue-main);
+        font-size: 17px;
+    }
+
+    .account-heading-perawat h6 {
+        font-size: 12px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .account-heading-perawat small {
+        display: block;
+        color: #64748b;
+        font-size: 10px;
+        margin-top: 3px;
+    }
+
     .btn-modal-cancel-perawat {
         background: #f1f5f9 !important;
         color: #64748b !important;
@@ -326,7 +341,6 @@
         background: var(--blue-dark) !important;
     }
 
-    /* DETAIL */
     .detail-perawat-table {
         width: 100%;
     }
@@ -371,10 +385,12 @@
     }
 </style>
 
+
 <div class="container-fluid master-perawat">
 
     {{-- HEADER --}}
     <div class="d-flex justify-content-between align-items-center page-header-perawat">
+
         <div class="d-flex align-items-center gap-3">
             <div class="header-icon-box-perawat">
                 <i class="fas fa-user-nurse"></i>
@@ -397,7 +413,9 @@
             <i class="fas fa-plus me-1"></i>
             Tambah Perawat
         </button>
+
     </div>
+
 
     {{-- SUCCESS --}}
     @if(session('success'))
@@ -406,6 +424,7 @@
             {{ session('success') }}
         </div>
     @endif
+
 
     {{-- ERROR --}}
     @if($errors->any())
@@ -420,13 +439,13 @@
         </div>
     @endif
 
+
     {{-- TABLE --}}
     <div class="card card-table-perawat">
         <div class="table-responsive">
-            <table
-                id="perawat-table"
-                class="table align-middle"
-            >
+
+            <table id="perawat-table" class="table align-middle">
+
                 <thead>
                     <tr>
                         <th class="text-center">No</th>
@@ -438,18 +457,19 @@
                     </tr>
                 </thead>
 
-                <tbody>
-                </tbody>
+                <tbody></tbody>
+
             </table>
+
         </div>
     </div>
 
 </div>
 
 
-{{-- =========================================================
-     MODAL TAMBAH
-========================================================= --}}
+{{-- =====================================================
+     MODAL TAMBAH PERAWAT
+===================================================== --}}
 <div
     class="modal fade modal-perawat"
     id="modalTambahPerawat"
@@ -474,6 +494,7 @@
 
                 <div class="modal-body">
 
+                    {{-- DATA PERAWAT --}}
                     <div class="form-group-perawat">
                         <label class="form-label-perawat">
                             Nama Perawat
@@ -488,6 +509,7 @@
                             required
                         >
                     </div>
+
 
                     <div class="form-group-perawat">
                         <label class="form-label-perawat">
@@ -519,6 +541,7 @@
                         </select>
                     </div>
 
+
                     <div class="form-group-perawat">
                         <label class="form-label-perawat">
                             Tanggal Lahir
@@ -533,7 +556,8 @@
                         >
                     </div>
 
-                    <div class="form-group-perawat mb-0">
+
+                    <div class="form-group-perawat">
                         <label class="form-label-perawat">
                             Alamat
                         </label>
@@ -546,9 +570,72 @@
                         >{{ old('alamat') }}</textarea>
                     </div>
 
+
+                    {{-- AKUN LOGIN --}}
+                    <div class="account-heading-perawat">
+                        <i class="fas fa-user-lock"></i>
+
+                        <div>
+                            <h6>Akun Login Perawat</h6>
+                            <small>
+                                Akun otomatis dibuat dengan role Perawat.
+                            </small>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group-perawat">
+                        <label class="form-label-perawat">
+                            Email Login
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control-perawat"
+                            placeholder="Masukkan email perawat"
+                            value="{{ old('email') }}"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group-perawat">
+                        <label class="form-label-perawat">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control-perawat"
+                            placeholder="Minimal 8 karakter"
+                            minlength="8"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group-perawat mb-0">
+                        <label class="form-label-perawat">
+                            Konfirmasi Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            class="form-control-perawat"
+                            placeholder="Ulangi password"
+                            minlength="8"
+                            required
+                        >
+                    </div>
+
                 </div>
 
+
                 <div class="modal-footer">
+
                     <button
                         type="button"
                         class="btn btn-modal-cancel-perawat"
@@ -562,9 +649,11 @@
                         class="btn btn-modal-save-perawat"
                     >
                         <i class="fas fa-save me-1"></i>
-                        Simpan Data
+                        Simpan Perawat
                     </button>
+
                 </div>
+
             </form>
 
         </div>
@@ -572,9 +661,9 @@
 </div>
 
 
-{{-- =========================================================
-     MODAL LIHAT
-========================================================= --}}
+{{-- =====================================================
+     MODAL DETAIL
+===================================================== --}}
 <div
     class="modal fade modal-perawat"
     id="modalLihatPerawat"
@@ -587,22 +676,19 @@
             <div class="modal-header">
                 <div class="d-flex align-items-center gap-2">
                     <i class="fas fa-user-nurse"></i>
-                    <h5 class="modal-title">
-                        Detail Perawat
-                    </h5>
+                    <h5 class="modal-title">Detail Perawat</h5>
                 </div>
             </div>
 
             <div class="modal-body">
+
                 <table class="detail-perawat-table">
+
                     <tr>
                         <td class="detail-perawat-label">
                             Nama Perawat
                         </td>
-                        <td
-                            class="detail-perawat-value"
-                            id="lihat_nama"
-                        >
+                        <td class="detail-perawat-value" id="lihat_nama">
                             -
                         </td>
                     </tr>
@@ -611,10 +697,7 @@
                         <td class="detail-perawat-label">
                             Jenis Kelamin
                         </td>
-                        <td
-                            class="detail-perawat-value"
-                            id="lihat_jenis_kelamin"
-                        >
+                        <td class="detail-perawat-value" id="lihat_jenis_kelamin">
                             -
                         </td>
                     </tr>
@@ -623,10 +706,7 @@
                         <td class="detail-perawat-label">
                             Tanggal Lahir
                         </td>
-                        <td
-                            class="detail-perawat-value"
-                            id="lihat_tanggal_lahir"
-                        >
+                        <td class="detail-perawat-value" id="lihat_tanggal_lahir">
                             -
                         </td>
                     </tr>
@@ -635,14 +715,13 @@
                         <td class="detail-perawat-label">
                             Alamat
                         </td>
-                        <td
-                            class="detail-perawat-value"
-                            id="lihat_alamat"
-                        >
+                        <td class="detail-perawat-value" id="lihat_alamat">
                             -
                         </td>
                     </tr>
+
                 </table>
+
             </div>
 
             <div class="modal-footer">
@@ -660,9 +739,9 @@
 </div>
 
 
-{{-- =========================================================
+{{-- =====================================================
      MODAL EDIT
-========================================================= --}}
+===================================================== --}}
 <div
     class="modal fade modal-perawat"
     id="modalEditPerawat"
@@ -675,16 +754,12 @@
             <div class="modal-header">
                 <div class="d-flex align-items-center gap-2">
                     <i class="fas fa-user-edit"></i>
-                    <h5 class="modal-title">
-                        Edit Perawat
-                    </h5>
+                    <h5 class="modal-title">Edit Perawat</h5>
                 </div>
             </div>
 
-            <form
-                id="formEditPerawat"
-                method="POST"
-            >
+            <form id="formEditPerawat" method="POST">
+
                 @csrf
                 @method('PUT')
 
@@ -704,6 +779,7 @@
                         >
                     </div>
 
+
                     <div class="form-group-perawat">
                         <label class="form-label-perawat">
                             Jenis Kelamin
@@ -715,15 +791,11 @@
                             class="form-select-perawat"
                             required
                         >
-                            <option value="laki-laki">
-                                Laki-laki
-                            </option>
-
-                            <option value="perempuan">
-                                Perempuan
-                            </option>
+                            <option value="laki-laki">Laki-laki</option>
+                            <option value="perempuan">Perempuan</option>
                         </select>
                     </div>
+
 
                     <div class="form-group-perawat">
                         <label class="form-label-perawat">
@@ -738,6 +810,7 @@
                             required
                         >
                     </div>
+
 
                     <div class="form-group-perawat mb-0">
                         <label class="form-label-perawat">
@@ -754,7 +827,9 @@
 
                 </div>
 
+
                 <div class="modal-footer">
+
                     <button
                         type="button"
                         class="btn btn-modal-cancel-perawat"
@@ -770,7 +845,9 @@
                         <i class="fas fa-save me-1"></i>
                         Update Data
                     </button>
+
                 </div>
+
             </form>
 
         </div>
@@ -781,7 +858,7 @@
 {{-- DATATABLE CSS --}}
 <link
     rel="stylesheet"
-    href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css"
+    href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
 >
 
 {{-- JQUERY --}}
@@ -793,12 +870,12 @@
 <script>
 $(document).ready(function () {
 
-    /* =========================================================
+    /* =========================================
        DATATABLE
-    ========================================================= */
+    ========================================= */
     const table = $('#perawat-table').DataTable({
 
-        processing: false,
+        processing: true,
         serverSide: true,
 
         ajax: "{{ route('master-perawat.data') }}",
@@ -864,22 +941,18 @@ $(document).ready(function () {
     });
 
 
-    /* =========================================================
-       MODAL LIHAT
-    ========================================================= */
+    /* =========================================
+       MODAL DETAIL
+    ========================================= */
     $('#perawat-table').on('click', '.btn-view', function () {
 
         const data = table.row(
             $(this).closest('tr')
         ).data();
 
-        if (!data) {
-            return;
-        }
+        if (!data) return;
 
-        $('#lihat_nama').text(
-            data.nama ?? '-'
-        );
+        $('#lihat_nama').text(data.nama || '-');
 
         let gender = data.jenis_kelamin_raw;
 
@@ -894,81 +967,52 @@ $(document).ready(function () {
         $('#lihat_jenis_kelamin').text(gender);
 
         $('#lihat_tanggal_lahir').text(
-            formatTanggalIndonesia(
-                data.tanggal_lahir_raw
-            )
+            formatTanggalIndonesia(data.tanggal_lahir_raw)
         );
 
-        $('#lihat_alamat').text(
-            data.alamat_raw || '-'
-        );
+        $('#lihat_alamat').text(data.alamat_raw || '-');
 
-        const modal = new bootstrap.Modal(
+        bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalLihatPerawat')
-        );
-
-        modal.show();
+        ).show();
     });
 
 
-    /* =========================================================
+    /* =========================================
        MODAL EDIT
-    ========================================================= */
+    ========================================= */
     $('#perawat-table').on('click', '.btn-edit', function () {
 
         const data = table.row(
             $(this).closest('tr')
         ).data();
 
-        if (!data) {
-            return;
-        }
+        if (!data) return;
 
-        $('#edit_nama').val(
-            data.nama
-        );
-
-        $('#edit_jenis_kelamin').val(
-            data.jenis_kelamin_raw
-        );
-
-        $('#edit_tanggal_lahir').val(
-            data.tanggal_lahir_raw
-        );
-
-        $('#edit_alamat').val(
-            data.alamat_raw
-        );
+        $('#edit_nama').val(data.nama || '');
+        $('#edit_jenis_kelamin').val(data.jenis_kelamin_raw || '');
+        $('#edit_tanggal_lahir').val(data.tanggal_lahir_raw || '');
+        $('#edit_alamat').val(data.alamat_raw || '');
 
         let updateUrl =
             "{{ route('master-perawat.update', ':id') }}";
 
-        updateUrl = updateUrl.replace(
-            ':id',
-            data.id
-        );
+        updateUrl = updateUrl.replace(':id', data.id);
 
-        $('#formEditPerawat').attr(
-            'action',
-            updateUrl
-        );
+        $('#formEditPerawat').attr('action', updateUrl);
 
-        const modal = new bootstrap.Modal(
+        bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalEditPerawat')
-        );
-
-        modal.show();
+        ).show();
     });
 
 
-    /* =========================================================
+    /* =========================================
        FORMAT TANGGAL
-    ========================================================= */
+    ========================================= */
     function formatTanggalIndonesia(tanggal) {
 
-        if (!tanggal) {
-            return '-';
-        }
+        if (!tanggal) return '-';
 
         const bagian = tanggal.split('-');
 
@@ -980,6 +1024,16 @@ $(document).ready(function () {
                bagian[1] + '-' +
                bagian[0];
     }
+
+
+    /* =========================================
+       BUKA KEMBALI MODAL JIKA VALIDASI GAGAL
+    ========================================= */
+    @if($errors->any())
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalTambahPerawat')
+        ).show();
+    @endif
 
 });
 </script>

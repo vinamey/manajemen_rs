@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterPerawat;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 
@@ -16,7 +18,7 @@ class MasterPerawatController extends Controller
     */
 
     /**
-     * Halaman Master Perawat Super Admin
+     * Halaman Master Perawat Superadmin
      */
     public function index()
     {
@@ -34,7 +36,6 @@ class MasterPerawatController extends Controller
         return DataTables::of($perawats)
             ->addIndexColumn()
 
-            // Data asli untuk modal
             ->addColumn('jenis_kelamin_raw', function ($perawat) {
                 return $perawat->jenis_kelamin;
             })
@@ -49,7 +50,6 @@ class MasterPerawatController extends Controller
                 return $perawat->alamat;
             })
 
-            // Jenis kelamin
             ->editColumn('jenis_kelamin', function ($perawat) {
                 if (
                     $perawat->jenis_kelamin === 'laki-laki' ||
@@ -71,27 +71,19 @@ class MasterPerawatController extends Controller
                 ';
             })
 
-            // Tanggal lahir
             ->editColumn('tanggal_lahir', function ($perawat) {
-                if (!$perawat->tanggal_lahir) {
-                    return '-';
-                }
-
-                return Carbon::parse(
-                    $perawat->tanggal_lahir
-                )->format('d-m-Y');
+                return $perawat->tanggal_lahir
+                    ? Carbon::parse($perawat->tanggal_lahir)->format('d-m-Y')
+                    : '-';
             })
 
-            // Alamat
             ->editColumn('alamat', function ($perawat) {
                 return $perawat->alamat
                     ? e($perawat->alamat)
                     : '-';
             })
 
-            // Tombol aksi
             ->addColumn('aksi', function ($perawat) {
-                // Bedakan route Admin RS dan Super Admin
                 $isAdmin = request()->routeIs('admin.perawat.data');
 
                 $deleteUrl = $isAdmin
@@ -157,7 +149,7 @@ class MasterPerawatController extends Controller
     }
 
     /**
-     * Form tambah Super Admin
+     * Form tambah Superadmin
      */
     public function create()
     {
@@ -165,7 +157,7 @@ class MasterPerawatController extends Controller
     }
 
     /**
-     * Simpan perawat oleh Super Admin
+     * Tambah perawat sekaligus membuat akun login
      */
     public function store(Request $request)
     {
@@ -180,6 +172,9 @@ class MasterPerawatController extends Controller
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'tanggal_lahir' => 'required|date',
             'alamat' => 'required|string',
+
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
         ], [
             'nama.required' => 'Nama perawat wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
@@ -187,17 +182,52 @@ class MasterPerawatController extends Controller
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
             'alamat.required' => 'Alamat wajib diisi.',
+
+            'email.required' => 'Email login wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan.',
+
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-        MasterPerawat::create($validated);
+        DB::transaction(function () use ($validated) {
+
+            // 1. Membuat akun login perawat
+            $user = User::create([
+                'name' => $validated['nama'],
+                'email' => $validated['email'],
+                'password' => $validated['password'],
+            ]);
+
+            // 2. Memberikan role perawat
+            $user->assignRole('perawat');
+
+            // 3. Membuat data master perawat
+            $perawat = MasterPerawat::create([
+                'users_id' => $user->id,
+                'nama' => $validated['nama'],
+                'jenis_kelamin' => $validated['jenis_kelamin'],
+                'tanggal_lahir' => $validated['tanggal_lahir'],
+                'alamat' => $validated['alamat'],
+            ]);
+
+            // 4. Menghubungkan kembali users ke master perawat
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update([
+                    'perawat_id' => $perawat->id,
+                ]);
+        });
 
         return redirect()
             ->route('master-perawat.index')
-            ->with('success', 'Data perawat berhasil ditambahkan.');
+            ->with('success', 'Data perawat dan akun login berhasil dibuat.');
     }
 
     /**
-     * Detail perawat Super Admin
+     * Detail perawat Superadmin
      */
     public function show(MasterPerawat $master_perawat)
     {
@@ -207,7 +237,7 @@ class MasterPerawatController extends Controller
     }
 
     /**
-     * Form edit Super Admin
+     * Form edit Superadmin
      */
     public function edit(MasterPerawat $master_perawat)
     {
@@ -217,7 +247,7 @@ class MasterPerawatController extends Controller
     }
 
     /**
-     * Update perawat Super Admin
+     * Update perawat Superadmin
      */
     public function update(
         Request $request,
@@ -243,7 +273,17 @@ class MasterPerawatController extends Controller
             'alamat.required' => 'Alamat wajib diisi.',
         ]);
 
-        $master_perawat->update($validated);
+        DB::transaction(function () use ($master_perawat, $validated) {
+
+            $master_perawat->update($validated);
+
+            // Sinkronisasi nama akun login
+            if ($master_perawat->user) {
+                $master_perawat->user->update([
+                    'name' => $validated['nama'],
+                ]);
+            }
+        });
 
         return redirect()
             ->route('master-perawat.index')
@@ -251,10 +291,12 @@ class MasterPerawatController extends Controller
     }
 
     /**
-     * Hapus perawat Super Admin
+     * Hapus perawat Superadmin
      */
     public function destroy(MasterPerawat $master_perawat)
     {
+        // Menghapus data master saja.
+        // Akun users tidak ikut dihapus.
         $master_perawat->delete();
 
         return redirect()
@@ -265,7 +307,7 @@ class MasterPerawatController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | KHUSUS ADMIN RUMAH SAKIT
+    | ADMIN RUMAH SAKIT
     |--------------------------------------------------------------------------
     */
 
@@ -273,69 +315,64 @@ class MasterPerawatController extends Controller
      * Halaman perawat Admin RS
      */
     public function indexAdmin()
-{
-    return view('admin.data-perawat');
-}
+    {
+        return view('admin.data-perawat');
+    }
 
     /**
      * DataTables Admin RS
      */
-public function dataAdmin()
-{
-    $perawats = MasterPerawat::query()
-        ->orderBy('id', 'desc');
+    public function dataAdmin()
+    {
+        $perawats = MasterPerawat::query()
+            ->orderBy('id', 'desc');
 
-    return DataTables::of($perawats)
-        ->addIndexColumn()
+        return DataTables::of($perawats)
+            ->addIndexColumn()
 
-        // Data asli untuk modal detail
-        ->addColumn('jenis_kelamin_raw', function ($perawat) {
-            return $perawat->jenis_kelamin;
-        })
+            ->addColumn('jenis_kelamin_raw', function ($perawat) {
+                return $perawat->jenis_kelamin;
+            })
 
-        ->addColumn('tanggal_lahir_raw', function ($perawat) {
-            return $perawat->tanggal_lahir
-                ? Carbon::parse($perawat->tanggal_lahir)->format('Y-m-d')
-                : '';
-        })
+            ->addColumn('tanggal_lahir_raw', function ($perawat) {
+                return $perawat->tanggal_lahir
+                    ? Carbon::parse($perawat->tanggal_lahir)->format('Y-m-d')
+                    : '';
+            })
 
-        ->addColumn('alamat_raw', function ($perawat) {
-            return $perawat->alamat;
-        })
+            ->addColumn('alamat_raw', function ($perawat) {
+                return $perawat->alamat;
+            })
 
-        // Format jenis kelamin di tabel
-        ->editColumn('jenis_kelamin', function ($perawat) {
-            $gender = strtolower($perawat->jenis_kelamin ?? '');
+            ->editColumn('jenis_kelamin', function ($perawat) {
+                $gender = strtolower($perawat->jenis_kelamin ?? '');
 
-            if ($gender === 'laki-laki' || $gender === 'laki_laki') {
-                return 'Laki-laki';
-            }
+                if ($gender === 'laki-laki' || $gender === 'laki_laki') {
+                    return 'Laki-laki';
+                }
 
-            if ($gender === 'perempuan') {
-                return 'Perempuan';
-            }
+                if ($gender === 'perempuan') {
+                    return 'Perempuan';
+                }
 
-            return '-';
-        })
+                return '-';
+            })
 
-        // Format tanggal lahir di tabel
-        ->editColumn('tanggal_lahir', function ($perawat) {
-            return $perawat->tanggal_lahir
-                ? Carbon::parse($perawat->tanggal_lahir)->format('d-m-Y')
-                : '-';
-        })
+            ->editColumn('tanggal_lahir', function ($perawat) {
+                return $perawat->tanggal_lahir
+                    ? Carbon::parse($perawat->tanggal_lahir)->format('d-m-Y')
+                    : '-';
+            })
 
-        // Alamat
-        ->editColumn('alamat', function ($perawat) {
-            return $perawat->alamat ?: '-';
-        })
+            ->editColumn('alamat', function ($perawat) {
+                return $perawat->alamat ?: '-';
+            })
 
-        ->make(true);
-}
-
+            ->make(true);
+    }
 
     /**
-     * Tambah perawat oleh Admin RS
+     * Tambah perawat oleh Admin RS sekaligus membuat akun login
      */
     public function storeAdmin(Request $request)
     {
@@ -350,6 +387,9 @@ public function dataAdmin()
             'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'tanggal_lahir' => 'required|date',
             'alamat' => 'required|string',
+
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
         ], [
             'nama.required' => 'Nama perawat wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
@@ -357,13 +397,44 @@ public function dataAdmin()
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
             'alamat.required' => 'Alamat wajib diisi.',
+
+            'email.required' => 'Email login wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan.',
+
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-        MasterPerawat::create($validated);
+       DB::transaction(function () use ($validated) {
+
+            $user = User::create([
+                'name' => $validated['nama'],
+                'email' => $validated['email'],
+                'password' => $validated['password'],
+            ]);
+
+            $user->assignRole('perawat');
+
+            $perawat = MasterPerawat::create([
+                'users_id' => $user->id,
+                'nama' => $validated['nama'],
+                'jenis_kelamin' => $validated['jenis_kelamin'],
+                'tanggal_lahir' => $validated['tanggal_lahir'],
+                'alamat' => $validated['alamat'],
+            ]);
+
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update([
+                    'perawat_id' => $perawat->id,
+                ]);
+        });
 
         return redirect()
             ->route('admin.perawat.index')
-            ->with('success', 'Data perawat berhasil ditambahkan.');
+            ->with('success', 'Data perawat dan akun login berhasil dibuat.');
     }
 
     /**
@@ -392,7 +463,17 @@ public function dataAdmin()
         ]);
 
         $perawat = MasterPerawat::findOrFail($id);
-        $perawat->update($validated);
+
+        DB::transaction(function () use ($perawat, $validated) {
+
+            $perawat->update($validated);
+
+            if ($perawat->user) {
+                $perawat->user->update([
+                    'name' => $validated['nama'],
+                ]);
+            }
+        });
 
         return redirect()
             ->route('admin.perawat.index')
@@ -405,6 +486,8 @@ public function dataAdmin()
     public function destroyAdmin(string $id)
     {
         $perawat = MasterPerawat::findOrFail($id);
+
+        // Akun users tidak ikut dihapus
         $perawat->delete();
 
         return redirect()

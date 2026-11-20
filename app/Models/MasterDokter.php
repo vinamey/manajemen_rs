@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\MasterPoli;
 
 class MasterDokter extends Model
 {
@@ -18,9 +20,13 @@ class MasterDokter extends Model
         'poli_id',
     ];
 
-    /**
-     * Dokter memiliki satu poli.
-     */
+    // Dokter terhubung ke satu akun user
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
+
+    // Dokter memiliki satu poli
     public function poli()
     {
         return $this->belongsTo(MasterPoli::class, 'poli_id');
