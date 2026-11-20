@@ -1794,7 +1794,7 @@
                             <i class="fa-solid fa-circle-info"></i>
                             <div>
                                 Ini adalah simulasi pembayaran. Setelah pembayaran dicatat,
-                                bukti transfer digital akan dibuat otomatis dan dapat dilihat
+                                bukti transfer akan dibuat otomatis dan dapat dilihat
                                 serta dicetak dari riwayat pembayaran.
                             </div>
                         </div>
@@ -1859,7 +1859,7 @@
 
                         <h5 class="modal-title fw-bold" id="buktiTransferModalLabel{{ $bayar->id }}">
                             <i class="fa-solid fa-receipt me-2"></i>
-                            Bukti Transfer Digital
+                            Bukti Transfer
                         </h5>
 
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
@@ -2255,7 +2255,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-{{-- OTOMATIS MEMBUKA BUKTI TRANSFER DIGITAL SETELAH PEMBAYARAN --}}
+{{-- OTOMATIS MEMBUKA BUKTI TRANSFER SETELAH PEMBAYARAN --}}
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

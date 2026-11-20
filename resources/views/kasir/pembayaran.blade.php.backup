@@ -1837,7 +1837,7 @@
 
                                 <div>
                                     Ini adalah simulasi pembayaran. Setelah pembayaran dicatat,
-                                    bukti transfer digital akan dibuat otomatis dan dapat dilihat
+                                    bukti transfer akan dibuat otomatis dan dapat dilihat
                                     serta dicetak dari riwayat pembayaran.
                                 </div>
                             </div>
@@ -2319,7 +2319,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-{{-- OTOMATIS MEMBUKA BUKTI TRANSFER DIGITAL SETELAH PEMBAYARAN --}}
+{{-- OTOMATIS MEMBUKA BUKTI TRANSFER  SETELAH PEMBAYARAN --}}
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

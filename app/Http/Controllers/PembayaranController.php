@@ -295,7 +295,7 @@ class PembayaranController extends Controller
 <div class="receipt">
 
     <h2>SIM RS</h2>
-    <div class="subtitle">Bukti Transfer Digital</div>
+    <div class="subtitle">Bukti Transfer</div>
 
     <div class="success">
         TRANSFER SIMULASI BERHASIL
@@ -341,7 +341,7 @@ class PembayaranController extends Controller
         dan bukan konfirmasi transaksi dari bank sungguhan.
     </div>
 
-   
+
 
 </div>
 
