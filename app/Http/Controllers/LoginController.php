@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MasterDokter;
+use App\Models\MasterPerawat;
 
 class LoginController extends Controller
 {
@@ -85,9 +86,31 @@ class LoginController extends Controller
 
         // PERAWAT
         if ($user->hasRole('perawat')) {
+
+            // Cari data perawat berdasarkan akun yang sedang login
+            $perawat = MasterPerawat::where('users_id', $user->id)
+                ->first();
+
+            // Jika akun belum terhubung dengan data perawat
+            if (!$perawat) {
+                Auth::logout();
+
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return redirect()
+                    ->route('login')
+                    ->withErrors([
+                        'email' => 'Akun perawat belum terhubung dengan data Master Perawat. Hubungi Admin Rumah Sakit.',
+                    ]);
+            }
+
+            // Simpan ID perawat ke session
+            $request->session()->put('perawat_aktif_id', $perawat->id);
+
             return redirect()
                 ->route('perawat.dashboard')
-                ->with('success', 'Selamat datang Perawat!');
+                ->with('success', 'Selamat datang, ' . $perawat->nama . '!');
         }
 
         // APOTEKER
