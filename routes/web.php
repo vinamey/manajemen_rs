@@ -436,7 +436,7 @@ Route::middleware(['auth', 'role:kasir|admin rumah sakit'])->group(function () {
 
 
 // ==================================================
-// DIREKTUR 
+// DIREKTUR
 // ==================================================
 
 Route::middleware(['auth', 'role:direktur'])->group(function () {
