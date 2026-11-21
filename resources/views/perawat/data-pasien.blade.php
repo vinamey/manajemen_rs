@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -27,92 +28,152 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
         body {
-            background: #f4f6fa;
             font-family: Arial, sans-serif;
+            background: #f3f6fc;
+            color: #243650;
             font-size: 13px;
         }
 
-        /* SIDEBAR */
+        /* SIDEBAR - SAMA DENGAN DASHBOARD PERAWAT */
         .sidebar {
-            width: 187px;
-            height: 100vh;
-            background: #1877f2;
             position: fixed;
             top: 0;
             left: 0;
+            bottom: 0;
+            width: 230px;
+            background: linear-gradient(180deg, #1877ed, #1551ad);
+            color: #fff;
+            padding: 22px 15px 12px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
             z-index: 1000;
         }
 
-        .sidebar-brand {
-            height: 55px;
+        .brand {
             display: flex;
             align-items: center;
-            padding: 0 16px;
+            gap: 12px;
+            padding: 0 5px 20px;
+            border-bottom: 1px solid rgba(255,255,255,.18);
+            flex-shrink: 0;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 9px;
+            background: rgba(255,255,255,.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
             color: white;
-            font-size: 16px;
-            font-weight: bold;
-            border-bottom: 1px solid rgba(255,255,255,.15);
         }
 
-        .sidebar-menu {
-            padding: 15px 9px;
+        .brand-subtitle {
+            font-size: 9px;
+            margin-top: 4px;
+            color: #e4efff;
+            white-space: nowrap;
         }
 
-        .sidebar-label {
-            color: #dceaff;
+        .menu-label {
             font-size: 10px;
-            margin: 0 10px 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #d2e4ff;
+            margin: 25px 8px 12px;
         }
 
-        .sidebar-menu a {
+        .menu-link {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            margin-bottom: 5px;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 12px;
-            transition: .2s;
-        }
-
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: rgba(255,255,255,.22);
-        }
-
-        .sidebar-menu a i {
-            width: 13px;
-            text-align: center;
-        }
-
-        /* LOGOUT */
-        .logout {
-            margin: auto 11px 7px;
-        }
-
-        .logout button {
+            gap: 12px;
             width: 100%;
-            background: white;
-            color: #dc3545;
-            border: none;
-            border-radius: 6px;
-            padding: 10px;
-            font-weight: bold;
-            font-size: 12px;
+            color: #fff;
+            padding: 13px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            transition: background .2s;
+            flex-shrink: 0;
         }
 
-        .logout button:hover {
-            background: #f1f5f9;
+        .menu-link:hover,
+        .menu-link.active {
+            color: #fff;
+            background: rgba(255,255,255,.2);
+        }
+
+        .menu-link.active {
+            border-left: 3px solid white;
+            padding-left: 10px;
+        }
+
+        .menu-link i {
+            width: 18px;
+            text-align: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .sidebar-info {
+            border: 1px solid rgba(255,255,255,.2);
+            background: rgba(255,255,255,.09);
+            border-radius: 9px;
+            padding: 12px;
+            font-size: 10px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border-radius: 9px;
+            text-align: center;
+            background: #fff;
+            color: #e63946;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #fff0f0;
+            color: #c82333;
         }
 
         /* MAIN CONTENT */
         .main-content {
-            margin-left: 187px;
+            margin-left: 230px;
+            width: calc(100% - 230px);
             min-height: 100vh;
         }
 
@@ -241,55 +302,42 @@
             color: white;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
+        /* RESPONSIVE - SAMA DENGAN DASHBOARD PERAWAT */
+        @media (max-width: 650px) {
             .sidebar {
-                width: 65px;
+                width: 62px;
+                padding: 15px 7px 10px;
             }
 
-            .sidebar-brand {
-                font-size: 0;
+            .brand {
                 justify-content: center;
-                padding: 0;
+                padding: 0 0 15px;
             }
 
-            .sidebar-brand i {
-                font-size: 19px;
-            }
-
-            .sidebar-label {
+            .brand-text,
+            .menu-label,
+            .menu-link span,
+            .sidebar-info,
+            .logout-text {
                 display: none;
             }
 
-            .sidebar-menu {
-                padding: 15px 7px;
-            }
-
-            .sidebar-menu a {
+            .menu-link {
                 justify-content: center;
-                font-size: 0;
-                padding: 12px 5px;
+                padding: 11px 5px;
             }
 
-            .sidebar-menu a i {
-                font-size: 15px;
+            .menu-link.active {
+                padding-left: 5px;
             }
 
-            .logout {
-                margin: auto 5px 7px;
-            }
-
-            .logout button {
-                font-size: 0;
-            }
-
-            .logout button i {
-                font-size: 15px;
-                margin: 0 !important;
+            .menu-link i {
+                font-size: 14px;
             }
 
             .main-content {
-                margin-left: 65px;
+                margin-left: 62px;
+                width: calc(100% - 62px);
             }
 
             .page-content {
@@ -308,38 +356,48 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-        <div class="sidebar-brand">
-            <i class="fa-solid fa-hospital me-2"></i>
-            SIM RS
-        </div>
-
-        <div class="sidebar-menu">
-
-            <div class="sidebar-label">
-                MENU PERAWAT
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fas fa-hospital"></i>
             </div>
 
-            <a href="{{ route('perawat.dashboard') }}">
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </a>
-
-            <a href="{{ route('perawat.pasien.index') }}" class="active">
-                <i class="fa-solid fa-hospital-user"></i>
-                Data Pasien
-            </a>
-
+            <div class="brand-text">
+                <div class="brand-name">SIM RS</div>
+                <div class="brand-subtitle">Sistem Informasi Rumah Sakit</div>
+            </div>
         </div>
 
-        <!-- LOGOUT -->
-        <div class="logout">
+        <div class="menu-label">MENU PERAWAT</div>
 
-            <form action="{{ route('logout') }}" method="POST">
+        <a href="{{ route('perawat.dashboard') }}"
+           class="menu-link">
+            <i class="fas fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ route('perawat.pasien.index') }}"
+           class="menu-link active">
+            <i class="fas fa-hospital-user"></i>
+            <span>Data Pasien</span>
+        </a>
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-info">
+                <strong>
+                    <i class="fas fa-shield-heart me-1"></i>
+                    Pelayanan Kesehatan
+                </strong>
+                <br>
+                Gunakan data pasien dengan teliti dan jaga kerahasiaan informasi medis.
+            </div>
+
+            <form method="POST" action="{{ route('logout') }}">
                 @csrf
 
-                <button type="submit">
-                    <i class="fa-solid fa-right-from-bracket me-2"></i>
-                    Logout
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-right-from-bracket me-1"></i>
+                    <span class="logout-text">Logout</span>
                 </button>
             </form>
 
@@ -471,4 +529,3 @@
 
 </body>
 </html>
-
