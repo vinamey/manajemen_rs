@@ -130,8 +130,8 @@ class LaporanController extends Controller
             $data = DB::table('pasiens')->get();
         } elseif ($type == 'pendapatan') {
             $data = $this->getPendapatanLunas();
-       } elseif ($type == 'data-obat') {$data = StokObat::with('obat')
-        ->orderBy('obat_id', 'asc')
+      } elseif ($type == 'data-obat') { $data = StokObat::with('obat')
+        ->orderBy('id', 'desc')
         ->get();
         } else {
             abort(404);
