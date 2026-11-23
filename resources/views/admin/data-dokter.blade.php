@@ -9,7 +9,6 @@
 <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
 <style>
-    /* STYLE KHUSUS HALAMAN DATA DOKTER */
     .page-heading {
         margin-bottom: 22px;
     }
@@ -259,6 +258,12 @@
         padding: 25px 0;
     }
 
+    .section-form-title {
+        color: #1877f2;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
     @media (max-width: 768px) {
         .content-card {
             padding: 15px;
@@ -272,12 +277,10 @@
 
 {{-- JUDUL HALAMAN --}}
 <div class="page-heading d-flex justify-content-between align-items-center flex-wrap gap-3">
-
     <div>
         <h2>Data Dokter</h2>
         <p>Informasi dokter yang terdaftar di rumah sakit.</p>
     </div>
-
 </div>
 
 {{-- NOTIFIKASI SUKSES --}}
@@ -292,13 +295,11 @@
 @if($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Data belum berhasil disimpan:</strong>
-
         <ul class="mb-0 mt-2">
             @foreach($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
@@ -317,10 +318,8 @@
                 class="btn-tambah"
                 data-bs-toggle="modal"
                 data-bs-target="#modalTambahDokter">
-
             <i class="fa-solid fa-plus me-1"></i>
             Tambah Dokter
-
         </button>
 
     </div>
@@ -330,9 +329,7 @@
     </div>
 
     <div class="table-responsive">
-
         <table id="tabelDokter" class="table table-hover table-bordered w-100">
-
             <thead>
                 <tr>
                     <th width="55">No.</th>
@@ -344,11 +341,8 @@
                     <th width="135" class="text-center">Aksi</th>
                 </tr>
             </thead>
-
             <tbody></tbody>
-
         </table>
-
     </div>
 
 </div>
@@ -373,7 +367,6 @@
                 @csrf
 
                 <div class="modal-header">
-
                     <h5 class="modal-title">
                         <i class="fa-solid fa-user-plus me-2"></i>
                         Tambah Dokter
@@ -384,15 +377,22 @@
                             data-bs-dismiss="modal"
                             aria-label="Tutup">
                     </button>
-
                 </div>
 
                 <div class="modal-body">
 
                     <div class="row">
 
-                        <div class="col-md-6 mb-3">
+                        {{-- INFORMASI DOKTER --}}
+                        <div class="col-12 mb-3">
+                            <div class="section-form-title">
+                                <i class="fa-solid fa-user-doctor me-2"></i>
+                                Informasi Dokter
+                            </div>
+                            <hr class="mt-2">
+                        </div>
 
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">
                                 Nama Dokter <span class="text-danger">*</span>
                             </label>
@@ -401,28 +401,24 @@
                                    name="nama"
                                    class="form-control"
                                    maxlength="255"
+                                   value="{{ old('nama') }}"
+                                   placeholder="Masukkan nama dokter"
                                    required>
-
                         </div>
 
                         <div class="col-md-6 mb-3">
-
                             <label class="form-label">
                                 Jenis Kelamin <span class="text-danger">*</span>
                             </label>
 
                             <select name="jenis_kelamin" class="form-select" required>
-
                                 <option value="">-- Pilih Jenis Kelamin --</option>
-                                <option value="laki-laki">Laki-laki</option>
-                                <option value="perempuan">Perempuan</option>
-
+                                <option value="laki-laki" {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="perempuan" {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
                             </select>
-
                         </div>
 
                         <div class="col-md-6 mb-3">
-
                             <label class="form-label">
                                 Tanggal Lahir <span class="text-danger">*</span>
                             </label>
@@ -430,51 +426,121 @@
                             <input type="date"
                                    name="tanggal_lahir"
                                    class="form-control"
+                                   value="{{ old('tanggal_lahir') }}"
                                    required>
-
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                     <div class="col-md-6 mb-3">
+    <label class="form-label">
+        Spesialis <span class="text-danger">*</span>
+    </label>
 
-                            <label class="form-label">Spesialis</label>
-
-                            <input type="text"
-                                   name="spesialis"
-                                   class="form-control"
-                                   maxlength="255"
-                                   placeholder="Contoh: Spesialis Anak">
-
-                        </div>
-
+    <select name="spesialis" id="tambah_spesialis" class="form-select" required>
+        <option value="">-- Pilih Spesialis --</option>
+        <option value="Umum" {{ old('spesialis') == 'Umum' ? 'selected' : '' }}>Umum</option>
+        <option value="Penyakit Dalam" {{ old('spesialis') == 'Penyakit Dalam' ? 'selected' : '' }}>Penyakit Dalam</option>
+        <option value="Kandungan" {{ old('spesialis') == 'Kandungan' ? 'selected' : '' }}>Kandungan</option>
+        <option value="Anak" {{ old('spesialis') == 'Anak' ? 'selected' : '' }}>Anak</option>
+        <option value="Bedah" {{ old('spesialis') == 'Bedah' ? 'selected' : '' }}>Bedah</option>
+        <option value="Jantung dan Pembuluh Darah" {{ old('spesialis') == 'Jantung dan Pembuluh Darah' ? 'selected' : '' }}>Jantung dan Pembuluh Darah</option>
+        <option value="Saraf" {{ old('spesialis') == 'Saraf' ? 'selected' : '' }}>Saraf</option>
+        <option value="Mata" {{ old('spesialis') == 'Mata' ? 'selected' : '' }}>Mata</option>
+        <option value="THT" {{ old('spesialis') == 'THT' ? 'selected' : '' }}>THT</option>
+        <option value="Kulit dan Kelamin" {{ old('spesialis') == 'Kulit dan Kelamin' ? 'selected' : '' }}>Kulit dan Kelamin</option>
+        <option value="Paru" {{ old('spesialis') == 'Paru' ? 'selected' : '' }}>Paru</option>
+        <option value="Ortopedi" {{ old('spesialis') == 'Ortopedi' ? 'selected' : '' }}>Ortopedi</option>
+        <option value="Urologi" {{ old('spesialis') == 'Urologi' ? 'selected' : '' }}>Urologi</option>
+        <option value="Gigi" {{ old('spesialis') == 'Gigi' ? 'selected' : '' }}>Gigi</option>
+        <option value="Psikiatri" {{ old('spesialis') == 'Psikiatri' ? 'selected' : '' }}>Psikiatri</option>
+        <option value="Radiologi" {{ old('spesialis') == 'Radiologi' ? 'selected' : '' }}>Radiologi</option>
+        <option value="Anestesiologi" {{ old('spesialis') == 'Anestesiologi' ? 'selected' : '' }}>Anestesiologi</option>
+        <option value="Patologi Klinik" {{ old('spesialis') == 'Patologi Klinik' ? 'selected' : '' }}>Patologi Klinik</option>
+        <option value="Rehabilitasi Medik" {{ old('spesialis') == 'Rehabilitasi Medik' ? 'selected' : '' }}>Rehabilitasi Medik</option>
+        <option value="Gizi Klinik" {{ old('spesialis') == 'Gizi Klinik' ? 'selected' : '' }}>Gizi Klinik</option>
+    </select>
+</div>
                         <div class="col-md-12 mb-3">
-
                             <label class="form-label">
                                 Poli <span class="text-danger">*</span>
                             </label>
 
                             <select name="poli_id" class="form-select" required>
-
                                 <option value="">-- Pilih Poli --</option>
 
                                 @foreach($polis as $poli)
-                                    <option value="{{ $poli->id }}">
+                                    <option value="{{ $poli->id }}"
+                                        {{ old('poli_id') == $poli->id ? 'selected' : '' }}>
                                         {{ $poli->nama }}
                                     </option>
                                 @endforeach
-
                             </select>
-
                         </div>
 
                         <div class="col-md-12 mb-3">
-
                             <label class="form-label">Alamat</label>
 
                             <textarea name="alamat"
                                       class="form-control"
                                       rows="3"
-                                      placeholder="Masukkan alamat dokter"></textarea>
+                                      placeholder="Masukkan alamat dokter">{{ old('alamat') }}</textarea>
+                        </div>
 
+
+                        {{-- AKUN LOGIN DOKTER --}}
+                        <div class="col-12 mt-2 mb-3">
+                            <div class="section-form-title">
+                                <i class="fa-solid fa-lock me-2"></i>
+                                Akun Login Dokter
+                            </div>
+
+                            <small class="text-muted">
+                                Buat akun yang akan digunakan dokter untuk login ke sistem SIM RS.
+                            </small>
+
+                            <hr class="mt-2">
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">
+                                Email Login <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="email"
+                                   name="email"
+                                   class="form-control"
+                                   maxlength="255"
+                                   value="{{ old('email') }}"
+                                   placeholder="Contoh: dokter@gmail.com"
+                                   autocomplete="email"
+                                   required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                Password <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="password"
+                                   name="password"
+                                   class="form-control"
+                                   minlength="8"
+                                   placeholder="Minimal 8 karakter"
+                                   autocomplete="new-password"
+                                   required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                Konfirmasi Password <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="password"
+                                   name="password_confirmation"
+                                   class="form-control"
+                                   minlength="8"
+                                   placeholder="Ulangi password"
+                                   autocomplete="new-password"
+                                   required>
                         </div>
 
                     </div>
@@ -490,10 +556,8 @@
                     </button>
 
                     <button type="submit" class="btn-simpan">
-
                         <i class="fa-solid fa-floppy-disk me-1"></i>
                         Simpan
-
                     </button>
 
                 </div>
@@ -523,7 +587,6 @@
                 @method('PUT')
 
                 <div class="modal-header">
-
                     <h5 class="modal-title">
                         <i class="fa-solid fa-user-pen me-2"></i>
                         Edit Dokter
@@ -534,7 +597,6 @@
                             data-bs-dismiss="modal"
                             aria-label="Tutup">
                     </button>
-
                 </div>
 
                 <div class="modal-body">
@@ -542,7 +604,6 @@
                     <div class="row">
 
                         <div class="col-md-6 mb-3">
-
                             <label class="form-label">
                                 Nama Dokter <span class="text-danger">*</span>
                             </label>
@@ -553,11 +614,9 @@
                                    class="form-control"
                                    maxlength="255"
                                    required>
-
                         </div>
 
                         <div class="col-md-6 mb-3">
-
                             <label class="form-label">
                                 Jenis Kelamin <span class="text-danger">*</span>
                             </label>
@@ -566,17 +625,13 @@
                                     name="jenis_kelamin"
                                     class="form-select"
                                     required>
-
                                 <option value="">-- Pilih Jenis Kelamin --</option>
                                 <option value="laki-laki">Laki-laki</option>
                                 <option value="perempuan">Perempuan</option>
-
                             </select>
-
                         </div>
 
                         <div class="col-md-6 mb-3">
-
                             <label class="form-label">
                                 Tanggal Lahir <span class="text-danger">*</span>
                             </label>
@@ -586,11 +641,9 @@
                                    name="tanggal_lahir"
                                    class="form-control"
                                    required>
-
                         </div>
 
                         <div class="col-md-6 mb-3">
-
                             <label class="form-label">Spesialis</label>
 
                             <input type="text"
@@ -598,11 +651,9 @@
                                    name="spesialis"
                                    class="form-control"
                                    maxlength="255">
-
                         </div>
 
                         <div class="col-md-12 mb-3">
-
                             <label class="form-label">
                                 Poli <span class="text-danger">*</span>
                             </label>
@@ -611,7 +662,6 @@
                                     name="poli_id"
                                     class="form-select"
                                     required>
-
                                 <option value="">-- Pilih Poli --</option>
 
                                 @foreach($polis as $poli)
@@ -619,20 +669,16 @@
                                         {{ $poli->nama }}
                                     </option>
                                 @endforeach
-
                             </select>
-
                         </div>
 
                         <div class="col-md-12 mb-3">
-
                             <label class="form-label">Alamat</label>
 
                             <textarea id="editAlamat"
                                       name="alamat"
                                       class="form-control"
                                       rows="3"></textarea>
-
                         </div>
 
                     </div>
@@ -648,10 +694,8 @@
                     </button>
 
                     <button type="submit" class="btn-simpan">
-
                         <i class="fa-solid fa-floppy-disk me-1"></i>
                         Simpan Perubahan
-
                     </button>
 
                 </div>
@@ -676,7 +720,6 @@
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <h5 class="modal-title">
                     <i class="fa-solid fa-user-doctor me-2"></i>
                     Detail Dokter
@@ -687,7 +730,6 @@
                         data-bs-dismiss="modal"
                         aria-label="Tutup">
                 </button>
-
             </div>
 
             <div class="modal-body">
@@ -695,53 +737,36 @@
                 <div class="row">
 
                     <div class="col-md-6 mb-3">
-
                         <label class="form-label">Nama Dokter</label>
-
                         <div id="lihatNamaDokter" class="detail-value">-</div>
-
                     </div>
 
                     <div class="col-md-6 mb-3">
-
                         <label class="form-label">Jenis Kelamin</label>
-
                         <div id="lihatJenisKelaminDokter" class="detail-value">-</div>
-
                     </div>
 
                     <div class="col-md-6 mb-3">
-
                         <label class="form-label">Tanggal Lahir</label>
-
                         <div id="lihatTanggalLahirDokter" class="detail-value">-</div>
-
                     </div>
 
                     <div class="col-md-6 mb-3">
-
                         <label class="form-label">Spesialis</label>
-
                         <div id="lihatSpesialisDokter" class="detail-value">-</div>
-
                     </div>
 
                     <div class="col-md-12 mb-3">
-
                         <label class="form-label">Poli</label>
-
                         <div id="lihatPoliDokter" class="detail-value">-</div>
-
                     </div>
 
                     <div class="col-md-12 mb-3">
-
                         <label class="form-label">Alamat</label>
 
                         <div id="lihatAlamatDokter"
                              class="detail-value"
                              style="min-height:70px; white-space:pre-wrap;">-</div>
-
                     </div>
 
                 </div>
@@ -749,13 +774,11 @@
             </div>
 
             <div class="modal-footer">
-
                 <button type="button"
                         class="btn-batal"
                         data-bs-dismiss="modal">
                     Tutup
                 </button>
-
             </div>
 
         </div>
@@ -770,10 +793,8 @@
 {{-- ====================================================== --}}
 
 <form id="formHapusDokter" method="POST" class="d-none">
-
     @csrf
     @method('DELETE')
-
 </form>
 
 
@@ -782,9 +803,7 @@
 {{-- ====================================================== --}}
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
@@ -802,7 +821,6 @@ $(document).ready(function () {
 
             error: function (xhr) {
                 console.error(xhr.responseText);
-
                 alert('Data dokter gagal dimuat. Periksa method dataAdmin() pada controller.');
             }
         },
@@ -828,7 +846,6 @@ $(document).ready(function () {
                 defaultContent: '-',
 
                 render: function (data) {
-
                     if (!data) return '-';
 
                     const value = String(data).toLowerCase();
@@ -870,8 +887,7 @@ $(document).ready(function () {
                 searchable: false,
                 className: 'text-center',
 
-                render: function (data, type, row) {
-
+                render: function () {
                     return `
                         <div class="action-buttons">
 
@@ -904,7 +920,6 @@ $(document).ready(function () {
         pageLength: 10,
 
         language: {
-
             processing: 'Memuat data...',
             search: 'Cari:',
             lengthMenu: 'Tampilkan _MENU_ data',
@@ -920,7 +935,6 @@ $(document).ready(function () {
                 next: 'Berikutnya',
                 previous: 'Sebelumnya'
             }
-
         }
 
     });
@@ -941,10 +955,7 @@ $(document).ready(function () {
     }
 
 
-    // ==================================================
     // LIHAT DETAIL DOKTER
-    // ==================================================
-
     $('#tabelDokter').on('click', '.btn-view', function () {
 
         const row = tabel.row($(this).closest('tr')).data();
@@ -978,10 +989,7 @@ $(document).ready(function () {
     });
 
 
-    // ==================================================
     // EDIT DOKTER
-    // ==================================================
-
     $('#tabelDokter').on('click', '.btn-edit', function () {
 
         const row = tabel.row($(this).closest('tr')).data();
@@ -1026,10 +1034,7 @@ $(document).ready(function () {
     });
 
 
-    // ==================================================
     // HAPUS DOKTER
-    // ==================================================
-
     $('#tabelDokter').on('click', '.btn-delete', function () {
 
         const row = tabel.row($(this).closest('tr')).data();

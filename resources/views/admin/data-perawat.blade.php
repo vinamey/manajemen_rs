@@ -216,6 +216,20 @@
         color: #39475b;
     }
 
+    .perawat-page .form-control,
+    .perawat-page .form-select {
+        border: 1px solid #dce3ed;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .perawat-page .form-control:focus,
+    .perawat-page .form-select:focus {
+        border-color: #1877f2;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, .1);
+    }
+
     .perawat-page .detail-value {
         min-height: 40px;
         padding: 10px 12px;
@@ -264,6 +278,12 @@
         color: #8a95a7;
         font-size: 10px;
         padding: 20px 0;
+    }
+
+    .perawat-page .section-form-title {
+        color: #1877f2;
+        font-size: 14px;
+        font-weight: 700;
     }
 
     @media (max-width: 768px) {
@@ -431,7 +451,7 @@
     <!-- MODAL TAMBAH PERAWAT -->
     <div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
 
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
 
                 <form action="{{ route('admin.perawat.store') }}" method="POST">
@@ -452,39 +472,125 @@
 
                     <div class="modal-body">
 
-                        <div class="mb-3">
-                            <label class="form-label">Nama Perawat</label>
-                            <input type="text"
-                                   name="nama"
-                                   class="form-control"
-                                   value="{{ old('nama') }}"
-                                   required>
-                        </div>
+                        <div class="row">
 
-                        <div class="mb-3">
-                            <label class="form-label">Jenis Kelamin</label>
-                            <select name="jenis_kelamin" class="form-select" required>
-                                <option value="">-- Pilih Jenis Kelamin --</option>
-                                <option value="laki-laki">Laki-laki</option>
-                                <option value="perempuan">Perempuan</option>
-                            </select>
-                        </div>
+                            <!-- INFORMASI PERAWAT -->
+                            <div class="col-12 mb-3">
+                                <div class="section-form-title">
+                                    <i class="fa-solid fa-user-nurse me-2"></i>
+                                    Informasi Perawat
+                                </div>
+                                <hr class="mt-2">
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Tanggal Lahir</label>
-                            <input type="date"
-                                   name="tanggal_lahir"
-                                   class="form-control"
-                                   value="{{ old('tanggal_lahir') }}"
-                                   required>
-                        </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Nama Perawat <span class="text-danger">*</span>
+                                </label>
 
-                        <div class="mb-3">
-                            <label class="form-label">Alamat</label>
-                            <textarea name="alamat"
-                                      class="form-control"
-                                      rows="3"
-                                      required>{{ old('alamat') }}</textarea>
+                                <input type="text"
+                                       name="nama"
+                                       class="form-control"
+                                       maxlength="255"
+                                       value="{{ old('nama') }}"
+                                       placeholder="Masukkan nama perawat"
+                                       required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Jenis Kelamin <span class="text-danger">*</span>
+                                </label>
+
+                                <select name="jenis_kelamin" class="form-select" required>
+                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                    <option value="laki-laki" {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                    <option value="perempuan" {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Tanggal Lahir <span class="text-danger">*</span>
+                                </label>
+
+                                <input type="date"
+                                       name="tanggal_lahir"
+                                       class="form-control"
+                                       value="{{ old('tanggal_lahir') }}"
+                                       required>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">
+                                    Alamat <span class="text-danger">*</span>
+                                </label>
+
+                                <textarea name="alamat"
+                                          class="form-control"
+                                          rows="3"
+                                          placeholder="Masukkan alamat perawat"
+                                          required>{{ old('alamat') }}</textarea>
+                            </div>
+
+
+                            <!-- AKUN LOGIN PERAWAT -->
+                            <div class="col-12 mt-2 mb-3">
+                                <div class="section-form-title">
+                                    <i class="fa-solid fa-lock me-2"></i>
+                                    Akun Login Perawat
+                                </div>
+
+                                <small class="text-muted">
+                                    Akun ini digunakan perawat untuk masuk ke sistem SIM RS.
+                                </small>
+
+                                <hr class="mt-2">
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">
+                                    Email Login <span class="text-danger">*</span>
+                                </label>
+
+                                <input type="email"
+                                       name="email"
+                                       class="form-control"
+                                       maxlength="255"
+                                       value="{{ old('email') }}"
+                                       placeholder="Contoh: perawat@gmail.com"
+                                       autocomplete="email"
+                                       required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Password <span class="text-danger">*</span>
+                                </label>
+
+                                <input type="password"
+                                       name="password"
+                                       class="form-control"
+                                       minlength="8"
+                                       placeholder="Minimal 8 karakter"
+                                       autocomplete="new-password"
+                                       required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Konfirmasi Password <span class="text-danger">*</span>
+                                </label>
+
+                                <input type="password"
+                                       name="password_confirmation"
+                                       class="form-control"
+                                       minlength="8"
+                                       placeholder="Ulangi password"
+                                       autocomplete="new-password"
+                                       required>
+                            </div>
+
                         </div>
 
                     </div>
@@ -748,6 +854,7 @@ $(document).ready(function () {
 
     });
 
+
     // TOMBOL LIHAT DETAIL
     $('#tabelPerawat').on('click', '.btn-view', function () {
 
@@ -784,6 +891,7 @@ $(document).ready(function () {
 
     });
 
+
     // TOMBOL EDIT PERAWAT
     $('#tabelPerawat').on('click', '.btn-edit', function () {
 
@@ -800,7 +908,6 @@ $(document).ready(function () {
             return;
         }
 
-        // Mengisi form edit dengan data perawat
         $('#editNama').val(row.nama || '');
 
         const gender = String(
@@ -819,12 +926,10 @@ $(document).ready(function () {
             row.alamat_raw || row.alamat || ''
         );
 
-        // Mengatur URL update berdasarkan ID perawat
         const urlUpdate = "{{ url('/admin/data-perawat') }}/" + row.id;
 
         $('#formEditPerawat').attr('action', urlUpdate);
 
-        // Menampilkan modal edit
         bootstrap.Modal.getOrCreateInstance(
             document.getElementById('modalEdit')
         ).show();
