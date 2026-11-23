@@ -28,6 +28,7 @@ class PemeriksaanDokterController extends Controller
             'resep.obat',
         ])->latest()->paginate(10);
 
+        $tanggalHariIni = now()->toDateString();
         $pendaftarans = PendaftaranPasien::with([
             'pasien',
             'dokter',
@@ -35,6 +36,10 @@ class PemeriksaanDokterController extends Controller
         ])
             ->whereDoesntHave('pemeriksaan')
             ->whereNotNull('dokter_id')
+            ->whereDate(
+                'tanggal_pendaftaran',
+                $tanggalHariIni
+            )
             ->latest()
             ->get();
 
@@ -343,7 +348,7 @@ class PemeriksaanDokterController extends Controller
     }
 
     // Dokter tidak diperbolehkan mengedit pemeriksaan.
-    
+
 // Form edit pemeriksaan.
 public function edit($id)
 {

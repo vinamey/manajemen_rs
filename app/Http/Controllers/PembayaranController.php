@@ -13,10 +13,34 @@ use Throwable;
 class PembayaranController extends Controller
 {
     /**
-     * Menampilkan resep yang belum dibayar dan riwayat pembayaran.
+     * HALAMAN PEMBAYARAN KASIR
      */
     public function index(Request $request)
     {
+        return $this->tampilkanPembayaran(
+            $request,
+            'kasir.pembayaran'
+        );
+    }
+
+    /**
+     * HALAMAN PEMBAYARAN ADMIN
+     */
+    public function indexAdmin(Request $request)
+    {
+        return $this->tampilkanPembayaran(
+            $request,
+            'admin.data-kasir.pembayaran-obat'
+        );
+    }
+
+    /**
+     * Menampilkan data pembayaran berdasarkan halaman.
+     */
+    private function tampilkanPembayaran(
+        Request $request,
+        string $view
+    ) {
         $queryResep = ResepObat::with([
             'pemeriksaan.pendaftaran.pasien',
             'pemeriksaan.dokter',
@@ -64,16 +88,14 @@ class PembayaranController extends Controller
             ->paginate(10, ['*'], 'riwayatPage')
             ->withQueryString();
 
-        return view('kasir.pembayaran', compact(
+        return view($view, compact(
             'resepObats',
             'riwayatPembayaran'
         ));
     }
 
     /**
-     * Menghitung total harga berdasarkan satuan obat dalam resep.
-     *
-     * Harga diambil dari tabel harga_jual_obats.
+     * Menghitung total harga resep.
      */
     private function hitungTotal(ResepObat $resep): float
     {
@@ -86,17 +108,18 @@ class PembayaranController extends Controller
         $total = 0;
 
         foreach ($resep->obat as $obat) {
-            $satuanResep = (int) ($obat->pivot->satuan_obat_id ?? 0);
+            $satuanResep = (int) (
+                $obat->pivot->satuan_obat_id ?? 0
+            );
 
             if ($satuanResep <= 0) {
                 throw ValidationException::withMessages([
                     'pembayaran' =>
-                        'Satuan resep obat ' . $obat->nama . ' tidak valid.',
+                        'Satuan resep obat ' . $obat->nama .
+                        ' tidak valid.',
                 ]);
             }
 
-            // Harus cocok dengan satuan yang dipilih pada resep.
-            // Tidak menggunakan harga satuan lain sebagai pengganti.
             $hargaJual = $obat->hargaJual->firstWhere(
                 'satuan_id',
                 $satuanResep
@@ -124,10 +147,7 @@ class PembayaranController extends Controller
                 ]);
             }
 
-            // Harga per satuan = harga jual / isi
             $hargaPerSatuan = $harga / $isi;
-
-            // Subtotal = harga per satuan x jumlah resep
             $subtotal = $hargaPerSatuan * $jumlah;
 
             $total += $subtotal;
@@ -145,7 +165,7 @@ class PembayaranController extends Controller
     }
 
     /**
-     * Membuat bukti transfer simulasi otomatis.
+     * Membuat bukti transfer simulasi.
      */
     private function buatBuktiTransfer(
         Pembayaran $pembayaran,
@@ -190,7 +210,6 @@ class PembayaranController extends Controller
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bukti Transfer SIM RS</title>
-
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -198,7 +217,6 @@ class PembayaranController extends Controller
         padding: 30px;
         color: #1e293b;
     }
-
     .receipt {
         max-width: 500px;
         margin: auto;
@@ -207,19 +225,16 @@ class PembayaranController extends Controller
         border-radius: 15px;
         box-shadow: 0 5px 25px rgba(0,0,0,.08);
     }
-
     h2 {
         color: #1877f2;
         text-align: center;
         margin-bottom: 5px;
     }
-
     .subtitle {
         text-align: center;
         color: #64748b;
         margin-bottom: 25px;
     }
-
     .success {
         text-align: center;
         background: #e7f3ff;
@@ -229,7 +244,6 @@ class PembayaranController extends Controller
         margin-bottom: 20px;
         font-weight: bold;
     }
-
     .row {
         display: flex;
         justify-content: space-between;
@@ -237,21 +251,17 @@ class PembayaranController extends Controller
         padding: 12px 0;
         border-bottom: 1px solid #e5e7eb;
     }
-
     .label {
         color: #64748b;
     }
-
     .value {
         text-align: right;
         font-weight: bold;
     }
-
     .total {
         font-size: 20px;
         color: #1877f2;
     }
-
     .note {
         background: #fff7ed;
         color: #9a3412;
@@ -260,40 +270,19 @@ class PembayaranController extends Controller
         margin-top: 20px;
         font-size: 13px;
     }
-
-    button {
-        display: block;
-        width: 100%;
-        margin-top: 20px;
-        border: none;
-        padding: 12px;
-        background: #1877f2;
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-
     @media print {
         body {
             background: white;
             padding: 0;
         }
-
         .receipt {
             box-shadow: none;
-        }
-
-        button {
-            display: none;
         }
     }
 </style>
 </head>
-
 <body>
-
 <div class="receipt">
-
     <h2>SIM RS</h2>
     <div class="subtitle">Bukti Transfer</div>
 
@@ -340,11 +329,7 @@ class PembayaranController extends Controller
         Bukti ini merupakan transaksi simulasi dari aplikasi SIM RS
         dan bukan konfirmasi transaksi dari bank sungguhan.
     </div>
-
-
-
 </div>
-
 </body>
 </html>
 HTML;
@@ -359,22 +344,47 @@ HTML;
     }
 
     /**
-     * Memproses pembayaran resep.
+     * PROSES PEMBAYARAN KASIR
      */
     public function proses(Request $request, $id)
     {
+        return $this->prosesPembayaran(
+            $request,
+            $id,
+            'kasir.pembayaran'
+        );
+    }
+
+    /**
+     * PROSES PEMBAYARAN ADMIN
+     */
+    public function prosesAdmin(Request $request, $id)
+    {
+        return $this->prosesPembayaran(
+            $request,
+            $id,
+            'admin.kasir.pembayaran'
+        );
+    }
+
+    /**
+     * Logika pembayaran bersama.
+     */
+    private function prosesPembayaran(
+        Request $request,
+        $id,
+        string $routeName
+    ) {
         $data = $request->validate([
             'metode_pembayaran' => [
                 'required',
                 'in:Cash,QRIS,Transfer Bank',
             ],
-
             'uang_diterima' => [
                 'nullable',
                 'numeric',
                 'min:0',
             ],
-
             'bank_tujuan' => [
                 'nullable',
                 'string',
@@ -480,16 +490,40 @@ HTML;
         }
 
         return redirect()
-            ->route('kasir.pembayaran')
+            ->route($routeName)
             ->with('success', $pesan)
             ->with('bukti_transfer_id', $idPembayaran);
     }
 
     /**
-     * Memverifikasi pembayaran QRIS atau Transfer Bank.
+     * VERIFIKASI PEMBAYARAN KASIR
      */
     public function verifikasi($id)
     {
+        return $this->verifikasiPembayaran(
+            $id,
+            'kasir.pembayaran'
+        );
+    }
+
+    /**
+     * VERIFIKASI PEMBAYARAN ADMIN
+     */
+    public function verifikasiAdmin($id)
+    {
+        return $this->verifikasiPembayaran(
+            $id,
+            'admin.kasir.pembayaran'
+        );
+    }
+
+    /**
+     * Logika verifikasi bersama.
+     */
+    private function verifikasiPembayaran(
+        $id,
+        string $routeName
+    ) {
         $pathBukti = null;
 
         try {
@@ -548,7 +582,7 @@ HTML;
 
         if (!$berhasil) {
             return redirect()
-                ->route('kasir.pembayaran')
+                ->route($routeName)
                 ->with(
                     'error',
                     'Pembayaran sudah diverifikasi atau tidak dapat diproses.'
@@ -556,7 +590,7 @@ HTML;
         }
 
         return redirect()
-            ->route('kasir.pembayaran')
+            ->route($routeName)
             ->with(
                 'success',
                 'Pembayaran berhasil diverifikasi dan berstatus LUNAS.'
@@ -564,10 +598,34 @@ HTML;
     }
 
     /**
-     * Menghapus riwayat pembayaran.
+     * HAPUS PEMBAYARAN KASIR
      */
     public function destroy($id)
     {
+        return $this->hapusPembayaran(
+            $id,
+            'kasir.pembayaran'
+        );
+    }
+
+    /**
+     * HAPUS PEMBAYARAN ADMIN
+     */
+    public function destroyAdmin($id)
+    {
+        return $this->hapusPembayaran(
+            $id,
+            'admin.kasir.pembayaran'
+        );
+    }
+
+    /**
+     * Logika hapus pembayaran bersama.
+     */
+    private function hapusPembayaran(
+        $id,
+        string $routeName
+    ) {
         $pembayaran = Pembayaran::findOrFail($id);
 
         if ($pembayaran->bukti_transfer) {
@@ -579,7 +637,7 @@ HTML;
         $pembayaran->delete();
 
         return redirect()
-            ->route('kasir.pembayaran')
+            ->route($routeName)
             ->with(
                 'success',
                 'Riwayat pembayaran berhasil dihapus.'
