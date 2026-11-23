@@ -452,12 +452,17 @@
                     <table id="tabelPasien"
                            class="table table-hover align-middle w-100">
 
-                        <thead>
-                            <tr>
-                                <th width="70">No.</th>
-                                <th>Nama Pasien</th>
-                            </tr>
-                        </thead>
+                     <thead>
+                        <tr>
+                            <th width="60">No.</th>
+                            <th>Nama Pasien</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Tanggal Lahir</th>
+                            <th>Alamat</th>
+                            <th>Golongan Darah</th>
+                            <th>Status Asuransi</th>
+                        </tr>
+                    </thead>
 
                         <tbody></tbody>
 
@@ -490,7 +495,7 @@
 
                 ajax: "{{ route('perawat.pasien.index') }}",
 
-                columns: [
+                                columns: [
                     {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -500,6 +505,26 @@
                     {
                         data: 'nama',
                         name: 'nama'
+                    },
+                    {
+                        data: 'jenis_kelamin',
+                        name: 'jenis_kelamin'
+                    },
+                    {
+                        data: 'tanggal_lahir',
+                        name: 'tanggal_lahir'
+                    },
+                    {
+                        data: 'alamat',
+                        name: 'alamat'
+                    },
+                    {
+                        data: 'golongan_darah',
+                        name: 'golongan_darah'
+                    },
+                    {
+                        data: 'status_asuransi',
+                        name: 'status_asuransi'
                     }
                 ],
 

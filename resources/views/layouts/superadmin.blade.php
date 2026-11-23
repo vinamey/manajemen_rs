@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -12,8 +13,8 @@
 
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    @stack('styles')
 
+    @stack('styles')
 
     <style>
         body {
@@ -265,60 +266,146 @@
             <hr>
 
             {{-- SIDEBAR ADMIN RUMAH SAKIT --}}
+            @if (auth()->user()?->hasRole('admin rumah sakit'))
 
-@if (auth()->user()?->hasRole('admin rumah sakit'))
+                <ul class="nav flex-column">
 
-    <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{{ url('/admin/dashboard') }}"
+                            class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                            <i class="fa-solid fa-house me-2"></i>
+                            Dashboard
+                        </a>
+                    </li>
 
-        <li class="nav-item">
-            <a href="{{ url('/admin/dashboard') }}"
-                class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                <i class="fa-solid fa-house me-2"></i>
-                Dashboard
-            </a>
-        </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.pasien.index') }}"
+                            class="nav-link {{ request()->routeIs('admin.pasien.*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-hospital-user me-2"></i>
+                            Data Pasien
+                        </a>
+                    </li>
 
-        <li class="nav-item">
-            <a href="{{ route('admin.pasien.index') }}"
-                class="nav-link {{ request()->routeIs('admin.pasien.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-hospital-user me-2"></i>
-                Data Pasien
-            </a>
-        </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.dokter.index') }}"
+                            class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-user-doctor me-2"></i>
+                            Data Dokter
+                        </a>
+                    </li>
 
-        <li class="nav-item">
-            <a href="{{ route('admin.dokter.index') }}"
-                class="nav-link {{ request()->routeIs('admin.dokter.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-user-doctor me-2"></i>
-                Data Dokter
-            </a>
-        </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.perawat.index') }}"
+                            class="nav-link {{ request()->routeIs('admin.perawat.*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-user-nurse me-2"></i>
+                            Data Perawat
+                        </a>
+                    </li>
 
-        <li class="nav-item">
-            <a href="{{ route('admin.perawat.index') }}"
-                class="nav-link {{ request()->routeIs('admin.perawat.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-user-nurse me-2"></i>
-                Data Perawat
-            </a>
-        </li>
+                    {{-- DATA APOTEKER --}}
+                    @php
+                        $apotekerAktif = request()->routeIs(
+                        'admin.apoteker.obat.*',
+                        'admin.apoteker.log-stok.*',
+                        'admin.apoteker.supplier.*',
+                        'admin.apoteker.resep.*'
+                    );
+                    @endphp
 
-        <li class="nav-item">
-            <a href="{{ route('apoteker.dashboard') }}"
-                class="nav-link {{ request()->routeIs('apoteker.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
-                Data Apoteker
-            </a>
-        </li>
+                    <li class="nav-item">
 
-        <li class="nav-item">
-            <a href="{{ route('kasir.dashboard') }}"
-                class="nav-link {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
-                <i class="fa-solid fa-cash-register me-2"></i>
-                Data Kasir
-            </a>
-        </li>
+                        <a class="nav-link master-toggle {{ $apotekerAktif ? 'master-active' : '' }}"
+                            data-bs-toggle="collapse"
+                            href="#apotekerMenu"
+                            role="button"
+                            aria-expanded="{{ $apotekerAktif ? 'true' : 'false' }}"
+                            aria-controls="apotekerMenu">
 
-    </ul>
+                            <span class="master-toggle-left">
+                                <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
+                                Data Apoteker
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down master-arrow"></i>
+                        </a>
+
+                        <div class="collapse {{ $apotekerAktif ? 'show' : '' }}"
+                            id="apotekerMenu">
+
+                            <ul class="master-menu">
+
+                                {{-- DATA OBAT ADMIN --}}
+                                <li>
+                                    <a href="{{ route('admin.apoteker.obat.index') }}"
+                                        class="master-item {{ request()->routeIs('admin.apoteker.obat.*') ? 'active' : '' }}">
+                                        <i class="fa-solid fa-pills"></i>
+                                        <span>Data Obat</span>
+                                    </a>
+                                </li>
+                               <a href="{{ url('/admin/data-apoteker/log-stok-obat') }}"
+                                class="master-item {{ request()->routeIs('admin.apoteker.log-stok.*') ? 'active' : '' }}">
+                                <i class="fa-solid fa-boxes-stacked"></i>
+                                <span>Log Stok Obat</span>
+                            </a>
+
+                                {{-- SUPPLIER OBAT --}}
+                                <a href="{{ route('admin.apoteker.supplier.index') }}"
+                                    class="master-item {{ request()->routeIs('admin.apoteker.supplier.*') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-truck"></i>
+                                    <span>Supplier Obat</span>
+                                </a>
+
+                                {{-- RESEP DOKTER --}}
+                                <li>
+                                   <a href="{{ route('admin.apoteker.resep.index') }}"
+                                    class="master-item {{ request()->routeIs('admin.apoteker.resep.*') ? 'active' : '' }}">
+                                        <i class="fa-solid fa-file-prescription"></i>
+                                        <span>Resep Dokter</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                       {{-- DATA KASIR --}}
+@php
+    $kasirAktif = request()->routeIs('admin.kasir.*');
+@endphp
+
+<li class="nav-item">
+
+    <a class="nav-link master-toggle {{ $kasirAktif ? 'master-active' : '' }}"
+        data-bs-toggle="collapse"
+        href="#kasirMenu"
+        role="button"
+        aria-expanded="{{ $kasirAktif ? 'true' : 'false' }}"
+        aria-controls="kasirMenu">
+
+        <span class="master-toggle-left">
+            <i class="fa-solid fa-cash-register me-2"></i>
+            Data Kasir
+        </span>
+
+        <i class="fa-solid fa-chevron-down master-arrow"></i>
+    </a>
+
+    <div class="collapse {{ $kasirAktif ? 'show' : '' }}"
+        id="kasirMenu">
+
+        <ul class="master-menu">
+
+            <li>
+                <a href="{{ route('admin.kasir.pembayaran') }}"
+                    class="master-item {{ request()->routeIs('admin.kasir.pembayaran') ? 'active' : '' }}">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <span>Pembayaran Obat</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</li>
+                </ul>
 
             @else
 
@@ -585,6 +672,61 @@
                         @elseif (request()->routeIs('users.*'))
                             User Management
 
+                        {{-- DATA OBAT ADMIN --}}
+                        @elseif (request()->routeIs('admin.apoteker.obat.*'))
+                            Data Obat
+
+                        @elseif (request()->routeIs('admin.apoteker.log-stok.*'))
+                            Log Stok Obat
+
+                        @elseif (request()->routeIs('admin.apoteker.resep.*'))
+                            Resep Dokter
+
+                        @elseif (request()->routeIs('admin.pasien.*'))
+                            Data Pasien
+
+                        @elseif (request()->routeIs('admin.dokter.*'))
+                            Data Dokter
+
+                        @elseif (request()->routeIs('admin.perawat.*'))
+                            Data Perawat
+
+                        @elseif (request()->routeIs('master-pasien.*'))
+                            Master Pasien
+
+                        @elseif (request()->routeIs('master-dokter.*'))
+                            Master Dokter
+
+                        @elseif (request()->routeIs('master-perawat.*'))
+                            Master Perawat
+
+                        @elseif (request()->routeIs('master-obat.*'))
+                            Master Obat
+
+                        @elseif (request()->routeIs('master-supplier.*'))
+                            Master Supplier
+
+                        @elseif (request()->routeIs('master-kategori.*'))
+                            Master Kategori
+
+                        @elseif (request()->routeIs('master-satuan.*'))
+                            Master Satuan Obat
+
+                        @elseif (request()->routeIs('master-poli.*'))
+                            Master Poli
+
+                        @elseif (request()->routeIs('master-kamar.*'))
+                            Master Kamar
+
+                        @elseif (request()->routeIs('master-asuransi.*'))
+                            Master Asuransi
+
+                        @elseif (request()->routeIs('master-tindakan.*'))
+                            Master Tindakan
+
+                        @elseif (request()->routeIs('master-frekuensi.*'))
+                            Master Frekuensi
+
                         @elseif (request()->routeIs('master-*'))
                             Master Data
 
@@ -646,6 +788,10 @@
                         'admin.dokter.*' => 'master dokter',
                         'admin.perawat.*' => 'master perawat',
                         'admin.pasien.*' => 'master pasien',
+                        'admin.apoteker.obat.*' => 'master obat',
+                        'admin.apoteker.log-stok.*' => 'stok obat',
+                        'admin.apoteker.supplier.*' => 'master supplier',
+                        'admin.apoteker.resep.*' => 'resep obat',
 
                         // MASTER DATA
                         'master-pasien.*' => 'master pasien',
@@ -661,7 +807,6 @@
                         'master-tindakan.*' => 'master tindakan',
                         'master-apoteker.*' => 'master apoteker',
                         'master-frekuensi.*' => 'master frekuensi',
-
                         // APOTEKER
                         'apoteker.dashboard' => 'master apoteker',
                         'apoteker.obat.*' => 'master obat',
@@ -675,6 +820,10 @@
                         'kasir.resep' => 'resep obat',
                         'kasir.pembayaran' => 'pembayaran',
                         'kasir.pembayaran.*' => 'pembayaran',
+
+                        // PEMBAYARAN ADMIN
+                        'admin.kasir.pembayaran' => 'pembayaran',
+                        'admin.kasir.pembayaran.*' => 'pembayaran',
 
                         // DATA KASIR
                         'kasir.index' => 'master kasir',
@@ -701,21 +850,21 @@
                     }
                 @endphp
 
-                           {{-- PENGECEKAN PERMISSION --}}
+                {{-- PENGECEKAN PERMISSION --}}
+                @if (
+                    request()->routeIs('roles.*', 'permissions.*') ||
+                    (
+                        $requiredPermission !== null &&
+                        auth()->user()?->hasPermissionTo($requiredPermission)
+                    )
+                )
+                    @yield('content')
+                @else
+                    @php
+                        abort(404);
+                    @endphp
+                @endif
 
-                        @if (
-                            request()->routeIs('roles.*', 'permissions.*') ||
-                            (
-                                $requiredPermission !== null &&
-                                auth()->user()?->hasPermissionTo($requiredPermission)
-                            )
-                        )
-                            @yield('content')
-                       @else
-    @php
-        abort(404);
-    @endphp
-@endif
             </div>
 
         </div>
@@ -723,12 +872,11 @@
     </div>
 
     {{-- JS BOOTSTRAP --}}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-{{-- SCRIPT TAMBAHAN SETIAP HALAMAN --}}
-@stack('scripts')
+    {{-- SCRIPT TAMBAHAN SETIAP HALAMAN --}}
+    @stack('scripts')
 
 </body>
 
 </html>
-
