@@ -13,7 +13,7 @@ use App\Models\HargaJualObat;
 class LogStokObatController extends Controller
 {
     /**
-     * Halaman utama log stok obat.
+     * Halaman utama log stok obat untuk Apoteker.
      */
     public function index()
     {
@@ -30,6 +30,23 @@ class LogStokObatController extends Controller
     }
 
     /**
+     * Halaman log stok obat untuk Admin Rumah Sakit.
+     */
+    public function indexAdmin()
+    {
+        $obats = MasterObat::orderBy('nama', 'asc')->get();
+
+        $satuans = DB::table('master_satuan_obats')
+            ->orderBy('id')
+            ->get();
+
+        return view('admin.data-apoteker.log-stok-obat', compact(
+            'obats',
+            'satuans'
+        ));
+    }
+
+    /**
      * Mengambil data log stok untuk DataTables.
      */
     public function data()
@@ -39,9 +56,9 @@ class LogStokObatController extends Controller
                 'obat',
                 'stokObat.satuanObat'
             ])
-            ->orderByDesc('tanggal_update')
-            ->orderByDesc('id')
-            ->get();
+                ->orderByDesc('tanggal_update')
+                ->orderByDesc('id')
+                ->get();
 
             $data = $logs->map(function ($log) {
 
@@ -137,12 +154,12 @@ class LogStokObatController extends Controller
                     'obat_id',
                     $validated['obat_id']
                 )
-                ->where(
-                    'satuan_obat_id',
-                    $validated['satuan_obat_id']
-                )
-                ->lockForUpdate()
-                ->first();
+                    ->where(
+                        'satuan_obat_id',
+                        $validated['satuan_obat_id']
+                    )
+                    ->lockForUpdate()
+                    ->first();
 
                 // Ambil harga jual jika stok belum tersedia
                 // atau harga jual masih kosong.
@@ -152,11 +169,11 @@ class LogStokObatController extends Controller
                         'obat_id',
                         $validated['obat_id']
                     )
-                    ->where(
-                        'satuan_id',
-                        $validated['satuan_obat_id']
-                    )
-                    ->first();
+                        ->where(
+                            'satuan_id',
+                            $validated['satuan_obat_id']
+                        )
+                        ->first();
 
                     if (!$hargaJual || (float) $hargaJual->harga <= 0) {
                         throw new \RuntimeException(

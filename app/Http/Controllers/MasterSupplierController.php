@@ -331,6 +331,14 @@ public function indexApoteker()
     return view('apoteker.supplier-obat', compact('suppliers'));
 }
 
+// HALAMAN SUPPLIER KHUSUS ADMIN
+public function indexAdmin()
+{
+    $suppliers = MasterSupplier::orderBy('nama', 'asc')->get();
+
+    return view('admin.data-apoteker.supplier-obat', compact('suppliers'));
+}
+
 // ==================================================
 // DATA SUPPLIER KHUSUS APOTEKER
 // ==================================================

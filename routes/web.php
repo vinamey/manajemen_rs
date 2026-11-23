@@ -126,6 +126,76 @@ Route::middleware(['auth', 'admin.rs'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
+        
+// DATA KASIR - PEMBAYARAN ADMIN
+Route::get('/data-kasir/pembayaran', [
+    PembayaranController::class,
+    'indexAdmin'
+])->name('kasir.pembayaran');
+
+Route::post('/data-kasir/pembayaran/{id}/proses', [
+    PembayaranController::class,
+    'prosesAdmin'
+])->name('kasir.pembayaran.proses');
+
+Route::post('/data-kasir/pembayaran/{id}/verifikasi', [
+    PembayaranController::class,
+    'verifikasiAdmin'
+])->name('kasir.pembayaran.verifikasi');
+
+Route::delete('/data-kasir/pembayaran/{id}/hapus', [
+    PembayaranController::class,
+    'destroyAdmin'
+])->name('kasir.pembayaran.hapus');
+
+// DATA OBAT ADMIN
+Route::get('/data-apoteker/data-obat', [
+    MasterObatController::class,
+    'indexAdmin'
+])->name('apoteker.obat.index');
+
+Route::get('/data-apoteker/data-obat/data', [
+    MasterObatController::class,
+    'dataAdmin'
+])->name('apoteker.obat.data');
+
+Route::post('/data-apoteker/obat/harga', [
+    MasterObatController::class,
+    'storeHarga'
+])->name('apoteker.obat.harga.store');
+
+// LOG STOK OBAT ADMIN
+Route::get('/data-apoteker/log-stok-obat', [
+    LogStokObatController::class,
+    'indexAdmin'
+])->name('apoteker.log-stok.index');
+
+Route::get('/data-apoteker/log-stok-obat/data', [
+    LogStokObatController::class,
+    'data'
+])->name('apoteker.log-stok.data');
+
+Route::post('/data-apoteker/log-stok-obat', [
+    LogStokObatController::class,
+    'store'
+])->name('apoteker.log-stok.store');
+
+// SUPPLIER OBAT ADMIN
+Route::get('/data-apoteker/supplier-obat', [
+    MasterSupplierController::class,
+    'indexAdmin'
+])->name('apoteker.supplier.index');
+
+Route::get('/data-apoteker/supplier-obat/data', [
+    MasterSupplierController::class,
+    'dataApoteker'
+])->name('apoteker.supplier.data');
+
+// RESEP DOKTER ADMIN
+Route::get('/data-apoteker/resep-dokter', [
+    KasirResepController::class,
+    'indexAdmin'
+])->name('apoteker.resep.index');
 
         Route::get('/data-pasien/data', [
             MasterPasienController::class,
@@ -361,22 +431,22 @@ Route::middleware([
 
 
 // ==================================================
-// UPDATE STOK OBAT
+// UPDATE STOK OBAT KHUSUS APOTEKER
 // ==================================================
 
 Route::middleware([
     'auth',
-    'role:super admin|admin rumah sakit|apoteker'
+    'role:apoteker|Apoteker'
 ])->prefix('apoteker')->name('apoteker.')->group(function () {
 
     Route::get('/update-stok-obat', [
         LogStokObatController::class,
-        'updateStok'
+        'index'
     ])->name('update-stok-obat.index');
 
     Route::get('/update-stok-obat/data', [
         LogStokObatController::class,
-        'updateStokobat'
+        'data'
     ])->name('log-stok-obat.update-stok-obat');
 
     Route::post('/update-stok-obat', [
@@ -384,8 +454,6 @@ Route::middleware([
         'store'
     ])->name('update-stok-obat.store');
 });
-
-
 // ==================================================
 // DASHBOARD KASIR
 // ==================================================

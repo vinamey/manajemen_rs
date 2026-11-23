@@ -258,6 +258,7 @@ public function indexDokter()
     return view('dokter.data-pasien');
 }
 
+
 // DATA PASIEN KHUSUS DOKTER
 public function dataDokter()
 {
@@ -270,14 +271,59 @@ public function dataDokter()
                 ->where('dokter_id', $dokterId)
                 ->whereNotNull('pasien_id');
         })
-        ->select(['id', 'nama'])
+        ->select([
+            'id',
+            'nama',
+            'jenis_kelamin',
+            'tanggal_lahir',
+            'alamat',
+            'golongan_darah',
+            'status_asuransi',
+        ])
         ->distinct()
         ->orderBy('nama', 'asc');
 
     return DataTables::eloquent($pasiens)
         ->addIndexColumn()
+
+        ->editColumn('jenis_kelamin', function ($pasien) {
+            $jk = strtolower((string) $pasien->jenis_kelamin);
+
+            if (in_array($jk, ['l', 'laki_laki', 'laki-laki'])) {
+                return 'Laki-laki';
+            }
+
+            if (in_array($jk, ['p', 'perempuan'])) {
+                return 'Perempuan';
+            }
+
+            return $pasien->jenis_kelamin ?: '-';
+        })
+
+        ->editColumn('tanggal_lahir', function ($pasien) {
+            return $pasien->tanggal_lahir
+                ? Carbon::parse($pasien->tanggal_lahir)->format('d-m-Y')
+                : '-';
+        })
+
+        ->editColumn('alamat', function ($pasien) {
+            return $pasien->alamat ?: '-';
+        })
+
+        ->editColumn('golongan_darah', function ($pasien) {
+            return $pasien->golongan_darah ?: '-';
+        })
+
+        ->editColumn('status_asuransi', function ($pasien) {
+            return $this->formatStatusAsuransi(
+                $pasien->status_asuransi
+            );
+        })
+
         ->toJson();
 }
+
+
 
 
 public function indexPerawat(Request $request)
@@ -288,12 +334,55 @@ public function indexPerawat(Request $request)
                 ->from('pendaftaran_pasiens')
                 ->whereNotNull('pasien_id');
         })
-        ->select(['id', 'nama'])
+        ->select([
+            'id',
+            'nama',
+            'jenis_kelamin',
+            'tanggal_lahir',
+            'alamat',
+            'golongan_darah',
+            'status_asuransi',
+        ])
         ->orderBy('nama', 'asc');
 
     if ($request->ajax()) {
         return DataTables::eloquent($pasiens)
             ->addIndexColumn()
+
+            ->editColumn('jenis_kelamin', function ($pasien) {
+                $jk = strtolower((string) $pasien->jenis_kelamin);
+
+                if (in_array($jk, ['l', 'laki_laki', 'laki-laki'])) {
+                    return 'Laki-laki';
+                }
+
+                if (in_array($jk, ['p', 'perempuan'])) {
+                    return 'Perempuan';
+                }
+
+                return $pasien->jenis_kelamin ?: '-';
+            })
+
+            ->editColumn('tanggal_lahir', function ($pasien) {
+                return $pasien->tanggal_lahir
+                    ? Carbon::parse($pasien->tanggal_lahir)->format('d-m-Y')
+                    : '-';
+            })
+
+            ->editColumn('alamat', function ($pasien) {
+                return $pasien->alamat ?: '-';
+            })
+
+            ->editColumn('golongan_darah', function ($pasien) {
+                return $pasien->golongan_darah ?: '-';
+            })
+
+            ->editColumn('status_asuransi', function ($pasien) {
+                return $this->formatStatusAsuransi(
+                    $pasien->status_asuransi
+                );
+            })
+
             ->toJson();
     }
 

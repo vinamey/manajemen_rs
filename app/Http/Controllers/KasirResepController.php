@@ -49,6 +49,25 @@ class KasirResepController extends Controller
     }
 
     /**
+ * Halaman resep khusus Admin Rumah Sakit.
+ * Admin hanya melihat resep yang masih menunggu.
+ */
+public function indexAdmin()
+{
+    $resepObats = ResepObat::with([
+        'pemeriksaan.pendaftaran.pasien',
+        'pemeriksaan.dokter',
+        'detailResep.obat',
+        'detailResep.satuan',
+    ])
+        ->where('status', 'menunggu')
+        ->latest()
+        ->paginate(10);
+
+    return view('admin.data-apoteker.resep-dokter', compact('resepObats'));
+}
+
+    /**
      * Proses resep oleh Apoteker.
      */
     public function prosesApoteker($id)
