@@ -28,44 +28,72 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
 
     public function collection(): Enumerable
     {
-        // LAPORAN PASIEN
         if ($this->type == 'pasien') {
-            return DB::table('pasiens')
-                ->select(
-                    'id',
-                    'no_rekam_medis',
-                    'nama_pasien',
-                    'jenis_kelamin',
-                    'tanggal_masuk'
+
+            $query = DB::table('pendaftaran_pasiens')
+                ->leftJoin(
+                    'master_pasiens',
+                    'pendaftaran_pasiens.pasien_id',
+                    '=',
+                    'master_pasiens.id'
                 )
-                ->orderBy('id', 'asc')
-                ->get()
-                ->map(function ($item) {
+                ->select(
+                    'pendaftaran_pasiens.id',
+                    'pendaftaran_pasiens.tanggal_pendaftaran',
+                    'master_pasiens.nama as nama_pasien',
+                    'master_pasiens.jenis_kelamin'
+                )
+                ->selectSub(function ($subquery) {
+                    $subquery->from('pasiens')
+                        ->select('no_rekam_medis')
+                        ->whereRaw(
+                            'LOWER(TRIM(pasiens.nama_pasien)) = LOWER(TRIM(master_pasiens.nama))'
+                        )
+                        ->whereRaw(
+                            'LOWER(TRIM(pasiens.jenis_kelamin)) = LOWER(TRIM(master_pasiens.jenis_kelamin))'
+                        )
+                        ->orderBy('id', 'asc')
+                        ->limit(1);
+                }, 'no_rekam_medis')
+                ->orderBy('pendaftaran_pasiens.id', 'asc');
 
-                    $jenisKelamin = strtoupper(trim($item->jenis_kelamin ?? ''));
+          
+            if (Schema::hasColumn('pendaftaran_pasiens', 'deleted_at')) {
+                $query->whereNull('pendaftaran_pasiens.deleted_at');
+            }
 
-                    if ($jenisKelamin === 'L') {
-                        $jenisKelamin = 'Laki-laki';
-                    } elseif ($jenisKelamin === 'P') {
-                        $jenisKelamin = 'Perempuan';
-                    } elseif ($jenisKelamin === '') {
-                        $jenisKelamin = '-';
-                    }
+            return $query->get()->map(function ($item) {
 
-                    return [
-                        'id' => $item->id,
-                        'no_rekam_medis' => $item->no_rekam_medis,
-                        'nama_pasien' => $item->nama_pasien,
-                        'jenis_kelamin' => $jenisKelamin,
-                        'tanggal_masuk' => $item->tanggal_masuk
-                            ? Carbon::parse($item->tanggal_masuk)->format('d-m-Y')
-                            : '-',
-                    ];
-                });
+                $jenisKelamin = strtolower(trim($item->jenis_kelamin ?? ''));
+
+                if ($jenisKelamin === 'l') {
+                    $jenisKelamin = 'Laki-laki';
+                } elseif ($jenisKelamin === 'p') {
+                    $jenisKelamin = 'Perempuan';
+                } elseif ($jenisKelamin === 'laki-laki') {
+                    $jenisKelamin = 'Laki-laki';
+                } elseif ($jenisKelamin === 'perempuan') {
+                    $jenisKelamin = 'Perempuan';
+                } else {
+                    $jenisKelamin = '-';
+                }
+
+                return [
+                    'no_rekam_medis' => $item->no_rekam_medis ?? '-',
+                    'nama_pasien' => $item->nama_pasien ?? '-',
+                    'jenis_kelamin' => $jenisKelamin,
+                    'tanggal_pendaftaran' => $item->tanggal_pendaftaran
+                        ? Carbon::parse($item->tanggal_pendaftaran)->format('d-m-Y')
+                        : '-',
+                ];
+            });
         }
 
+        // ==========================================
         // LAPORAN PENDAPATAN
+        // ==========================================
         elseif ($this->type == 'pendapatan') {
+
             $table = 'pembayarans';
             $columns = Schema::getColumnListing($table);
 
@@ -138,7 +166,7 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
                     "UPPER(TRIM(`{$statusColumn}`)) = ?",
                     ['LUNAS']
                 )
-               ->orderBy('id', 'asc')
+                ->orderBy('id', 'asc')
                 ->get();
 
             return $payments->map(function ($item) use (
@@ -147,6 +175,7 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
                 $descriptionColumn,
                 $columns
             ) {
+
                 $keterangan = '-';
 
                 if ($descriptionColumn) {
@@ -180,9 +209,11 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
             });
         }
 
-
+        // ==========================================
         // LAPORAN DATA OBAT
+        // ==========================================
         elseif ($this->type == 'data-obat') {
+
             return DB::table('stok_obats')
                 ->join(
                     'master_obats',
@@ -195,10 +226,10 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
                     'stok_obats.stok_tersedia as stok',
                     'stok_obats.harga_jual as harga'
                 )
-                // Urutkan berdasarkan ID stok dari terkecil ke terbesar
                 ->orderBy('stok_obats.id', 'asc')
                 ->get()
                 ->map(function ($item, $key) {
+
                     return [
                         'no' => $key + 1,
                         'nama_obat' => $item->nama_obat,
@@ -211,15 +242,17 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
         return collect([]);
     }
 
+    // ==========================================
+    // JUDUL KOLOM EXCEL
+    // ==========================================
     public function headings(): array
     {
         if ($this->type == 'pasien') {
             return [
-                'ID',
                 'No. Rekam Medis',
                 'Nama Pasien',
                 'Jenis Kelamin',
-                'Tanggal Masuk'
+                'Tanggal Pendaftaran'
             ];
         }
 
@@ -244,17 +277,21 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
         return [];
     }
 
+    // ==========================================
+    // STYLE EXCEL
+    // ==========================================
     public function styles(Worksheet $sheet): ?array
     {
         $lastRow = max(1, $sheet->getHighestRow());
 
         $lastColumn = match ($this->type) {
-            'pasien' => 'E',
+            'pasien' => 'D',
             'pendapatan' => 'D',
             'data-obat' => 'D',
             default => 'D',
         };
 
+        // Header
         $sheet->getStyle("A1:{$lastColumn}1")->applyFromArray([
             'font' => [
                 'bold' => true,
@@ -275,6 +312,7 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
             ],
         ]);
 
+        // Border seluruh tabel
         $sheet
             ->getStyle("A1:{$lastColumn}{$lastRow}")
             ->getBorders()
@@ -286,6 +324,9 @@ class LaporanExport implements FromCollection, WithHeadings, WithStyles, ShouldA
         return [];
     }
 
+    // ==========================================
+    // FORMAT KOLOM
+    // ==========================================
     public function columnFormats(): array
     {
         if ($this->type == 'data-obat') {
