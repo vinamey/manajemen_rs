@@ -9,7 +9,7 @@ class MasterKategori extends Model
     protected $table = 'master_kategoris';
 
     protected $fillable = [
-        'kode',
+        
         'nama',
     ];
 }

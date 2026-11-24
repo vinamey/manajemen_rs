@@ -10,28 +10,27 @@ use Yajra\DataTables\Facades\DataTables;
 
 class MasterTindakanController extends Controller
 {
-    /**
-     * =========================================================
-     * HALAMAN MASTER TINDAKAN
-     * =========================================================
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | HALAMAN MASTER TINDAKAN
+    |--------------------------------------------------------------------------
+    */
     public function index()
     {
         return view('master-tindakan.index');
     }
 
 
-    /**
-     * =========================================================
-     * DATA YAJRA
-     * =========================================================
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | DATA YAJRA
+    |--------------------------------------------------------------------------
+    */
     public function data()
     {
         $tindakans = MasterTindakan::query()
             ->select([
                 'id',
-                'kode',
                 'nama',
             ])
             ->orderByDesc('id');
@@ -42,12 +41,15 @@ class MasterTindakanController extends Controller
 
             ->addColumn('aksi', function ($tindakan) {
 
+                $id = (int) $tindakan->id;
+
                 return '
                     <div class="d-flex justify-content-center gap-1">
 
                         <button
                             type="button"
                             class="btn btn-sm btn-action-view-tindakan"
+                            data-id="' . $id . '"
                             title="Lihat"
                         >
                             <i class="fas fa-eye me-1"></i>
@@ -57,6 +59,7 @@ class MasterTindakanController extends Controller
                         <button
                             type="button"
                             class="btn btn-sm btn-action-edit-tindakan"
+                            data-id="' . $id . '"
                             title="Edit"
                         >
                             <i class="fas fa-edit me-1"></i>
@@ -66,6 +69,7 @@ class MasterTindakanController extends Controller
                         <button
                             type="button"
                             class="btn btn-sm btn-action-delete-tindakan"
+                            data-id="' . $id . '"
                             title="Hapus"
                         >
                             <i class="fas fa-trash me-1"></i>
@@ -84,66 +88,74 @@ class MasterTindakanController extends Controller
     }
 
 
-    /**
-     * =========================================================
-     * CREATE
-     * =========================================================
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE
+    |--------------------------------------------------------------------------
+    */
     public function create()
     {
         return view('master-tindakan.create');
     }
 
 
-    /**
-     * =========================================================
-     * SIMPAN DATA
-     * =========================================================
-     */
-
-public function store(Request $request)
+    /*
+    |--------------------------------------------------------------------------
+    | SIMPAN DATA
+    |--------------------------------------------------------------------------
+    */
+   public function store(Request $request)
 {
     $validated = $request->validate([
-        'kode' => 'required|string|max:255',
         'nama' => 'required|string|max:255',
     ], [
-        'kode.required' => 'Kode tindakan wajib diisi.',
-        'kode.max' => 'Kode tindakan maksimal 255 karakter.',
         'nama.required' => 'Nama tindakan wajib diisi.',
         'nama.max' => 'Nama tindakan maksimal 255 karakter.',
     ]);
 
     try {
-        MasterTindakan::create([
-            'kode' => $validated['kode'],
+
+        $tindakan = MasterTindakan::create([
             'nama' => $validated['nama'],
         ]);
 
-        return redirect()
-            ->route('master-tindakan.index')
-            ->with('success', 'Data tindakan berhasil ditambahkan.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data tindakan berhasil ditambahkan.',
+            'data' => [
+                'id' => $tindakan->id,
+                'nama' => $tindakan->nama,
+            ],
+        ], 201);
 
     } catch (\Throwable $e) {
+
         \Log::error('Gagal menyimpan Master Tindakan', [
             'message' => $e->getMessage(),
         ]);
 
-        return back()
-            ->withInput()
-            ->with('error', 'Data tindakan gagal disimpan.');
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tindakan gagal disimpan.',
+        ], 500);
     }
 }
 
-    /**
-     * =========================================================
-     * DETAIL
-     * =========================================================
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | DETAIL
+    |--------------------------------------------------------------------------
+    */
     public function show(string $id)
     {
         try {
 
-            $tindakan = MasterTindakan::findOrFail($id);
+            $tindakan = MasterTindakan::query()
+                ->select([
+                    'id',
+                    'nama',
+                ])
+                ->findOrFail($id);
 
             return response()->json([
                 'success' => true,
@@ -154,84 +166,72 @@ public function store(Request $request)
 
             return response()->json([
                 'success' => false,
-                'message' =>
-                    'Data tindakan tidak ditemukan.',
+                'message' => 'Data tindakan tidak ditemukan.',
             ], 404);
         }
     }
 
 
-    /**
-     * =========================================================
-     * EDIT
-     * =========================================================
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT
+    |--------------------------------------------------------------------------
+    */
     public function edit(string $id)
+    {
+        try {
+
+            $tindakan = MasterTindakan::query()
+                ->select([
+                    'id',
+                    'nama',
+                ])
+                ->findOrFail($id);
+
+            return response()->json([
+                'success' => true,
+                'data' => $tindakan,
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tindakan tidak ditemukan.',
+            ], 404);
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+    public function update(Request $request, string $id)
     {
         try {
 
             $tindakan = MasterTindakan::findOrFail($id);
 
-            return response()->json([
-                'success' => true,
-                'data' => $tindakan,
-            ]);
-
-        } catch (\Throwable $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' =>
-                    'Data tindakan tidak ditemukan.',
-            ], 404);
-        }
-    }
-
-
-    /**
-     * =========================================================
-     * UPDATE
-     * =========================================================
-     */
-    public function update(
-        Request $request,
-        string $id
-    ) {
-        try {
-
-            $tindakan =
-                MasterTindakan::findOrFail($id);
-
-
             $validated = $request->validate([
-                'kode' => 'required|string|max:255',
                 'nama' => 'required|string|max:255',
             ], [
-                'kode.required' =>
-                    'Kode tindakan wajib diisi.',
-
-                'kode.max' =>
-                    'Kode tindakan maksimal 255 karakter.',
-
-                'nama.required' =>
-                    'Nama tindakan wajib diisi.',
-
-                'nama.max' =>
-                    'Nama tindakan maksimal 255 karakter.',
+                'nama.required' => 'Nama tindakan wajib diisi.',
+                'nama.max' => 'Nama tindakan maksimal 255 karakter.',
             ]);
 
-
             $tindakan->update([
-                'kode' => $validated['kode'],
                 'nama' => $validated['nama'],
             ]);
 
-
             return response()->json([
                 'success' => true,
-                'message' =>
-                    'Data tindakan berhasil diperbarui.',
-                'data' => $tindakan,
+                'message' => 'Data tindakan berhasil diperbarui.',
+                'data' => [
+                    'id' => $tindakan->id,
+                    'nama' => $tindakan->nama,
+                ],
             ]);
 
         } catch (ValidationException $e) {
@@ -244,34 +244,34 @@ public function store(Request $request)
 
         } catch (\Throwable $e) {
 
+            \Log::error('Gagal memperbarui Master Tindakan', [
+                'message' => $e->getMessage(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' =>
-                    'Terjadi kesalahan saat memperbarui data tindakan.',
+                'message' => 'Terjadi kesalahan saat memperbarui data tindakan.',
             ], 500);
         }
     }
 
 
-    /**
-     * =========================================================
-     * HAPUS
-     * =========================================================
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | HAPUS
+    |--------------------------------------------------------------------------
+    */
     public function destroy(string $id)
     {
         try {
 
-            $tindakan =
-                MasterTindakan::findOrFail($id);
+            $tindakan = MasterTindakan::findOrFail($id);
 
             $tindakan->delete();
 
-
             return response()->json([
                 'success' => true,
-                'message' =>
-                    'Data tindakan berhasil dihapus.',
+                'message' => 'Data tindakan berhasil dihapus.',
             ]);
 
         } catch (QueryException $e) {
@@ -280,24 +280,20 @@ public function store(Request $request)
 
                 return response()->json([
                     'success' => false,
-                    'message' =>
-                        'Data tindakan tidak dapat dihapus karena masih digunakan pada data lain.',
+                    'message' => 'Data tindakan tidak dapat dihapus karena masih digunakan pada data lain.',
                 ], 422);
             }
 
-
             return response()->json([
                 'success' => false,
-                'message' =>
-                    'Gagal menghapus data tindakan.',
+                'message' => 'Gagal menghapus data tindakan.',
             ], 500);
 
         } catch (\Throwable $e) {
 
             return response()->json([
                 'success' => false,
-                'message' =>
-                    'Data tindakan tidak ditemukan atau gagal dihapus.',
+                'message' => 'Data tindakan tidak ditemukan atau gagal dihapus.',
             ], 404);
         }
     }

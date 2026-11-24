@@ -114,20 +114,7 @@
             background-image: none !important
         }
 
-        .kode-kategori-badge,
-        .nama-kategori-badge {
-            display: inline-block;
-            padding: 6px 9px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: 600
-        }
-
-        .kode-kategori-badge {
-            background: #e7f3ff;
-            color: #1877f2
-        }
-
+        
         .nama-kategori-badge {
             background: #fff1e6;
             color: #e67e22
@@ -205,39 +192,41 @@
         }
 
         .modal-kategori-besar {
-            max-width: 560px
-        }
+        max-width: 500px;
+        width: calc(100% - 30px);
+        margin: 1.75rem auto;
+    }
 
-        .modal-kategori-besar .modal-content {
-            border: 0;
-            border-radius: 12px;
-            overflow: visible;
-            box-shadow: 0 15px 35px #00000024
-        }
+    .modal-kategori-besar .modal-content {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        background: #fff;
+    }
 
-        .modal-kategori-besar .modal-header {
-            background: #1877f2;
-            color: white;
-            border: 0;
-            padding: 16px 20px;
-            border-radius: 12px 12px 0 0
-        }
+    .modal-kategori-besar .modal-header {
+        background: #1877f2;
+        color: white;
+        border: none;
+        padding: 15px 18px;
+        border-radius: 0;
+    }
 
-        .modal-kategori-besar .modal-title {
-            font-size: 15px;
-            font-weight: 600
-        }
+    .modal-kategori-besar .modal-title {
+        font-size: 15px;
+        font-weight: 600;
+    }
 
-        .modal-kategori-besar .modal-body {
-            padding: 24px
-        }
+    .modal-kategori-besar .modal-body {
+        padding: 18px;
+    }
 
-        .modal-kategori-besar .modal-footer {
-            background: #f8fafc;
-            border: 0;
-            padding: 14px 20px;
-            border-radius: 0 0 12px 12px
-        }
+    .modal-kategori-besar .modal-footer {
+        background: #fff;
+        border-top: 1px solid #edf0f4;
+        padding: 12px 18px;
+    }
 
         .form-kategori-group {
             margin-bottom: 18px
@@ -441,7 +430,6 @@
                     <thead>
                         <tr>
                             <th class="text-center" style="width:70px">No</th>
-                            <th style="width:180px">Kode Kategori</th>
                             <th>Nama Kategori</th>
                             <th class="text-center" style="width:220px">Aksi</th>
                         </tr>
@@ -479,22 +467,6 @@
 
                 {{-- BODY --}}
                 <div class="modal-body">
-
-                    {{-- KODE KATEGORI --}}
-                    <div class="form-kategori-group">
-                        <label for="tambahKode" class="form-kategori-label">
-                            Kode Kategori
-                        </label>
-
-                        <input
-                            type="text"
-                            name="kode"
-                            id="tambahKode"
-                            class="form-kategori-control"
-                            placeholder="Masukkan kode kategori"
-                            required
-                        >
-                    </div>
 
                     {{-- NAMA KATEGORI --}}
                     <div class="form-kategori-group">
@@ -537,63 +509,162 @@
     </div>
 </div>
 
-    {{-- MODAL LIHAT --}}
-    <div class="modal fade" id="modalLihatKategori" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-eye"></i> Detail Kategori</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    
+{{-- MODAL LIHAT KATEGORI --}}
+<div
+    class="modal fade"
+    id="modalLihatKategori"
+    tabindex="-1"
+    aria-labelledby="judulDetailKategori"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
+
+        <div class="modal-content">
+
+            {{-- HEADER --}}
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="judulDetailKategori">
+                    <i class="fas fa-eye me-2"></i>
+                    Detail Kategori
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Tutup"
+                ></button>
+
+            </div>
+
+            {{-- BODY --}}
+            <div class="modal-body">
+
+                <div class="form-kategori-group mb-0">
+
+                    <label class="form-kategori-label">
+                        Nama Kategori
+                    </label>
+
+                    <div id="lihatNama" class="detail-kategori-value">
+                        -
+                    </div>
+
                 </div>
+
+            </div>
+
+            {{-- FOOTER --}}
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-batal-kategori"
+                    data-bs-dismiss="modal"
+                >
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+    
+{{-- MODAL EDIT KATEGORI --}}
+<div
+    class="modal fade"
+    id="modalEditKategori"
+    tabindex="-1"
+    aria-labelledby="judulEditKategori"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
+
+        <div class="modal-content">
+
+            {{-- HEADER --}}
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="judulEditKategori">
+                    <i class="fas fa-edit me-2"></i>
+                    Edit Kategori
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Tutup"
+                ></button>
+
+            </div>
+
+            {{-- FORM EDIT --}}
+            <form id="formEditKategori" method="POST">
+
+                @csrf
+                @method('PUT')
+
+                {{-- BODY --}}
                 <div class="modal-body">
-                    <div class="form-kategori-group">
-                        <label class="form-kategori-label">Kode Kategori</label>
-                        <div id="lihatKode" class="detail-kategori-value">-</div>
+
+                    <div class="form-kategori-group mb-0">
+
+                        <label
+                            for="editNama"
+                            class="form-kategori-label"
+                        >
+                            Nama Kategori
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nama"
+                            id="editNama"
+                            class="form-kategori-control"
+                            placeholder="Masukkan nama kategori"
+                            required
+                        >
+
                     </div>
-                    <div class="form-kategori-group">
-                        <label class="form-kategori-label">Nama Kategori</label>
-                        <div id="lihatNama" class="detail-kategori-value">-</div>
-                    </div>
+
                 </div>
+
+                {{-- FOOTER --}}
                 <div class="modal-footer">
-                    <button type="button" class="btn-batal-kategori" data-bs-dismiss="modal">Tutup</button>
+
+                    <button
+                        type="button"
+                        class="btn-batal-kategori"
+                        data-bs-dismiss="modal"
+                    >
+                        Batal
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="btnUpdateKategori"
+                        class="btn-simpan-kategori"
+                    >
+                        <i class="fas fa-save me-1"></i>
+                        Simpan Perubahan
+                    </button>
+
                 </div>
-            </div>
+
+            </form>
+
         </div>
+
     </div>
+</div>
 
-    {{-- MODAL EDIT --}}
-    <div class="modal fade" id="modalEditKategori" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-kategori-besar">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-edit"></i> Edit Kategori</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-
-                <form id="formEditKategori" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body">
-                        <div class="form-kategori-group">
-                            <label for="editKode" class="form-kategori-label">Kode Kategori</label>
-                            <input type="text" name="kode" id="editKode" class="form-kategori-control" required>
-                        </div>
-                        <div class="form-kategori-group">
-                            <label for="editNama" class="form-kategori-label">Nama Kategori</label>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn-batal-kategori" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" id="btnUpdateKategori" class="btn-simpan-kategori">
-                            <i class="fas fa-save"></i> Simpan Perubahan
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     {{-- MODAL HAPUS --}}
     <div class="modal fade" id="modalHapusKategori" tabindex="-1" aria-hidden="true">
@@ -650,16 +721,7 @@ $(function () {
                 orderable: false,
                 className: 'text-center'
             },
-            {
-                data: 'kode',
-                orderable: false,
-                render: function (data) {
-                    return $('<span>')
-                        .addClass('kode-kategori-badge')
-                        .text(data || '-')
-                        .prop('outerHTML');
-                }
-            },
+           
             {
                 data: 'nama',
                 orderable: false,
@@ -753,7 +815,10 @@ $(function () {
                 });
             },
             error: function (xhr) {
-                tampilkanError(xhr, 'Gagal menyimpan kategori.');
+                console.log('STATUS:', xhr.status);
+                console.log('RESPONSE:', xhr.responseText);
+
+                tampilkanError(xhr, 'Gagal memperbarui kategori.');
             },
             complete: function () {
                 tombol.prop('disabled', false)
@@ -767,7 +832,7 @@ $(function () {
         const data = table.row($(this).closest('tr')).data();
         if (!data) return;
 
-        $('#lihatKode').text(data.kode || '-');
+        
         $('#lihatNama').text(data.nama || '-');
 
         bootstrap.Modal.getOrCreateInstance(
@@ -780,7 +845,7 @@ $(function () {
         const data = table.row($(this).closest('tr')).data();
         if (!data) return;
 
-        $('#editKode').val(data.kode || '');
+       
         $('#editNama').val(data.nama || '').trigger('change');
         $('#formEditKategori').attr('action', baseUrl + '/' + data.id);
 

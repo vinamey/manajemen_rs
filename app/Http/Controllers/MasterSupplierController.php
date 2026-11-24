@@ -26,94 +26,33 @@ class MasterSupplierController extends Controller
      * =========================================================
      */
     public function data()
-    {
-        $suppliers = MasterSupplier::query()
-            ->select([
-                'id',
-                'kode',
-                'nama',
-                'created_at',
-                'updated_at'
-            ]);
+{
+    $suppliers = MasterSupplier::select('id', 'nama');
 
-        return DataTables::of($suppliers)
+    return DataTables::of($suppliers)
+        ->addIndexColumn()
+       ->addColumn('aksi', function ($supplier) {
 
-            /**
-             * Nomor urut DataTables
-             */
-            ->addIndexColumn()
+    return '
+        <button class="btn btn-info btn-sm btn-lihat">
+            Lihat
+        </button>
 
-            /**
-             * Kolom aksi
-             */
-            ->addColumn('aksi', function ($supplier) {
+        <button class="btn btn-warning btn-sm btn-edit">
+            Edit
+        </button>
 
-                $updateUrl = route(
-                    'master-supplier.update',
-                    $supplier->id
-                );
-
-                $deleteUrl = route(
-                    'master-supplier.destroy',
-                    $supplier->id
-                );
-
-                return '
-                    <div class="action-buttons">
-
-                        <button
-                            type="button"
-                            class="btn-aksi btn-lihat"
-                            data-id="' . $supplier->id . '"
-                            data-kode="' . e($supplier->kode) . '"
-                            data-nama="' . e($supplier->nama) . '"
-                            title="Lihat"
-                        >
-                            <i class="fas fa-eye"></i>
-                            <span>Lihat</span>
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="btn-aksi btn-edit"
-                            data-id="' . $supplier->id . '"
-                            data-kode="' . e($supplier->kode) . '"
-                            data-nama="' . e($supplier->nama) . '"
-                            data-url="' . $updateUrl . '"
-                            title="Edit"
-                        >
-                            <i class="fas fa-edit"></i>
-                            <span>Edit</span>
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="btn-aksi btn-hapus btn-hapus-supplier"
-                            data-id="' . $supplier->id . '"
-                            data-nama="' . e($supplier->nama) . '"
-                            data-url="' . $deleteUrl . '"
-                            title="Hapus"
-                        >
-                            <i class="fas fa-trash"></i>
-                            <span>Hapus</span>
-                        </button>
-
-                    </div>
-                ';
-            })
-
-            /**
-             * Izinkan HTML pada kolom aksi
-             */
-            ->rawColumns([
-                'aksi'
-            ])
-
-            ->make(true);
-    }
-
+        <button
+            class="btn btn-danger btn-sm btn-hapus-supplier"
+            data-url="'.route('master-supplier.destroy', $supplier->id).'"
+        >
+            Hapus
+        </button>
+    ';
+})
+        ->rawColumns(['aksi'])
+        ->make(true);
+}
 
     /**
      * =========================================================
@@ -135,54 +74,19 @@ class MasterSupplierController extends Controller
      * =========================================================
      */
     public function store(Request $request)
-    {
-        try {
+{
+    $validated = $request->validate([
+        'nama' => 'required|string|max:255',
+    ]);
 
-            $validated = $request->validate([
-                'kode' => [
-                    'required',
-                    'string',
-                    'max:50',
-                    'unique:master_suppliers,kode'
-                ],
+    $supplier = MasterSupplier::create($validated);
 
-                'nama' => [
-                    'required',
-                    'string',
-                    'max:255'
-                ],
-            ]);
-
-
-            $supplier = MasterSupplier::create([
-                'kode' => $validated['kode'],
-                'nama' => $validated['nama'],
-            ]);
-
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Data supplier berhasil ditambahkan.',
-                'data' => $supplier
-            ], 201);
-
-        } catch (ValidationException $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Validasi gagal.',
-                'errors' => $e->errors()
-            ], 422);
-
-        } catch (\Throwable $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
+    return response()->json([
+        'success' => true,
+        'message' => 'Supplier berhasil ditambahkan.',
+        'data' => $supplier,
+    ], 201);
+}
 
     /**
      * =========================================================
@@ -224,57 +128,19 @@ class MasterSupplierController extends Controller
      * UPDATE SUPPLIER
      * =========================================================
      */
-    public function update(
-        Request $request,
-        MasterSupplier $masterSupplier
-    ) {
-        try {
+    public function update(Request $request, MasterSupplier $masterSupplier)
+{
+    $validated = $request->validate([
+        'nama' => 'required|string|max:255',
+    ]);
 
-            $validated = $request->validate([
-                'kode' => [
-                    'required',
-                    'string',
-                    'max:50',
-                    'unique:master_suppliers,kode,' . $masterSupplier->id
-                ],
+    $masterSupplier->update($validated);
 
-                'nama' => [
-                    'required',
-                    'string',
-                    'max:255'
-                ],
-            ]);
-
-
-            $masterSupplier->update([
-                'kode' => $validated['kode'],
-                'nama' => $validated['nama'],
-            ]);
-
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Data supplier berhasil diperbarui.'
-            ], 200);
-
-        } catch (ValidationException $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Validasi gagal.',
-                'errors' => $e->errors()
-            ], 422);
-
-        } catch (\Throwable $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-
+    return response()->json([
+        'success' => true,
+        'message' => 'Supplier berhasil diperbarui.',
+    ]);
+}
     /**
      * =========================================================
      * HAPUS SUPPLIER

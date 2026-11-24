@@ -211,26 +211,6 @@
 
 
     /* =========================================================
-       BADGE KODE
-    ========================================================= */
-    .badge-code-asuransi {
-        background-color:
-            #e0f2fe !important;
-
-        color:
-            #0284c7 !important;
-
-        font-size: 11px;
-
-        font-weight: 500;
-
-        padding: 6px 12px;
-
-        border-radius: 6px;
-    }
-
-
-    /* =========================================================
        ACTION
     ========================================================= */
     .btn-action-view-asuransi {
@@ -706,10 +686,6 @@
                             </th>
 
                             <th>
-                                Kode
-                            </th>
-
-                            <th>
                                 Jenis Asuransi
                             </th>
 
@@ -740,6 +716,8 @@
 </div>
 
 
+
+
 {{-- =========================================================
      MODAL TAMBAH
 ========================================================= --}}
@@ -749,88 +727,43 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <div class="d-flex align-items-center gap-2">
-
                     <i class="fas fa-shield-alt"></i>
-
-                    <h5 class="modal-title">
-                        Tambah Asuransi
-                    </h5>
-
+                    <h5 class="modal-title">Tambah Asuransi</h5>
                 </div>
-
             </div>
 
-
             <form id="formTambahAsuransi">
-
                 @csrf
-
 
                 <div class="modal-body">
 
-                    {{-- KODE --}}
-                    <div class="form-group-asuransi">
+                    <div class="form-group-asuransi mb-0">
 
                         <label
-                            for="tambah_kode_asuransi"
+                            for="tambah_nama_asuransi"
                             class="form-label-asuransi"
                         >
-                            Kode Asuransi
+                            Jenis Asuransi
                         </label>
 
                         <input
                             type="text"
-                            id="tambah_kode_asuransi"
-                            name="kode"
-                            class="form-control-asuransi"
-                            placeholder="Contoh: ASR001"
-                            maxlength="255"
+                            id="tambah_nama_asuransi"
+                            name="nama"
+                            class="form-select-asuransi"
+                            placeholder="Masukkan jenis asuransi"
+                            autocomplete="off"
                             required
                         >
 
                     </div>
 
-
-
-
-{{-- JENIS --}}
-<div class="form-group-asuransi mb-0">
-
-    <label
-        for="tambah_nama_asuransi"
-        class="form-label-asuransi"
-    >
-        Jenis Asuransi
-    </label>
-
-    <select
-        id="tambah_nama_asuransi"
-        name="nama"
-        class="form-select-asuransi"
-        required
-    >
-        <option value="">-- Pilih Jenis Asuransi --</option>
-
-        <option value="BPJS Kesehatan">BPJS Kesehatan</option>
-        <option value="BPJS Ketenagakerjaan">BPJS Ketenagakerjaan</option>
-        <option value="Asuransi Swasta">Asuransi Swasta</option>
-        <option value="Asuransi Perusahaan">Asuransi Perusahaan</option>
-        <option value="Jaminan Kesehatan Daerah (Jamkesda)">Jaminan Kesehatan Daerah (Jamkesda)</option>
-        <option value="Jasa Raharja">Jasa Raharja</option>
-        <option value="Jaminan Kecelakaan Kerja (JKK)">Jaminan Kecelakaan Kerja (JKK)</option>
-        <option value="Umum (Bayar Mandiri)">Umum (Bayar Mandiri)</option>
-    </select>
-
-</div>
-
+                </div>
 
                 <div class="modal-footer">
 
@@ -841,7 +774,6 @@
                     >
                         Batal
                     </button>
-
 
                     <button
                         type="submit"
@@ -856,11 +788,8 @@
             </form>
 
         </div>
-
     </div>
-
 </div>
-
 
 {{-- =========================================================
      MODAL LIHAT
@@ -871,88 +800,41 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <div class="d-flex align-items-center gap-2">
-
                     <i class="fas fa-shield-alt"></i>
-
-                    <h5 class="modal-title">
-                        Detail Asuransi
-                    </h5>
-
+                    <h5 class="modal-title">Detail Asuransi</h5>
                 </div>
-
             </div>
 
-
             <div class="modal-body">
-
                 <table class="detail-asuransi-table">
-
                     <tr>
-
-                        <td class="detail-asuransi-label">
-                            ID
-                        </td>
-
+                        <td class="detail-asuransi-label">ID</td>
                         <td
                             class="detail-asuransi-value"
                             id="lihatAsuransiId"
                         >
                             -
                         </td>
-
                     </tr>
 
-
                     <tr>
-
-                        <td class="detail-asuransi-label">
-                            Kode
-                        </td>
-
-                        <td class="detail-asuransi-value">
-
-                            <span
-                                class="badge badge-code-asuransi"
-                                id="lihatAsuransiKode"
-                            >
-                                -
-                            </span>
-
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="detail-asuransi-label">
-                            Jenis Asuransi
-                        </td>
-
+                        <td class="detail-asuransi-label">Jenis Asuransi</td>
                         <td
                             class="detail-asuransi-value"
                             id="lihatAsuransiNama"
                         >
                             -
                         </td>
-
                     </tr>
-
                 </table>
-
             </div>
 
-
             <div class="modal-footer">
-
                 <button
                     type="button"
                     class="btn btn-modal-cancel-asuransi"
@@ -960,14 +842,12 @@
                 >
                     Tutup
                 </button>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
+
 
 
 {{-- =========================================================
@@ -979,64 +859,29 @@
     tabindex="-1"
     aria-hidden="true"
 >
-
     <div class="modal-dialog modal-dialog-centered">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <div class="d-flex align-items-center gap-2">
-
                     <i class="fas fa-edit"></i>
-
                     <h5 class="modal-title">
                         Edit Asuransi
                     </h5>
-
                 </div>
-
             </div>
 
-
             <form id="formEditAsuransi">
-
                 @csrf
                 @method('PUT')
-
 
                 <input
                     type="hidden"
                     id="edit_asuransi_id"
                 >
 
-
                 <div class="modal-body">
 
-                    {{-- KODE --}}
-                    <div class="form-group-asuransi">
-
-                        <label
-                            for="edit_kode_asuransi"
-                            class="form-label-asuransi"
-                        >
-                            Kode Asuransi
-                        </label>
-
-
-                        <input
-                            type="text"
-                            id="edit_kode_asuransi"
-                            name="kode"
-                            class="form-control-asuransi"
-                            maxlength="255"
-                            required
-                        >
-
-                    </div>
-
-
-                    {{-- JENIS --}}
                     <div class="form-group-asuransi mb-0">
 
                         <label
@@ -1046,40 +891,19 @@
                             Jenis Asuransi
                         </label>
 
-
-                        <select
+                        <input
+                            type="text"
                             id="edit_nama_asuransi"
                             name="nama"
                             class="form-select-asuransi"
+                            placeholder="Masukkan jenis asuransi"
+                            autocomplete="off"
                             required
                         >
 
-                            <option value="">
-                                -- Pilih Jenis Asuransi --
-                            </option>
-
-                            <option value="Gigi">
-                                Gigi
-                            </option>
-
-                            <option value="Rawat Inap">
-                                Rawat Inap
-                            </option>
-
-                            <option value="Penyakit Kritis">
-                                Penyakit Kritis
-                            </option>
-
-                            <option value="Rawat Jalan">
-                                Rawat Jalan
-                            </option>
-
-                        </select>
-
                     </div>
 
-                </div>
-
+                </div> {{-- PENUTUP MODAL-BODY --}}
 
                 <div class="modal-footer">
 
@@ -1090,7 +914,6 @@
                     >
                         Batal
                     </button>
-
 
                     <button
                         type="submit"
@@ -1105,11 +928,8 @@
             </form>
 
         </div>
-
     </div>
-
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -1156,104 +976,46 @@ $(document).ready(function () {
         ],
 
 
-        columns: [
+       columns: [
 
-            /*
-             * NO
-             */
-            {
-                data:
-                    'DT_RowIndex',
+    // NO
+    {
+        data: 'DT_RowIndex',
+        name: 'DT_RowIndex',
+        searchable: false,
+        orderable: false,
+        className: 'text-center'
+    },
 
-                name:
-                    'DT_RowIndex',
+    // JENIS ASURANSI
+    {
+        data: 'nama',
+        name: 'nama',
+        render: function (data) {
+            return `
+                <div class="d-flex align-items-center gap-2">
+                    <div class="avatar-asuransi">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
 
-                searchable:
-                    false,
+                    <div class="asuransi-name">
+                        ${escapeHtml(data || '-')}
+                    </div>
+                </div>
+            `;
+        }
+    },
 
-                orderable:
-                    false,
+    // AKSI
+    {
+        data: 'aksi',
+        name: 'aksi',
+        searchable: false,
+        orderable: false,
+        className: 'text-center'
+    }
 
-                className:
-                    'text-center'
-            },
-
-
-            /*
-             * KODE
-             */
-            {
-                data:
-                    'kode',
-
-                name:
-                    'kode',
-
-                render:
-                    function (data) {
-
-                        return `
-                            <span class="badge badge-code-asuransi">
-                                ${escapeHtml(data || '-')}
-                            </span>
-                        `;
-
-                    }
-            },
-
-
-            /*
-             * JENIS ASURANSI
-             */
-            {
-                data:
-                    'nama',
-
-                name:
-                    'nama',
-
-                render:
-                    function (data) {
-
-                        return `
-                            <div class="d-flex align-items-center gap-2">
-
-                                <div class="avatar-asuransi">
-                                    <i class="fas fa-shield-alt"></i>
-                                </div>
-
-                                <div class="asuransi-name">
-                                    ${escapeHtml(data || '-')}
-                                </div>
-
-                            </div>
-                        `;
-
-                    }
-            },
-
-
-            /*
-             * AKSI
-             */
-            {
-                data:
-                    'aksi',
-
-                name:
-                    'aksi',
-
-                searchable:
-                    false,
-
-                orderable:
-                    false,
-
-                className:
-                    'text-center'
-            }
-
-        ],
+],
 
 
         language: {
@@ -1441,53 +1203,28 @@ $(document).ready(function () {
     |--------------------------------------------------------------------------
     */
 
-    $('#tableAsuransi').on(
-        'click',
-        '.btn-action-view-asuransi',
-        function () {
+   $('#tableAsuransi').on(
+    'click',
+    '.btn-action-view-asuransi',
+    function () {
 
-            const data =
-                table
-                    .row(
-                        $(this).closest('tr')
-                    )
-                    .data();
+        const data = table.row($(this).closest('tr')).data();
 
+        console.log('DATA ASURANSI:', data);
 
-            if (!data) {
-                return;
-            }
-
-
-            $('#lihatAsuransiId').text(
-                data.id || '-'
-            );
-
-
-            $('#lihatAsuransiKode').text(
-                data.kode || '-'
-            );
-
-
-            $('#lihatAsuransiNama').text(
-                data.nama || '-'
-            );
-
-
-            const modal =
-                bootstrap.Modal
-                    .getOrCreateInstance(
-                        document.getElementById(
-                            'modalLihatAsuransi'
-                        )
-                    );
-
-
-            modal.show();
-
+        if (!data) {
+            alert('Data asuransi tidak ditemukan!');
+            return;
         }
-    );
 
+        $('#lihatAsuransiId').text(data.id || '-');
+        $('#lihatAsuransiNama').text(data.nama || '-');
+
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalLihatAsuransi')
+        ).show();
+    }
+);
 
     /*
     |--------------------------------------------------------------------------
@@ -1496,53 +1233,27 @@ $(document).ready(function () {
     */
 
     $('#tableAsuransi').on(
-        'click',
-        '.btn-action-edit-asuransi',
-        function () {
+    'click',
+    '.btn-action-edit-asuransi',
+    function () {
 
-            const data =
-                table
-                    .row(
-                        $(this).closest('tr')
-                    )
-                    .data();
+        const data = table.row($(this).closest('tr')).data();
 
+        console.log('DATA ASURANSI:', data);
 
-            if (!data) {
-                return;
-            }
-
-
-            $('#edit_asuransi_id').val(
-                data.id
-            );
-
-
-            $('#edit_kode_asuransi').val(
-                data.kode || ''
-            );
-
-
-            $('#edit_nama_asuransi').val(
-                data.nama || ''
-            );
-
-
-            const modal =
-                bootstrap.Modal
-                    .getOrCreateInstance(
-                        document.getElementById(
-                            'modalEditAsuransi'
-                        )
-                    );
-
-
-            modal.show();
-
+        if (!data) {
+            alert('Data asuransi tidak ditemukan!');
+            return;
         }
-    );
 
+        $('#edit_asuransi_id').val(data.id);
+        $('#edit_nama_asuransi').val(data.nama || '');
 
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalEditAsuransi')
+        ).show();
+    }
+);
     /*
     |--------------------------------------------------------------------------
     | UPDATE

@@ -219,15 +219,15 @@
         min-width: 60px;
     }
 
-    .btn-reset {
-        background: #e5f4ff;
-        color: #1684d8;
-    }
+            .btn-ubah {
+            background: #e5f4ff;
+            color: #1684d8;
+        }
 
-    .btn-reset:hover {
-        background: #d2ecff;
-        color: #1684d8;
-    }
+        .btn-ubah:hover {
+            background: #d2ecff;
+            color: #1684d8;
+        }
 
     .btn-edit {
         background: #1877f2;
@@ -549,15 +549,15 @@
 
                                 <div class="action-buttons">
 
-                                    {{-- RESET PASSWORD --}}
+                                    {{-- UBAH PASSWORD --}}
                                     <button
                                         type="button"
-                                        class="btn-action btn-reset"
+                                        class="btn-action btn-ubah"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#modalResetPassword{{ $user->id }}"
+                                        data-bs-target="#modalUbahPassword{{ $user->id }}"
                                     >
-                                        <i class="bi bi-key-fill me-1"></i>
-                                        Reset
+                                        <i class="bi bi-pencil-square me-1"></i>
+                                        Ubah
                                     </button>
 
 
@@ -755,11 +755,11 @@
 
 
                         {{-- ==================================================
-                             MODAL RESET PASSWORD
+                            MODAL UBAH PASSWORD
                         =================================================== --}}
                         <div
                             class="modal fade user-modal"
-                            id="modalResetPassword{{ $user->id }}"
+                            id="modalUbahPassword{{ $user->id }}"
                             tabindex="-1"
                             aria-hidden="true"
                         >
@@ -771,12 +771,11 @@
                                     <div class="modal-header">
 
                                         <h5 class="modal-title">
-                                            <i class="bi bi-key-fill me-2"></i>
-                                            Reset Password
+                                            <i class="bi bi-pencil-square me-2"></i>
+                                            Ubah Password
                                         </h5>
 
                                     </div>
-
 
                                     <form
                                         action="{{ route('users.reset-password.update', $user->id) }}"
@@ -889,7 +888,7 @@
                                                 class="btn-modal-save"
                                             >
                                                 <i class="bi bi-key-fill me-1"></i>
-                                                Reset Password
+                                                Ubah Password
                                             </button>
 
                                         </div>

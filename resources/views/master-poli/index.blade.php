@@ -166,24 +166,6 @@
 
 
     /* =========================================================
-       BADGE KODE
-    ========================================================= */
-    .badge-kode-poli {
-        display: inline-block;
-
-        background: #e0edff;
-        color: #1d72f3;
-
-        border-radius: 6px;
-
-        padding: 6px 12px;
-
-        font-size: 11px;
-        font-weight: 700;
-    }
-
-
-    /* =========================================================
        BADGE NAMA
     ========================================================= */
     .badge-nama-poli {
@@ -515,10 +497,6 @@
                             No
                         </th>
 
-                        <th width="25%">
-                            Kode Poli
-                        </th>
-
                         <th width="35%">
                             Nama Poli
                         </th>
@@ -582,31 +560,6 @@
 
 
                 <div class="modal-body">
-
-
-
-                    {{-- KODE POLI --}}
-                    <div class="mb-3">
-
-                        <label
-                            for="kode"
-                            class="form-label"
-                        >
-                            Kode Poli
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="kode"
-                            id="kode"
-                            class="form-control"
-                            placeholder="Contoh: POL001"
-                            required
-                        >
-
-                    </div>
-
 
                     {{-- NAMA POLI --}}
                     <div class="mb-3">
@@ -695,26 +648,6 @@
 
 
             <div class="modal-body">
-
-
-                <div class="detail-item">
-
-                    <div class="detail-label">
-                        Kode Poli
-                    </div>
-
-                    <div class="detail-value">
-
-                        <span
-                            class="badge-kode-poli"
-                            id="lihatKode"
-                        >
-                            -
-                        </span>
-
-                    </div>
-
-                </div>
 
 
                 <div class="detail-item">
@@ -815,28 +748,6 @@
 
 
                 <div class="modal-body">
-
-
-                    {{-- KODE --}}
-                    <div class="mb-3">
-
-                        <label
-                            for="editKode"
-                            class="form-label"
-                        >
-                            Kode Poli
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="kode"
-                            id="editKode"
-                            class="form-control"
-                            required
-                        >
-
-                    </div>
 
 
                     {{-- NAMA --}}
@@ -948,76 +859,31 @@ $(document).ready(function () {
         ],
 
 
-        columns: [
-
-            {
-                data:
-                    'DT_RowIndex',
-
-                name:
-                    'DT_RowIndex',
-
-                searchable:
-                    false,
-
-                orderable:
-                    false
-            },
-
-
-            {
-                data:
-                    'kode',
-
-                name:
-                    'kode',
-
-                render:
-                    function (data) {
-
-                        return `
-                            <span class="badge-kode-poli">
-                                ${escapeHtml(data || '-')}
-                            </span>
-                        `;
-                    }
-            },
-
-
-            {
-                data:
-                    'nama',
-
-                name:
-                    'nama',
-
-                render:
-                    function (data) {
-
-                        return `
-                            <span class="badge-nama-poli">
-                                ${escapeHtml(data || '-')}
-                            </span>
-                        `;
-                    }
-            },
-
-
-            {
-                data:
-                    'aksi',
-
-                name:
-                    'aksi',
-
-                searchable:
-                    false,
-
-                orderable:
-                    false
-            }
-
-        ],
+       columns: [
+    {
+        data: 'DT_RowIndex',
+        name: 'DT_RowIndex',
+        searchable: false,
+        orderable: false
+    },
+    {
+        data: 'nama',
+        name: 'nama',
+        render: function (data) {
+            return `
+                <span class="badge-nama-poli">
+                    ${escapeHtml(data || '-')}
+                </span>
+            `;
+        }
+    },
+    {
+        data: 'aksi',
+        name: 'aksi',
+        searchable: false,
+        orderable: false
+    }
+],
 
 
         language: {
@@ -1198,51 +1064,28 @@ $(document).ready(function () {
     */
 
     $('#poli-table').on(
-        'click',
-        '.btn-poli-lihat',
-        function () {
+    'click',
+    '.btn-poli-lihat',
+    function () {
 
-            const data =
-                table
-                    .row(
-                        $(this).closest('tr')
-                    )
-                    .data();
+        const data = table
+            .row($(this).closest('tr'))
+            .data();
 
-
-            if (!data) {
-                return;
-            }
-
-
-            $('#lihatKode').text(
-                data.kode || '-'
-            );
-
-
-            $('#lihatNama').text(
-                data.nama || '-'
-            );
-
-
-            $('#lihatId').text(
-                data.id || '-'
-            );
-
-
-            const modal =
-                bootstrap.Modal
-                    .getOrCreateInstance(
-                        document.getElementById(
-                            'modalLihat'
-                        )
-                    );
-
-
-            modal.show();
-
+        if (!data) {
+            return;
         }
-    );
+
+        $('#lihatNama').text(data.nama || '-');
+        $('#lihatId').text(data.id || '-');
+
+        const modal = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalLihat')
+        );
+
+        modal.show();
+    }
+);
 
 
     /*
@@ -1252,51 +1095,28 @@ $(document).ready(function () {
     */
 
     $('#poli-table').on(
-        'click',
-        '.btn-poli-edit',
-        function () {
+    'click',
+    '.btn-poli-edit',
+    function () {
 
-            const data =
-                table
-                    .row(
-                        $(this).closest('tr')
-                    )
-                    .data();
+        const data = table
+            .row($(this).closest('tr'))
+            .data();
 
-
-            if (!data) {
-                return;
-            }
-
-
-            $('#editId').val(
-                data.id
-            );
-
-
-            $('#editKode').val(
-                data.kode || ''
-            );
-
-
-            $('#editNama').val(
-                data.nama || ''
-            );
-
-
-            const modal =
-                bootstrap.Modal
-                    .getOrCreateInstance(
-                        document.getElementById(
-                            'modalEdit'
-                        )
-                    );
-
-
-            modal.show();
-
+        if (!data) {
+            return;
         }
-    );
+
+        $('#editId').val(data.id);
+        $('#editNama').val(data.nama || '');
+
+        const modal = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalEdit')
+        );
+
+        modal.show();
+    }
+);
 
 
     /*
