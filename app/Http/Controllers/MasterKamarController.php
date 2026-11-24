@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterKamar;
+use App\Models\PendaftaranPasien;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\QueryException;
 use Yajra\DataTables\Facades\DataTables;
 
 class MasterKamarController extends Controller
 {
+    private const KAPASITAS_KAMAR = 4;
+
+    private const STATUS_PASIEN_AKTIF = [
+        'menunggu',
+        'diperiksa',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | HALAMAN MASTER KAMAR
@@ -18,6 +27,36 @@ class MasterKamarController extends Controller
     {
         return view('master-kamar.index');
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MENENTUKAN STATUS KAMAR
+    |--------------------------------------------------------------------------
+    */
+    private function hitungStatusKamar($jumlahPasien)
+    {
+        if ($jumlahPasien >= self::KAPASITAS_KAMAR) {
+            return 'penuh';
+        }
+
+        return 'tersedia';
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MENGHITUNG PASIEN AKTIF DALAM KAMAR
+    |--------------------------------------------------------------------------
+    */
+    private function hitungJumlahPasien($kamarId)
+    {
+        return PendaftaranPasien::where('kamar_id', $kamarId)
+            ->whereIn('status', self::STATUS_PASIEN_AKTIF)
+            ->distinct()
+            ->count('pasien_id');
+    }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -30,14 +69,38 @@ class MasterKamarController extends Controller
             ->select([
                 'id',
                 'nama',
-                'status',
             ])
+            ->selectSub(
+                PendaftaranPasien::query()
+                    ->selectRaw('COUNT(DISTINCT pasien_id)')
+                    ->whereColumn(
+                        'pendaftaran_pasiens.kamar_id',
+                        'master_kamars.id'
+                    )
+                    ->whereIn(
+                        'status',
+                        self::STATUS_PASIEN_AKTIF
+                    ),
+                'jumlah_pasien'
+            )
             ->orderByDesc('id');
 
         return DataTables::of($kamars)
+
             ->addIndexColumn()
 
+            // STATUS OTOMATIS
+            ->addColumn('status', function ($kamar) {
+
+                return $this->hitungStatusKamar(
+                    (int) $kamar->jumlah_pasien
+                );
+
+            })
+
+            // TOMBOL AKSI
             ->addColumn('aksi', function ($kamar) {
+
                 return '
                     <div class="aksi-wrapper">
 
@@ -76,6 +139,7 @@ class MasterKamarController extends Controller
             ->make(true);
     }
 
+
     /*
     |--------------------------------------------------------------------------
     | SIMPAN DATA
@@ -84,18 +148,16 @@ class MasterKamarController extends Controller
     public function store(Request $request)
     {
         try {
-            $validated = $request->validate(
-                [
-                    'nama' => [
-                        'required',
-                        'string',
-                        'max:255',
-                    ],
+
+            $validated = $request->validate([
+                'nama' => [
+                    'required',
+                    'string',
+                    'max:255',
                 ],
-                [
-                    'nama.required' => 'Nama Kamar wajib diisi.',
-                ]
-            );
+            ], [
+                'nama.required' => 'Nama kamar wajib diisi.',
+            ]);
 
             $kamar = MasterKamar::create([
                 'nama' => $validated['nama'],
@@ -109,6 +171,7 @@ class MasterKamarController extends Controller
             ], 201);
 
         } catch (ValidationException $e) {
+
             return response()->json([
                 'success' => false,
                 'message' => 'Validasi gagal.',
@@ -116,12 +179,16 @@ class MasterKamarController extends Controller
             ], 422);
 
         } catch (\Throwable $e) {
+
+            report($e);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan saat menyimpan data kamar.',
             ], 500);
         }
     }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -131,7 +198,22 @@ class MasterKamarController extends Controller
     public function show($id)
     {
         try {
+
             $kamar = MasterKamar::findOrFail($id);
+
+            $jumlahPasien = $this->hitungJumlahPasien(
+                $kamar->id
+            );
+
+            $kamar->setAttribute(
+                'jumlah_pasien',
+                $jumlahPasien
+            );
+
+            $kamar->setAttribute(
+                'status',
+                $this->hitungStatusKamar($jumlahPasien)
+            );
 
             return response()->json([
                 'success' => true,
@@ -139,12 +221,16 @@ class MasterKamarController extends Controller
             ]);
 
         } catch (\Throwable $e) {
+
+            report($e);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Data kamar tidak ditemukan.',
             ], 404);
         }
     }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -154,23 +240,21 @@ class MasterKamarController extends Controller
     public function update(Request $request, $id)
     {
         try {
+
             $kamar = MasterKamar::findOrFail($id);
 
-            $validated = $request->validate(
-                [
-                    'nama' => [
-                        'required',
-                        'string',
-                        'max:255',
-                    ],
+            $validated = $request->validate([
+                'nama' => [
+                    'required',
+                    'string',
+                    'max:255',
                 ],
-                [
-                    'nama.required' => 'Nama Kamar wajib diisi.',
-                ]
-            );
+            ], [
+                'nama.required' => 'Nama kamar wajib diisi.',
+            ]);
 
-            // Hanya memperbarui nama.
-            // Status kamar yang sudah ada tetap dipertahankan.
+            // Hanya memperbarui nama kamar.
+            // Status dihitung otomatis berdasarkan jumlah pasien.
             $kamar->update([
                 'nama' => $validated['nama'],
             ]);
@@ -182,6 +266,7 @@ class MasterKamarController extends Controller
             ]);
 
         } catch (ValidationException $e) {
+
             return response()->json([
                 'success' => false,
                 'message' => 'Validasi gagal.',
@@ -189,12 +274,16 @@ class MasterKamarController extends Controller
             ], 422);
 
         } catch (\Throwable $e) {
+
+            report($e);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan saat memperbarui data kamar.',
             ], 500);
         }
     }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -204,6 +293,7 @@ class MasterKamarController extends Controller
     public function destroy($id)
     {
         try {
+
             $kamar = MasterKamar::findOrFail($id);
 
             $kamar->delete();
@@ -213,13 +303,17 @@ class MasterKamarController extends Controller
                 'message' => 'Data kamar berhasil dihapus!',
             ]);
 
-        } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() == '23000') {
+        } catch (QueryException $e) {
+
+            if ((string) $e->getCode() === '23000') {
+
                 return response()->json([
                     'success' => false,
                     'message' => 'Data kamar tidak dapat dihapus karena masih digunakan pada data lain.',
                 ], 422);
             }
+
+            report($e);
 
             return response()->json([
                 'success' => false,
@@ -227,6 +321,9 @@ class MasterKamarController extends Controller
             ], 500);
 
         } catch (\Throwable $e) {
+
+            report($e);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Data kamar tidak ditemukan atau gagal dihapus.',
