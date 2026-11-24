@@ -59,8 +59,9 @@ class LoginController extends Controller
         if ($user->hasRole('dokter')) {
 
             // Cari data dokter berdasarkan akun yang sedang login
-            $dokter = MasterDokter::where('users_id', $user->id)
-                ->first();
+         $dokter = $user->dokter_id
+    ? MasterDokter::find($user->dokter_id)
+    : MasterDokter::where('users_id', $user->id)->first();
 
             // Jika akun belum terhubung dengan data dokter
             if (!$dokter) {
@@ -88,8 +89,9 @@ class LoginController extends Controller
         if ($user->hasRole('perawat')) {
 
             // Cari data perawat berdasarkan akun yang sedang login
-            $perawat = MasterPerawat::where('users_id', $user->id)
-                ->first();
+           $perawat = $user->perawat_id
+    ? MasterPerawat::find($user->perawat_id)
+    : MasterPerawat::where('users_id', $user->id)->first();
 
             // Jika akun belum terhubung dengan data perawat
             if (!$perawat) {
