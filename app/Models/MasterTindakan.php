@@ -12,7 +12,6 @@ class MasterTindakan extends Model
     protected $table = 'master_tindakans';
 
     protected $fillable = [
-        'kode',
         'nama',
     ];
 }

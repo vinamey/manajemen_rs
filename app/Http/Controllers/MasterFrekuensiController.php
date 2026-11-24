@@ -8,94 +8,205 @@ use Yajra\DataTables\Facades\DataTables;
 
 class MasterFrekuensiController extends Controller
 {
-    // HALAMAN MASTER FREKUENSI
+    /*
+    |--------------------------------------------------------------------------
+    | HALAMAN MASTER FREKUENSI
+    |--------------------------------------------------------------------------
+    */
     public function index()
     {
         return view('master-frekuensi.index');
     }
 
-    // MENGAMBIL DATA UNTUK DATATABLE
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATA YAJRA
+    |--------------------------------------------------------------------------
+    */
     public function data()
     {
         $frekuensis = MasterFrekuensi::query()
-            ->select(['id', 'kode', 'nama', 'created_at']);
+            ->select([
+                'id',
+                'nama',
+                'created_at',
+            ])
+            ->orderByDesc('id');
 
         return DataTables::of($frekuensis)
+
             ->addIndexColumn()
+
             ->addColumn('aksi', function ($row) {
+
                 return '
-                    <button type="button" class="btn btn-warning btn-sm"
-                        onclick="editData(' . $row->id . ')">
-                        <i class="fas fa-edit"></i> Edit
+                    <button
+                        type="button"
+                        class="btn btn-warning btn-sm"
+                        onclick="editData(' . (int) $row->id . ')"
+                    >
+                        <i class="fas fa-edit"></i>
+                        Edit
                     </button>
 
-                    <button type="button" class="btn btn-danger btn-sm"
-                        onclick="hapusData(' . $row->id . ')">
-                        <i class="fas fa-trash"></i> Hapus
+                    <button
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        onclick="hapusData(' . (int) $row->id . ')"
+                    >
+                        <i class="fas fa-trash"></i>
+                        Hapus
                     </button>
                 ';
             })
-            ->rawColumns(['aksi'])
+
+            ->rawColumns([
+                'aksi'
+            ])
+
             ->make(true);
     }
 
-    // MENYIMPAN DATA
+
+    /*
+    |--------------------------------------------------------------------------
+    | SIMPAN DATA
+    |--------------------------------------------------------------------------
+    */
     public function store(Request $request)
     {
-        $request->validate([
-            'kode' => 'nullable|string|max:255',
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
+        ], [
+            'nama.required' => 'Nama frekuensi wajib diisi.',
+            'nama.max' => 'Nama frekuensi maksimal 255 karakter.',
         ]);
 
-        MasterFrekuensi::create([
-            'kode' => $request->kode,
-            'nama' => $request->nama,
-        ]);
+        try {
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data frekuensi berhasil ditambahkan.'
-        ]);
+            $frekuensi = MasterFrekuensi::create([
+                'nama' => $validated['nama'],
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data frekuensi berhasil ditambahkan.',
+                'data' => [
+                    'id' => $frekuensi->id,
+                    'nama' => $frekuensi->nama,
+                ],
+            ], 201);
+
+        } catch (\Throwable $e) {
+
+            \Log::error('Gagal menyimpan Master Frekuensi', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Data frekuensi gagal disimpan.',
+            ], 500);
+        }
     }
 
-    // MENGAMBIL DATA UNTUK EDIT
+
+    /*
+    |--------------------------------------------------------------------------
+    | DETAIL DATA
+    |--------------------------------------------------------------------------
+    */
     public function show($id)
     {
-        $frekuensi = MasterFrekuensi::findOrFail($id);
+        $frekuensi = MasterFrekuensi::query()
+            ->select([
+                'id',
+                'nama',
+                'created_at',
+            ])
+            ->findOrFail($id);
 
-        return response()->json($frekuensi);
+        return response()->json([
+            'success' => true,
+            'data' => $frekuensi,
+        ]);
     }
 
-    // MEMPERBARUI DATA
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE DATA
+    |--------------------------------------------------------------------------
+    */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'kode' => 'nullable|string|max:255',
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
+        ], [
+            'nama.required' => 'Nama frekuensi wajib diisi.',
+            'nama.max' => 'Nama frekuensi maksimal 255 karakter.',
         ]);
 
-        $frekuensi = MasterFrekuensi::findOrFail($id);
+        try {
 
-        $frekuensi->update([
-            'kode' => $request->kode,
-            'nama' => $request->nama,
-        ]);
+            $frekuensi = MasterFrekuensi::findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data frekuensi berhasil diperbarui.'
-        ]);
+            $frekuensi->update([
+                'nama' => $validated['nama'],
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data frekuensi berhasil diperbarui.',
+                'data' => [
+                    'id' => $frekuensi->id,
+                    'nama' => $frekuensi->nama,
+                ],
+            ]);
+
+        } catch (\Throwable $e) {
+
+            \Log::error('Gagal memperbarui Master Frekuensi', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Data frekuensi gagal diperbarui.',
+            ], 500);
+        }
     }
 
-    // MENGHAPUS DATA
+
+    /*
+    |--------------------------------------------------------------------------
+    | HAPUS DATA
+    |--------------------------------------------------------------------------
+    */
     public function destroy($id)
     {
-        $frekuensi = MasterFrekuensi::findOrFail($id);
-        $frekuensi->delete();
+        try {
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data frekuensi berhasil dihapus.'
-        ]);
+            $frekuensi = MasterFrekuensi::findOrFail($id);
+
+            $frekuensi->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data frekuensi berhasil dihapus.',
+            ]);
+
+        } catch (\Throwable $e) {
+
+            \Log::error('Gagal menghapus Master Frekuensi', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Data frekuensi gagal dihapus.',
+            ], 500);
+        }
     }
 }

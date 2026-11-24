@@ -137,16 +137,6 @@
         white-space: nowrap;
     }
 
-    .kode-frekuensi {
-        display: inline-block;
-        padding: 5px 9px;
-        border-radius: 5px;
-        background: #e7f3ff;
-        color: #1877f2;
-        font-size: 9px;
-        font-weight: 600;
-    }
-
     .action-buttons {
         display: flex;
         align-items: center;
@@ -451,7 +441,6 @@
                 <thead>
                     <tr>
                         <th style="width:70px;">No</th>
-                        <th>Kode Frekuensi</th>
                         <th>Nama Frekuensi</th>
                         <th class="text-center">Aksi</th>
                     </tr>
@@ -485,25 +474,6 @@
     @csrf
 
                 <div class="modal-body">
-
-                    <div class="form-frekuensi-group">
-                        <label class="form-frekuensi-label" for="kodeFrekuensi">
-                            Kode Frekuensi
-                        </label>
-
-                        <input
-                            type="text"
-                            name="kode"
-                            id="kodeFrekuensi"
-                            class="form-frekuensi-control"
-                            placeholder="Masukkan kode frekuensi"
-                            value="{{ old('kode') }}"
-                        >
-
-                        @error('kode')
-                            <span class="error-frekuensi">{{ $message }}</span>
-                        @enderror
-                    </div>
 
                     <div class="form-frekuensi-group">
                         <label class="form-frekuensi-label" for="namaFrekuensi">
@@ -562,10 +532,6 @@
             </div>
 
             <div class="modal-body">
-                <div class="form-frekuensi-group">
-                    <label class="form-frekuensi-label">Kode Frekuensi</label>
-                    <div class="view-frekuensi-value" id="lihatKode">-</div>
-                </div>
 
                 <div class="form-frekuensi-group">
                     <label class="form-frekuensi-label">Nama Frekuensi</label>
@@ -606,16 +572,6 @@
                 @method('PUT')
 
                 <div class="modal-body">
-                    <div class="form-frekuensi-group">
-                        <label class="form-frekuensi-label" for="editKode">
-                            Kode Frekuensi
-                        </label>
-
-                        <input type="text"
-                               name="kode"
-                               id="editKode"
-                               class="form-frekuensi-control">
-                    </div>
 
                     <div class="form-frekuensi-group">
                         <label class="form-frekuensi-label" for="editNama">
@@ -673,63 +629,62 @@ $(document).ready(function () {
             [10, 25, 50, 100]
         ],
 
-        columns: [
-            {
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            },
-            {
-                data: 'kode',
-                name: 'kode',
-                render: function (data) {
-                    return '<span class="kode-frekuensi">' +
-                        escapeHtml(data ?? '-') +
-                        '</span>';
-                }
-            },
-            {
-                data: 'nama',
-                name: 'nama',
-                render: function (data) {
-                    return '<span class="nama-frekuensi">' +
-                        escapeHtml(data ?? '-') +
-                        '</span>';
-                }
-            },
-            {
-                data: null,
-                name: 'aksi',
-                orderable: false,
-                searchable: false,
-                className: 'text-center',
-                render: function (data, type, row) {
-                    return `
-                        <div class="action-buttons">
-                            <button type="button"
-                                    class="btn-aksi btn-lihat"
-                                    data-id="${row.id}">
-                                <i class="fas fa-eye"></i> Lihat
-                            </button>
+       columns: [
+    {
+        data: 'DT_RowIndex',
+        name: 'DT_RowIndex',
+        orderable: false,
+        searchable: false,
+        className: 'text-center'
+    },
+    {
+        data: 'nama',
+        name: 'nama',
+        render: function (data) {
+            return '<span class="nama-frekuensi">' +
+                escapeHtml(data ?? '-') +
+                '</span>';
+        }
+    },
+    {
+        data: null,
+        name: 'aksi',
+        orderable: false,
+        searchable: false,
+        className: 'text-center',
+        render: function (data, type, row) {
+            return `
+                <div class="action-buttons">
 
-                            <button type="button"
-                                    class="btn-aksi btn-edit"
-                                    data-id="${row.id}">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
+                    <button
+                        type="button"
+                        class="btn-aksi btn-lihat"
+                        data-id="${row.id}"
+                    >
+                        <i class="fas fa-eye"></i> Lihat
+                    </button>
 
-                            <button type="button"
-                                class="btn-aksi btn-hapus"
-                                data-id="${row.id}">
-                                <i class="fas fa-trash"></i> Hapus
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        ],
+                    <button
+                        type="button"
+                        class="btn-aksi btn-edit"
+                        data-id="${row.id}"
+                    >
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-aksi btn-hapus"
+                        data-id="${row.id}"
+                    >
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+
+                </div>
+            `;
+        }
+    }
+],
 
         order: [],
 
@@ -763,7 +718,6 @@ $(document).ready(function () {
 
         if (!row) return;
 
-        $('#lihatKode').text(row.kode ?? '-');
         $('#lihatNama').text(row.nama ?? '-');
 
         bootstrap.Modal.getOrCreateInstance(
@@ -777,7 +731,6 @@ $(document).ready(function () {
 
         if (!row) return;
 
-        $('#editKode').val(row.kode ?? '');
         $('#editNama').val(row.nama ?? '');
 
         const baseUrl = @json(url('/master-frekuensi'));

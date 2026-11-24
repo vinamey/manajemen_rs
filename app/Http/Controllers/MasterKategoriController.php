@@ -18,7 +18,7 @@ class MasterKategoriController extends Controller
     public function data()
     {
         $kategori = MasterKategori::query()
-            ->select(['id', 'kode', 'nama']);
+            ->select(['id', 'nama']);
 
         return DataTables::of($kategori)
             ->addIndexColumn()
@@ -51,7 +51,6 @@ class MasterKategoriController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kode' => 'required|string|max:50|unique:master_kategoris,kode',
             'nama' => 'required|string|max:255',
         ]);
 
@@ -64,28 +63,23 @@ class MasterKategoriController extends Controller
         ]);
     }
 
-    // Update kategori
-    public function update(Request $request, $id)
-    {
-        $kategori = MasterKategori::findOrFail($id);
+   
+// Update kategori
+public function update(Request $request, $id)
+{
+    $kategori = MasterKategori::findOrFail($id);
 
-        $validated = $request->validate([
-            'kode' => [
-                'required',
-                'string',
-                'max:50',
-                Rule::unique('master_kategoris', 'kode')->ignore($kategori->id),
-            ],
-            'nama' => 'required|string|max:255',
-        ]);
+    $validated = $request->validate([
+        'nama' => 'required|string|max:255',
+    ]);
 
-        $kategori->update($validated);
+    $kategori->update($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Kategori berhasil diperbarui.',
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'Kategori berhasil diperbarui.',
+    ]);
+}
 
     // Hapus kategori
     public function destroy($id)

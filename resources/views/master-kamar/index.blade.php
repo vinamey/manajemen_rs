@@ -161,24 +161,6 @@
 
 
     /* =========================================================
-       BADGE KODE
-    ========================================================= */
-    .kode-badge {
-        display: inline-block;
-
-        background: #e8f1fd;
-        color: var(--kamar-blue);
-
-        padding: 5px 10px;
-
-        border-radius: 6px;
-
-        font-size: 10px;
-        font-weight: 600;
-    }
-
-
-    /* =========================================================
        BADGE NAMA
     ========================================================= */
     .nama-badge {
@@ -624,10 +606,6 @@
                             No
                         </th>
 
-                        <th width="22%">
-                            Kode Kamar
-                        </th>
-
                         <th width="30%">
                             Nama Kamar
                         </th>
@@ -679,13 +657,6 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="kode" class="form-label">Kode Kamar</label>
-                        <input type="text" name="kode" id="kode"
-                            class="form-control"
-                            placeholder="Contoh: KMR001" required>
-                    </div>
-
-                    <div class="mb-3">
                         <label for="nama" class="form-label">Nama Kamar</label>
                         <input type="text" name="nama" id="nama"
                             class="form-control"
@@ -727,13 +698,6 @@
             </div>
 
             <div class="modal-body">
-
-                <div class="detail-box">
-                    <div class="detail-label">Kode Kamar</div>
-                    <div class="detail-value">
-                        <span class="kode-badge" id="lihatKode">-</span>
-                    </div>
-                </div>
 
                 <div class="detail-box">
                     <div class="detail-label">Nama Kamar</div>
@@ -782,12 +746,6 @@
                 <input type="hidden" id="editId" name="id">
 
                 <div class="modal-body">
-
-                    <div class="mb-3">
-                        <label for="editKode" class="form-label">Kode Kamar</label>
-                        <input type="text" name="kode" id="editKode"
-                            class="form-control" required>
-                    </div>
 
                     <div class="mb-3">
                         <label for="editNama" class="form-label">Nama Kamar</label>
@@ -863,111 +821,39 @@ $(document).ready(function () {
         ],
 
 
-        columns: [
-
-            /*
-             * NO
-             */
-            {
-                data:
-                    'DT_RowIndex',
-
-                name:
-                    'DT_RowIndex',
-
-                searchable:
-                    false,
-
-                orderable:
-                    false,
-
-                className:
-                    'text-center'
-            },
-
-
-            /*
-             * KODE
-             */
-            {
-                data:
-                    'kode',
-
-                name:
-                    'kode',
-
-                render:
-                    function (data) {
-
-                        return `
-                            <span class="kode-badge">
-                                ${escapeHtml(data || '-')}
-                            </span>
-                        `;
-                    }
-            },
-
-
-            /*
-             * NAMA
-             */
-            {
-                data:
-                    'nama',
-
-                name:
-                    'nama',
-
-                render:
-                    function (data) {
-
-                        return `
-                            <span class="nama-badge">
-                                ${escapeHtml(data || '-')}
-                            </span>
-                        `;
-                    }
-            },
-
-
-            /*
-             * STATUS
-             */
-            {
-                data:
-                    'status',
-
-                name:
-                    'status',
-
-                render:
-                    function (data) {
-
-                        return buatBadgeStatus(
-                            data
-                        );
-                    }
-            },
-
-
-            /*
-             * AKSI
-             */
-            {
-                data:
-                    'aksi',
-
-                name:
-                    'aksi',
-
-                searchable:
-                    false,
-
-                orderable:
-                    false
-            }
-
-        ],
+       columns: [
+    {
+        data: 'DT_RowIndex',
+        name: 'DT_RowIndex',
+        searchable: false,
+        orderable: false,
+        className: 'text-center'
+    },
+    {
+        data: 'nama',
+        name: 'nama',
+        render: function (data) {
+            return `
+                <span class="nama-badge">
+                    ${escapeHtml(data || '-')}
+                </span>
+            `;
+        }
+    },
+    {
+        data: 'status',
+        name: 'status',
+        render: function (data) {
+            return buatBadgeStatus(data);
+        }
+    },
+    {
+        data: 'aksi',
+        name: 'aksi',
+        searchable: false,
+        orderable: false
+    }
+],
 
 
         language: {
@@ -1192,24 +1078,22 @@ $(document).ready(function () {
     */
 
     
-        $('#kamar-table').on('click', '.btn-lihat-kamar', function (e) {
-            e.preventDefault();
+       $('#kamar-table').on('click', '.btn-lihat-kamar', function (e) {
+    e.preventDefault();
 
-            const data = table.row($(this).closest('tr')).data();
+    const data = table.row($(this).closest('tr')).data();
 
-            if (!data) {
-                console.error('Data kamar tidak ditemukan.');
-                return;
-            }
+    if (!data) {
+        return;
+    }
 
-            $('#lihatKode').text(data.kode || '-');
-            $('#lihatNama').text(data.nama || '-');
-            $('#lihatStatus').html(buatBadgeStatus(data.status));
+    $('#lihatNama').text(data.nama || '-');
+    $('#lihatStatus').html(buatBadgeStatus(data.status));
 
-            bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('modalLihatKamar')
-            ).show();
-        });
+    bootstrap.Modal.getOrCreateInstance(
+        document.getElementById('modalLihatKamar')
+    ).show();
+});
 
 
 
@@ -1220,25 +1104,22 @@ $(document).ready(function () {
     */
 
     
-        $('#kamar-table').on('click', '.btn-edit-kamar', function (e) {
-            e.preventDefault();
+       $('#kamar-table').on('click', '.btn-edit-kamar', function (e) {
+    e.preventDefault();
 
-            const data = table.row($(this).closest('tr')).data();
+    const data = table.row($(this).closest('tr')).data();
 
-            if (!data) {
-                console.error('Data kamar tidak ditemukan.');
-                return;
-            }
+    if (!data) {
+        return;
+    }
 
-            $('#editId').val(data.id);
-            $('#editKode').val(data.kode || '');
-            $('#editNama').val(data.nama || '');
+    $('#editId').val(data.id);
+    $('#editNama').val(data.nama || '');
 
-            bootstrap.Modal.getOrCreateInstance(
-                document.getElementById('modalEditKamar')
-            ).show();
-        });
-
+    bootstrap.Modal.getOrCreateInstance(
+        document.getElementById('modalEditKamar')
+    ).show();
+});
 
     /*
     |--------------------------------------------------------------------------

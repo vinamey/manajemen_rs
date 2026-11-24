@@ -12,7 +12,6 @@ class MasterAsuransi extends Model
     protected $table = 'master_asuransis';
 
     protected $fillable = [
-        'kode',
         'nama',
     ];
 }
