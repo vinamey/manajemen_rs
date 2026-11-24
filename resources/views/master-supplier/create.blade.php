@@ -1,3 +1,4 @@
+
 @extends('layouts.superadmin')
 
 @section('content')
@@ -13,26 +14,25 @@
         <form action="{{ route('master-supplier.store') }}" method="POST">
             @csrf
 
-            <div class="mb-3">
-                <label>Kode Supplier</label>
-                <input type="text"
-                       name="kode_supplier"
-                       class="form-control"
-                       value="{{ old('kode_supplier') }}"
-                       placeholder="Contoh: SUP001"
-                       required>
-            </div>
-
+            <!-- Nama Supplier -->
             <div class="mb-3">
                 <label>Nama Supplier</label>
+
                 <input type="text"
-                       name="nama_supplier"
-                       class="form-control"
-                       value="{{ old('nama_supplier') }}"
-                       placeholder="Nama supplier"
+                       name="nama"
+                       class="form-control @error('nama') is-invalid @enderror"
+                       value="{{ old('nama') }}"
+                       placeholder="Masukkan nama supplier"
                        required>
+
+                @error('nama')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
+            <!-- Tombol -->
             <button type="submit" class="btn btn-success">
                 Simpan
             </button>

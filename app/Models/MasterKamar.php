@@ -12,7 +12,6 @@ class MasterKamar extends Model
     protected $table = 'master_kamars';
 
     protected $fillable = [
-        'kode',
         'nama',
         'status',
     ];

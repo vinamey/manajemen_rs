@@ -204,27 +204,6 @@
         flex-shrink: 0;
     }
 
-
-    /* =========================================================
-       BADGE KODE
-    ========================================================= */
-    .badge-code-tindakan {
-        background-color:
-            #e0f2fe !important;
-
-        color:
-            #0284c7 !important;
-
-        font-size: 11px;
-
-        font-weight: 500;
-
-        padding: 6px 12px;
-
-        border-radius: 6px;
-    }
-
-
     /* =========================================================
        ACTION
     ========================================================= */
@@ -696,10 +675,6 @@
                             </th>
 
                             <th>
-                                Kode
-                            </th>
-
-                            <th>
                                 Nama Tindakan
                             </th>
 
@@ -757,24 +732,6 @@
                 @csrf
 
                 <div class="modal-body">
-                    <div class="form-group-tindakan">
-                        <label
-                            for="tambah_kode"
-                            class="form-label-tindakan"
-                        >
-                            Kode Tindakan
-                        </label>
-
-                        <input
-                            type="text"
-                            id="tambah_kode"
-                            name="kode"
-                            class="form-control-tindakan"
-                            placeholder="Masukkan kode tindakan"
-                            maxlength="255"
-                            required
-                        >
-                    </div>
 
                     <div class="form-group-tindakan mb-0">
                         <label
@@ -863,29 +820,6 @@
 
                     </tr>
 
-
-                    <tr>
-
-                        <td class="detail-tindakan-label">
-                            Kode
-                        </td>
-
-                        <td class="detail-tindakan-value">
-
-                            <span
-                                class="badge badge-code-tindakan"
-                                id="lihatTindakanKode"
-                            >
-                                -
-                            </span>
-
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
                         <td class="detail-tindakan-label">
                             Nama Tindakan
                         </td>
@@ -965,27 +899,6 @@
 
 
                 <div class="modal-body">
-
-                    <div class="form-group-tindakan">
-
-                        <label
-                            for="edit_kode"
-                            class="form-label-tindakan"
-                        >
-                            Kode Tindakan
-                        </label>
-
-                        <input
-                            type="text"
-                            id="edit_kode"
-                            name="kode"
-                            class="form-control-tindakan"
-                            maxlength="255"
-                            required
-                        >
-
-                    </div>
-
 
                     <div class="form-group-tindakan mb-0">
 
@@ -1107,26 +1020,6 @@ console.log('JavaScript Master Tindakan berhasil dijalankan');
 
                 className:
                     'text-center'
-            },
-
-
-            {
-                data:
-                    'kode',
-
-                name:
-                    'kode',
-
-                render:
-                    function (data) {
-
-                        return `
-                            <span class="badge badge-code-tindakan">
-                                ${escapeHtml(data || '-')}
-                            </span>
-                        `;
-
-                    }
             },
 
 
@@ -1382,12 +1275,6 @@ console.log('JavaScript Master Tindakan berhasil dijalankan');
                 data.id || '-'
             );
 
-
-            $('#lihatTindakanKode').text(
-                data.kode || '-'
-            );
-
-
             $('#lihatTindakanNama').text(
                 data.nama || '-'
             );
@@ -1433,11 +1320,6 @@ console.log('JavaScript Master Tindakan berhasil dijalankan');
 
             $('#edit_tindakan_id').val(
                 data.id
-            );
-
-
-            $('#edit_kode').val(
-                data.kode || ''
             );
 
 

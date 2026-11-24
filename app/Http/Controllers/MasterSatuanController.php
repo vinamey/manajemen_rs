@@ -17,7 +17,6 @@ class MasterSatuanController extends Controller
         return view('master-satuan.index');
     }
 
-      
     /**
      * CREATE
      */
@@ -32,14 +31,7 @@ class MasterSatuanController extends Controller
     public function store(Request $request)
     {
         try {
-
             $validated = $request->validate([
-                'kode' => [
-                    'nullable',
-                    'string',
-                    'max:255'
-                ],
-
                 'nama' => [
                     'required',
                     'string',
@@ -48,7 +40,6 @@ class MasterSatuanController extends Controller
             ]);
 
             $satuan = MasterSatuanObat::create([
-                'kode' => $validated['kode'] ?? null,
                 'nama' => $validated['nama'],
             ]);
 
@@ -59,7 +50,6 @@ class MasterSatuanController extends Controller
             ], 201);
 
         } catch (ValidationException $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => 'Validasi gagal.',
@@ -67,7 +57,6 @@ class MasterSatuanController extends Controller
             ], 422);
 
         } catch (\Throwable $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
@@ -81,7 +70,6 @@ class MasterSatuanController extends Controller
     public function show($id)
     {
         try {
-
             $satuan = MasterSatuanObat::findOrFail($id);
 
             return response()->json([
@@ -90,7 +78,6 @@ class MasterSatuanController extends Controller
             ]);
 
         } catch (\Throwable $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => 'Data satuan tidak ditemukan.',
@@ -117,14 +104,7 @@ class MasterSatuanController extends Controller
     public function update(Request $request, $id)
     {
         try {
-
             $validated = $request->validate([
-                'kode' => [
-                    'nullable',
-                    'string',
-                    'max:255'
-                ],
-
                 'nama' => [
                     'required',
                     'string',
@@ -135,7 +115,6 @@ class MasterSatuanController extends Controller
             $satuan = MasterSatuanObat::findOrFail($id);
 
             $satuan->update([
-                'kode' => $validated['kode'] ?? null,
                 'nama' => $validated['nama'],
             ]);
 
@@ -146,7 +125,6 @@ class MasterSatuanController extends Controller
             ]);
 
         } catch (ValidationException $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => 'Validasi gagal.',
@@ -154,7 +132,6 @@ class MasterSatuanController extends Controller
             ], 422);
 
         } catch (\Throwable $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
@@ -162,59 +139,58 @@ class MasterSatuanController extends Controller
         }
     }
 
-    /*
- * DATA YAJRA DATATABLES
- */
-public function data()
-{
-    $satuans = MasterSatuanObat::query()
-        ->select([
-            'id',
-            'kode',
-            'nama',
-        ]);
+    /**
+     * DATA YAJRA DATATABLES
+     */
+    public function data()
+    {
+        $satuans = MasterSatuanObat::query()
+            ->select([
+                'id',
+                'nama',
+            ]);
 
-    return DataTables::of($satuans)
-        ->addIndexColumn()
+        return DataTables::of($satuans)
+            ->addIndexColumn()
 
-        ->addColumn('aksi', function ($satuan) {
-            return '
-                <div class="aksi-wrapper">
+            ->addColumn('aksi', function ($satuan) {
+                return '
+                    <div class="aksi-wrapper">
 
-                    <button
-                        type="button"
-                        class="btn btn-satuan-aksi btn-satuan-lihat"
-                        title="Lihat"
-                    >
-                        <i class="fas fa-eye me-1"></i>
-                        Lihat
-                    </button>
+                        <button
+                            type="button"
+                            class="btn btn-satuan-aksi btn-satuan-lihat"
+                            title="Lihat"
+                        >
+                            <i class="fas fa-eye me-1"></i>
+                            Lihat
+                        </button>
 
-                    <button
-                        type="button"
-                        class="btn btn-satuan-aksi btn-satuan-edit"
-                        title="Edit"
-                    >
-                        <i class="fas fa-edit me-1"></i>
-                        Edit
-                    </button>
+                        <button
+                            type="button"
+                            class="btn btn-satuan-aksi btn-satuan-edit"
+                            title="Edit"
+                        >
+                            <i class="fas fa-edit me-1"></i>
+                            Edit
+                        </button>
 
-                    <button
-                        type="button"
-                        class="btn btn-satuan-aksi btn-satuan-hapus"
-                        title="Hapus"
-                    >
-                        <i class="fas fa-trash me-1"></i>
-                        Hapus
-                    </button>
+                        <button
+                            type="button"
+                            class="btn btn-satuan-aksi btn-satuan-hapus"
+                            title="Hapus"
+                        >
+                            <i class="fas fa-trash me-1"></i>
+                            Hapus
+                        </button>
 
-                </div>
-            ';
-        })
+                    </div>
+                ';
+            })
 
-        ->rawColumns(['aksi'])
-        ->make(true);
-}
+            ->rawColumns(['aksi'])
+            ->make(true);
+    }
 
     /**
      * HAPUS DATA
@@ -222,7 +198,6 @@ public function data()
     public function destroy($id)
     {
         try {
-
             $satuan = MasterSatuanObat::findOrFail($id);
 
             $satuan->delete();
@@ -235,7 +210,6 @@ public function data()
         } catch (\Illuminate\Database\QueryException $e) {
 
             if ($e->getCode() == '23000') {
-
                 return response()->json([
                     'success' => false,
                     'message' => 'Data satuan tidak dapat dihapus karena masih digunakan pada data lain.',
@@ -248,7 +222,6 @@ public function data()
             ], 500);
 
         } catch (\Throwable $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),

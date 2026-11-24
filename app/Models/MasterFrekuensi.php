@@ -9,7 +9,7 @@ class MasterFrekuensi extends Model
     protected $table = 'master_frekuensis';
 
     protected $fillable = [
-        'kode',
+        
         'nama',
     ];
 }

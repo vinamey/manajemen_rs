@@ -136,15 +136,6 @@
     /* =========================================================
        BADGE
     ========================================================= */
-    .badge-kode {
-        display: inline-block;
-        background: #e0edff;
-        color: #1d72f3;
-        border-radius: 6px;
-        padding: 6px 12px;
-        font-size: 11px;
-        font-weight: 700;
-    }
 
     .badge-nama-satuan {
         display: inline-block;
@@ -508,10 +499,6 @@
                             No
                         </th>
 
-                        <th width="25%">
-                            Kode Satuan
-                        </th>
-
                         <th width="35%">
                             Nama Satuan
                         </th>
@@ -564,21 +551,6 @@
                 @csrf
 
                 <div class="modal-body">
-
-                    {{-- KODE --}}
-                    <div class="mb-3">
-                        <label for="kode" class="form-label">
-                            Kode Satuan
-                        </label>
-
-                        <input
-                            type="text"
-                            name="kode"
-                            id="kode"
-                            class="form-control"
-                            placeholder="Contoh: TAB"
-                        >
-                    </div>
 
                     {{-- NAMA --}}
                     <div class="mb-3">
@@ -649,23 +621,6 @@
 
 
             <div class="modal-body">
-
-                <div class="detail-item">
-
-                    <div class="detail-label">
-                        Kode Satuan
-                    </div>
-
-                    <div class="detail-value">
-                        <span
-                            class="badge-kode"
-                            id="lihatKode"
-                        >
-                            -
-                        </span>
-                    </div>
-
-                </div>
 
 
                 <div class="detail-item">
@@ -760,26 +715,6 @@
 
                 <div class="modal-body">
 
-                    {{-- KODE --}}
-                    <div class="mb-3">
-
-                        <label
-                            for="editKode"
-                            class="form-label"
-                        >
-                            Kode Satuan
-                        </label>
-
-                        <input
-                            type="text"
-                            name="kode"
-                            id="editKode"
-                            class="form-control"
-                        >
-
-                    </div>
-
-
                     {{-- NAMA --}}
                     
                     <div class="mb-3">
@@ -873,49 +808,34 @@ $(document).ready(function () {
 
         columns: [
 
-            {
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                searchable: false,
-                orderable: false
-            },
+    {
+        data: 'DT_RowIndex',
+        name: 'DT_RowIndex',
+        searchable: false,
+        orderable: false
+    },
 
-            {
-                data: 'kode',
-                name: 'kode',
+    {
+        data: 'nama',
+        name: 'nama',
 
-                render: function (data) {
+        render: function (data) {
+            return `
+                <span class="badge-nama-satuan">
+                    ${escapeHtml(data || '-')}
+                </span>
+            `;
+        }
+    },
 
-                    return `
-                        <span class="badge-kode">
-                            ${escapeHtml(data || '-')}
-                        </span>
-                    `;
-                }
-            },
+    {
+        data: 'aksi',
+        name: 'aksi',
+        searchable: false,
+        orderable: false
+    }
 
-            {
-                data: 'nama',
-                name: 'nama',
-
-                render: function (data) {
-
-                    return `
-                        <span class="badge-nama-satuan">
-                            ${escapeHtml(data || '-')}
-                        </span>
-                    `;
-                }
-            },
-
-            {
-                data: 'aksi',
-                name: 'aksi',
-                searchable: false,
-                orderable: false
-            }
-
-        ],
+],
 
         language: {
 
@@ -979,18 +899,6 @@ $(document).ready(function () {
 /* ELEMENT INPUT EDIT */
     const editNamaInput =
     document.getElementById('editNama');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | KLIK DI LUAR DROPDOWN
-    |--------------------------------------------------------------------------
-    */
-
-    document.addEventListener('click', function () {
-    editNamaList.classList.remove('show');
-    editNamaButton.classList.remove('active');
-});
 
     /*
     |--------------------------------------------------------------------------
@@ -1106,51 +1014,26 @@ $(document).ready(function () {
     |--------------------------------------------------------------------------
     */
 
-    $('#satuan-table').on(
-        'click',
-        '.btn-satuan-lihat',
-        function () {
-            console.log('TOMBOL LIHAT DIKLIK');
+   $('#satuan-table').on(
+    'click',
+    '.btn-satuan-lihat',
+    function () {
 
-            const row =
-                $(this).closest('tr');
+        const row = $(this).closest('tr');
+        const data = table.row(row).data();
 
+        if (!data) return;
 
-            const data =
-                table.row(row).data();
+        $('#lihatNama').text(data.nama || '-');
+        $('#lihatId').text(data.id || '-');
 
+        const modal = bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('modalLihat')
+        );
 
-            if (!data) {
-                return;
-            }
-
-
-            $('#lihatKode').text(
-                data.kode || '-'
-            );
-
-            $('#lihatNama').text(
-                data.nama || '-'
-            );
-
-            $('#lihatId').text(
-                data.id || '-'
-            );
-
-
-            const modal =
-                bootstrap.Modal
-                    .getOrCreateInstance(
-                        document.getElementById(
-                            'modalLihat'
-                        )
-                    );
-
-
-            modal.show();
-
-        }
-    );
+        modal.show();
+    }
+);
 
 
     /*
@@ -1168,12 +1051,9 @@ $('#satuan-table').on(
         const row = $(this).closest('tr');
         const data = table.row(row).data();
 
-        if (!data) {
-            return;
-        }
+        if (!data) return;
 
         $('#editId').val(data.id);
-        $('#editKode').val(data.kode || '');
         $('#editNama').val(data.nama || '');
 
         const modal = bootstrap.Modal.getOrCreateInstance(

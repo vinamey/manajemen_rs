@@ -171,20 +171,6 @@
         }
 
         /* =====================================================
-        BADGE KODE
-        ===================================================== */
-        .kode-supplier-badge {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 5px;
-            background: #e7f3ff;
-            color: #1877f2;
-            font-size: 9px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        /* =====================================================
         BADGE NAMA
         ===================================================== */
         .nama-supplier-badge {
@@ -489,76 +475,66 @@
             background: var(--blue-dark);
         }
 
-        /* =====================================================
-        MODAL HAPUS
-        ===================================================== */
-        .modal-hapus .modal-dialog {
-            max-width: 420px;
-        }
+       
+/* =========================================
+   SWEETALERT KONFIRMASI HAPUS SUPPLIER
+========================================= */
 
-        .modal-hapus .modal-content {
-            border: none;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
-        }
+.supplier-swal-popup {
+    width: 460px !important;
+    border-radius: 6px !important;
+    padding: 35px 25px 25px !important;
+    font-family: inherit;
+}
 
-        .modal-hapus .modal-header {
-            background: #ef4444;
-            color: #fff;
-            border: none;
-            padding: 14px 16px;
-        }
+.supplier-swal-title {
+    color: #555 !important;
+    font-size: 27px !important;
+    font-weight: 700 !important;
+    margin-top: 22px !important;
+}
 
-        .modal-hapus .modal-title {
-            font-size: 13px;
-            font-weight: 700;
-            margin: 0;
-        }
+.supplier-swal-text {
+    color: #666 !important;
+    font-size: 16px !important;
+}
 
-        .modal-hapus .modal-body {
-            text-align: center;
-            padding: 25px 20px;
-        }
+.supplier-swal-icon {
+    color: #ffb36b !important;
+    border-color: #ffb36b !important;
+}
 
-        .icon-hapus-besar {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            margin: 0 auto 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fee2e2;
-            color: #ef4444;
-            font-size: 22px;
-        }
+.supplier-swal-actions {
+    gap: 9px !important;
+    margin-top: 20px !important;
+}
 
-        .hapus-text {
-            font-size: 11px;
-            color: #374151;
-            margin: 0;
-        }
+.supplier-swal-confirm {
+    background: #f23f43 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 4px !important;
+    padding: 11px 20px !important;
+    font-size: 14px !important;
+}
 
-        .hapus-nama {
-            font-weight: 700;
-            color: #111827;
-        }
+.supplier-swal-confirm:hover {
+    background: #d93236 !important;
+}
 
-        .btn-konfirmasi-hapus {
-            background: #ef4444;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 13px;
-            font-size: 9px;
-            font-weight: 600;
-        }
+.supplier-swal-cancel {
+    background: #6c757d !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 4px !important;
+    padding: 11px 20px !important;
+    font-size: 14px !important;
+}
 
-        .btn-konfirmasi-hapus:hover {
-            background: #dc2626;
-            color: #fff;
-        }
+.supplier-swal-cancel:hover {
+    background: #5a6268 !important;
+}
+
 
         /* =====================================================
         RESPONSIVE
@@ -651,10 +627,6 @@
                             </th>
 
                             <th>
-                                Kode Supplier
-                            </th>
-
-                            <th>
                                 Nama Supplier
                             </th>
 
@@ -712,24 +684,6 @@
 
 
                     <div class="modal-body">
-
-                        {{-- KODE --}}
-                        <div class="form-supplier-group">
-
-                            <label class="form-supplier-label">
-                                Kode Supplier
-                            </label>
-
-                            <input
-                                type="text"
-                                name="kode"
-                                id="tambahKode"
-                                class="form-supplier-control"
-                                placeholder="Contoh: SUP001"
-                                required
-                            >
-
-                        </div>
 
 
                         {{-- NAMA --}}
@@ -808,22 +762,6 @@
 
                 <div class="modal-body">
 
-                    {{-- KODE --}}
-                    <div class="form-supplier-group">
-
-                        <label class="form-supplier-label">
-                            Kode Supplier
-                        </label>
-
-                        <div
-                            class="view-supplier-value"
-                            id="detailKode"
-                        >
-                            -
-                        </div>
-
-                    </div>
-
 
                     {{-- NAMA --}}
                     <div class="form-supplier-group">
@@ -895,23 +833,6 @@
 
 
                     <div class="modal-body">
-
-                        {{-- KODE --}}
-                        <div class="form-supplier-group">
-
-                            <label class="form-supplier-label">
-                                Kode Supplier
-                            </label>
-
-                            <input
-                                type="text"
-                                name="kode"
-                                id="editKode"
-                                class="form-supplier-control"
-                                required
-                            >
-
-                        </div>
 
 
                         {{-- NAMA --}}
@@ -1086,63 +1007,38 @@
 
             columns: [
 
-                /* NO */
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    searchable: false,
-                    orderable: false,
-                    className: 'text-center'
-                },
+            {
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                searchable: false,
+                orderable: false,
+                className: 'text-center'
+            },
 
+            {
+                data: 'nama',
+                name: 'nama',
+                searchable: true,
+                orderable: false,
 
-                /* KODE */
-                {
-                    data: 'kode',
-                    name: 'kode',
-                    searchable: true,
-                    orderable: false,
-
-                    render: function (data) {
-
-                        return `
-                            <span class="kode-supplier-badge">
-                                ${escapeHtml(data ?? '-')}
-                            </span>
-                        `;
-                    }
-                },
-
-
-                /* NAMA */
-                {
-                    data: 'nama',
-                    name: 'nama',
-                    searchable: true,
-                    orderable: false,
-
-                    render: function (data) {
-
-                        return `
-                            <span class="nama-supplier-badge">
-                                ${escapeHtml(data ?? '-')}
-                            </span>
-                        `;
-                    }
-                },
-
-
-                /* AKSI */
-                {
-                    data: 'aksi',
-                    name: 'aksi',
-                    searchable: false,
-                    orderable: false,
-                    className: 'text-center'
+                render: function (data) {
+                    return `
+                        <span class="nama-supplier-badge">
+                            ${escapeHtml(data ?? '-')}
+                        </span>
+                    `;
                 }
+            },
 
-            ],
+            {
+                data: 'aksi',
+                name: 'aksi',
+                searchable: false,
+                orderable: false,
+                className: 'text-center'
+            }
 
+        ],
 
             language: {
 
@@ -1200,109 +1096,66 @@
         /* =========================================================
         TOMBOL LIHAT
         ========================================================= */
-        $('#supplier-table').on(
-            'click',
-            '.btn-lihat',
-            function (e) {
+       $('#supplier-table').on(
+                'click',
+                '.btn-lihat',
+                function (e) {
 
-                e.preventDefault();
+                    e.preventDefault();
 
-                const rowElement =
-                    $(this).closest('tr');
+                    const rowElement = $(this).closest('tr');
+                    const data = table.row(rowElement).data();
 
-                const data =
-                    table.row(rowElement).data();
+                    if (!data) return;
 
-                if (!data) {
-                    return;
-                }
+                    $('#detailNama').text(data.nama ?? '-');
 
-
-                $('#detailKode').text(
-                    data.kode ?? '-'
-                );
-
-                $('#detailNama').text(
-                    data.nama ?? '-'
-                );
-
-
-                const modalElement =
-                    document.getElementById(
+                    const modalElement = document.getElementById(
                         'modalDetailSupplier'
                     );
 
-
-                const modal =
-                    bootstrap.Modal.getOrCreateInstance(
+                    const modal = bootstrap.Modal.getOrCreateInstance(
                         modalElement
                     );
 
-
-                modal.show();
-            }
-        );
-
-
+                    modal.show();
+                }
+            );
         /* =========================================================
         TOMBOL EDIT
         ========================================================= */
-        $('#supplier-table').on(
-            'click',
-            '.btn-edit',
-            function (e) {
+       $('#supplier-table').on(
+                'click',
+                '.btn-edit',
+                function (e) {
 
-                e.preventDefault();
+                    e.preventDefault();
 
-                const rowElement =
-                    $(this).closest('tr');
+                    const rowElement = $(this).closest('tr');
+                    const data = table.row(rowElement).data();
 
-                const data =
-                    table.row(rowElement).data();
+                    if (!data) return;
 
+                    $('#editNama').val(data.nama ?? '');
 
-                if (!data) {
-                    return;
-                }
+                    const baseUrl = @json(url('/master-supplier'));
 
+                    $('#formEditSupplier').attr(
+                        'action',
+                        baseUrl + '/' + data.id
+                    );
 
-                $('#editKode').val(
-                    data.kode ?? ''
-                );
-
-
-                $('#editNama').val(
-                    data.nama ?? ''
-                );
-
-
-                const baseUrl =
-                    @json(url('/master-supplier'));
-
-
-                $('#formEditSupplier').attr(
-                    'action',
-                    baseUrl + '/' + data.id
-                );
-
-
-                const modalElement =
-                    document.getElementById(
+                    const modalElement = document.getElementById(
                         'modalEditSupplier'
                     );
 
-
-                const modal =
-                    bootstrap.Modal.getOrCreateInstance(
+                    const modal = bootstrap.Modal.getOrCreateInstance(
                         modalElement
                     );
 
-
-                modal.show();
-            }
-        );
-
-
+                    modal.show();
+                }
+            );
         /* =========================================================
         TAMBAH SUPPLIER
         ========================================================= */
@@ -1622,57 +1475,111 @@
 
 
         /* =========================================================
-        PILIH DATA YANG AKAN DIHAPUS
+        TOMBOL PILIH DATA YANG AKAN DIHAPUS
         ========================================================= */
         let deleteTargetUrl = '';
 
-
         $('#supplier-table').on(
-            'click',
-            '.btn-hapus-supplier',
-            function (e) {
+    'click',
+    '.btn-hapus-supplier',
+    function (e) {
 
-                e.preventDefault();
+        e.preventDefault();
 
+        const rowElement = $(this).closest('tr');
+        const data = table.row(rowElement).data();
 
-                const rowElement =
-                    $(this).closest('tr');
+        if (!data) return;
 
+        const deleteUrl = $(this).data('url');
 
-                const data =
-                    table.row(rowElement).data();
+        if (!deleteUrl) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: 'URL penghapusan tidak ditemukan.'
+            });
+            return;
+        }
 
+        Swal.fire({
+            icon: 'warning',
+            iconColor: '#ffb36b',
+            title: 'Apakah Anda yakin?',
+            text: `Data supplier "${data.nama}" akan dihapus.`,
 
-                if (!data) {
-                    return;
-                }
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal',
 
+            buttonsStyling: false,
+            reverseButtons: false,
 
-                deleteTargetUrl =
-                    $(this).data('url');
-
-
-                $('#hapusNamaSupplier').text(
-                    data.nama ?? '-'
-                );
-
-
-                const modalElement =
-                    document.getElementById(
-                        'modalHapusSupplier'
-                    );
-
-
-                const modal =
-                    bootstrap.Modal.getOrCreateInstance(
-                        modalElement
-                    );
-
-
-                modal.show();
+            customClass: {
+                popup: 'supplier-swal-popup',
+                title: 'supplier-swal-title',
+                htmlContainer: 'supplier-swal-text',
+                icon: 'supplier-swal-icon',
+                confirmButton: 'supplier-swal-confirm',
+                cancelButton: 'supplier-swal-cancel',
+                actions: 'supplier-swal-actions'
             }
-        );
 
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                $.ajax({
+
+                    url: deleteUrl,
+                    type: 'POST',
+
+                    data: {
+                        _token: csrfToken,
+                        _method: 'DELETE'
+                    },
+
+                    success: function (response) {
+
+                        table.ajax.reload(null, false);
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: response.message ??
+                                'Data supplier berhasil dihapus.',
+                            confirmButtonColor: '#1877f2'
+                        });
+
+                    },
+
+                    error: function (xhr) {
+
+                        let message =
+                            'Data supplier gagal dihapus.';
+
+                        if (xhr.responseJSON &&
+                            xhr.responseJSON.message) {
+                            message = xhr.responseJSON.message;
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal Hapus',
+                            text: message,
+                            confirmButtonColor: '#1877f2'
+                        });
+
+                    }
+
+                });
+
+            }
+
+        });
+
+    }
+);
 
         /* =========================================================
         PROSES HAPUS

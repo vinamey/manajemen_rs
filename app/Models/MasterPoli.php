@@ -12,7 +12,6 @@ class MasterPoli extends Model
    protected $table = 'master_polis';
 
    protected $fillable = [
-    'kode',
     'nama',
 ];
 public function dokters()
