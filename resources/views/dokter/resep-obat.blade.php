@@ -3,6 +3,16 @@
     $user = auth()->user();
     $isApoteker = $user->hasRole('apoteker');
     $isDokter = $user->hasRole('dokter');
+
+    $dataStokObat = collect($stokObats ?? [])->map(function ($stok) {
+        return [
+            'obat_id' => $stok->obat_id,
+            'satuan_obat_id' => $stok->satuan_obat_id,
+            'nama_obat' => $stok->obat?->nama ?? '-',
+            'nama_satuan' => $stok->satuanObat?->nama ?? '-',
+            'stok_tersedia' => (int) ($stok->stok ?? $stok->jumlah_stok ?? 0),
+        ];
+    })->values();
 @endphp
 
 <!DOCTYPE html>
@@ -24,8 +34,13 @@
             --border: #e5eaf2;
         }
 
-        * {
-            box-sizing: border-box;
+        * { box-sizing: border-box; }
+
+        html, body {
+            min-height: 100%;
+            height: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         body {
@@ -35,7 +50,6 @@
             color: #24334b;
         }
 
-        /* SIDEBAR SAMA DENGAN DASHBOARD DOKTER */
         .sidebar {
             width: 255px;
             height: 100vh;
@@ -45,7 +59,7 @@
             padding: 27px 18px;
             color: white;
             background: linear-gradient(165deg, #176de0, #1048a7);
-            box-shadow: 5px 0 25px rgba(18, 75, 160, .12);
+            box-shadow: 5px 0 25px rgba(18,75,160,.12);
             overflow-y: auto;
         }
 
@@ -166,10 +180,12 @@
             color: #b02a37;
         }
 
-        /* KONTEN */
         .content {
             margin-left: 255px;
             min-height: 100vh;
+            width: calc(100% - 255px);
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         .topbar {
@@ -193,9 +209,7 @@
             color: #555;
         }
 
-        .page {
-            padding: 28px;
-        }
+        .page { padding: 28px; }
 
         .page-header {
             background: linear-gradient(135deg, #1877f2, #0f58c6);
@@ -242,13 +256,11 @@
             font-weight: 700;
         }
 
-        .table-responsive {
-            width: 100%;
-        }
+        .table-responsive { width: 100%; }
 
         .recipe-table {
             width: 100%;
-            min-width: 950px;
+            min-width: 700px;
             margin: 0;
             border-collapse: separate;
             border-spacing: 0;
@@ -284,48 +296,6 @@
             min-width: 120px;
         }
 
-        .doctor-name {
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .medicine-badge {
-            display: inline-block;
-            background: var(--blue-light);
-            color: var(--blue-dark);
-            padding: 7px 10px;
-            border-radius: 7px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .quantity-badge {
-            display: inline-block;
-            background: #eaf9f0;
-            color: #16834b;
-            padding: 6px 10px;
-            border-radius: 7px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .instruction-cell {
-            min-width: 140px;
-        }
-
-        .instruction-value {
-            display: inline-block;
-            background: #edf5ff;
-            color: #1859a9;
-            padding: 7px 10px;
-            border-radius: 7px;
-            font-size: 12px;
-            line-height: 1.5;
-            white-space: normal;
-            overflow-wrap: anywhere;
-        }
-
         .empty-state {
             text-align: center;
             padding: 45px 20px;
@@ -353,13 +323,9 @@
             border-top: 1px solid #edf0f4;
         }
 
-        .pagination {
-            margin-bottom: 0;
-        }
+        .pagination { margin-bottom: 0; }
 
-        .pagination .page-link {
-            color: var(--blue-main);
-        }
+        .pagination .page-link { color: var(--blue-main); }
 
         .pagination .active .page-link {
             background: var(--blue-main);
@@ -386,14 +352,6 @@
             margin-bottom: 12px;
         }
 
-        .medicine-form-row {
-            background: #f7faff;
-            border: 1px solid #dce9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
-        }
-
         .form-label {
             font-size: 13px;
             font-weight: 600;
@@ -404,23 +362,86 @@
             font-size: 13px;
         }
 
-        .alert {
-            font-size: 13px;
+        .alert { font-size: 13px; }
+
+        /* BAGIAN RESEP DI DALAM MODAL */
+        .resep-box {
+            background: #f7faff;
+            border: 1px solid #dce9fa;
+            border-radius: 12px;
+            padding: 18px;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .sidebar {
-                width: 215px;
-            }
+        .aturan-pakai-wrapper {
+            position: relative;
+        }
 
+        .aturan-pakai-input-wrapper {
+            position: relative;
+        }
+
+        .aturan-pakai-arrow {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        .aturan-pakai-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            z-index: 1080;
+            max-height: 190px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #dce4ef;
+            border-radius: 9px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.1);
+        }
+
+        .aturan-pakai-dropdown.show { display: block; }
+
+        .aturan-pakai-option {
+            padding: 10px 13px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .aturan-pakai-option:hover {
+            background: var(--blue-light);
+            color: var(--blue-dark);
+        }
+
+        .resep-table {
+            width: 100%;
+            min-width: 750px;
+            font-size: 12px;
+        }
+
+        .resep-table th {
+            background: #e7f1ff;
+            color: #174f99;
+            padding: 10px;
+            white-space: nowrap;
+        }
+
+        .resep-table td {
+            padding: 10px;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { width: 215px; }
             .content {
                 margin-left: 215px;
+                width: calc(100% - 215px);
             }
-
-            .page {
-                padding: 24px 20px;
-            }
+            .page { padding: 24px 20px; }
         }
 
         @media (max-width: 650px) {
@@ -433,17 +454,9 @@
                 overflow: visible;
             }
 
-            .logo {
-                padding-bottom: 17px;
-            }
-
-            .menu {
-                margin-top: 17px;
-            }
-
-            .sidebar-note {
-                display: none;
-            }
+            .logo { padding-bottom: 17px; }
+            .menu { margin-top: 17px; }
+            .sidebar-note { display: none; }
 
             .logout-area {
                 position: static;
@@ -452,28 +465,86 @@
 
             .content {
                 margin-left: 0;
+                width: 100%;
             }
 
-            .page {
-                padding: 22px 16px;
-            }
+            .page { padding: 22px 16px; }
 
             .topbar {
                 padding: 15px;
                 flex-wrap: wrap;
             }
 
-            .page-header {
-                padding: 18px;
-            }
-        }
+            .page-header { padding: 18px; }
+
+
+/* SCROLL MODAL PEMERIKSAAN */
+#modalPemeriksaan .modal-dialog {
+    width: 95%;
+    max-width: 1140px;
+    margin: 20px auto;
+}
+
+#modalPemeriksaan .modal-content {
+    height: calc(100vh - 40px);
+    max-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#modalPemeriksaan #formPemeriksaan {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+#modalPemeriksaan .modal-header,
+#modalPemeriksaan .modal-footer {
+    flex-shrink: 0;
+}
+
+#modalPemeriksaan .modal-body {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    height: 0;
+    overflow-y: scroll !important;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    padding: 20px;
+}
+
+#modalPemeriksaan .resep-box {
+    overflow: visible;
+}
+
+#modalPemeriksaan .table-responsive {
+    overflow-x: auto;
+}
+
+@media (max-width: 650px) {
+    #modalPemeriksaan .modal-dialog {
+        width: auto;
+        margin: 10px;
+    }
+
+    #modalPemeriksaan .modal-content {
+        height: calc(100vh - 20px);
+        max-height: calc(100vh - 20px);
+    }
+}
+
+
+
     </style>
 </head>
 
 <body>
 
 <aside class="sidebar">
-
     <div class="logo">
         <div class="logo-icon">
             <i class="fa-solid fa-hospital"></i>
@@ -486,13 +557,11 @@
     </div>
 
     <nav class="menu">
-
         <div class="menu-title">
             MENU {{ $isDokter ? 'DOKTER' : ($isApoteker ? 'APOTEKER' : 'KASIR') }}
         </div>
 
         @if($isDokter)
-
             <a href="{{ route('dokter.dashboard') }}">
                 <i class="fa-solid fa-house"></i>
                 <span>Dashboard</span>
@@ -505,11 +574,10 @@
 
             <a href="{{ route('dokter.resep.index') }}" class="active">
                 <i class="fa-solid fa-prescription"></i>
-                <span>Pemeriksan dan Resep Obat</span>
+                <span>Pemeriksaan dan Resep Obat</span>
             </a>
 
         @elseif($isApoteker)
-
             <a href="{{ route('apoteker.dashboard') }}">
                 <i class="fa-solid fa-house"></i>
                 <span>Dashboard</span>
@@ -521,7 +589,6 @@
             </a>
 
         @else
-
             <a href="{{ route('kasir.dashboard') }}">
                 <i class="fa-solid fa-house"></i>
                 <span>Dashboard</span>
@@ -536,9 +603,7 @@
                 <i class="fa-solid fa-money-bill-wave"></i>
                 <span>Pembayaran Obat</span>
             </a>
-
         @endif
-
     </nav>
 
     <div class="sidebar-note">
@@ -551,18 +616,15 @@
     <div class="logout-area">
         <form action="{{ $isDokter ? route('dokter.logout') : route('logout') }}" method="POST">
             @csrf
-
             <button type="submit" class="logout-btn">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <span>Logout</span>
             </button>
         </form>
     </div>
-
 </aside>
 
 <main class="content">
-
     <header class="topbar">
         <div class="topbar-title">
             {{ $isDokter ? 'Pemeriksaan dan Resep Obat' : 'Resep Obat' }}
@@ -574,7 +636,6 @@
     </header>
 
     <div class="page">
-
         <section class="page-header">
             <h4>
                 <i class="fa-solid fa-stethoscope me-2"></i>
@@ -605,10 +666,7 @@
         @endif
 
         @if($isDokter)
-
-            {{-- RIWAYAT PEMERIKSAAN --}}
             <section class="recipe-card">
-
                 <div class="recipe-card-header">
                     <h5>
                         <i class="fa-solid fa-notes-medical text-primary me-2"></i>
@@ -630,9 +688,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Pasien</th>
-                                <th>Poli</th>
                                 <th>Keluhan / Hasil Pemeriksaan</th>
-                                <th>Dokter</th>
                                 <th>Tanggal Pemeriksaan</th>
                             </tr>
                         </thead>
@@ -640,9 +696,7 @@
                         <tbody>
                             @forelse($pemeriksaans as $index => $pemeriksaan)
                                 <tr>
-                                    <td>
-                                        {{ $pemeriksaans->firstItem() + $index }}
-                                    </td>
+                                    <td>{{ $pemeriksaans->firstItem() + $index }}</td>
 
                                     <td>
                                         <div class="patient-name">
@@ -651,17 +705,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $pemeriksaan->pendaftaran?->poli?->nama ?? '-' }}
-                                    </td>
-
-                                    <td style="min-width:220px;">
                                         {{ $pemeriksaan->keluhan ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        <span class="doctor-name">
-                                            {{ $pemeriksaan->dokter?->nama ?? '-' }}
-                                        </span>
                                     </td>
 
                                     <td>
@@ -670,7 +714,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6">
+                                    <td colspan="4">
                                         <div class="empty-state">
                                             <i class="fa-solid fa-notes-medical d-block"></i>
                                             <h6>Belum Ada Pemeriksaan</h6>
@@ -688,478 +732,542 @@
                         {{ $pemeriksaans->links() }}
                     </div>
                 @endif
-
             </section>
 
-        @endif
+            {{-- MODAL TAMBAH PEMERIKSAAN --}}
+            <div class="modal fade" id="modalPemeriksaan" tabindex="-1" aria-hidden="true">
+           <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
 
-        {{-- DAFTAR RESEP OBAT --}}
-        <section class="recipe-card">
+                        <div class="modal-header text-white"
+                             style="background:linear-gradient(135deg,#1877f2,#0f58c6)">
+                            <h5 class="modal-title">
+                                <i class="fa-solid fa-stethoscope me-2"></i>
+                                Tambah Pemeriksaan
+                            </h5>
 
-            <div class="recipe-card-header">
-                <h5>
-                    <i class="fa-solid fa-prescription-bottle-medical text-primary me-2"></i>
-                    Daftar Resep Obat
-                </h5>
-            </div>
+                            <button type="button"
+                                    class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal"></button>
+                        </div>
 
-            <div class="table-responsive">
-                <table class="table recipe-table">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Pasien</th>
-                            <th>Dokter</th>
-                            <th>Nama Obat</th>
-                            <th>Jumlah</th>
-                            <th>Frekuensi</th>
-                            <th>Aturan Pakai</th>
-                            <th>Lama</th>
-                        </tr>
-                    </thead>
+                        <form id="formPemeriksaan"
+                              action="{{ route('dokter.pemeriksaan.store') }}"
+                              method="POST">
 
-                    <tbody>
-                        @forelse($resepObats as $index => $resep)
+                            @csrf
 
-                            @forelse($resep->obat as $obat)
+                            <div class="modal-body">
 
-                                @php
-                                    $teks = $obat->pivot->aturan_pakai ?? '';
+                                {{-- DATA PEMERIKSAAN --}}
+                                <div class="section-label">
+                                    <i class="fa-solid fa-user-injured me-2"></i>
+                                    Data Pemeriksaan Pasien
+                                </div>
 
-                                    $frekuensi = '-';
-                                    $aturan = '-';
-                                    $lama = '-';
+                                <div class="mb-3">
+                                    <label for="pendaftaran_id" class="form-label">
+                                        Pilih Pasien
+                                    </label>
 
-                                    if (preg_match('/Frekuensi:\s*(.*?)(?=\s*\|\s*Aturan:|$)/i', $teks, $m)) {
-                                        $frekuensi = trim($m[1]);
-                                    }
+                                    <select name="pendaftaran_id"
+                                            id="pendaftaran_id"
+                                            class="form-select"
+                                            required>
+                                        <option value="">-- Pilih Pasien --</option>
 
-                                    if (preg_match('/Aturan:\s*(.*?)(?=\s*\|\s*Lama:|$)/i', $teks, $m)) {
-                                        $aturan = trim($m[1]);
-                                    }
+                                        @foreach($pendaftarans as $pendaftaran)
+                                            <option value="{{ $pendaftaran->id }}"
+                                                {{ old('pendaftaran_id') == $pendaftaran->id ? 'selected' : '' }}>
+                                                {{ $pendaftaran->pasien?->nama ?? 'Pasien' }}
+                                                - {{ $pendaftaran->tanggal_pendaftaran ?? '' }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                                    if (preg_match('/Lama:\s*(.*)/i', $teks, $m)) {
-                                        $lama = trim($m[1]);
-                                    }
-                                @endphp
+                                <div class="mb-4">
+                                    <label for="keluhan" class="form-label">
+                                        Keluhan / Hasil Pemeriksaan
+                                    </label>
 
-                                <tr>
-                                    <td>{{ $resepObats->firstItem() + $index }}</td>
+                                    <textarea name="keluhan"
+                                              id="keluhan"
+                                              class="form-control"
+                                              rows="4"
+                                              placeholder="Masukkan keluhan dan hasil pemeriksaan pasien..."
+                                              required>{{ old('keluhan') }}</textarea>
+                                </div>
 
-                                    <td>
-                                        <div class="patient-name">
-                                            {{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? '-' }}
-                                        </div>
-                                    </td>
+                                <hr>
 
-                                    <td>
-                                        <span class="doctor-name">
-                                            <i class="fa-solid fa-user-doctor text-primary me-1"></i>
-                                            {{ $resep->pemeriksaan?->dokter?->nama ?? '-' }}
-                                        </span>
-                                    </td>
+                                {{-- RESEP OBAT --}}
+                                <div class="resep-box">
+                                    <div class="mb-3">
+                                        <h5 class="mb-1">
+                                            <i class="fa-solid fa-pills text-primary me-2"></i>
+                                            Resep Obat
+                                        </h5>
 
-                                    <td>
-                                        <span class="medicine-badge">
-                                            {{ $obat->nama ?? '-' }}
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <span class="quantity-badge">
-                                            {{ $obat->pivot->nilai ?? '-' }}
-                                        </span>
-                                    </td>
-
-                                    <td class="instruction-cell">
-                                        <span class="instruction-value">{{ $frekuensi }}</span>
-                                    </td>
-
-                                    <td class="instruction-cell">
-                                        <span class="instruction-value">{{ $aturan }}</span>
-                                    </td>
-
-                                    <td class="instruction-cell">
-                                        <span class="instruction-value">{{ $lama }}</span>
-                                    </td>
-                                </tr>
-
-                            @empty
-                                <tr>
-                                    <td>{{ $resepObats->firstItem() + $index }}</td>
-                                    <td>{{ $resep->pemeriksaan?->pendaftaran?->pasien?->nama ?? '-' }}</td>
-                                    <td>{{ $resep->pemeriksaan?->dokter?->nama ?? '-' }}</td>
-                                    <td colspan="5" class="text-muted">
-                                        Belum ada obat pada resep ini.
-                                    </td>
-                                </tr>
-                            @endforelse
-
-                        @empty
-                            <tr>
-                                <td colspan="8">
-                                    <div class="empty-state">
-                                        <i class="fa-solid fa-file-prescription d-block"></i>
-                                        <h6>Belum Ada Resep</h6>
-                                        <p>Belum ada resep obat yang tersedia.</p>
+                                        <small class="text-muted">
+                                            Pilih obat dan satuan sesuai stok yang tersedia.
+                                        </small>
                                     </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
 
-            @if($resepObats->hasPages())
-                <div class="pagination-wrapper">
-                    {{ $resepObats->links() }}
+                                    <div class="row g-3">
+
+                                        <div class="col-12">
+                                            <label for="obat_id" class="form-label">
+                                                Obat
+                                            </label>
+
+                                            <select id="obat_id" class="form-select">
+                                                <option value="">-- Pilih Obat --</option>
+
+                                                @foreach($obats ?? [] as $obat)
+                                                    <option value="{{ $obat->id }}">
+                                                        {{ $obat->nama }}
+                                                        @if($obat->kategori)
+                                                            - {{ $obat->kategori->nama }}
+                                                        @endif
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="satuan_obat_id" class="form-label">
+                                                Satuan Obat
+                                            </label>
+
+                                            <select id="satuan_obat_id"
+                                                    class="form-select"
+                                                    disabled>
+                                                <option value="">
+                                                    -- Pilih obat terlebih dahulu --
+                                                </option>
+                                            </select>
+
+                                            <small class="text-muted">
+                                                Satuan mengikuti stok obat yang dipilih.
+                                            </small>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="jumlah_obat" class="form-label">
+                                                Jumlah Obat
+                                            </label>
+
+                                            <input type="number"
+                                                   id="jumlah_obat"
+                                                   class="form-control"
+                                                   min="1"
+                                                   step="1"
+                                                   placeholder="Contoh: 10">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="frekuensi_obat" class="form-label">
+                                                Frekuensi
+                                            </label>
+
+                                            <select id="frekuensi_obat" class="form-select">
+                                                <option value="">-- Pilih Frekuensi --</option>
+
+                                                @forelse($frekuensis as $frekuensi)
+                                                    <option value="{{ $frekuensi->nama }}">
+                                                        {{ $frekuensi->nama }}
+                                                    </option>
+                                                @empty
+                                                    <option value="" disabled>
+                                                        Belum ada data frekuensi
+                                                    </option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="lama_obat" class="form-label">
+                                                Lama Pemakaian (hari)
+                                            </label>
+
+                                            <input type="number"
+                                                   id="lama_obat"
+                                                   class="form-control"
+                                                   min="1"
+                                                   step="1"
+                                                   placeholder="Contoh: 5">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="aturan_pakai" class="form-label">
+                                                Aturan Pakai
+                                            </label>
+
+                                            <div class="aturan-pakai-wrapper">
+                                                <div class="aturan-pakai-input-wrapper">
+                                                    <input type="text"
+                                                           id="aturan_pakai"
+                                                           class="form-control"
+                                                           placeholder="Ketik untuk mencari aturan pakai..."
+                                                           autocomplete="off">
+
+                                                    <span class="aturan-pakai-arrow">▾</span>
+                                                </div>
+
+                                                <div id="aturanPakaiDropdown"
+                                                     class="aturan-pakai-dropdown">
+                                                    @foreach([
+                                                        'Sebelum makan',
+                                                        'Sesudah makan',
+                                                        'Saat makan',
+                                                        'Sebelum tidur',
+                                                        'Sesudah bangun tidur',
+                                                        'Pagi hari',
+                                                        'Siang hari',
+                                                        'Sore hari',
+                                                        'Malam hari',
+                                                        'Saat diperlukan',
+                                                        'Sesuai petunjuk dokter',
+                                                        'Dengan air putih',
+                                                        'Dikonsumsi bersama makanan'
+                                                    ] as $aturan)
+                                                        <div class="aturan-pakai-option"
+                                                             data-value="{{ $aturan }}">
+                                                            {{ $aturan }}
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button type="button"
+                                                    id="btnTambahkanObat"
+                                                    class="btn btn-success">
+                                                <i class="fa-solid fa-plus me-1"></i>
+                                                Tambahkan Obat
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <div class="section-label">
+                                        <i class="fa-solid fa-list me-2"></i>
+                                        Daftar Obat yang Ditambahkan
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered resep-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>No.</th>
+                                                    <th>Nama Obat</th>
+                                                    <th>Satuan</th>
+                                                    <th>Jumlah</th>
+                                                    <th>Frekuensi</th>
+                                                    <th>Lama</th>
+                                                    <th>Aturan Pakai</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="daftarObat">
+                                                <tr id="barisKosong">
+                                                    <td colspan="8" class="text-center text-muted py-3">
+                                                        Belum ada obat yang ditambahkan.
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="alert alert-info mb-0 mt-3">
+                                        <i class="fa-solid fa-circle-info me-2"></i>
+                                        Resep obat bersifat opsional. Pemeriksaan tetap dapat disimpan tanpa menambahkan obat.
+                                    </div>
+
+                                    <input type="hidden"
+                                           name="resep_obat"
+                                           id="resep_obat"
+                                           value="[]">
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-light"
+                                        data-bs-dismiss="modal">
+                                    Batal
+                                </button>
+
+                                <button type="submit" class="btn btn-blue">
+                                    <i class="fa-solid fa-save me-1"></i>
+                                    Simpan Pemeriksaan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            @endif
-
-        </section>
-
+            </div>
+        @endif
     </div>
 </main>
 
-{{-- MODAL TAMBAH PEMERIKSAAN --}}
-@if($isDokter)
-<div class="modal fade" id="modalPemeriksaan" tabindex="-1" aria-hidden="true">
-
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-
-        <div class="modal-content">
-
-            <form action="{{ route('dokter.pemeriksaan.store') }}"
-                  method="POST"
-                  id="formPemeriksaan">
-
-                @csrf
-
-                <div class="modal-header text-white"
-                     style="background:var(--blue-main);">
-
-                    <h5 class="modal-title fw-bold">
-                        <i class="fa-solid fa-stethoscope me-2"></i>
-                        Tambah Pemeriksaan Dokter
-                    </h5>
-
-                    <button type="button"
-                            class="btn-close btn-close-white"
-                            data-bs-dismiss="modal"></button>
-                </div>
-
-                <div class="modal-body p-4">
-
-                    {{-- DATA PEMERIKSAAN --}}
-                    <div class="section-label">
-                        <i class="fa-solid fa-user-injured me-2"></i>
-                        Data Pemeriksaan Pasien
-                    </div>
-
-                    <div class="row g-3">
-
-                        <div class="col-md-12">
-                            <label class="form-label">Pilih Pasien</label>
-
-                            <select name="pendaftaran_id"
-                                    id="pendaftaran_id"
-                                    class="form-select"
-                                    required>
-
-                                <option value="">-- Pilih Pasien --</option>
-
-                                @foreach($pendaftarans as $pendaftaran)
-                                    <option
-                                        value="{{ $pendaftaran->id }}"
-                                        data-dokter="{{ $pendaftaran->dokter?->nama ?? '-' }}"
-                                        data-poli="{{ $pendaftaran->poli?->nama ?? '-' }}"
-                                        {{ old('pendaftaran_id') == $pendaftaran->id ? 'selected' : '' }}>
-
-                                        {{ $pendaftaran->pasien?->nama ?? 'Pasien' }}
-                                        - {{ $pendaftaran->tanggal_pendaftaran ?? '' }}
-
-                                    </option>
-                                @endforeach
-
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Dokter</label>
-                            <input type="text"
-                                   id="namaDokter"
-                                   class="form-control"
-                                   value="{{ $dokters->first()?->nama ?? '-' }}"
-                                   readonly>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Poli</label>
-                            <input type="text"
-                                   id="namaPoli"
-                                   class="form-control"
-                                   readonly>
-                        </div>
-
-                        <div class="col-12">
-                            <label class="form-label">Keluhan / Hasil Pemeriksaan</label>
-
-                            <textarea name="keluhan"
-                                      class="form-control"
-                                      rows="4"
-                                      placeholder="Masukkan keluhan dan hasil pemeriksaan pasien..."
-                                      required>{{ old('keluhan') }}</textarea>
-                        </div>
-
-                    </div>
-
-                    <hr class="my-4">
-
-                    {{-- RESEP OBAT --}}
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-
-                        <div class="section-label mb-0">
-                            <i class="fa-solid fa-prescription-bottle-medical me-2"></i>
-                            Resep Obat
-                        </div>
-
-                        <button type="button"
-                                class="btn btn-outline-primary btn-sm"
-                                id="btnTambahObat">
-
-                            <i class="fa-solid fa-plus me-1"></i>
-                            Tambah Obat
-                        </button>
-
-                    </div>
-
-                    <div class="alert alert-info">
-                        <i class="fa-solid fa-circle-info me-2"></i>
-                        Resep obat bersifat opsional. Pemeriksaan tetap dapat disimpan tanpa menambahkan obat.
-                    </div>
-
-                    <div id="daftarObat"></div>
-
-                    <input type="hidden"
-                           name="resep_obat"
-                           id="resep_obat"
-                           value="[]">
-
-                </div>
-
-                <div class="modal-footer">
-
-                    <button type="button"
-                            class="btn btn-light"
-                            data-bs-dismiss="modal">
-                        Batal
-                    </button>
-
-                    <button type="submit"
-                            class="btn btn-blue">
-
-                        <i class="fa-solid fa-save me-1"></i>
-                        Simpan Pemeriksaan
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-    </div>
-</div>
-
-{{-- TEMPLATE PILIHAN OBAT --}}
-<template id="templatePilihanObat">
-    <option value="">-- Pilih Obat --</option>
-
-    @foreach($stokObats as $stok)
-        @if($stok->obat && $stok->satuanObat)
-            <option
-                value="{{ $stok->obat_id }}|{{ $stok->satuan_obat_id }}"
-                data-obat-id="{{ $stok->obat_id }}"
-                data-satuan-id="{{ $stok->satuan_obat_id }}">
-
-                {{ $stok->obat->nama }}
-                - {{ $stok->satuanObat->nama }}
-            </option>
-        @endif
-    @endforeach
-</template>
-
-@endif
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-@if($isDokter)
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const dataStokObat = @json($dataStokObat);
 
-    const selectPasien = document.getElementById('pendaftaran_id');
-    const namaDokter = document.getElementById('namaDokter');
-    const namaPoli = document.getElementById('namaPoli');
+    const form = document.getElementById('formPemeriksaan');
 
+    // Jika halaman ini bukan halaman dokter, hentikan script modal.
+    if (!form) return;
+
+    const obatSelect = document.getElementById('obat_id');
+    const satuanSelect = document.getElementById('satuan_obat_id');
+    const jumlahInput = document.getElementById('jumlah_obat');
+    const frekuensiSelect = document.getElementById('frekuensi_obat');
+    const lamaInput = document.getElementById('lama_obat');
+    const aturanInput = document.getElementById('aturan_pakai');
+    const aturanDropdown = document.getElementById('aturanPakaiDropdown');
+    const btnTambah = document.getElementById('btnTambahkanObat');
     const daftarObat = document.getElementById('daftarObat');
-    const btnTambahObat = document.getElementById('btnTambahObat');
+    const inputResep = document.getElementById('resep_obat');
+    const modalElement = document.getElementById('modalPemeriksaan');
 
-    const hiddenResep = document.getElementById('resep_obat');
-    const formPemeriksaan = document.getElementById('formPemeriksaan');
+    let resepObat = [];
 
-    const templatePilihanObat = document.getElementById('templatePilihanObat');
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, function (char) {
+            return {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[char];
+        });
+    }
 
-    // Mengisi dokter dan poli berdasarkan pasien yang dipilih.
-    function updateDataPasien() {
+    function resetPilihanObat() {
+        obatSelect.value = '';
+        satuanSelect.innerHTML = '<option value="">-- Pilih obat terlebih dahulu --</option>';
+        satuanSelect.disabled = true;
+        jumlahInput.value = '';
+        frekuensiSelect.value = '';
+        lamaInput.value = '';
+        aturanInput.value = '';
+        aturanDropdown.classList.remove('show');
+    }
 
-        const option = selectPasien.options[selectPasien.selectedIndex];
+    function tampilkanSatuan() {
+        const obatId = obatSelect.value;
 
-        if (!option || !option.value) {
-            namaDokter.value = '{{ $dokters->first()?->nama ?? '-' }}';
-            namaPoli.value = '';
+        satuanSelect.innerHTML = '';
+
+        if (!obatId) {
+            satuanSelect.innerHTML = '<option value="">-- Pilih obat terlebih dahulu --</option>';
+            satuanSelect.disabled = true;
             return;
         }
 
-        namaDokter.value = option.dataset.dokter || '-';
-        namaPoli.value = option.dataset.poli || '-';
-    }
+        const satuanTersedia = dataStokObat.filter(item =>
+            String(item.obat_id) === String(obatId)
+        );
 
-    selectPasien.addEventListener('change', updateDataPasien);
-
-    updateDataPasien();
-
-    // Membuat form satu obat.
-    function tambahBarisObat() {
-
-        const row = document.createElement('div');
-
-        row.className = 'medicine-form-row';
-
-        row.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <strong class="text-primary">
-                    <i class="fa-solid fa-capsules me-1"></i>
-                    Obat Resep
-                </strong>
-
-                <button type="button"
-                        class="btn btn-outline-danger btn-sm btnHapusObat">
-                    <i class="fa-solid fa-trash"></i>
-                    Hapus
-                </button>
-            </div>
-
-            <div class="row g-3">
-
-                <div class="col-md-6">
-                    <label class="form-label">Nama Obat dan Satuan</label>
-                    <select class="form-select selectObat" required></select>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Jumlah</label>
-                    <input type="number"
-                           class="form-control jumlahObat"
-                           min="1"
-                           value="1"
-                           required>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Frekuensi</label>
-                    <input type="text"
-                           class="form-control frekuensiObat"
-                           placeholder="Contoh: 3 kali sehari">
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Lama Penggunaan (hari)</label>
-                    <input type="number"
-                           class="form-control lamaObat"
-                           min="1"
-                           placeholder="Contoh: 5">
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Aturan Pakai</label>
-                    <input type="text"
-                           class="form-control aturanObat"
-                           placeholder="Contoh: Sesudah makan">
-                </div>
-
-            </div>
-        `;
-
-        const selectObat = row.querySelector('.selectObat');
-
-        selectObat.innerHTML = templatePilihanObat.innerHTML;
-
-        row.querySelector('.btnHapusObat').addEventListener('click', function () {
-            row.remove();
-        });
-
-        daftarObat.appendChild(row);
-    }
-
-    btnTambahObat.addEventListener('click', tambahBarisObat);
-
-    // Menyiapkan data resep dalam format JSON untuk controller.
-    formPemeriksaan.addEventListener('submit', function (event) {
-
-        const dataResep = [];
-
-        const semuaBaris = daftarObat.querySelectorAll('.medicine-form-row');
-
-        let valid = true;
-
-        semuaBaris.forEach(function (row) {
-
-            const select = row.querySelector('.selectObat');
-            const selectedOption = select.options[select.selectedIndex];
-
-            if (!selectedOption || !selectedOption.value) {
-                valid = false;
-                return;
-            }
-
-            const jumlah = row.querySelector('.jumlahObat').value;
-
-            if (!jumlah || Number(jumlah) < 1) {
-                valid = false;
-                return;
-            }
-
-            dataResep.push({
-                obat_id: selectedOption.dataset.obatId,
-                satuan_obat_id: selectedOption.dataset.satuanId,
-                jumlah: jumlah,
-                frekuensi: row.querySelector('.frekuensiObat').value,
-                lama: row.querySelector('.lamaObat').value || null,
-                aturan_pakai: row.querySelector('.aturanObat').value
-            });
-        });
-
-        if (!valid) {
-            event.preventDefault();
-            alert('Silakan lengkapi pilihan obat dan jumlahnya.');
+        if (satuanTersedia.length === 0) {
+            satuanSelect.innerHTML = '<option value="">Stok obat tidak tersedia</option>';
+            satuanSelect.disabled = true;
             return;
         }
 
-        hiddenResep.value = JSON.stringify(dataResep);
+        satuanSelect.disabled = false;
+        satuanSelect.innerHTML = '<option value="">-- Pilih Satuan --</option>';
+
+        satuanTersedia.forEach(item => {
+            const option = document.createElement('option');
+
+            option.value = item.satuan_obat_id;
+            option.textContent = `${item.nama_satuan} (Stok: ${item.stok_tersedia})`;
+
+            option.dataset.stok = item.stok_tersedia;
+            option.dataset.namaSatuan = item.nama_satuan;
+
+            satuanSelect.appendChild(option);
+        });
+    }
+
+    obatSelect.addEventListener('change', tampilkanSatuan);
+
+    // Pencarian aturan pakai
+    aturanInput.addEventListener('focus', function () {
+        aturanDropdown.classList.add('show');
     });
 
-    // Membuka kembali modal apabila validasi Laravel gagal.
-    @if($errors->any())
-        const modalElement = document.getElementById('modalPemeriksaan');
+    aturanInput.addEventListener('input', function () {
+        const keyword = this.value.toLowerCase();
 
-        if (modalElement) {
-            const modal = new bootstrap.Modal(modalElement);
-            modal.show();
+        aturanDropdown.classList.add('show');
+
+        aturanDropdown.querySelectorAll('.aturan-pakai-option').forEach(option => {
+            const cocok = option.textContent.toLowerCase().includes(keyword);
+            option.style.display = cocok ? '' : 'none';
+        });
+    });
+
+    aturanDropdown.querySelectorAll('.aturan-pakai-option').forEach(option => {
+        option.addEventListener('click', function () {
+            aturanInput.value = this.dataset.value;
+            aturanDropdown.classList.remove('show');
+        });
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.aturan-pakai-wrapper')) {
+            aturanDropdown.classList.remove('show');
         }
-    @endif
+    });
 
+    // Render daftar resep
+    function renderResep() {
+        daftarObat.innerHTML = '';
+
+        if (resepObat.length === 0) {
+            daftarObat.innerHTML = `
+                <tr>
+                    <td colspan="8" class="text-center text-muted py-3">
+                        Belum ada obat yang ditambahkan.
+                    </td>
+                </tr>
+            `;
+        } else {
+            resepObat.forEach((item, index) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${escapeHtml(item.nama_obat)}</td>
+                    <td>${escapeHtml(item.nama_satuan)}</td>
+                    <td>${escapeHtml(item.jumlah)}</td>
+                    <td>${escapeHtml(item.frekuensi)}</td>
+                    <td>${escapeHtml(item.lama || '-')} hari</td>
+                    <td>${escapeHtml(item.aturan_pakai || '-')}</td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-danger btn-sm btn-hapus-resep"
+                                data-index="${index}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+
+                daftarObat.appendChild(row);
+            });
+        }
+
+        inputResep.value = JSON.stringify(resepObat);
+    }
+
+    // Tambahkan obat
+    btnTambah.addEventListener('click', function () {
+        const obatId = obatSelect.value;
+        const satuanId = satuanSelect.value;
+        const jumlah = Number(jumlahInput.value);
+        const frekuensi = frekuensiSelect.value;
+        const lama = lamaInput.value;
+        const aturanPakai = aturanInput.value.trim();
+
+        if (!obatId) {
+            alert('Silakan pilih obat terlebih dahulu.');
+            obatSelect.focus();
+            return;
+        }
+
+        if (!satuanId) {
+            alert('Silakan pilih satuan obat.');
+            satuanSelect.focus();
+            return;
+        }
+
+        if (!Number.isInteger(jumlah) || jumlah < 1) {
+            alert('Jumlah obat harus berupa angka minimal 1.');
+            jumlahInput.focus();
+            return;
+        }
+
+        if (!frekuensi) {
+            alert('Silakan pilih frekuensi obat.');
+            frekuensiSelect.focus();
+            return;
+        }
+
+        const stokTerpilih = dataStokObat.find(item =>
+            String(item.obat_id) === String(obatId) &&
+            String(item.satuan_obat_id) === String(satuanId)
+        );
+
+        if (!stokTerpilih) {
+            alert('Data stok obat tidak ditemukan.');
+            return;
+        }
+
+        if (jumlah > Number(stokTerpilih.stok_tersedia)) {
+            alert(`Jumlah melebihi stok tersedia. Stok saat ini: ${stokTerpilih.stok_tersedia}`);
+            jumlahInput.focus();
+            return;
+        }
+
+        const namaObat = obatSelect.options[obatSelect.selectedIndex].text.trim();
+
+        resepObat.push({
+            obat_id: obatId,
+            satuan_obat_id: satuanId,
+            jumlah: jumlah,
+            frekuensi: frekuensi,
+            lama: lama,
+            aturan_pakai: aturanPakai,
+            nama_obat: namaObat,
+            nama_satuan: stokTerpilih.nama_satuan
+        });
+
+        renderResep();
+        resetPilihanObat();
+    });
+
+    // Hapus obat dari daftar
+    daftarObat.addEventListener('click', function (event) {
+        const tombol = event.target.closest('.btn-hapus-resep');
+
+        if (!tombol) return;
+
+        const index = Number(tombol.dataset.index);
+
+        resepObat.splice(index, 1);
+        renderResep();
+    });
+
+    // Pastikan data resep terkirim saat form disubmit.
+    form.addEventListener('submit', function () {
+        inputResep.value = JSON.stringify(resepObat);
+    });
+
+    // Reset isi modal setelah ditutup.
+    modalElement.addEventListener('hidden.bs.modal', function () {
+        form.reset();
+        resepObat = [];
+        renderResep();
+        resetPilihanObat();
+    });
+
+    // Jika validasi Laravel gagal, buka kembali modal.
+    @if($errors->any())
+        bootstrap.Modal.getOrCreateInstance(modalElement).show();
+    @endif
 });
 </script>
-@endif
 
 </body>
 </html>
