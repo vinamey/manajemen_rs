@@ -158,8 +158,21 @@ class PendaftaranPasienController extends Controller
 
         $polis = MasterPoli::orderBy('nama')->get();
 
-        $kamars = MasterKamar::all();
-
+       // Mengambil kamar beserta jumlah pasien aktif
+            $kamars = MasterKamar::query()
+                ->select('master_kamars.*')
+                ->selectSub(
+                    PendaftaranPasien::query()
+                        ->selectRaw('COUNT(DISTINCT pasien_id)')
+                        ->whereColumn(
+                            'pendaftaran_pasiens.kamar_id',
+                            'master_kamars.id'
+                        )
+                        ->whereIn('status', ['menunggu', 'diperiksa']),
+                    'jumlah_pasien'
+                )
+                ->orderBy('nama')
+                ->get();
         /*
         |--------------------------------------------------------------------------
         | STATISTIK PENDAFTARAN HARI INI
@@ -213,117 +226,172 @@ class PendaftaranPasienController extends Controller
     /**
      * Menyimpan pendaftaran pasien.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'pasien_id' => 'required|exists:master_pasiens,id',
-            'dokter_id' => 'required|exists:master_dokters,id',
-            'poli_id' => 'required|exists:master_polis,id',
-            'kamar_id' => 'nullable|exists:master_kamars,id',
-            'tanggal_pendaftaran' => 'required|date',
-        ]);
+   
+public function store(Request $request)
+{
+    $request->validate([
+        'pasien_id' => 'required|exists:master_pasiens,id',
+        'dokter_id' => 'required|exists:master_dokters,id',
+        'poli_id' => 'required|exists:master_polis,id',
+        'kamar_id' => 'nullable|exists:master_kamars,id',
+        'tanggal_pendaftaran' => 'required|date',
+    ]);
 
-        DB::beginTransaction();
+    DB::beginTransaction();
 
-        try {
+    try {
 
-            $masterPasien = MasterPasien::findOrFail(
-                $request->pasien_id
-            );
+        /*
+        |--------------------------------------------------------------------------
+        | CEK KAPASITAS KAMAR
+        |--------------------------------------------------------------------------
+        */
 
-            $jenisKelamin = $masterPasien->jenis_kelamin;
+        if ($request->filled('kamar_id')) {
 
-            if ($jenisKelamin === 'L') {
-                $jenisKelamin = 'Laki-laki';
-            } elseif ($jenisKelamin === 'P') {
-                $jenisKelamin = 'Perempuan';
-            }
+            // Mengunci data kamar selama proses pendaftaran
+            $kamar = MasterKamar::whereKey($request->kamar_id)
+                ->lockForUpdate()
+                ->firstOrFail();
 
-            /*
-            |--------------------------------------------------------------------------
-            | MEMBUAT DATA PASIEN JIKA BELUM ADA
-            |--------------------------------------------------------------------------
-            */
-
-            $pasien = Pasien::where(
-                'nama_pasien',
-                $masterPasien->nama
+            // Menghitung pasien aktif dalam kamar
+            $jumlahPasien = PendaftaranPasien::where(
+                'kamar_id',
+                $kamar->id
             )
+                ->whereIn('status', ['menunggu', 'diperiksa'])
+                ->distinct()
+                ->count('pasien_id');
+
+            // Memeriksa apakah pasien sudah menempati kamar tersebut
+            $pasienSudahDiKamar = PendaftaranPasien::where(
+                'kamar_id',
+                $kamar->id
+            )
+                ->where('pasien_id', $request->pasien_id)
+                ->whereIn('status', ['menunggu', 'diperiksa'])
+                ->exists();
+
+            // Menolak jika kamar penuh dan pasien belum terdaftar di kamar itu
+            if (
+                $jumlahPasien >= 4 &&
+                !$pasienSudahDiKamar
+            ) {
+
+                DB::rollBack();
+
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with(
+                        'error',
+                        'Kamar ' . $kamar->nama .
+                        ' sudah penuh. Kapasitas maksimal hanya 4 pasien.'
+                    );
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MEMBUAT DATA PASIEN JIKA BELUM ADA
+        |--------------------------------------------------------------------------
+        */
+
+        $masterPasien = MasterPasien::findOrFail(
+            $request->pasien_id
+        );
+
+        $jenisKelamin = $masterPasien->jenis_kelamin;
+
+        if ($jenisKelamin === 'L') {
+            $jenisKelamin = 'Laki-laki';
+        } elseif ($jenisKelamin === 'P') {
+            $jenisKelamin = 'Perempuan';
+        }
+
+        $pasien = Pasien::where(
+            'nama_pasien',
+            $masterPasien->nama
+        )
             ->where(
                 'jenis_kelamin',
                 $jenisKelamin
             )
             ->first();
 
-            if (!$pasien) {
+        if (!$pasien) {
 
-                $pasien = Pasien::create([
-                    'no_rekam_medis' => 'RM-' . strtoupper(Str::random(6)),
-                    'nama_pasien' => $masterPasien->nama,
-                    'jenis_kelamin' => $jenisKelamin,
-                    'tanggal_masuk' => $request->tanggal_pendaftaran,
-                ]);
-            }
-
-            /*
-            |--------------------------------------------------------------------------
-            | MEMBUAT NOMOR ANTRIAN
-            |--------------------------------------------------------------------------
-            */
-
-            $jumlahPendaftaran = PendaftaranPasien::whereDate(
-                'tanggal_pendaftaran',
-                $request->tanggal_pendaftaran
-            )->count();
-
-            $nomorAntrian = 'A-' . str_pad(
-                $jumlahPendaftaran + 1,
-                3,
-                '0',
-                STR_PAD_LEFT
-            );
-
-            /*
-            |--------------------------------------------------------------------------
-            | SIMPAN PENDAFTARAN
-            |--------------------------------------------------------------------------
-            */
-
-            PendaftaranPasien::create([
-
-                // Menggunakan ID dari master pasien
-                'pasien_id' => $masterPasien->id,
-
-                'dokter_id' => $request->dokter_id,
-
-                'poli_id' => $request->poli_id,
-
-                'kamar_id' => $request->kamar_id,
-
-                'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
-
-                'nomor_antrian' => $nomorAntrian,
-
-                'status' => 'menunggu',
-
+            $pasien = Pasien::create([
+                'no_rekam_medis' => 'RM-' . strtoupper(Str::random(6)),
+                'nama_pasien' => $masterPasien->nama,
+                'jenis_kelamin' => $jenisKelamin,
+                'tanggal_masuk' => $request->tanggal_pendaftaran,
             ]);
-
-            DB::commit();
-
-            return redirect()
-                ->route('pendaftaran.index')
-                ->with('success', 'Pendaftaran pasien berhasil disimpan.');
-
-        } catch (\Throwable $e) {
-
-            DB::rollBack();
-
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Gagal menyimpan pendaftaran: ' . $e->getMessage());
         }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MEMBUAT NOMOR ANTRIAN
+        |--------------------------------------------------------------------------
+        */
+
+        $jumlahPendaftaran = PendaftaranPasien::whereDate(
+            'tanggal_pendaftaran',
+            $request->tanggal_pendaftaran
+        )->count();
+
+        $nomorAntrian = 'A-' . str_pad(
+            $jumlahPendaftaran + 1,
+            3,
+            '0',
+            STR_PAD_LEFT
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SIMPAN PENDAFTARAN
+        |--------------------------------------------------------------------------
+        */
+
+        PendaftaranPasien::create([
+
+            'pasien_id' => $masterPasien->id,
+
+            'dokter_id' => $request->dokter_id,
+
+            'poli_id' => $request->poli_id,
+
+            'kamar_id' => $request->kamar_id,
+
+            'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
+
+            'nomor_antrian' => $nomorAntrian,
+
+            'status' => 'menunggu',
+
+        ]);
+
+        DB::commit();
+
+        return redirect()
+            ->route('pendaftaran.index')
+            ->with('success', 'Pendaftaran pasien berhasil disimpan.');
+
+    } catch (\Throwable $e) {
+
+        DB::rollBack();
+
+        report($e);
+
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with('error', 'Gagal menyimpan pendaftaran pasien.');
     }
+}
 
 
     /**
@@ -358,7 +426,21 @@ class PendaftaranPasienController extends Controller
 
         $polis = MasterPoli::all();
 
-        $kamars = MasterKamar::all();
+       // Mengambil kamar beserta jumlah pasien aktif
+        $kamars = MasterKamar::query()
+            ->select('master_kamars.*')
+            ->selectSub(
+                PendaftaranPasien::query()
+                    ->selectRaw('COUNT(DISTINCT pasien_id)')
+                    ->whereColumn(
+                        'pendaftaran_pasiens.kamar_id',
+                        'master_kamars.id'
+                    )
+                    ->whereIn('status', ['menunggu', 'diperiksa']),
+                'jumlah_pasien'
+            )
+            ->orderBy('nama')
+            ->get();
 
         return view('pendaftaran.edit', compact(
             'pendaftaran',
@@ -373,18 +455,86 @@ class PendaftaranPasienController extends Controller
     /**
      * Memperbarui pendaftaran.
      */
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'pasien_id' => 'required|exists:master_pasiens,id',
-            'dokter_id' => 'required|exists:master_dokters,id',
-            'poli_id' => 'required|exists:master_polis,id',
-            'kamar_id' => 'nullable|exists:master_kamars,id',
-            'tanggal_pendaftaran' => 'required|date',
-            'status' => 'required|in:menunggu,diperiksa,selesai',
-        ]);
+    
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'pasien_id' => 'required|exists:master_pasiens,id',
+        'dokter_id' => 'required|exists:master_dokters,id',
+        'poli_id' => 'required|exists:master_polis,id',
+        'kamar_id' => 'nullable|exists:master_kamars,id',
+        'tanggal_pendaftaran' => 'required|date',
+        'status' => 'required|in:menunggu,diperiksa,selesai',
+    ]);
 
-        $pendaftaran = PendaftaranPasien::findOrFail($id);
+    DB::beginTransaction();
+
+    try {
+
+        $pendaftaran = PendaftaranPasien::whereKey($id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CEK KAPASITAS KAMAR SAAT EDIT
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            $request->filled('kamar_id') &&
+            in_array($request->status, ['menunggu', 'diperiksa'], true)
+        ) {
+
+            $kamar = MasterKamar::whereKey($request->kamar_id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            // Menghitung pasien aktif selain pendaftaran yang sedang diedit
+            $jumlahPasien = PendaftaranPasien::where(
+                'kamar_id',
+                $kamar->id
+            )
+                ->whereIn('status', ['menunggu', 'diperiksa'])
+                ->where('id', '!=', $pendaftaran->id)
+                ->distinct()
+                ->count('pasien_id');
+
+            // Memeriksa apakah pasien sudah berada di kamar tujuan
+            $pasienSudahDiKamar = PendaftaranPasien::where(
+                'kamar_id',
+                $kamar->id
+            )
+                ->where('pasien_id', $request->pasien_id)
+                ->whereIn('status', ['menunggu', 'diperiksa'])
+                ->where('id', '!=', $pendaftaran->id)
+                ->exists();
+
+            if (
+                $jumlahPasien >= 4 &&
+                !$pasienSudahDiKamar
+            ) {
+
+                DB::rollBack();
+
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with(
+                        'error',
+                        'Kamar ' . $kamar->nama .
+                        ' sudah penuh. Kapasitas maksimal hanya 4 pasien.'
+                    );
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE PENDAFTARAN
+        |--------------------------------------------------------------------------
+        */
 
         $pendaftaran->update([
             'pasien_id' => $request->pasien_id,
@@ -395,10 +545,24 @@ class PendaftaranPasienController extends Controller
             'status' => $request->status,
         ]);
 
+        DB::commit();
+
         return redirect()
             ->route('pendaftaran.index')
             ->with('success', 'Data pendaftaran berhasil diperbarui.');
+
+    } catch (\Throwable $e) {
+
+        DB::rollBack();
+
+        report($e);
+
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with('error', 'Gagal memperbarui pendaftaran pasien.');
     }
+}
 
 
     /**

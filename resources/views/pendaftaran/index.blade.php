@@ -108,6 +108,18 @@
             </div>
         @endif
 
+        {{-- PESAN KAMAR PENUH --}}
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show">
+                {{ session('error') }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                </button>
+            </div>
+        @endif
+
         {{-- PESAN ERROR --}}
         @if($errors->any())
             <div class="alert alert-danger">
@@ -343,6 +355,7 @@
 </div>
 
 
+
 {{-- ========================================
     MODAL EDIT
     DILETAKKAN DI LUAR TABEL
@@ -429,20 +442,44 @@
                             </label>
 
                             <select name="kamar_id" class="form-select">
-                                <option value="">-- Tidak Memilih Kamar --</option>
+
+                                <option value="">
+                                    -- Tidak Memilih Kamar --
+                                </option>
 
                                 @foreach($kamars as $kamar)
-                                    <option value="{{ $kamar->id }}"
-                                        {{ $pendaftaran->kamar_id == $kamar->id ? 'selected' : '' }}>
+
+                                    @php
+                                        $kamarPenuh = (int) $kamar->jumlah_pasien >= 4;
+
+                                        $kamarSaatIni =
+                                            (int) $pendaftaran->kamar_id === (int) $kamar->id;
+
+                                        $nonaktif = $kamarPenuh && !$kamarSaatIni;
+                                    @endphp
+
+                                    <option
+                                        value="{{ $kamar->id }}"
+                                        {{ $kamarSaatIni ? 'selected' : '' }}
+                                        {{ $nonaktif ? 'disabled' : '' }}
+                                    >
                                         {{ $kamar->nama }}
+
+                                        @if($kamarPenuh)
+                                            (Penuh)
+                                        @endif
                                     </option>
+
                                 @endforeach
+
                             </select>
                         </div>
 
                         {{-- TANGGAL --}}
                         <div class="mb-3">
-                            <label class="form-label">Tanggal Pendaftaran</label>
+                            <label class="form-label">
+                                Tanggal Pendaftaran
+                            </label>
 
                             <input type="date"
                                    name="tanggal_pendaftaran"
@@ -603,8 +640,10 @@
                                id="poli_id">
                     </div>
 
+                    
                     {{-- KAMAR --}}
                     <div class="mb-3">
+
                         <label for="kamar_id" class="form-label">
                             Kamar
                             <span class="text-muted">(Opsional)</span>
@@ -617,13 +656,29 @@
                             <option value="">-- Pilih Kamar --</option>
 
                             @foreach($kamars as $kamar)
-                                <option value="{{ $kamar->id }}">
+
+                                @php
+                                    $kamarPenuh = (int) $kamar->jumlah_pasien >= 4;
+                                @endphp
+
+                                <option
+                                    value="{{ $kamar->id }}"
+                                    {{ $kamarPenuh ? 'disabled' : '' }}
+                                >
                                     {{ $kamar->nama }}
+
+                                    @if($kamarPenuh)
+                                        (Penuh)
+                                    @endif
+
                                 </option>
+
                             @endforeach
 
                         </select>
+
                     </div>
+
 
                     {{-- TANGGAL --}}
                     <div class="mb-2">

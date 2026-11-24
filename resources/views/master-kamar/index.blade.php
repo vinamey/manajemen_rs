@@ -926,37 +926,35 @@ $(document).ready(function () {
 
     function buatBadgeStatus(status) {
 
-        if (status === 'tersedia') {
-
-            return `
-                <span class="status-badge status-tersedia">
-                    <i class="fas fa-check-circle"></i>
-                    Tersedia
-                </span>
-            `;
-
-        }
-
-
-        if (status === 'terisi') {
-
-            return `
-                <span class="status-badge status-terisi">
-                    <i class="fas fa-user"></i>
-                    Terisi
-                </span>
-            `;
-
-        }
-
+    if (status === 'tersedia') {
 
         return `
-            <span class="status-badge status-lain">
-                ${escapeHtml(status || '-')}
+            <span class="status-badge status-tersedia">
+                <i class="fas fa-check-circle"></i>
+                Tersedia
             </span>
         `;
 
     }
+
+    if (status === 'terisi') {
+
+        return `
+            <span class="status-badge status-terisi">
+                <i class="fas fa-user"></i>
+                Penuh
+            </span>
+        `;
+
+    }
+
+    return `
+        <span class="status-badge status-lain">
+            ${escapeHtml(status || '-')}
+        </span>
+    `;
+
+}
 
 
     /*
