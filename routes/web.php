@@ -57,7 +57,7 @@ Route::get('/SIM-RS', function () {
 // ==================================================
 
 Route::get('/login', function () {
-    return view('auth.login');
+    return redirect()->route('landing');
 })->name('login');
 
 Route::post('/login', [
@@ -126,7 +126,7 @@ Route::middleware(['auth', 'admin.rs'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        
+
 // DATA KASIR - PEMBAYARAN ADMIN
 Route::get('/data-kasir/pembayaran', [
     PembayaranController::class,
