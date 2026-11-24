@@ -4,7 +4,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Laporan {{ $type == 'data-obat' ? 'Data Obat' : ucfirst($type) }}</title>
+    <title>
+        Laporan {{ $type == 'data-obat' ? 'Data Obat' : ucfirst($type) }}
+    </title>
 
     <style>
         body {
@@ -137,10 +139,10 @@
 
                 @elseif($type == 'pasien')
 
-                    <th width="20%">No. Rekam Medis</th>
-                    <th width="35%">Nama Pasien</th>
+                    <th width="25%">No. Rekam Medis</th>
+                    <th width="30%">Nama Pasien</th>
                     <th width="20%" class="text-center">Jenis Kelamin</th>
-                    <th width="20%" class="text-center">Tanggal Masuk</th>
+                    <th width="20%" class="text-center">Tanggal Pendaftaran</th>
 
                 @elseif($type == 'pendapatan')
 
@@ -204,12 +206,28 @@
                         </td>
 
                         <td class="text-center">
-                            {{ $item->jenis_kelamin ?? '-' }}
+                            @php
+                                $jenisKelamin = strtolower(trim($item->jenis_kelamin ?? ''));
+
+                                if ($jenisKelamin === 'l') {
+                                    $jenisKelamin = 'Laki-laki';
+                                } elseif ($jenisKelamin === 'p') {
+                                    $jenisKelamin = 'Perempuan';
+                                } elseif ($jenisKelamin === 'laki-laki') {
+                                    $jenisKelamin = 'Laki-laki';
+                                } elseif ($jenisKelamin === 'perempuan') {
+                                    $jenisKelamin = 'Perempuan';
+                                } else {
+                                    $jenisKelamin = '-';
+                                }
+                            @endphp
+
+                            {{ $jenisKelamin }}
                         </td>
 
                         <td class="text-center">
-                            {{ !empty($item->tanggal_masuk)
-                                ? date('d/m/Y', strtotime($item->tanggal_masuk))
+                            {{ !empty($item->tanggal_pendaftaran)
+                                ? date('d-m-Y', strtotime($item->tanggal_pendaftaran))
                                 : '-' }}
                         </td>
 
@@ -261,7 +279,7 @@
 
         <div class="signature-space"></div>
 
-        <p>____________________________</p>
+        <p>________________________________</p>
     </div>
 
 </body>

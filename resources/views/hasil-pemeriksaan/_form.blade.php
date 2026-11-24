@@ -117,20 +117,18 @@
             @enderror
         </div>
 
-        {{-- TANGGAL --}}
-        <div class="col-md-6">
-            <label class="form-label fw-semibold">Tanggal Pemeriksaan</label>
+      <div class="mb-3">
+    <label class="form-label fw-semibold">Tanggal Pemeriksaan</label>
 
-            <input type="date"
-                   name="tanggal_pemeriksaan"
-                   class="form-control @error('tanggal_pemeriksaan') is-invalid @enderror"
-                   value="{{ $nilai('tanggal_pemeriksaan', now()->format('Y-m-d')) }}"
-                   required>
+    <input type="date"
+           class="form-control"
+           value="{{ now()->format('Y-m-d') }}"
+           disabled>
 
-            @error('tanggal_pemeriksaan')
-                <div class="hasil-form-error">{{ $message }}</div>
-            @enderror
-        </div>
+    <input type="hidden"
+           name="tanggal_pemeriksaan"
+           value="{{ now()->format('Y-m-d') }}">
+</div>
 
         {{-- KELUHAN --}}
         <div class="col-md-6">

@@ -125,20 +125,60 @@ class LaporanController extends Controller
     }
 
     public function exportPdf($type)
-    {
-        if ($type == 'pasien') {
-            $data = DB::table('pasiens')->get();
-        } elseif ($type == 'pendapatan') {
-            $data = $this->getPendapatanLunas();
-      } elseif ($type == 'data-obat') { $data = StokObat::with('obat')
-        ->orderBy('id', 'desc')
-        ->get();
-        } else {
-            abort(404);
+{
+    if ($type == 'pasien') {
+
+        $query = DB::table('pendaftaran_pasiens')
+            ->leftJoin(
+                'master_pasiens',
+                'pendaftaran_pasiens.pasien_id',
+                '=',
+                'master_pasiens.id'
+            )
+            ->select(
+                'pendaftaran_pasiens.tanggal_pendaftaran',
+                'master_pasiens.nama as nama_pasien',
+                'master_pasiens.jenis_kelamin'
+            )
+            ->selectSub(function ($subquery) {
+                $subquery->from('pasiens')
+                    ->select('no_rekam_medis')
+                    ->whereRaw(
+                        'LOWER(TRIM(pasiens.nama_pasien)) = LOWER(TRIM(master_pasiens.nama))'
+                    )
+                    ->whereRaw(
+                        'LOWER(TRIM(pasiens.jenis_kelamin)) = LOWER(TRIM(master_pasiens.jenis_kelamin))'
+                    )
+                    ->orderBy('id', 'asc')
+                    ->limit(1);
+            }, 'no_rekam_medis')
+            ->orderBy('pendaftaran_pasiens.id', 'asc');
+
+        if (Schema::hasColumn('pendaftaran_pasiens', 'deleted_at')) {
+            $query->whereNull('pendaftaran_pasiens.deleted_at');
         }
 
-        $pdf = Pdf::loadView('direktur.laporanpdf', compact('data', 'type'))->setPaper('a4', 'portrait');
+        $data = $query->get();
 
-        return $pdf->stream('Laporan_' . ucfirst($type) . '_' . date('Y-m-d') . '.pdf');
+    } elseif ($type == 'pendapatan') {
+
+        $data = $this->getPendapatanLunas();
+
+    } elseif ($type == 'data-obat') {
+
+        $data = StokObat::with('obat')
+            ->orderBy('id', 'asc')
+            ->get();
+
+    } else {
+        abort(404);
     }
+
+    $pdf = Pdf::loadView(
+        'direktur.laporanpdf',
+        compact('data', 'type')
+    )->setPaper('a4', 'portrait');
+
+    return $pdf->stream('laporan-' . $type . '.pdf');
 }
+    }

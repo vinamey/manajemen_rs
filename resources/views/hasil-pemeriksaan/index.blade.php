@@ -1,8 +1,10 @@
+
 @extends('layouts.superadmin')
 
-@section('navbar-title', 'Dashboard hasil pemeriksaan')
+@section('navbar-title', 'Dashboard Hasil Pemeriksaan')
 
 @section('content')
+
 <style>
     .hasil-page {
         padding: 20px 22px;
@@ -16,7 +18,7 @@
         padding: 22px 24px;
         border-radius: 17px;
         margin-bottom: 22px;
-        box-shadow: 0 8px 20px rgba(24, 119, 242, 0.15);
+        box-shadow: 0 8px 20px rgba(24,119,242,.15);
     }
 
     .hasil-header h3 {
@@ -27,7 +29,7 @@
 
     .hasil-header p {
         margin: 0;
-        color: rgba(255, 255, 255, 0.9);
+        color: rgba(255,255,255,.9);
         font-size: 14px;
     }
 
@@ -36,13 +38,12 @@
         border: none;
         border-radius: 17px;
         overflow: hidden;
-        box-shadow: 0 7px 22px rgba(31, 45, 61, 0.07);
+        box-shadow: 0 7px 22px rgba(31,45,61,.07);
     }
 
     .hasil-card-header {
         padding: 18px 20px;
         background: #fff;
-        border: none;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -72,7 +73,7 @@
         padding: 10px 15px;
         font-weight: 600;
         white-space: nowrap;
-        transition: 0.2s;
+        transition: .2s;
     }
 
     .btn-tambah-hasil:hover {
@@ -89,7 +90,7 @@
     .hasil-table thead th {
         background: #1877f2;
         color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.22);
+        border: 1px solid rgba(255,255,255,.22);
         padding: 13px 10px;
         font-size: 12px;
         font-weight: 600;
@@ -168,7 +169,7 @@
     }
 
     .hasil-empty {
-        padding: 35px 15px !important;
+        padding: 40px 15px !important;
         color: #7b8798 !important;
         text-align: center;
     }
@@ -228,38 +229,44 @@
 
 <div class="hasil-page">
 
-    {{-- HEADER HALAMAN --}}
+    {{-- HEADER --}}
     <div class="hasil-header">
         <h3>
             <i class="fas fa-file-medical me-2"></i>
             Hasil Pemeriksaan
         </h3>
-        <p>Kelola data hasil pemeriksaan dan diagnosis pasien.</p>
+
+        <p>
+            Kelola data hasil pemeriksaan dan diagnosis pasien.
+        </p>
     </div>
 
-    {{-- NOTIFIKASI --}}
+    {{-- NOTIFIKASI SUKSES --}}
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show rounded-3"
              role="alert">
+
             <i class="fas fa-check-circle me-2"></i>
             {{ session('success') }}
 
             <button type="button"
                     class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"></button>
+                    data-bs-dismiss="alert"></button>
         </div>
     @endif
 
-    {{-- NOTIFIKASI VALIDASI --}}
+    {{-- NOTIFIKASI ERROR --}}
     @if($errors->any())
         <div class="alert alert-danger rounded-3">
+
             <strong>Data belum berhasil diproses.</strong>
+
             <ul class="mb-0 mt-2">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
+
         </div>
     @endif
 
@@ -267,6 +274,7 @@
     <div class="hasil-card">
 
         <div class="hasil-card-header">
+
             <h5 class="hasil-card-title">
                 <i class="fas fa-notes-medical"></i>
                 Data Hasil Pemeriksaan
@@ -274,112 +282,159 @@
 
             <a href="{{ route('hasil-pemeriksaan.create') }}"
                class="btn btn-tambah-hasil">
+
                 <i class="fas fa-plus me-1"></i>
                 Tambah Hasil
+
             </a>
+
         </div>
 
         {{-- TABEL --}}
         <div class="table-responsive">
+
             <table class="table hasil-table align-middle">
+
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px;">No</th>
+                        <th class="text-center" style="width:50px;">
+                            No
+                        </th>
+
                         <th>Tanggal</th>
                         <th>Pasien</th>
                         <th>Dokter</th>
                         <th>Keluhan</th>
                         <th>Diagnosis</th>
                         <th>Tindakan</th>
-                        <th class="text-center" style="width: 105px;">Aksi</th>
+
+                        <th class="text-center" style="width:105px;">
+                            Aksi
+                        </th>
                     </tr>
                 </thead>
 
                 <tbody>
+
                     @forelse($hasilPemeriksaans as $hasil)
+
                         <tr>
+
+                            {{-- NOMOR --}}
                             <td class="text-center">
                                 {{ $hasilPemeriksaans->firstItem() + $loop->index }}
                             </td>
 
+                            {{-- TANGGAL --}}
                             <td>
                                 <span class="hasil-tanggal">
-                                    {{ $hasil->tanggal_pemeriksaan->format('d/m/Y') }}
+                                    {{ $hasil->tanggal_pemeriksaan
+                                        ? \Carbon\Carbon::parse($hasil->tanggal_pemeriksaan)->format('d/m/Y')
+                                        : '-' }}
                                 </span>
                             </td>
 
+                            {{-- PASIEN --}}
                             <td class="fw-semibold">
                                 {{ $hasil->pemeriksaan?->pendaftaran?->pasien?->nama ?? '-' }}
                             </td>
 
+                            {{-- DOKTER --}}
                             <td>
                                 {{ $hasil->pemeriksaan?->dokter?->nama ?? '-' }}
                             </td>
 
+                            {{-- KELUHAN --}}
                             <td>
-                                {{ \Illuminate\Support\Str::limit($hasil->keluhan, 35) }}
+                                {{ \Illuminate\Support\Str::limit($hasil->keluhan ?? '-', 35) }}
                             </td>
 
+                            {{-- DIAGNOSIS --}}
                             <td>
-                                {{ \Illuminate\Support\Str::limit($hasil->diagnosa, 35) }}
+                                {{ \Illuminate\Support\Str::limit($hasil->diagnosa ?? '-', 35) }}
                             </td>
 
+                            {{-- TINDAKAN --}}
                             <td>
                                 {{ $hasil->tindakan?->nama ?? '-' }}
                             </td>
 
+                            {{-- AKSI --}}
                             <td>
                                 <div class="hasil-actions">
+
+                                    {{-- DETAIL --}}
                                     <a href="{{ route('hasil-pemeriksaan.show', $hasil->id) }}"
                                        class="btn btn-hasil-lihat"
-                                       title="Lihat detail"
-                                       aria-label="Lihat detail">
+                                       title="Lihat detail">
+
                                         <i class="fas fa-eye"></i>
                                     </a>
 
+                                    {{-- EDIT --}}
                                     <a href="{{ route('hasil-pemeriksaan.edit', $hasil->id) }}"
                                        class="btn btn-hasil-edit"
-                                       title="Edit"
-                                       aria-label="Edit">
+                                       title="Edit">
+
                                         <i class="fas fa-pen-to-square"></i>
                                     </a>
 
+                                    {{-- HAPUS --}}
                                     <form action="{{ route('hasil-pemeriksaan.destroy', $hasil->id) }}"
                                           method="POST"
                                           class="m-0"
                                           onsubmit="return confirm('Yakin ingin menghapus hasil pemeriksaan ini?')">
+
                                         @csrf
                                         @method('DELETE')
 
                                         <button type="submit"
                                                 class="btn btn-hasil-hapus"
-                                                title="Hapus"
-                                                aria-label="Hapus">
+                                                title="Hapus">
+
                                             <i class="fas fa-trash"></i>
                                         </button>
+
                                     </form>
+
                                 </div>
                             </td>
+
                         </tr>
+
                     @empty
+
                         <tr>
                             <td colspan="8" class="hasil-empty">
+
                                 <i class="fas fa-folder-open fa-2x mb-2 d-block"></i>
+
                                 Belum ada data hasil pemeriksaan.
+
                             </td>
                         </tr>
+
                     @endforelse
+
                 </tbody>
+
             </table>
+
         </div>
 
         {{-- PAGINATION --}}
         @if($hasilPemeriksaans->hasPages())
+
             <div class="hasil-pagination">
+
                 {{ $hasilPemeriksaans->links() }}
+
             </div>
+
         @endif
 
     </div>
+
 </div>
+
 @endsection
